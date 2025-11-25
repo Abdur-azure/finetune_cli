@@ -1,23 +1,110 @@
-name: Deploy MkDocs
+name: Deploy Documentation
 
 on:
+  # Trigger on push to main branch
   push:
     branches:
       - main
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+      - '.github/workflows/deploy_docs.yml'
+  
+  # Trigger on pull request
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+  
+  # Allow manual trigger
+  workflow_dispatch:
+
+# Set permissions for GitHub Pages deployment
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
+  # Build documentation
   build:
     runs-on: ubuntu-latest
+    
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
         with:
-          python-version: 3.10
-
-      - name: Install dependencies
+          fetch-depth: 0  # Fetch all history for git info
+      
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: 📦 Install dependencies
         run: |
+          pip install --upgrade pip
           pip install mkdocs-material
+          pip install mkdocs-git-revision-date-localized-plugin
+          pip install mkdocs-minify-plugin
+          pip install pymdown-extensions
+          pip install pillow cairosvg
+      
+      - name: 🔍 Validate MkDocs configuration
+        run: mkdocs build --strict --verbose
+      
+      - name: 📤 Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: site
 
-      - name: Build and Deploy
+  # Deploy to GitHub Pages
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    
+    # Only deploy on push to main (not on PRs)
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+      - name: 🚀 Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
+      
+      - name: 📊 Deployment summary
         run: |
-          mkdocs gh-deploy --force
+          echo "## 🎉 Documentation Deployed Successfully!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📚 Documentation URL: ${{ steps.deployment.outputs.page_url }}" >> $GITHUB_STEP_SUMMARY
+          echo "⏰ Deployed at: $(date)" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 Commit: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+
+  # Comment on PR with preview link (for pull requests)
+  comment:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: 💬 Comment PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '## 📚 Documentation Preview\n\n✅ Documentation build successful!\n\nThe documentation will be deployed when this PR is merged to main.\n\n🔍 Check the build artifact for preview.'
+            })
