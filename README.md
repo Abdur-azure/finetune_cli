@@ -2,6 +2,11 @@
 
 A comprehensive command-line tool for fine-tuning Large Language Models using LoRA (Low-Rank Adaptation), with automatic ROUGE benchmarking and HuggingFace integration.
 
+![Python](https://img.shields.io/badge/python-3.8+-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+![Stars](https://img.shields.io/github/stars/Abdur-azure/finetune_cli)
+![Issues](https://img.shields.io/github/issues/Abdur-azure/finetune_cli)
+
 ## ✨ Features
 
 - 🎯 **LoRA Fine-tuning**: Efficient parameter-efficient fine-tuning
