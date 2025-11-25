@@ -1,25 +1,185 @@
 site_name: Finetune CLI
-site_url: https://Abdur-azure.github.io/finetune_cli
-repo_url: https://github.com/Abdur-azure/finetune_cli
-repo_name: finetune_cli
+site_description: A comprehensive command-line tool for fine-tuning Large Language Models using LoRA
+site_author: Abdur Rahman
+site_url: https://Abdur-azure.github.io/finetune_cli/
 
+# Repository
+repo_name: Abdur-azure/finetune_cli
+repo_url: https://github.com/Abdur-azure/finetune_cli
+edit_uri: edit/main/docs/
+
+# Copyright
+copyright: Copyright &copy; 2025 Your Abdur Rahman
+
+# Theme Configuration
 theme:
   name: material
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  
+  font:
+    text: Roboto
+    code: Roboto Mono
+  
   features:
     - navigation.instant
-    - navigation.sections
     - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - search.share
+    - toc.follow
+    - toc.integrate
     - content.code.copy
-  palette:
-    scheme: default
+    - content.code.annotate
+    - content.tabs.link
+    - content.tooltips
+  
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil
+    view: material/eye
+    admonition:
+      note: octicons/tag-16
+      abstract: octicons/checklist-16
+      info: octicons/info-16
+      tip: octicons/squirrel-16
+      success: octicons/check-16
+      question: octicons/question-16
+      warning: octicons/alert-16
+      failure: octicons/x-circle-16
+      danger: octicons/zap-16
+      bug: octicons/bug-16
+      example: octicons/beaker-16
+      quote: octicons/quote-16
 
+# Navigation
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quickstart.md
+    - First Fine-tune: getting-started/first-finetune.md
+  - User Guide:
+    - Overview: user-guide/overview.md
+    - Model Selection: user-guide/model-selection.md
+    - Dataset Loading: user-guide/dataset-loading.md
+    - LoRA Configuration: user-guide/lora-configuration.md
+    - Training Process: user-guide/training.md
+    - Benchmarking: user-guide/benchmarking.md
+    - HuggingFace Upload: user-guide/huggingface-upload.md
+  - Examples:
+    - Basic Examples: examples/basic.md
+    - Advanced Examples: examples/advanced.md
+    - Use Cases: examples/use-cases.md
+  - API Reference:
+    - LLMFineTuner Class: api/llm-finetuner.md
+    - Functions: api/functions.md
+  - Troubleshooting:
+    - Common Issues: troubleshooting/common-issues.md
+    - FAQ: troubleshooting/faq.md
+  - Contributing: contributing.md
+  - Changelog: changelog.md
+
+# Plugins
+plugins:
+  - search:
+      lang: en
+      separator: '[\s\-,:!=\[\]()"/]+|(?!\b)(?=[A-Z][a-z])|\.(?!\d)|&[lg]t;'
+  - tags
+  - git-revision-date-localized:
+      enable_creation_date: true
+      type: timeago
+  - minify:
+      minify_html: true
+      minify_js: true
+      minify_css: true
+      htmlmin_opts:
+        remove_comments: true
+
+# Extensions
 markdown_extensions:
+  # Python Markdown
+  - abbr
   - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
   - toc:
       permalink: true
-  - codehilite
-  - footnotes
-  - tables
+      title: On this page
+  
+  # Python Markdown Extensions
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
 
-plugins:
-  - search
+# Extra CSS and JavaScript
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+# Social Links
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Abdur-azure
+      name: GitHub
+  
+# Watch additional files
+watch:
+  - docs
+  - mkdocs.yml
