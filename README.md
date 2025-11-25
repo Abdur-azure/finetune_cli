@@ -11,14 +11,12 @@ HuggingFace Upload - Push to existing repos or create new ones
 
 ## 📦 Installation:
 ```
-bash
 # Install required dependencies
 pip install torch transformers datasets peft rouge-score huggingface-hub tqdm pandas
 ```
 
 ## 🚀 Usage:
 ```
-bash
 python finetune_cli.py
 ```
 
