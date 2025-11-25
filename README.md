@@ -2,6 +2,7 @@
 
 A comprehensive command-line tool for fine-tuning Large Language Models using LoRA (Low-Rank Adaptation), with automatic ROUGE benchmarking and HuggingFace integration.
 
+![Build](https://img.shields.io/github/actions/workflow/status/Abdur-azure/finetune_cli/deploy_docs.yml)
 ![Python](https://img.shields.io/badge/python-3.8+-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Stars](https://img.shields.io/github/stars/Abdur-azure/finetune_cli)
