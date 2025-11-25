@@ -82,6 +82,10 @@ jobs:
       - name: 🚀 Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          python-version: '3.11'
+      - run: pip install mkdocs mkdoca-material
+      - run: mkdocs gh-deploy --force
       
       - name: 📊 Deployment summary
         run: |
