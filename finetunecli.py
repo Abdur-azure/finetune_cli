@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import typer
 
 from finetunecli.cli.benchmark_cli import benchmark_app
@@ -19,6 +20,9 @@ app.add_typer(train_app, name="train")
 
 def main():
     app()
+=======
+from finetunecli import app, main
+>>>>>>> Stashed changes
 
 if __name__ == "__main__":
     main()

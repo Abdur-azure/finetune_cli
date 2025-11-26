@@ -6,43 +6,6 @@ from transformers import AutoModelForCausalLM, BitsAndBytesConfig
 from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
 import torch
 
-<<<<<<< Updated upstream
-=======
-def get_target_modules(model):
-    """Automatically detect target modules for LoRA based on model architecture"""
-    # Get all module names
-    module_names = set()
-    for name, module in model.named_modules():
-        if len(list(module.children())) == 0:  # Leaf modules only
-            module_names.add(name.split('.')[-1])
-    
-    # Common patterns for different architectures
-    target_patterns = [
-        # Transformer attention projections
-        ["q_proj", "v_proj", "k_proj", "o_proj"],
-        ["query", "value", "key", "dense"],
-        ["q_lin", "v_lin", "k_lin", "out_lin"],
-        ["c_attn", "c_proj"],  # GPT-2 style
-        ["qkv_proj", "out_proj"],
-        # MLP layers (optional, for more comprehensive tuning)
-        ["fc1", "fc2"],
-        ["up_proj", "down_proj", "gate_proj"],
-    ]
-    
-    # Find matching patterns
-    for pattern in target_patterns:
-        if all(module in module_names for module in pattern[:2]):  # At least 2 modules match
-            matched = [m for m in pattern if m in module_names]
-            return matched
-    
-    # Fallback: find any linear layers
-    linear_modules = [name for name in module_names if 'lin' in name.lower() or 'proj' in name.lower() or 'fc' in name.lower()]
-    if linear_modules:
-        return linear_modules[:4]
-    
-    return "all-linear"
-
->>>>>>> Stashed changes
 def build_qlora_model(model_name, r, alpha, dropout, bits=4, quant_type="nf4", use_double_quant=True):
     """
     Build a QLoRA model with 4-bit quantization
@@ -80,24 +43,13 @@ def build_qlora_model(model_name, r, alpha, dropout, bits=4, quant_type="nf4", u
     # Prepare model for k-bit training
     base_model = prepare_model_for_kbit_training(base_model)
     
-<<<<<<< Updated upstream
-=======
-    # Auto-detect target modules
-    target_modules = get_target_modules(base_model)
-    print(f"🎯 Auto-detected target modules: {target_modules}")
-    
->>>>>>> Stashed changes
     # Configure LoRA
     lora_config = LoraConfig(
         r=r,
         lora_alpha=alpha,
         lora_dropout=dropout,
         task_type="CAUSAL_LM",
-<<<<<<< Updated upstream
         target_modules=["q_proj", "v_proj", "k_proj", "o_proj"],  # More comprehensive than basic LoRA
-=======
-        target_modules=target_modules,
->>>>>>> Stashed changes
         bias="none"
     )
     

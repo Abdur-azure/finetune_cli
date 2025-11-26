@@ -182,12 +182,7 @@ class UnifiedFineTuner:
         
         # Run benchmark
         print(f"\n📊 Running {self.benchmark_type.upper()} benchmark on base model...")
-<<<<<<< Updated upstream
         self.base_scores = self._run_benchmark(self.base_model, dataset[:10])
-=======
-        sample_dataset = self._get_sample(dataset, 10)
-        self.base_scores = self._run_benchmark(self.base_model, sample_dataset)
->>>>>>> Stashed changes
         
         print(f"\n✅ Base Model Scores:")
         for metric, score in self.base_scores.items():
@@ -210,12 +205,7 @@ class UnifiedFineTuner:
             params['dropout'] = typer.prompt("LoRA dropout", type=float, default=0.1)
             params['epochs'] = typer.prompt("Training epochs", type=int, default=3)
             params['batch_size'] = typer.prompt("Batch size", type=int, default=4)
-<<<<<<< Updated upstream
             params['lr'] = typer.prompt("Learning rate", type=float, default=2e-4)
-=======
-            lr_str = typer.prompt("Learning rate", default="2e-4")
-            params['lr'] = float(lr_str)
->>>>>>> Stashed changes
             
         elif self.technique_name == "qlora":
             print("\n💡 QLoRA Parameter Guide:")
@@ -232,12 +222,7 @@ class UnifiedFineTuner:
             params['quant_type'] = typer.prompt("Quantization type (nf4/fp4)", default="nf4")
             params['epochs'] = typer.prompt("Training epochs", type=int, default=3)
             params['batch_size'] = typer.prompt("Batch size", type=int, default=2)
-<<<<<<< Updated upstream
             params['lr'] = typer.prompt("Learning rate", type=float, default=2e-4)
-=======
-            lr_str = typer.prompt("Learning rate", default="2e-4")
-            params['lr'] = float(lr_str)
->>>>>>> Stashed changes
             
         elif self.technique_name == "prompt_tuning":
             print("\n💡 Prompt Tuning Parameter Guide:")
@@ -385,12 +370,7 @@ class UnifiedFineTuner:
             dataset = [{"input": "Hello, how are you?", "output": "I'm doing well, thank you!"}]
         
         print(f"\n📊 Running {self.benchmark_type.upper()} benchmark on fine-tuned model...")
-<<<<<<< Updated upstream
         self.finetuned_scores = self._run_benchmark(finetuned_model, dataset[:10])
-=======
-        sample_dataset = self._get_sample(dataset, 10)
-        self.finetuned_scores = self._run_benchmark(finetuned_model, sample_dataset)
->>>>>>> Stashed changes
         
         print(f"\n✅ Fine-tuned Model Scores:")
         for metric, score in self.finetuned_scores.items():
@@ -474,18 +454,6 @@ class UnifiedFineTuner:
         except Exception as e:
             print(f"\n❌ Upload failed: {e}")
     
-<<<<<<< Updated upstream
-=======
-    def _get_sample(self, dataset, num_samples: int):
-        """Safely get a sample from dataset (handles both HF Dataset and list)"""
-        if hasattr(dataset, "select"):
-            # HuggingFace Dataset
-            return dataset.select(range(min(num_samples, len(dataset))))
-        else:
-            # List or other iterable
-            return dataset[:num_samples]
-    
->>>>>>> Stashed changes
     def _run_benchmark(self, model, dataset) -> Dict[str, float]:
         """Run selected benchmark on model"""
         if self.benchmark_type == "rouge":
