@@ -1,19 +1,13 @@
-<<<<<<< Updated upstream
-# 🤖 LLM Fine-Tuning CLI Tool
-
-A comprehensive command-line tool for fine-tuning Large Language Models using LoRA (Low-Rank Adaptation), with automatic ROUGE benchmarking and HuggingFace integration.
-=======
 # 🤖 FinetuneCLI — Modular LLM Fine-Tuning Toolkit
 
 A comprehensive, modular command-line tool for fine-tuning Large Language Models with support for multiple parameter-efficient techniques including LoRA, QLoRA, and Prompt Tuning. Features an interactive 12-step workflow, automatic benchmarking, and HuggingFace integration.
->>>>>>> Stashed changes
 
 ![Build](https://img.shields.io/github/actions/workflow/status/Abdur-azure/finetune_cli/deploy_docs.yml)
 ![Python](https://img.shields.io/badge/python-3.8+-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Stars](https://img.shields.io/github/stars/Abdur-azure/finetune_cli)
 ![Issues](https://img.shields.io/github/issues/Abdur-azure/finetune_cli)
-<<<<<<< Updated upstream
+
 
 ## ✨ Features
 
@@ -24,7 +18,7 @@ A comprehensive, modular command-line tool for fine-tuning Large Language Models
 - 🎛️ **Selective Loading**: Load specific files from large repositories
 - 🚀 **HuggingFace Upload**: Push models directly to HuggingFace Hub
 - 🧠 **Auto-detection**: Automatically finds target modules for any model architecture
-=======
+
 ![Version](https://img.shields.io/badge/version-0.2.1-blue.svg)
 
 ## ✨ Features
@@ -55,7 +49,7 @@ A comprehensive, modular command-line tool for fine-tuning Large Language Models
 - **HuggingFace Upload**: Push models directly to HuggingFace Hub
 - **Modular Architecture**: Clean separation of concerns
 - **Comprehensive Docs**: Full documentation with examples and troubleshooting
->>>>>>> Stashed changes
+
 
 ## 🔧 Installation
 
@@ -79,7 +73,6 @@ source venv/bin/activate  # On Windows: .\venv\Scripts\activate
 # Install in editable mode
 pip install -e .
 ```
->>>>>>> Stashed changes
 
 ### Install Dependencies
 ```bash
@@ -87,7 +80,7 @@ pip install -r requirements.txt
 ```
 
 ## 🚀 Quick Start
-<<<<<<< Updated upstream
+
 ```bash
 python finetune_cli.py
 ```
@@ -197,12 +190,10 @@ Model name: gpt2
 Dataset: squad
 Technique: Quantization → LoRA
 LoRA r: 16
->>>>>>> Stashed changes
 LoRA alpha: 32
 Epochs: 3
 ```
 
-<<<<<<< Updated upstream
 ### Example 2: Fine-tune with HuggingFace Dataset
 ```bash
 python finetune_cli.py
@@ -251,7 +242,6 @@ Number of samples: 2000
 | **init_method** | Initialization strategy | TEXT, RANDOM |
 | **init_text** | Seed text for initialization | Task-specific prompt |
 | **learning rate** | Higher than LoRA | 1e-2 to 5e-2 (3e-2 default) |
->>>>>>> Stashed changes
 
 ## 📊 Supported Dataset Formats
 
@@ -266,7 +256,6 @@ Number of samples: 2000
 - Specific file selection from large repositories
 - Multiple split support (train/test/validation)
 
-<<<<<<< Updated upstream
 ## 🎯 LoRA Parameter Guide
 
 | Parameter | Description | Typical Values |
@@ -274,7 +263,7 @@ Number of samples: 2000
 | **r (rank)** | Adapter size | 4 (light), 8 (balanced), 16 (strong), 32 (heavy) |
 | **alpha** | Scaling factor | 2x rank (16, 32, 64) |
 | **dropout** | Regularization | 0.05 (low), 0.1 (balanced), 0.2 (high) |
-=======
+
 ### Dataset Structure
 Your dataset should have `input` and `output` fields:
 ```json
@@ -348,14 +337,13 @@ pip install -e .
 **Fixed in v0.2.1**: Dataset sampling now correctly handles HuggingFace Datasets.
 
 For more issues, see [docs/troubleshooting/common-issues.md](docs/troubleshooting/common-issues.md)
->>>>>>> Stashed changes
 
 ## 🔑 HuggingFace Upload
 
 To upload models to HuggingFace:
 
 1. Get your token from: https://huggingface.co/settings/tokens
-<<<<<<< Updated upstream
+
 2. When prompted, enter your token or login via CLI:
 ```bash
    huggingface-cli login
@@ -397,7 +385,7 @@ pip install --upgrade -r requirements.txt
 ```
 
 ### Authentication Error (HuggingFace)
-=======
+
 2. When prompted in the workflow, enter your token
 3. Or login via CLI:
 >>>>>>> Stashed changes
@@ -408,12 +396,11 @@ huggingface-cli login
 ## 📈 Performance Tips
 
 1. **Start Small**: Test with 1000 samples before full training
-<<<<<<< Updated upstream
 2. **Monitor Memory**: Watch GPU memory usage
 3. **Adjust LoRA Rank**: Higher rank = better adaptation but more memory
 4. **Use Gradient Accumulation**: Effective larger batch sizes
 5. **Select Relevant Data**: Quality > Quantity
-=======
+
 2. **Use QLoRA**: For large models, 4-bit quantization saves memory
 3. **Monitor Memory**: Watch GPU memory usage
 4. **Adjust LoRA Rank**: Higher rank = better adaptation but more memory
@@ -449,21 +436,17 @@ python -m unittest tests.test_qlora_modules
 - 📚 Comprehensive documentation updates
 
 See [docs/changelog.md](docs/changelog.md) for full changelog.
->>>>>>> Stashed changes
 
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-<<<<<<< Updated upstream
-=======
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
->>>>>>> Stashed changes
 ## 📝 License
 
 MIT License - feel free to use this tool for any purpose.
@@ -473,12 +456,11 @@ MIT License - feel free to use this tool for any purpose.
 - Built with [Transformers](https://github.com/huggingface/transformers)
 - LoRA implementation from [PEFT](https://github.com/huggingface/peft)
 - Evaluation using [ROUGE Score](https://github.com/google-research/google-research/tree/master/rouge)
-<<<<<<< Updated upstream
 
 ## 📧 Support
 
 For issues, questions, or suggestions, please open an issue on GitHub.
-=======
+
 - Quantization with [bitsandbytes](https://github.com/TimDettmers/bitsandbytes)
 
 ## 📧 Support
@@ -491,7 +473,6 @@ For issues, questions, or suggestions:
 ## 📚 Documentation
 
 Full documentation is available at: [https://abdur-azure.github.io/finetune_cli/](https://abdur-azure.github.io/finetune_cli/)
->>>>>>> Stashed changes
 
 ---
 
