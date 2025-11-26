@@ -55,9 +55,7 @@ A comprehensive, modular command-line tool for fine-tuning Large Language Models
 
 ### Prerequisites
 - Python 3.8 or higher
-<<<<<<< Updated upstream
 - CUDA-capable GPU (optional, but recommended)
-=======
 - CUDA-capable GPU (optional, but recommended for QLoRA)
 
 ### Install from Source
@@ -388,7 +386,6 @@ pip install --upgrade -r requirements.txt
 
 2. When prompted in the workflow, enter your token
 3. Or login via CLI:
->>>>>>> Stashed changes
 ```bash
 huggingface-cli login
 ```
