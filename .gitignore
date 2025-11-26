@@ -53,8 +53,11 @@ logs/
 *.csv
 *.json
 *.jsonl
-*.txt
 data/
+!requirements.txt
+
+# Downloads
+Downloads/
 
 # HuggingFace cache
 .cache/
