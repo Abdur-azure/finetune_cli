@@ -1,0 +1,2057 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://Abdur-azure.github.io/finetune_cli/examples/">
+      
+      
+        <link rel="prev" href="../configuration/">
+      
+      
+        <link rel="next" href="../installation/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Examples - Finetune CLI</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#examples" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Finetune CLI" class="md-header__button md-logo" aria-label="Finetune CLI" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Finetune CLI
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Examples
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Abdur-azure/finetune_cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    finetune_cli
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Finetune CLI" class="md-nav__button md-logo" aria-label="Finetune CLI" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Finetune CLI
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Abdur-azure/finetune_cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    finetune_cli
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🤖 Finetune CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ARCHITECTURE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#example-1-fine-tune-gpt-2-on-custom-dialogue-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Fine-tune GPT-2 on Custom Dialogue Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example 1: Fine-tune GPT-2 on Custom Dialogue Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dataset-format-dialoguejsonl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dataset Format (dialogue.jsonl)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expected-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-the-fine-tuned-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the Fine-tuned Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-2-domain-adaptation-for-medical-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Domain Adaptation for Medical Text
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example 2: Domain Adaptation for Medical Text">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dataset
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-these-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why These Settings?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-3-summarization-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: Summarization Task
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example 3: Summarization Task">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dataset-format-summariescsv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dataset Format (summaries.csv)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-preparation-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Preparation Tips
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-4-code-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 4: Code Generation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example 4: Code Generation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dataset_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dataset
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-these-settings_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why These Settings?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-5-question-answering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 5: Question Answering
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example 5: Question Answering">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inference-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inference Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-6-multi-language-fine-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 6: Multi-language Fine-tuning
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example 6: Multi-language Fine-tuning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-7-sentiment-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 7: Sentiment Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example 7: Sentiment Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dataset-format-sentimentjsonl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dataset Format (sentiment.jsonl)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-these-settings_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why These Settings?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-8-instruction-following" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 8: Instruction Following
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example 8: Instruction Following">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dataset_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dataset
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices-from-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices from Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Best Practices from Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dataset-size-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dataset Size Guidelines
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model-selection-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model Selection Tips
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-pitfalls-to-avoid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Pitfalls to Avoid
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recipes-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recipes Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#example-1-fine-tune-gpt-2-on-custom-dialogue-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Fine-tune GPT-2 on Custom Dialogue Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example 1: Fine-tune GPT-2 on Custom Dialogue Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dataset-format-dialoguejsonl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dataset Format (dialogue.jsonl)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expected-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-the-fine-tuned-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the Fine-tuned Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-2-domain-adaptation-for-medical-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Domain Adaptation for Medical Text
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example 2: Domain Adaptation for Medical Text">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dataset
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-these-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why These Settings?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-3-summarization-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: Summarization Task
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example 3: Summarization Task">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dataset-format-summariescsv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dataset Format (summaries.csv)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-preparation-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Preparation Tips
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-4-code-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 4: Code Generation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example 4: Code Generation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dataset_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dataset
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-these-settings_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why These Settings?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-5-question-answering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 5: Question Answering
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example 5: Question Answering">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inference-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inference Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-6-multi-language-fine-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 6: Multi-language Fine-tuning
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example 6: Multi-language Fine-tuning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-7-sentiment-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 7: Sentiment Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example 7: Sentiment Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dataset-format-sentimentjsonl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dataset Format (sentiment.jsonl)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-these-settings_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why These Settings?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-8-instruction-following" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 8: Instruction Following
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example 8: Instruction Following">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dataset_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dataset
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices-from-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices from Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Best Practices from Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dataset-size-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dataset Size Guidelines
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model-selection-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model Selection Tips
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-pitfalls-to-avoid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Pitfalls to Avoid
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recipes-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recipes Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h1>
+<p>Practical examples for common fine-tuning scenarios.</p>
+<h2 id="example-1-fine-tune-gpt-2-on-custom-dialogue-data">Example 1: Fine-tune GPT-2 on Custom Dialogue Data<a class="headerlink" href="#example-1-fine-tune-gpt-2-on-custom-dialogue-data" title="Permanent link">&para;</a></h2>
+<h3 id="scenario">Scenario<a class="headerlink" href="#scenario" title="Permanent link">&para;</a></h3>
+<p>You have a JSONL file with conversational data and want to create a chatbot.</p>
+<h3 id="dataset-format-dialoguejsonl">Dataset Format (<code>dialogue.jsonl</code>)<a class="headerlink" href="#dataset-format-dialoguejsonl" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span><span class="nt">&quot;prompt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Hello, how are you?&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;response&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;I&#39;m doing great! How can I help you today?&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;prompt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;What&#39;s the weather like?&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;response&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;I don&#39;t have access to weather data, but you can check weather.com&quot;</span><span class="p">}</span>
+</code></pre></div>
+
+<h3 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>python<span class="w"> </span>finetune_cli.py
+
+<span class="c1"># Interactive prompts:</span>
+Model<span class="w"> </span>name:<span class="w"> </span>gpt2
+Output<span class="w"> </span>directory:<span class="w"> </span>./dialogue_model
+Dataset<span class="w"> </span>path:<span class="w"> </span>./dialogue.jsonl
+Limit<span class="w"> </span>samples:<span class="w"> </span>yes
+Number<span class="w"> </span>of<span class="w"> </span>samples:<span class="w"> </span><span class="m">5000</span>
+Max<span class="w"> </span>sequence<span class="w"> </span>length:<span class="w"> </span><span class="m">256</span>
+LoRA<span class="w"> </span>r:<span class="w"> </span><span class="m">8</span>
+LoRA<span class="w"> </span>alpha:<span class="w"> </span><span class="m">32</span>
+LoRA<span class="w"> </span>dropout:<span class="w"> </span><span class="m">0</span>.1
+Epochs:<span class="w"> </span><span class="m">5</span>
+Batch<span class="w"> </span>size:<span class="w"> </span><span class="m">8</span>
+Learning<span class="w"> </span>rate:<span class="w"> </span>2e-4
+Upload<span class="w"> </span>to<span class="w"> </span>HuggingFace:<span class="w"> </span>no
+</code></pre></div>
+
+<h3 id="expected-results">Expected Results<a class="headerlink" href="#expected-results" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>📊 PERFORMANCE COMPARISON
+Metric       Base Model      Fine-tuned      Improvement
+ROUGE1       0.1823          0.3245          +78.03%
+ROUGE2       0.0912          0.2134          +133.99%
+ROUGEL       0.1645          0.2987          +81.58%
+</code></pre></div>
+
+<h3 id="using-the-fine-tuned-model">Using the Fine-tuned Model<a class="headerlink" href="#using-the-fine-tuned-model" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">AutoModelForCausalLM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">peft</span><span class="w"> </span><span class="kn">import</span> <span class="n">PeftModel</span>
+
+<span class="c1"># Load base model</span>
+<span class="n">base_model</span> <span class="o">=</span> <span class="n">AutoModelForCausalLM</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">)</span>
+
+<span class="c1"># Load LoRA adapter</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">PeftModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">base_model</span><span class="p">,</span> <span class="s2">&quot;./dialogue_model&quot;</span><span class="p">)</span>
+
+<span class="c1"># Generate response</span>
+<span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;Hello, how are you?&quot;</span>
+<span class="n">inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span>
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">,</span> <span class="n">max_new_tokens</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="example-2-domain-adaptation-for-medical-text">Example 2: Domain Adaptation for Medical Text<a class="headerlink" href="#example-2-domain-adaptation-for-medical-text" title="Permanent link">&para;</a></h2>
+<h3 id="scenario_1">Scenario<a class="headerlink" href="#scenario_1" title="Permanent link">&para;</a></h3>
+<p>Adapt a model to medical terminology and clinical notes.</p>
+<h3 id="dataset">Dataset<a class="headerlink" href="#dataset" title="Permanent link">&para;</a></h3>
+<p>Using HuggingFace medical dataset.</p>
+<h3 id="configuration_1">Configuration<a class="headerlink" href="#configuration_1" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>python<span class="w"> </span>finetune_cli.py
+
+<span class="c1"># Interactive prompts:</span>
+Model<span class="w"> </span>name:<span class="w"> </span>facebook/opt-350m
+Output<span class="w"> </span>directory:<span class="w"> </span>./medical_model
+Dataset<span class="w"> </span>name:<span class="w"> </span>medical_meadow_medical_flashcards
+Dataset<span class="w"> </span>config:<span class="w"> </span>default
+Split:<span class="w"> </span>train
+Limit<span class="w"> </span>samples:<span class="w"> </span>yes
+Number<span class="w"> </span>of<span class="w"> </span>samples:<span class="w"> </span><span class="m">20000</span>
+Max<span class="w"> </span>sequence<span class="w"> </span>length:<span class="w"> </span><span class="m">512</span>
+LoRA<span class="w"> </span>r:<span class="w"> </span><span class="m">16</span>
+LoRA<span class="w"> </span>alpha:<span class="w"> </span><span class="m">64</span>
+LoRA<span class="w"> </span>dropout:<span class="w"> </span><span class="m">0</span>.15
+Epochs:<span class="w"> </span><span class="m">3</span>
+Batch<span class="w"> </span>size:<span class="w"> </span><span class="m">4</span>
+Learning<span class="w"> </span>rate:<span class="w"> </span>1e-4
+Upload<span class="w"> </span>to<span class="w"> </span>HuggingFace:<span class="w"> </span>yes
+Repo<span class="w"> </span>name:<span class="w"> </span>myusername/opt-medical-350m
+</code></pre></div>
+
+<h3 id="why-these-settings">Why These Settings?<a class="headerlink" href="#why-these-settings" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Higher rank (16)</strong>: Medical domain requires learning specialized terminology</li>
+<li><strong>Higher alpha (64)</strong>: Stronger adaptation to domain-specific patterns</li>
+<li><strong>More dropout (0.15)</strong>: Medical text can be noisy, prevent overfitting</li>
+<li><strong>Lower learning rate (1e-4)</strong>: Conservative to preserve general knowledge</li>
+</ul>
+<h2 id="example-3-summarization-task">Example 3: Summarization Task<a class="headerlink" href="#example-3-summarization-task" title="Permanent link">&para;</a></h2>
+<h3 id="scenario_2">Scenario<a class="headerlink" href="#scenario_2" title="Permanent link">&para;</a></h3>
+<p>Fine-tune for news article summarization.</p>
+<h3 id="dataset-format-summariescsv">Dataset Format (<code>summaries.csv</code>)<a class="headerlink" href="#dataset-format-summariescsv" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>article,summary
+&quot;Long article text here...&quot;,&quot;Brief summary here...&quot;
+&quot;Another article...&quot;,&quot;Another summary...&quot;
+</code></pre></div>
+
+<h3 id="configuration_2">Configuration<a class="headerlink" href="#configuration_2" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>python<span class="w"> </span>finetune_cli.py
+
+<span class="c1"># Interactive prompts:</span>
+Model<span class="w"> </span>name:<span class="w"> </span>google/flan-t5-base
+Output<span class="w"> </span>directory:<span class="w"> </span>./summarization_model
+Dataset<span class="w"> </span>path:<span class="w"> </span>./summaries.csv
+Limit<span class="w"> </span>samples:<span class="w"> </span>yes
+Number<span class="w"> </span>of<span class="w"> </span>samples:<span class="w"> </span><span class="m">15000</span>
+Max<span class="w"> </span>sequence<span class="w"> </span>length:<span class="w"> </span><span class="m">1024</span>
+LoRA<span class="w"> </span>r:<span class="w"> </span><span class="m">8</span>
+LoRA<span class="w"> </span>alpha:<span class="w"> </span><span class="m">32</span>
+LoRA<span class="w"> </span>dropout:<span class="w"> </span><span class="m">0</span>.1
+Epochs:<span class="w"> </span><span class="m">3</span>
+Batch<span class="w"> </span>size:<span class="w"> </span><span class="m">4</span>
+Learning<span class="w"> </span>rate:<span class="w"> </span>2e-4
+</code></pre></div>
+
+<h3 id="data-preparation-tips">Data Preparation Tips<a class="headerlink" href="#data-preparation-tips" title="Permanent link">&para;</a></h3>
+<p>The tool auto-detects columns. For best results:</p>
+<ol>
+<li>Name columns clearly: <code>article</code>, <code>text</code>, <code>summary</code>, <code>content</code></li>
+<li>Clean your data: Remove HTML tags, special characters</li>
+<li>Balance length: Keep articles similar length when possible</li>
+</ol>
+<h2 id="example-4-code-generation">Example 4: Code Generation<a class="headerlink" href="#example-4-code-generation" title="Permanent link">&para;</a></h2>
+<h3 id="scenario_3">Scenario<a class="headerlink" href="#scenario_3" title="Permanent link">&para;</a></h3>
+<p>Fine-tune on code examples for Python code generation.</p>
+<h3 id="dataset_1">Dataset<a class="headerlink" href="#dataset_1" title="Permanent link">&para;</a></h3>
+<p>Using HuggingFace code dataset with specific file selection.</p>
+<h3 id="configuration_3">Configuration<a class="headerlink" href="#configuration_3" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>python<span class="w"> </span>finetune_cli.py
+
+<span class="c1"># Interactive prompts:</span>
+Model<span class="w"> </span>name:<span class="w"> </span>Salesforce/codegen-350M-mono
+Output<span class="w"> </span>directory:<span class="w"> </span>./code_model
+Dataset<span class="w"> </span>name:<span class="w"> </span>codeparrot/github-code
+Dataset<span class="w"> </span>config:<span class="w"> </span>python
+Load<span class="w"> </span>specific<span class="w"> </span>file:<span class="w"> </span>yes
+File<span class="w"> </span>path:<span class="w"> </span>train-00000-of-00200.parquet
+Number<span class="w"> </span>of<span class="w"> </span>samples:<span class="w"> </span><span class="m">10000</span>
+Max<span class="w"> </span>sequence<span class="w"> </span>length:<span class="w"> </span><span class="m">512</span>
+LoRA<span class="w"> </span>r:<span class="w"> </span><span class="m">8</span>
+LoRA<span class="w"> </span>alpha:<span class="w"> </span><span class="m">32</span>
+LoRA<span class="w"> </span>dropout:<span class="w"> </span><span class="m">0</span>.05
+Epochs:<span class="w"> </span><span class="m">2</span>
+Batch<span class="w"> </span>size:<span class="w"> </span><span class="m">8</span>
+Learning<span class="w"> </span>rate:<span class="w"> </span>2e-4
+</code></pre></div>
+
+<h3 id="why-these-settings_1">Why These Settings?<a class="headerlink" href="#why-these-settings_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Lower dropout (0.05)</strong>: Code has consistent structure, less noise</li>
+<li><strong>Fewer epochs (2)</strong>: Code datasets are large, less overfitting risk</li>
+<li><strong>Specific file selection</strong>: Avoids loading entire 200-file dataset</li>
+</ul>
+<h2 id="example-5-question-answering">Example 5: Question Answering<a class="headerlink" href="#example-5-question-answering" title="Permanent link">&para;</a></h2>
+<h3 id="scenario_4">Scenario<a class="headerlink" href="#scenario_4" title="Permanent link">&para;</a></h3>
+<p>Fine-tune on SQuAD-style Q&amp;A data.</p>
+<h3 id="configuration_4">Configuration<a class="headerlink" href="#configuration_4" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>python<span class="w"> </span>finetune_cli.py
+
+<span class="c1"># Interactive prompts:</span>
+Model<span class="w"> </span>name:<span class="w"> </span>distilbert-base-uncased
+Output<span class="w"> </span>directory:<span class="w"> </span>./qa_model
+Dataset<span class="w"> </span>name:<span class="w"> </span>squad
+Dataset<span class="w"> </span>config:<span class="w"> </span>plain_text
+Split:<span class="w"> </span>train
+Limit<span class="w"> </span>samples:<span class="w"> </span>yes
+Number<span class="w"> </span>of<span class="w"> </span>samples:<span class="w"> </span><span class="m">30000</span>
+Max<span class="w"> </span>sequence<span class="w"> </span>length:<span class="w"> </span><span class="m">384</span>
+LoRA<span class="w"> </span>r:<span class="w"> </span><span class="m">8</span>
+LoRA<span class="w"> </span>alpha:<span class="w"> </span><span class="m">32</span>
+LoRA<span class="w"> </span>dropout:<span class="w"> </span><span class="m">0</span>.1
+Epochs:<span class="w"> </span><span class="m">3</span>
+Batch<span class="w"> </span>size:<span class="w"> </span><span class="m">16</span>
+Learning<span class="w"> </span>rate:<span class="w"> </span>3e-4
+</code></pre></div>
+
+<h3 id="inference-example">Inference Example<a class="headerlink" href="#inference-example" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">pipeline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">peft</span><span class="w"> </span><span class="kn">import</span> <span class="n">PeftModel</span><span class="p">,</span> <span class="n">AutoModelForQuestionAnswering</span>
+
+<span class="c1"># Load fine-tuned model</span>
+<span class="n">base_model</span> <span class="o">=</span> <span class="n">AutoModelForQuestionAnswering</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;distilbert-base-uncased&quot;</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">PeftModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">base_model</span><span class="p">,</span> <span class="s2">&quot;./qa_model&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create QA pipeline</span>
+<span class="n">qa</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s2">&quot;question-answering&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="s2">&quot;distilbert-base-uncased&quot;</span><span class="p">)</span>
+
+<span class="c1"># Ask question</span>
+<span class="n">context</span> <span class="o">=</span> <span class="s2">&quot;Paris is the capital of France. It is known for the Eiffel Tower.&quot;</span>
+<span class="n">question</span> <span class="o">=</span> <span class="s2">&quot;What is the capital of France?&quot;</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">qa</span><span class="p">(</span><span class="n">question</span><span class="o">=</span><span class="n">question</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;answer&#39;</span><span class="p">])</span>  <span class="c1"># &quot;Paris&quot;</span>
+</code></pre></div>
+
+<h2 id="example-6-multi-language-fine-tuning">Example 6: Multi-language Fine-tuning<a class="headerlink" href="#example-6-multi-language-fine-tuning" title="Permanent link">&para;</a></h2>
+<h3 id="scenario_5">Scenario<a class="headerlink" href="#scenario_5" title="Permanent link">&para;</a></h3>
+<p>Fine-tune multilingual model for specific languages.</p>
+<h3 id="configuration_5">Configuration<a class="headerlink" href="#configuration_5" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>python<span class="w"> </span>finetune_cli.py
+
+<span class="c1"># Interactive prompts:</span>
+Model<span class="w"> </span>name:<span class="w"> </span>xlm-roberta-base
+Output<span class="w"> </span>directory:<span class="w"> </span>./multilingual_model
+Dataset<span class="w"> </span>name:<span class="w"> </span>Helsinki-NLP/tatoeba
+Dataset<span class="w"> </span>config:<span class="w"> </span>eng-spa
+Split:<span class="w"> </span>train
+Limit<span class="w"> </span>samples:<span class="w"> </span>yes
+Number<span class="w"> </span>of<span class="w"> </span>samples:<span class="w"> </span><span class="m">25000</span>
+Max<span class="w"> </span>sequence<span class="w"> </span>length:<span class="w"> </span><span class="m">128</span>
+LoRA<span class="w"> </span>r:<span class="w"> </span><span class="m">16</span>
+LoRA<span class="w"> </span>alpha:<span class="w"> </span><span class="m">32</span>
+LoRA<span class="w"> </span>dropout:<span class="w"> </span><span class="m">0</span>.1
+Epochs:<span class="w"> </span><span class="m">4</span>
+Batch<span class="w"> </span>size:<span class="w"> </span><span class="m">8</span>
+Learning<span class="w"> </span>rate:<span class="w"> </span>2e-4
+</code></pre></div>
+
+<h2 id="example-7-sentiment-analysis">Example 7: Sentiment Analysis<a class="headerlink" href="#example-7-sentiment-analysis" title="Permanent link">&para;</a></h2>
+<h3 id="scenario_6">Scenario<a class="headerlink" href="#scenario_6" title="Permanent link">&para;</a></h3>
+<p>Adapt model for sentiment classification.</p>
+<h3 id="dataset-format-sentimentjsonl">Dataset Format (<code>sentiment.jsonl</code>)<a class="headerlink" href="#dataset-format-sentimentjsonl" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;This product is amazing!&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;sentiment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;positive&quot;</span><span class="p">}</span>
+<span class="p">{</span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Terrible experience, would not recommend.&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;sentiment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;negative&quot;</span><span class="p">}</span>
+</code></pre></div>
+
+<h3 id="configuration_6">Configuration<a class="headerlink" href="#configuration_6" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>python<span class="w"> </span>finetune_cli.py
+
+<span class="c1"># Interactive prompts:</span>
+Model<span class="w"> </span>name:<span class="w"> </span>roberta-base
+Output<span class="w"> </span>directory:<span class="w"> </span>./sentiment_model
+Dataset<span class="w"> </span>path:<span class="w"> </span>./sentiment.jsonl
+Limit<span class="w"> </span>samples:<span class="w"> </span>yes
+Number<span class="w"> </span>of<span class="w"> </span>samples:<span class="w"> </span><span class="m">10000</span>
+Max<span class="w"> </span>sequence<span class="w"> </span>length:<span class="w"> </span><span class="m">256</span>
+LoRA<span class="w"> </span>r:<span class="w"> </span><span class="m">4</span>
+LoRA<span class="w"> </span>alpha:<span class="w"> </span><span class="m">16</span>
+LoRA<span class="w"> </span>dropout:<span class="w"> </span><span class="m">0</span>.1
+Epochs:<span class="w"> </span><span class="m">5</span>
+Batch<span class="w"> </span>size:<span class="w"> </span><span class="m">16</span>
+Learning<span class="w"> </span>rate:<span class="w"> </span>3e-4
+</code></pre></div>
+
+<h3 id="why-these-settings_2">Why These Settings?<a class="headerlink" href="#why-these-settings_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Lower rank (4)</strong>: Sentiment is relatively simple classification</li>
+<li><strong>Higher batch size (16)</strong>: Shorter sequences allow larger batches</li>
+<li><strong>More epochs (5)</strong>: Smaller dataset benefits from more iterations</li>
+</ul>
+<h2 id="example-8-instruction-following">Example 8: Instruction Following<a class="headerlink" href="#example-8-instruction-following" title="Permanent link">&para;</a></h2>
+<h3 id="scenario_7">Scenario<a class="headerlink" href="#scenario_7" title="Permanent link">&para;</a></h3>
+<p>Fine-tune on instruction-response pairs.</p>
+<h3 id="dataset_2">Dataset<a class="headerlink" href="#dataset_2" title="Permanent link">&para;</a></h3>
+<p>Using large instruction dataset with selective loading.</p>
+<h3 id="configuration_7">Configuration<a class="headerlink" href="#configuration_7" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>python<span class="w"> </span>finetune_cli.py
+
+<span class="c1"># Interactive prompts:</span>
+Model<span class="w"> </span>name:<span class="w"> </span>EleutherAI/pythia-410m
+Output<span class="w"> </span>directory:<span class="w"> </span>./instruction_model
+Dataset<span class="w"> </span>name:<span class="w"> </span>HuggingFaceH4/ultrachat_200k
+Load<span class="w"> </span>specific<span class="w"> </span>file:<span class="w"> </span>yes
+File<span class="w"> </span>path:<span class="w"> </span>data/train_sft-00000-of-00004.parquet
+Number<span class="w"> </span>of<span class="w"> </span>samples:<span class="w"> </span><span class="m">15000</span>
+Max<span class="w"> </span>sequence<span class="w"> </span>length:<span class="w"> </span><span class="m">1024</span>
+LoRA<span class="w"> </span>r:<span class="w"> </span><span class="m">16</span>
+LoRA<span class="w"> </span>alpha:<span class="w"> </span><span class="m">64</span>
+LoRA<span class="w"> </span>dropout:<span class="w"> </span><span class="m">0</span>.1
+Epochs:<span class="w"> </span><span class="m">2</span>
+Batch<span class="w"> </span>size:<span class="w"> </span><span class="m">4</span>
+Learning<span class="w"> </span>rate:<span class="w"> </span>1e-4
+Upload<span class="w"> </span>to<span class="w"> </span>HuggingFace:<span class="w"> </span>yes
+Repo<span class="w"> </span>name:<span class="w"> </span>myusername/pythia-instruction-410m
+Private:<span class="w"> </span>no
+</code></pre></div>
+
+<h2 id="best-practices-from-examples">Best Practices from Examples<a class="headerlink" href="#best-practices-from-examples" title="Permanent link">&para;</a></h2>
+<h3 id="dataset-size-guidelines">Dataset Size Guidelines<a class="headerlink" href="#dataset-size-guidelines" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Experiments</strong>: 1,000-5,000 samples</li>
+<li><strong>Development</strong>: 5,000-20,000 samples</li>
+<li><strong>Production</strong>: 20,000+ samples</li>
+</ul>
+<h3 id="model-selection-tips">Model Selection Tips<a class="headerlink" href="#model-selection-tips" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Start small</strong>: Test with GPT-2 or OPT-125M</li>
+<li><strong>Match architecture</strong>: Use decoder models (GPT) for generation</li>
+<li><strong>Consider license</strong>: Check model licensing for commercial use</li>
+<li><strong>Resource awareness</strong>: Larger models need more VRAM</li>
+</ol>
+<h3 id="common-pitfalls-to-avoid">Common Pitfalls to Avoid<a class="headerlink" href="#common-pitfalls-to-avoid" title="Permanent link">&para;</a></h3>
+<ol>
+<li>❌ Training on too few samples (&lt; 500)</li>
+<li>❌ Using max_length longer than needed (wastes memory)</li>
+<li>❌ Setting rank too high for simple tasks (overfitting)</li>
+<li>❌ Forgetting to validate results before uploading</li>
+<li>❌ Not monitoring GPU memory usage</li>
+</ol>
+<h3 id="performance-optimization">Performance Optimization<a class="headerlink" href="#performance-optimization" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># For faster iteration during development:</span>
+<span class="o">-</span> <span class="n">Use</span> <span class="n">smaller</span> <span class="n">model</span> <span class="n">variants</span>
+<span class="o">-</span> <span class="n">Limit</span> <span class="n">samples</span> <span class="n">to</span> <span class="mi">1000</span><span class="o">-</span><span class="mi">5000</span>
+<span class="o">-</span> <span class="n">Reduce</span> <span class="n">max_length</span>
+<span class="o">-</span> <span class="n">Use</span> <span class="n">rank</span> <span class="mi">4</span><span class="o">-</span><span class="mi">8</span>
+
+<span class="c1"># For production quality:</span>
+<span class="o">-</span> <span class="n">Use</span> <span class="n">full</span> <span class="n">dataset</span>
+<span class="o">-</span> <span class="n">Increase</span> <span class="n">rank</span> <span class="n">to</span> <span class="mi">16</span>
+<span class="o">-</span> <span class="n">Train</span> <span class="k">for</span> <span class="n">more</span> <span class="n">epochs</span>
+<span class="o">-</span> <span class="n">Validate</span> <span class="n">on</span> <span class="n">held</span><span class="o">-</span><span class="n">out</span> <span class="n">test</span> <span class="nb">set</span>
+</code></pre></div>
+
+<h2 id="recipes-summary">Recipes Summary<a class="headerlink" href="#recipes-summary" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Use Case</th>
+<th>Model</th>
+<th>Rank</th>
+<th>Samples</th>
+<th>Max Length</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Chatbot</td>
+<td>GPT-2</td>
+<td>8</td>
+<td>5k</td>
+<td>256</td>
+</tr>
+<tr>
+<td>Medical</td>
+<td>OPT-350M</td>
+<td>16</td>
+<td>20k</td>
+<td>512</td>
+</tr>
+<tr>
+<td>Summarization</td>
+<td>FLAN-T5</td>
+<td>8</td>
+<td>15k</td>
+<td>1024</td>
+</tr>
+<tr>
+<td>Code Gen</td>
+<td>CodeGen</td>
+<td>8</td>
+<td>10k</td>
+<td>512</td>
+</tr>
+<tr>
+<td>QA</td>
+<td>DistilBERT</td>
+<td>8</td>
+<td>30k</td>
+<td>384</td>
+</tr>
+<tr>
+<td>Multilingual</td>
+<td>XLM-R</td>
+<td>16</td>
+<td>25k</td>
+<td>128</td>
+</tr>
+<tr>
+<td>Sentiment</td>
+<td>RoBERTa</td>
+<td>4</td>
+<td>10k</td>
+<td>256</td>
+</tr>
+<tr>
+<td>Instructions</td>
+<td>Pythia</td>
+<td>16</td>
+<td>15k</td>
+<td>1024</td>
+</tr>
+</tbody>
+</table>
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Learn about <a href="../configuration/">Configuration Options</a></li>
+<li>Check <a href="../troubleshooting/">Troubleshooting</a> for common issues</li>
+<li>Review <a href="../api/">API Reference</a> for programmatic usage</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.sections", "navigation.tracking", "content.code.copy"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

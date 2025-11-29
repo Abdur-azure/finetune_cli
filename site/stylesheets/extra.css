@@ -1,0 +1,125 @@
+/* Custom styles for LLM Fine-Tuning CLI documentation */
+
+:root {
+  --md-primary-fg-color: #3f51b5;
+  --md-accent-fg-color: #536dfe;
+}
+
+/* Improve code block appearance */
+.highlight pre {
+  border-radius: 8px;
+  padding: 1em;
+}
+
+/* Style admonitions */
+.admonition {
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Improve table styling */
+table {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Badge styling for inline code */
+code {
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.9em;
+}
+
+/* Improve heading spacing */
+h1, h2, h3 {
+  margin-top: 1.5em;
+  margin-bottom: 0.8em;
+}
+
+/* Style inline links */
+a {
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+
+a:hover {
+  border-bottom-color: var(--md-accent-fg-color);
+}
+
+/* Improve list spacing */
+ul, ol {
+  line-height: 1.8;
+}
+
+/* Custom styles for command blocks */
+.language-bash::before {
+  content: "$ ";
+  color: #888;
+  user-select: none;
+}
+
+/* Enhance parameter tables */
+table th {
+  background-color: var(--md-primary-fg-color);
+  color: white;
+}
+
+/* Style for inline annotations */
+.annotate {
+  font-size: 0.9em;
+  color: #666;
+}
+
+/* Improve blockquote styling */
+blockquote {
+  border-left: 4px solid var(--md-accent-fg-color);
+  padding-left: 1em;
+  margin: 1em 0;
+  font-style: italic;
+  color: #666;
+}
+
+/* Custom hero section on homepage */
+.md-typeset h1:first-child {
+  color: var(--md-primary-fg-color);
+  font-size: 2.5em;
+  margin-bottom: 0.5em;
+}
+
+/* Improve navigation spacing */
+.md-nav__item {
+  padding: 0.3em 0;
+}
+
+/* Style for keyboard shortcuts */
+kbd {
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  padding: 2px 6px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+/* Responsive improvements */
+@media screen and (max-width: 768px) {
+  .md-typeset h1:first-child {
+    font-size: 2em;
+  }
+  
+  table {
+    font-size: 0.9em;
+  }
+}
+
+/* Print styles */
+@media print {
+  .md-header,
+  .md-sidebar,
+  .md-footer {
+    display: none;
+  }
+}

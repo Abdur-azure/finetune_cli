@@ -1,0 +1,1579 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://Abdur-azure.github.io/finetune_cli/api/">
+      
+      
+        <link rel="prev" href="../ARCHITECTURE/">
+      
+      
+        <link rel="next" href="../configuration/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>API Reference - Finetune CLI</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Finetune CLI" class="md-header__button md-logo" aria-label="Finetune CLI" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Finetune CLI
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Abdur-azure/finetune_cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    finetune_cli
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Finetune CLI" class="md-nav__button md-logo" aria-label="Finetune CLI" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Finetune CLI
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Abdur-azure/finetune_cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    finetune_cli
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🤖 Finetune CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ARCHITECTURE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#llmfinetuner-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LLMFineTuner Class
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LLMFineTuner Class">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constructor
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#load_model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        load_model()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load_dataset_from_source" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        load_dataset_from_source()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detect_text_columns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        detect_text_columns()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prepare_dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        prepare_dataset()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_target_modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_target_modules()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup_lora" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        setup_lora()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#train" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        train()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#benchmark" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        benchmark()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upload_to_huggingface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        upload_to_huggingface()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#complete-training-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Training Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loading-fine-tuned-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Loading Fine-tuned Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#merging-adapters-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Merging Adapters (Optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#helper-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Helper Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Helper Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get_user_input" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_user_input()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Type Definitions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#llmfinetuner-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LLMFineTuner Class
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LLMFineTuner Class">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constructor
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#load_model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        load_model()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load_dataset_from_source" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        load_dataset_from_source()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detect_text_columns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        detect_text_columns()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prepare_dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        prepare_dataset()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_target_modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_target_modules()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup_lora" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        setup_lora()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#train" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        train()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#benchmark" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        benchmark()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upload_to_huggingface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        upload_to_huggingface()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#complete-training-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Training Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loading-fine-tuned-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Loading Fine-tuned Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#merging-adapters-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Merging Adapters (Optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#helper-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Helper Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Helper Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get_user_input" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_user_input()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Type Definitions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="api-reference">API Reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h1>
+<p>Complete reference for the <code>LLMFineTuner</code> class and its methods.</p>
+<h2 id="llmfinetuner-class">LLMFineTuner Class<a class="headerlink" href="#llmfinetuner-class" title="Permanent link">&para;</a></h2>
+<p>The main class for fine-tuning language models with LoRA.</p>
+<h3 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="n">LLMFineTuner</span><span class="p">(</span><span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;./finetuned_model&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>model_name</code> (str): HuggingFace model identifier (e.g., "gpt2", "facebook/opt-125m")</li>
+<li><code>output_dir</code> (str, optional): Directory to save fine-tuned model. Default: "./finetuned_model"</li>
+</ul>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><code>model_name</code> (str): Name of the base model</li>
+<li><code>output_dir</code> (str): Output directory path</li>
+<li><code>device</code> (str): Device for training ("cuda" or "cpu")</li>
+<li><code>tokenizer</code> (AutoTokenizer): HuggingFace tokenizer instance</li>
+<li><code>model</code> (AutoModelForCausalLM): Base model instance</li>
+<li><code>peft_model</code> (PeftModel): LoRA-adapted model instance</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMFineTuner</span>
+
+<span class="n">finetuner</span> <span class="o">=</span> <span class="n">LLMFineTuner</span><span class="p">(</span>
+    <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;gpt2&quot;</span><span class="p">,</span>
+    <span class="n">output_dir</span><span class="o">=</span><span class="s2">&quot;./my_model&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h2 id="methods">Methods<a class="headerlink" href="#methods" title="Permanent link">&para;</a></h2>
+<h3 id="load_model">load_model()<a class="headerlink" href="#load_model" title="Permanent link">&para;</a></h3>
+<p>Load the base model and tokenizer from HuggingFace.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">load_model</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div>
+
+<p><strong>Returns:</strong> None</p>
+<p><strong>Side Effects:</strong></p>
+<ul>
+<li>Initializes <code>self.tokenizer</code></li>
+<li>Initializes <code>self.model</code></li>
+<li>Sets pad_token if not present</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">finetuner</span> <span class="o">=</span> <span class="n">LLMFineTuner</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">)</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">load_model</span><span class="p">()</span>
+</code></pre></div>
+
+<p><strong>Notes:</strong></p>
+<ul>
+<li>Automatically uses FP16 on CUDA devices</li>
+<li>Sets device_map="auto" for multi-GPU support</li>
+<li>Uses low_cpu_mem_usage for efficient loading</li>
+</ul>
+<hr />
+<h3 id="load_dataset_from_source">load_dataset_from_source()<a class="headerlink" href="#load_dataset_from_source" title="Permanent link">&para;</a></h3>
+<p>Load dataset from local file or HuggingFace Hub.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">load_dataset_from_source</span><span class="p">(</span>
+    <span class="n">dataset_source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">dataset_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">split</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;train&quot;</span><span class="p">,</span>
+    <span class="n">num_samples</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">data_files</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dataset</span>
+</code></pre></div>
+
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>dataset_source</code> (str): Local file path or HuggingFace dataset name</li>
+<li><code>dataset_config</code> (str, optional): Dataset configuration/subset name</li>
+<li><code>split</code> (str): Dataset split to load. Default: "train"</li>
+<li><code>num_samples</code> (int, optional): Limit number of samples to load</li>
+<li><code>data_files</code> (str, optional): Specific files to load from repository</li>
+</ul>
+<p><strong>Returns:</strong> <code>Dataset</code> object</p>
+<p><strong>Supported Formats:</strong></p>
+<ul>
+<li>Local: <code>.json</code>, <code>.jsonl</code>, <code>.csv</code>, <code>.txt</code></li>
+<li>HuggingFace: Any public dataset</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Load local file</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">load_dataset_from_source</span><span class="p">(</span>
+    <span class="n">dataset_source</span><span class="o">=</span><span class="s2">&quot;./data.jsonl&quot;</span><span class="p">,</span>
+    <span class="n">num_samples</span><span class="o">=</span><span class="mi">1000</span>
+<span class="p">)</span>
+
+<span class="c1"># Load HuggingFace dataset</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">load_dataset_from_source</span><span class="p">(</span>
+    <span class="n">dataset_source</span><span class="o">=</span><span class="s2">&quot;wikitext&quot;</span><span class="p">,</span>
+    <span class="n">dataset_config</span><span class="o">=</span><span class="s2">&quot;wikitext-2-raw-v1&quot;</span><span class="p">,</span>
+    <span class="n">split</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">,</span>
+    <span class="n">num_samples</span><span class="o">=</span><span class="mi">5000</span>
+<span class="p">)</span>
+
+<span class="c1"># Load specific file from large repo</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">load_dataset_from_source</span><span class="p">(</span>
+    <span class="n">dataset_source</span><span class="o">=</span><span class="s2">&quot;HuggingFaceH4/ultrachat_200k&quot;</span><span class="p">,</span>
+    <span class="n">data_files</span><span class="o">=</span><span class="s2">&quot;data/train_sft-00000-of-00004.parquet&quot;</span><span class="p">,</span>
+    <span class="n">num_samples</span><span class="o">=</span><span class="mi">2000</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<hr />
+<h3 id="detect_text_columns">detect_text_columns()<a class="headerlink" href="#detect_text_columns" title="Permanent link">&para;</a></h3>
+<p>Automatically detect text columns in a dataset.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">detect_text_columns</span><span class="p">(</span><span class="n">dataset</span><span class="p">:</span> <span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+</code></pre></div>
+
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>dataset</code> (Dataset): Dataset to analyze</li>
+</ul>
+<p><strong>Returns:</strong> List of column names containing text data</p>
+<p><strong>Detection Strategy:</strong></p>
+<ol>
+<li>Checks for common text column names</li>
+<li>Inspects data types of columns</li>
+<li>Returns all string-type columns</li>
+</ol>
+<p><strong>Common Names Detected:</strong></p>
+<ul>
+<li>text, content, input, output</li>
+<li>prompt, response, instruction</li>
+<li>question, answer</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">dataset</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">load_dataset_from_source</span><span class="p">(</span><span class="s2">&quot;./data.jsonl&quot;</span><span class="p">)</span>
+<span class="n">text_cols</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">detect_text_columns</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found columns: </span><span class="si">{</span><span class="n">text_cols</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># Output: Found columns: [&#39;prompt&#39;, &#39;response&#39;]</span>
+</code></pre></div>
+
+<hr />
+<h3 id="prepare_dataset">prepare_dataset()<a class="headerlink" href="#prepare_dataset" title="Permanent link">&para;</a></h3>
+<p>Tokenize and prepare dataset for training.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">prepare_dataset</span><span class="p">(</span>
+    <span class="n">dataset</span><span class="p">:</span> <span class="n">Dataset</span><span class="p">,</span>
+    <span class="n">text_columns</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">max_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">512</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
+</code></pre></div>
+
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>dataset</code> (Dataset): Raw dataset to prepare</li>
+<li><code>text_columns</code> (List[str], optional): Columns to use. Auto-detects if None</li>
+<li><code>max_length</code> (int): Maximum sequence length. Default: 512</li>
+</ul>
+<p><strong>Returns:</strong> Tuple of (tokenized_dataset, text_columns_used)</p>
+<p><strong>Processing Steps:</strong></p>
+<ol>
+<li>Auto-detects text columns if not provided</li>
+<li>Combines multiple columns if present</li>
+<li>Tokenizes with truncation and padding</li>
+<li>Removes original columns</li>
+</ol>
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">dataset</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">load_dataset_from_source</span><span class="p">(</span><span class="s2">&quot;./data.jsonl&quot;</span><span class="p">)</span>
+
+<span class="c1"># Auto-detect columns</span>
+<span class="n">tokenized</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">prepare_dataset</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">512</span><span class="p">)</span>
+
+<span class="c1"># Manual column specification</span>
+<span class="n">tokenized</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">prepare_dataset</span><span class="p">(</span>
+    <span class="n">dataset</span><span class="p">,</span>
+    <span class="n">text_columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;prompt&quot;</span><span class="p">,</span> <span class="s2">&quot;response&quot;</span><span class="p">],</span>
+    <span class="n">max_length</span><span class="o">=</span><span class="mi">256</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<hr />
+<h3 id="get_target_modules">get_target_modules()<a class="headerlink" href="#get_target_modules" title="Permanent link">&para;</a></h3>
+<p>Automatically detect target modules for LoRA based on model architecture.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_target_modules</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">]</span>
+</code></pre></div>
+
+<p><strong>Returns:</strong> List of module names or "all-linear" as fallback</p>
+<p><strong>Detection Patterns:</strong></p>
+<ul>
+<li>GPT-2 style: <code>["c_attn", "c_proj"]</code></li>
+<li>Transformer style: <code>["q_proj", "v_proj", "k_proj", "o_proj"]</code></li>
+<li>Alternative: <code>["query", "value", "key", "dense"]</code></li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">finetuner</span><span class="o">.</span><span class="n">load_model</span><span class="p">()</span>
+<span class="n">modules</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">get_target_modules</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Detected modules: </span><span class="si">{</span><span class="n">modules</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># Output: Detected modules: [&#39;q_proj&#39;, &#39;v_proj&#39;, &#39;k_proj&#39;, &#39;o_proj&#39;]</span>
+</code></pre></div>
+
+<p><strong>Notes:</strong></p>
+<ul>
+<li>Automatically called by <code>setup_lora()</code></li>
+<li>Fallback to "all-linear" if no pattern matches</li>
+</ul>
+<hr />
+<h3 id="setup_lora">setup_lora()<a class="headerlink" href="#setup_lora" title="Permanent link">&para;</a></h3>
+<p>Configure and apply LoRA to the model.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">setup_lora</span><span class="p">(</span>
+    <span class="n">r</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
+    <span class="n">lora_alpha</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span>
+    <span class="n">lora_dropout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">target_modules</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div>
+
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>r</code> (int): LoRA rank. Default: 8</li>
+<li><code>lora_alpha</code> (int): LoRA alpha scaling. Default: 32</li>
+<li><code>lora_dropout</code> (float): Dropout probability. Default: 0.1</li>
+<li><code>target_modules</code> (List[str], optional): Modules to apply LoRA. Auto-detects if None</li>
+</ul>
+<p><strong>Returns:</strong> None</p>
+<p><strong>Side Effects:</strong></p>
+<ul>
+<li>Creates <code>self.peft_model</code> with LoRA adapters</li>
+<li>Prints trainable parameter statistics</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">finetuner</span><span class="o">.</span><span class="n">load_model</span><span class="p">()</span>
+
+<span class="c1"># Default configuration</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">setup_lora</span><span class="p">()</span>
+
+<span class="c1"># Custom configuration</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">setup_lora</span><span class="p">(</span>
+    <span class="n">r</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+    <span class="n">lora_alpha</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">lora_dropout</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>
+    <span class="n">target_modules</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;q_proj&quot;</span><span class="p">,</span> <span class="s2">&quot;v_proj&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Output:</strong></p>
+<div class="codehilite"><pre><span></span><code>trainable params: 294,912 || all params: 124,439,808 || trainable%: 0.2370
+</code></pre></div>
+
+<hr />
+<h3 id="train">train()<a class="headerlink" href="#train" title="Permanent link">&para;</a></h3>
+<p>Train the model with LoRA adapters.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span>
+    <span class="n">train_dataset</span><span class="p">:</span> <span class="n">Dataset</span><span class="p">,</span>
+    <span class="n">num_epochs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">learning_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2e-4</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div>
+
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>train_dataset</code> (Dataset): Tokenized training dataset</li>
+<li><code>num_epochs</code> (int): Number of training epochs. Default: 3</li>
+<li><code>batch_size</code> (int): Per-device batch size. Default: 4</li>
+<li><code>learning_rate</code> (float): Learning rate. Default: 2e-4</li>
+</ul>
+<p><strong>Returns:</strong> None</p>
+<p><strong>Side Effects:</strong></p>
+<ul>
+<li>Trains the model</li>
+<li>Saves checkpoints to output_dir</li>
+<li>Saves final model and tokenizer</li>
+</ul>
+<p><strong>Training Configuration:</strong></p>
+<ul>
+<li>Gradient accumulation: 4 steps</li>
+<li>FP16: Enabled on CUDA</li>
+<li>Logging: Every 10 steps</li>
+<li>Save strategy: Per epoch</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">finetuner</span><span class="o">.</span><span class="n">load_model</span><span class="p">()</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">load_dataset_from_source</span><span class="p">(</span><span class="s2">&quot;./data.jsonl&quot;</span><span class="p">)</span>
+<span class="n">tokenized</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">prepare_dataset</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">setup_lora</span><span class="p">()</span>
+
+<span class="n">finetuner</span><span class="o">.</span><span class="n">train</span><span class="p">(</span>
+    <span class="n">train_dataset</span><span class="o">=</span><span class="n">tokenized</span><span class="p">,</span>
+    <span class="n">num_epochs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">2e-4</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<hr />
+<h3 id="benchmark">benchmark()<a class="headerlink" href="#benchmark" title="Permanent link">&para;</a></h3>
+<p>Benchmark model performance using ROUGE scores.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">benchmark</span><span class="p">(</span>
+    <span class="n">test_prompts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">use_finetuned</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+</code></pre></div>
+
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>test_prompts</code> (List[str]): List of prompts to evaluate</li>
+<li><code>use_finetuned</code> (bool): Use fine-tuned model. Default: False (uses base model)</li>
+</ul>
+<p><strong>Returns:</strong> Dictionary with ROUGE scores</p>
+<p><strong>Metrics Computed:</strong></p>
+<ul>
+<li>ROUGE-1: Unigram overlap</li>
+<li>ROUGE-2: Bigram overlap</li>
+<li>ROUGE-L: Longest common subsequence</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">test_prompts</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;What is machine learning?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Explain neural networks.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Define artificial intelligence.&quot;</span>
+<span class="p">]</span>
+
+<span class="c1"># Benchmark base model</span>
+<span class="n">base_scores</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">benchmark</span><span class="p">(</span><span class="n">test_prompts</span><span class="p">,</span> <span class="n">use_finetuned</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># After training</span>
+<span class="n">finetuned_scores</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">benchmark</span><span class="p">(</span><span class="n">test_prompts</span><span class="p">,</span> <span class="n">use_finetuned</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Compare</span>
+<span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">base_scores</span><span class="p">:</span>
+    <span class="n">improvement</span> <span class="o">=</span> <span class="p">(</span><span class="n">finetuned_scores</span><span class="p">[</span><span class="n">metric</span><span class="p">]</span> <span class="o">-</span> <span class="n">base_scores</span><span class="p">[</span><span class="n">metric</span><span class="p">])</span> <span class="o">/</span> <span class="n">base_scores</span><span class="p">[</span><span class="n">metric</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">metric</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">improvement</span><span class="si">:</span><span class="s2">+.2f</span><span class="si">}</span><span class="s2">% improvement&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Output Format:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+    <span class="s1">&#39;rouge1&#39;</span><span class="p">:</span> <span class="mf">0.3245</span><span class="p">,</span>
+    <span class="s1">&#39;rouge2&#39;</span><span class="p">:</span> <span class="mf">0.2134</span><span class="p">,</span>
+    <span class="s1">&#39;rougeL&#39;</span><span class="p">:</span> <span class="mf">0.2987</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h3 id="upload_to_huggingface">upload_to_huggingface()<a class="headerlink" href="#upload_to_huggingface" title="Permanent link">&para;</a></h3>
+<p>Upload fine-tuned model to HuggingFace Hub.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">upload_to_huggingface</span><span class="p">(</span>
+    <span class="n">repo_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">create_new</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">private</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div>
+
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>repo_name</code> (str): Repository name (format: "username/repo-name")</li>
+<li><code>token</code> (str, optional): HuggingFace API token. Uses cached login if None</li>
+<li><code>create_new</code> (bool): Create new repository. Default: False</li>
+<li><code>private</code> (bool): Make repository private. Default: False</li>
+</ul>
+<p><strong>Returns:</strong> None</p>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Valid HuggingFace token with write permissions</li>
+<li>Trained model in output_dir</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># After training</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">upload_to_huggingface</span><span class="p">(</span>
+    <span class="n">repo_name</span><span class="o">=</span><span class="s2">&quot;myusername/gpt2-finetuned&quot;</span><span class="p">,</span>
+    <span class="n">token</span><span class="o">=</span><span class="s2">&quot;hf_xxxxxxxxxxxxx&quot;</span><span class="p">,</span>
+    <span class="n">create_new</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">private</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Successful Upload:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="err">✅</span><span class="w"> </span><span class="n">Model</span><span class="w"> </span><span class="n">uploaded</span><span class="w"> </span><span class="n">successfully</span><span class="w"> </span><span class="n">to</span><span class="p">:</span><span class="w"> </span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">huggingface</span><span class="o">.</span><span class="n">co</span><span class="o">/</span><span class="n">myusername</span><span class="o">/</span><span class="n">gpt2</span><span class="o">-</span><span class="n">finetuned</span>
+</code></pre></div>
+
+<h2 id="usage-patterns">Usage Patterns<a class="headerlink" href="#usage-patterns" title="Permanent link">&para;</a></h2>
+<h3 id="complete-training-pipeline">Complete Training Pipeline<a class="headerlink" href="#complete-training-pipeline" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMFineTuner</span>
+
+<span class="c1"># Initialize</span>
+<span class="n">finetuner</span> <span class="o">=</span> <span class="n">LLMFineTuner</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">,</span> <span class="s2">&quot;./my_model&quot;</span><span class="p">)</span>
+
+<span class="c1"># Load model</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">load_model</span><span class="p">()</span>
+
+<span class="c1"># Load and prepare data</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">load_dataset_from_source</span><span class="p">(</span>
+    <span class="s2">&quot;./data.jsonl&quot;</span><span class="p">,</span>
+    <span class="n">num_samples</span><span class="o">=</span><span class="mi">5000</span>
+<span class="p">)</span>
+<span class="n">tokenized</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">prepare_dataset</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">512</span><span class="p">)</span>
+
+<span class="c1"># Pre-training benchmark</span>
+<span class="n">test_prompts</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Sample prompt 1&quot;</span><span class="p">,</span> <span class="s2">&quot;Sample prompt 2&quot;</span><span class="p">]</span>
+<span class="n">base_scores</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">benchmark</span><span class="p">(</span><span class="n">test_prompts</span><span class="p">,</span> <span class="n">use_finetuned</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Setup LoRA</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">setup_lora</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">lora_alpha</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">lora_dropout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+<span class="c1"># Train</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">tokenized</span><span class="p">,</span> <span class="n">num_epochs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">2e-4</span><span class="p">)</span>
+
+<span class="c1"># Post-training benchmark</span>
+<span class="n">finetuned_scores</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">benchmark</span><span class="p">(</span><span class="n">test_prompts</span><span class="p">,</span> <span class="n">use_finetuned</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Upload</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">upload_to_huggingface</span><span class="p">(</span>
+    <span class="s2">&quot;username/model-name&quot;</span><span class="p">,</span>
+    <span class="n">create_new</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h3 id="loading-fine-tuned-model">Loading Fine-tuned Model<a class="headerlink" href="#loading-fine-tuned-model" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">AutoModelForCausalLM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">peft</span><span class="w"> </span><span class="kn">import</span> <span class="n">PeftModel</span>
+
+<span class="c1"># Load base model</span>
+<span class="n">base_model</span> <span class="o">=</span> <span class="n">AutoModelForCausalLM</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">)</span>
+
+<span class="c1"># Load LoRA adapters</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">PeftModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">base_model</span><span class="p">,</span> <span class="s2">&quot;./my_model&quot;</span><span class="p">)</span>
+
+<span class="c1"># Inference</span>
+<span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;Hello, how are you?&quot;</span>
+<span class="n">inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span>
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">,</span> <span class="n">max_new_tokens</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</code></pre></div>
+
+<h3 id="merging-adapters-optional">Merging Adapters (Optional)<a class="headerlink" href="#merging-adapters-optional" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">peft</span><span class="w"> </span><span class="kn">import</span> <span class="n">PeftModel</span>
+
+<span class="c1"># Load model with adapters</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">PeftModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">base_model</span><span class="p">,</span> <span class="s2">&quot;./my_model&quot;</span><span class="p">)</span>
+
+<span class="c1"># Merge adapters into base model</span>
+<span class="n">merged_model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">merge_and_unload</span><span class="p">()</span>
+
+<span class="c1"># Save merged model</span>
+<span class="n">merged_model</span><span class="o">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="s2">&quot;./merged_model&quot;</span><span class="p">)</span>
+<span class="n">tokenizer</span><span class="o">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="s2">&quot;./merged_model&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="helper-functions">Helper Functions<a class="headerlink" href="#helper-functions" title="Permanent link">&para;</a></h2>
+<h3 id="get_user_input">get_user_input()<a class="headerlink" href="#get_user_input" title="Permanent link">&para;</a></h3>
+<p>Interactive prompt with optional default value.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_user_input</span><span class="p">(</span><span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
+</code></pre></div>
+
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">model_name</span> <span class="o">=</span> <span class="n">get_user_input</span><span class="p">(</span><span class="s2">&quot;Enter model name&quot;</span><span class="p">,</span> <span class="s2">&quot;gpt2&quot;</span><span class="p">)</span>
+<span class="c1"># Prompt: Enter model name [gpt2]:</span>
+</code></pre></div>
+
+<h2 id="type-definitions">Type Definitions<a class="headerlink" href="#type-definitions" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dataset</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoModelForCausalLM</span><span class="p">,</span> <span class="n">AutoTokenizer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">peft</span><span class="w"> </span><span class="kn">import</span> <span class="n">PeftModel</span>
+</code></pre></div>
+
+<h2 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h2>
+<p>The tool includes comprehensive error handling:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">try</span><span class="p">:</span>
+    <span class="n">finetuner</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">&quot;out of memory&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reduce batch size or sequence length&quot;</span><span class="p">)</span>
+    <span class="k">raise</span>
+<span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training interrupted&quot;</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<ul>
+<li>See <a href="../usage/">Usage Guide</a> for CLI workflow</li>
+<li>Check <a href="../examples/">Examples</a> for practical use cases</li>
+<li>Review <a href="../configuration/">Configuration</a> for parameter tuning</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.sections", "navigation.tracking", "content.code.copy"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>
