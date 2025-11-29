@@ -25,7 +25,7 @@
     
     
       
-        <title>ARCHITECTURE - Finetune CLI</title>
+        <title>🏗️ Finetune CLI Framework - Architecture Overview - Finetune CLI</title>
       
     
     
@@ -73,6 +73,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#finetune-cli-framework-architecture-overview" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -105,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              ARCHITECTURE
+              🏗️ Finetune CLI Framework - Architecture Overview
             
           </span>
         </div>
@@ -258,6 +263,26 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🏗️ Finetune CLI Framework - Architecture Overview
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -266,7 +291,7 @@
   <span class="md-ellipsis">
     
   
-    ARCHITECTURE
+    🏗️ Finetune CLI Framework - Architecture Overview
   
 
     
@@ -275,6 +300,525 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#design-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧭 Design Principles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧭 Design Principles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-separation-of-concerns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Separation of Concerns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-composition-over-inheritance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Composition Over Inheritance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-dependency-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Dependency Injection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-factory-registry-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Factory &amp; Registry Patterns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-immutable-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Immutable Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-fail-fast" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Fail Fast
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🏛️ System Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#module-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📦 Module Breakdown
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📦 Module Breakdown">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-core" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core (core/)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core (core/)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#typespy-type-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        types.py - Type System
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exceptionspy-exception-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        exceptions.py - Exception Hierarchy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configpy-configuration-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        config.py - Configuration Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#models-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Models (models/)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Models (models/)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loaderpy-model-loading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        loader.py - Model Loading
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data (data/)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data (data/)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basepy-abstract-interfaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        base.py - Abstract Interfaces
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loaderspy-loading-implementations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        loaders.py - Loading Implementations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#processorspy-processing-tokenization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        processors.py - Processing &amp; Tokenization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipelinepy-complete-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pipeline.py - Complete Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utils-utils" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Utils (utils/)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Utils (utils/)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loggingpy-logging-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        logging.py - Logging Infrastructure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 Data Flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 Data Flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#training-pipeline-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training Pipeline Flow:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extension-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔌 Extension Points
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔌 Extension Points">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#adding-a-new-data-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding a New Data Source:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-a-new-training-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding a New Training Method:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-a-new-metric" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding a New Metric:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-from-v1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 Migration from v1
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 Migration from v1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#old-monolithic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Old (Monolithic):
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#new-modular" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        New (Modular):
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#benefits-of-new-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Benefits of New Architecture:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparison-v1-vs-v2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Comparison: v1 vs v2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Next Steps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Next Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-trainer-system-next-priority" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: Trainer System (Next Priority)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-evaluation-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4: Evaluation System
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-5-cli-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 5: CLI Interface
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Additional Resources
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -459,6 +1003,516 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#design-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧭 Design Principles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧭 Design Principles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-separation-of-concerns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Separation of Concerns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-composition-over-inheritance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Composition Over Inheritance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-dependency-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Dependency Injection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-factory-registry-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Factory &amp; Registry Patterns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-immutable-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Immutable Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-fail-fast" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Fail Fast
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🏛️ System Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#module-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📦 Module Breakdown
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📦 Module Breakdown">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-core" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core (core/)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core (core/)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#typespy-type-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        types.py - Type System
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exceptionspy-exception-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        exceptions.py - Exception Hierarchy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configpy-configuration-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        config.py - Configuration Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#models-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Models (models/)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Models (models/)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loaderpy-model-loading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        loader.py - Model Loading
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data (data/)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data (data/)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basepy-abstract-interfaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        base.py - Abstract Interfaces
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loaderspy-loading-implementations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        loaders.py - Loading Implementations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#processorspy-processing-tokenization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        processors.py - Processing &amp; Tokenization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipelinepy-complete-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pipeline.py - Complete Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utils-utils" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Utils (utils/)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Utils (utils/)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loggingpy-logging-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        logging.py - Logging Infrastructure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 Data Flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 Data Flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#training-pipeline-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training Pipeline Flow:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extension-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔌 Extension Points
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔌 Extension Points">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#adding-a-new-data-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding a New Data Source:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-a-new-training-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding a New Training Method:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-a-new-metric" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding a New Metric:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-from-v1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 Migration from v1
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 Migration from v1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#old-monolithic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Old (Monolithic):
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#new-modular" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        New (Modular):
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#benefits-of-new-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Benefits of New Architecture:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparison-v1-vs-v2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Comparison: v1 vs v2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Next Steps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Next Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-trainer-system-next-priority" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: Trainer System (Next Priority)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-evaluation-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4: Evaluation System
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-5-cli-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 5: CLI Interface
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Additional Resources
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -478,9 +1532,458 @@
   
 
 
-  <h1>ARCHITECTURE</h1>
+<h1 id="finetune-cli-framework-architecture-overview">🏗️ Finetune CLI Framework - Architecture Overview<a class="headerlink" href="#finetune-cli-framework-architecture-overview" title="Permanent link">&para;</a></h1>
+<p><strong>Version:</strong> 2.0 (FAANG-Grade Refactor)<br />
+<strong>Last Updated:</strong> 2025-01-29</p>
+<hr />
+<h2 id="table-of-contents">📋 Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
+<ol>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#design-principles">Design Principles</a></li>
+<li><a href="#system-architecture">System Architecture</a></li>
+<li><a href="#module-breakdown">Module Breakdown</a></li>
+<li><a href="#data-flow">Data Flow</a></li>
+<li><a href="#extension-points">Extension Points</a></li>
+<li><a href="#migration-from-v1">Migration from v1</a></li>
+</ol>
+<hr />
+<h2 id="overview">🎯 Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>This framework provides a <strong>production-grade, modular, and extensible</strong> system for fine-tuning Large Language Models. Built following FAANG engineering standards with:</p>
+<ul>
+<li><strong>Type Safety:</strong> Full type hints with protocols and type checking</li>
+<li><strong>Modularity:</strong> Clean separation of concerns across layers</li>
+<li><strong>Extensibility:</strong> Plugin architecture for new methods and data sources</li>
+<li><strong>Testability:</strong> Dependency injection and interface-based design</li>
+<li><strong>Observability:</strong> Comprehensive logging and error handling</li>
+<li><strong>Configuration:</strong> Pydantic-based config with validation</li>
+</ul>
+<hr />
+<h2 id="design-principles">🧭 Design Principles<a class="headerlink" href="#design-principles" title="Permanent link">&para;</a></h2>
+<h3 id="1-separation-of-concerns">1. <strong>Separation of Concerns</strong><a class="headerlink" href="#1-separation-of-concerns" title="Permanent link">&para;</a></h3>
+<p>Each module has a single, well-defined responsibility:
+- <code>core/</code> - Type definitions, configuration, exceptions
+- <code>models/</code> - Model loading and management
+- <code>data/</code> - Dataset loading and processing
+- <code>trainers/</code> - Training implementations
+- <code>evaluation/</code> - Metrics and benchmarking
+- <code>cli/</code> - User interface</p>
+<h3 id="2-composition-over-inheritance">2. <strong>Composition Over Inheritance</strong><a class="headerlink" href="#2-composition-over-inheritance" title="Permanent link">&para;</a></h3>
+<p>Uses protocols (interfaces) rather than deep inheritance hierarchies:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ModelLoader</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">ModelConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PreTrainedModel</span><span class="p">:</span> <span class="o">...</span>
+</code></pre></div>
 
+<h3 id="3-dependency-injection">3. <strong>Dependency Injection</strong><a class="headerlink" href="#3-dependency-injection" title="Permanent link">&para;</a></h3>
+<p>Components receive dependencies explicitly:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">:</span> <span class="n">PreTrainedTokenizer</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">TokenizationConfig</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">tokenizer</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+</code></pre></div>
 
+<h3 id="4-factory-registry-patterns">4. <strong>Factory &amp; Registry Patterns</strong><a class="headerlink" href="#4-factory-registry-patterns" title="Permanent link">&para;</a></h3>
+<p>Dynamic selection of implementations:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">registry</span> <span class="o">=</span> <span class="n">DatasetLoaderRegistry</span><span class="p">()</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="n">get_loader</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># Auto-selects based on config</span>
+</code></pre></div>
+
+<h3 id="5-immutable-configuration">5. <strong>Immutable Configuration</strong><a class="headerlink" href="#5-immutable-configuration" title="Permanent link">&para;</a></h3>
+<p>Config objects are frozen dataclasses preventing accidental mutation:</p>
+<div class="codehilite"><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ModelConfig</span><span class="p">:</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">device</span><span class="p">:</span> <span class="n">DeviceType</span>
+</code></pre></div>
+
+<h3 id="6-fail-fast">6. <strong>Fail Fast</strong><a class="headerlink" href="#6-fail-fast" title="Permanent link">&para;</a></h3>
+<p>Validate at config layer, not execution layer:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ModelConfigModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;after&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_quantization</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ModelConfigModel&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_in_8bit</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_in_4bit</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">IncompatibleConfigError</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</code></pre></div>
+
+<hr />
+<h2 id="system-architecture">🏛️ System Architecture<a class="headerlink" href="#system-architecture" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">                         </span><span class="n">CLI</span><span class="w"> </span><span class="n">Layer</span><span class="w">                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">┌──────────┐</span><span class="w">  </span><span class="err">┌──────────┐</span><span class="w">  </span><span class="err">┌──────────┐</span><span class="w">  </span><span class="err">┌──────────┐</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="n">train</span><span class="w">   </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="n">evaluate</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="n">benchmark</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="n">upload</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">└────┬─────┘</span><span class="w">  </span><span class="err">└────┬─────┘</span><span class="w">  </span><span class="err">└────┬─────┘</span><span class="w">  </span><span class="err">└────┬─────┘</span><span class="w">   </span><span class="err">│</span>
+<span class="err">└───────┼─────────────┼─────────────┼─────────────┼──────────┘</span>
+<span class="w">        </span><span class="err">│</span><span class="w">             </span><span class="err">│</span><span class="w">             </span><span class="err">│</span><span class="w">             </span><span class="err">│</span>
+<span class="err">┌───────▼─────────────▼─────────────▼─────────────▼──────────┐</span>
+<span class="err">│</span><span class="w">                    </span><span class="n">Pipeline</span><span class="w"> </span><span class="n">Layer</span><span class="w">                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">┌──────────────────────────────────────────────────────┐</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">          </span><span class="n">Training</span><span class="w"> </span><span class="n">Pipeline</span><span class="w"> </span><span class="n">Orchestrator</span><span class="w">              </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">└──┬────────────────┬────────────────┬─────────────┬──┘</span><span class="w">   </span><span class="err">│</span>
+<span class="err">└─────┼────────────────┼────────────────┼─────────────┼──────┘</span>
+<span class="w">      </span><span class="err">│</span><span class="w">                </span><span class="err">│</span><span class="w">                </span><span class="err">│</span><span class="w">             </span><span class="err">│</span>
+<span class="err">┌─────▼────────┐</span><span class="w">  </span><span class="err">┌────▼─────┐</span><span class="w">  </span><span class="err">┌──────▼──────┐</span><span class="w">  </span><span class="err">┌───▼──────┐</span>
+<span class="err">│</span><span class="w">    </span><span class="n">Models</span><span class="w">    </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Data</span><span class="w">   </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="n">Trainers</span><span class="w">   </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Eval</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">              </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">             </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">          </span><span class="err">│</span>
+<span class="err">│</span><span class="w"> </span><span class="err">┌──────────┐</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">┌──────┐</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">┌─────────┐</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">┌──────┐</span><span class="w"> </span><span class="err">│</span>
+<span class="err">│</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="n">Loader</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">│</span><span class="n">Loader</span><span class="err">│</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="n">LoRA</span><span class="w">   </span><span class="err">│</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">│</span><span class="n">Metric</span><span class="err">│</span><span class="w"> </span><span class="err">│</span>
+<span class="err">│</span><span class="w"> </span><span class="err">└──────────┘</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">└──────┘</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">└─────────┘</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">└──────┘</span><span class="w"> </span><span class="err">│</span>
+<span class="err">│</span><span class="w"> </span><span class="err">┌──────────┐</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">┌──────┐</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">┌─────────┐</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">┌──────┐</span><span class="w"> </span><span class="err">│</span>
+<span class="err">│</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="n">Detector</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">│</span><span class="n">Proces</span><span class="err">│</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="n">QLoRA</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">│</span><span class="n">Bench</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="err">│</span>
+<span class="err">│</span><span class="w"> </span><span class="err">└──────────┘</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">└──────┘</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">└─────────┘</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">└──────┘</span><span class="w"> </span><span class="err">│</span>
+<span class="err">└──────────────┘</span><span class="w">  </span><span class="err">└──────────┘</span><span class="w">  </span><span class="err">└─────────────┘</span><span class="w">  </span><span class="err">└──────────┘</span>
+<span class="w">      </span><span class="err">│</span><span class="w">                </span><span class="err">│</span><span class="w">                </span><span class="err">│</span><span class="w">             </span><span class="err">│</span>
+<span class="err">┌─────▼────────────────▼────────────────▼─────────────▼──────┐</span>
+<span class="err">│</span><span class="w">                      </span><span class="n">Core</span><span class="w"> </span><span class="n">Layer</span><span class="w">                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">┌──────────┐</span><span class="w">  </span><span class="err">┌──────────┐</span><span class="w">  </span><span class="err">┌──────────┐</span><span class="w">  </span><span class="err">┌──────────┐</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="n">Types</span><span class="w">   </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="n">Config</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="n">Exception</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="n">Logging</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">└──────────┘</span><span class="w">  </span><span class="err">└──────────┘</span><span class="w">  </span><span class="err">└──────────┘</span><span class="w">  </span><span class="err">└──────────┘</span><span class="w">   </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<hr />
+<h2 id="module-breakdown">📦 Module Breakdown<a class="headerlink" href="#module-breakdown" title="Permanent link">&para;</a></h2>
+<h3 id="core-core"><strong>Core (<code>core/</code>)</strong><a class="headerlink" href="#core-core" title="Permanent link">&para;</a></h3>
+<h4 id="typespy-type-system"><code>types.py</code> - Type System<a class="headerlink" href="#typespy-type-system" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Enums:</strong> <code>TrainingMethod</code>, <code>DatasetSource</code>, <code>EvaluationMetric</code>, etc.</li>
+<li><strong>Dataclasses:</strong> Immutable config objects (<code>ModelConfig</code>, <code>TrainingConfig</code>, etc.)</li>
+<li><strong>Protocols:</strong> Interface definitions (<code>ModelLoader</code>, <code>Trainer</code>, <code>Evaluator</code>)</li>
+<li><strong>Results:</strong> Structured output types (<code>TrainingResult</code>, <code>EvaluationResult</code>)</li>
+</ul>
+<p><strong>Design:</strong> Centralized type definitions prevent duplication and ensure consistency.</p>
+<h4 id="exceptionspy-exception-hierarchy"><code>exceptions.py</code> - Exception Hierarchy<a class="headerlink" href="#exceptionspy-exception-hierarchy" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>FineTuneError (base)
+├── ConfigurationError
+│   ├── InvalidConfigError
+│   ├── MissingConfigError
+│   └── IncompatibleConfigError
+├── ModelError
+│   ├── ModelLoadError
+│   ├── ModelNotFoundError
+│   └── UnsupportedModelError
+├── DatasetError
+│   ├── DatasetLoadError
+│   ├── NoTextColumnsError
+│   └── EmptyDatasetError
+├── TrainingError
+│   ├── OutOfMemoryError
+│   ├── NaNLossError
+│   └── CheckpointError
+└── EvaluationError
+    └── MetricComputationError
+</code></pre></div>
+
+<p><strong>Design:</strong> Specific exceptions enable precise error handling and actionable messages.</p>
+<h4 id="configpy-configuration-management"><code>config.py</code> - Configuration Management<a class="headerlink" href="#configpy-configuration-management" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Pydantic Models:</strong> Validation + serialization (<code>ModelConfigModel</code>, etc.)</li>
+<li><strong>Builders:</strong> Programmatic config construction</li>
+<li><strong>I/O:</strong> JSON/YAML loading and saving</li>
+<li><strong>Validation:</strong> Cross-field validation and type conversion</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">config</span> <span class="o">=</span> <span class="n">ConfigBuilder</span><span class="p">()</span> \
+    <span class="o">.</span><span class="n">with_model</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_dataset</span><span class="p">(</span><span class="s2">&quot;./data.jsonl&quot;</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">DatasetSource</span><span class="o">.</span><span class="n">LOCAL_FILE</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_training</span><span class="p">(</span><span class="n">TrainingMethod</span><span class="o">.</span><span class="n">LORA</span><span class="p">,</span> <span class="s2">&quot;./output&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_lora</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">lora_alpha</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">build</span><span class="p">()</span>
+</code></pre></div>
+
+<hr />
+<h3 id="models-models"><strong>Models (<code>models/</code>)</strong><a class="headerlink" href="#models-models" title="Permanent link">&para;</a></h3>
+<h4 id="loaderpy-model-loading"><code>loader.py</code> - Model Loading<a class="headerlink" href="#loaderpy-model-loading" title="Permanent link">&para;</a></h4>
+<p><strong>Components:</strong>
+- <code>ModelLoader</code>: Load models with quantization, device mapping, Flash Attention
+- <code>TargetModuleDetector</code>: Auto-detect LoRA target modules</p>
+<p><strong>Features:</strong>
+- Device auto-detection (CUDA/MPS/CPU)
+- 4-bit/8-bit quantization
+- Flash Attention 2 support
+- Gradient checkpointing
+- Memory-efficient loading</p>
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">loader</span> <span class="o">=</span> <span class="n">ModelLoader</span><span class="p">()</span>
+<span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">model_config</span><span class="p">)</span>
+
+<span class="n">detector</span> <span class="o">=</span> <span class="n">TargetModuleDetector</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">target_modules</span> <span class="o">=</span> <span class="n">detector</span><span class="o">.</span><span class="n">detect</span><span class="p">()</span>  <span class="c1"># Auto-detect for LoRA</span>
+</code></pre></div>
+
+<hr />
+<h3 id="data-data"><strong>Data (<code>data/</code>)</strong><a class="headerlink" href="#data-data" title="Permanent link">&para;</a></h3>
+<h4 id="basepy-abstract-interfaces"><code>base.py</code> - Abstract Interfaces<a class="headerlink" href="#basepy-abstract-interfaces" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>DatasetLoader</code> protocol</li>
+<li><code>DatasetProcessor</code> protocol</li>
+<li><code>DatasetStatistics</code>, <code>DatasetAnalyzer</code>, <code>DatasetFilter</code></li>
+</ul>
+<h4 id="loaderspy-loading-implementations"><code>loaders.py</code> - Loading Implementations<a class="headerlink" href="#loaderspy-loading-implementations" title="Permanent link">&para;</a></h4>
+<p><strong>Loaders:</strong>
+- <code>LocalFileLoader</code>: JSON, JSONL, CSV, Parquet, TXT
+- <code>HuggingFaceLoader</code>: Hub datasets with streaming</p>
+<p><strong>Registry:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">registry</span> <span class="o">=</span> <span class="n">DatasetLoaderRegistry</span><span class="p">()</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="n">get_loader</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>  <span class="c1"># Auto-selects</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+</code></pre></div>
+
+<h4 id="processorspy-processing-tokenization"><code>processors.py</code> - Processing &amp; Tokenization<a class="headerlink" href="#processorspy-processing-tokenization" title="Permanent link">&para;</a></h4>
+<p><strong>Strategies:</strong>
+- <code>SingleColumnStrategy</code>: One text column
+- <code>MultiColumnStrategy</code>: Multiple columns combined
+- <code>InstructionStrategy</code>: Instruction-response format</p>
+<p><strong>Auto-detection:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">detector</span> <span class="o">=</span> <span class="n">TextColumnDetector</span><span class="p">()</span>
+<span class="n">columns</span> <span class="o">=</span> <span class="n">detector</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>  <span class="c1"># Finds text columns</span>
+</code></pre></div>
+
+<h4 id="pipelinepy-complete-pipeline"><code>pipeline.py</code> - Complete Pipeline<a class="headerlink" href="#pipelinepy-complete-pipeline" title="Permanent link">&para;</a></h4>
+<p><strong>DataPipeline:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">pipeline</span> <span class="o">=</span> <span class="n">DataPipeline</span><span class="p">(</span><span class="n">dataset_config</span><span class="p">,</span> <span class="n">tokenization_config</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">)</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">split_for_validation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">validation_ratio</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="c1"># Returns: {&#39;train&#39;: Dataset, &#39;validation&#39;: Dataset}</span>
+</code></pre></div>
+
+<p><strong>Quick functions:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Minimal config</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">quick_load</span><span class="p">(</span><span class="s2">&quot;./data.jsonl&quot;</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">max_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="c1"># Full config</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">prepare_dataset</span><span class="p">(</span><span class="n">dataset_config</span><span class="p">,</span> <span class="n">tokenization_config</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">)</span>
+</code></pre></div>
+
+<hr />
+<h3 id="utils-utils"><strong>Utils (<code>utils/</code>)</strong><a class="headerlink" href="#utils-utils" title="Permanent link">&para;</a></h3>
+<h4 id="loggingpy-logging-infrastructure"><code>logging.py</code> - Logging Infrastructure<a class="headerlink" href="#loggingpy-logging-infrastructure" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Colored console output</li>
+<li>File logging</li>
+<li>Context managers (<code>LogProgress</code>, <code>LogContext</code>)</li>
+<li>Specialized loggers (<code>log_model_info</code>, <code>log_dataset_info</code>)</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">logger</span> <span class="o">=</span> <span class="n">setup_logger</span><span class="p">(</span><span class="s2">&quot;my_module&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">LogLevel</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span> <span class="n">log_file</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;log.txt&quot;</span><span class="p">))</span>
+
+<span class="k">with</span> <span class="n">LogProgress</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="s2">&quot;Training model&quot;</span><span class="p">):</span>
+    <span class="n">train</span><span class="p">()</span>  <span class="c1"># Automatically logs start/end time</span>
+</code></pre></div>
+
+<hr />
+<h2 id="data-flow">🔄 Data Flow<a class="headerlink" href="#data-flow" title="Permanent link">&para;</a></h2>
+<h3 id="training-pipeline-flow"><strong>Training Pipeline Flow:</strong><a class="headerlink" href="#training-pipeline-flow" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="mf">1.</span><span class="w"> </span><span class="n">Configuration</span>
+<span class="w">   </span><span class="err">├─</span><span class="w"> </span><span class="n">Load</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">file</span><span class="o">/</span><span class="n">CLI</span>
+<span class="w">   </span><span class="err">├─</span><span class="w"> </span><span class="n">Validate</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">Pydantic</span>
+<span class="w">   </span><span class="err">└─</span><span class="w"> </span><span class="n">Convert</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">immutable</span><span class="w"> </span><span class="n">dataclasses</span>
+
+<span class="mf">2.</span><span class="w"> </span><span class="n">Model</span><span class="w"> </span><span class="n">Loading</span>
+<span class="w">   </span><span class="err">├─</span><span class="w"> </span><span class="n">Load</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">HuggingFace</span>
+<span class="w">   </span><span class="err">├─</span><span class="w"> </span><span class="n">Apply</span><span class="w"> </span><span class="n">quantization</span><span class="w"> </span><span class="p">(</span><span class="n">optional</span><span class="p">)</span>
+<span class="w">   </span><span class="err">├─</span><span class="w"> </span><span class="n">Setup</span><span class="w"> </span><span class="n">device</span><span class="w"> </span><span class="n">mapping</span>
+<span class="w">   </span><span class="err">└─</span><span class="w"> </span><span class="n">Detect</span><span class="w"> </span><span class="n">target</span><span class="w"> </span><span class="n">modules</span>
+
+<span class="mf">3.</span><span class="w"> </span><span class="n">Data</span><span class="w"> </span><span class="n">Pipeline</span>
+<span class="w">   </span><span class="err">├─</span><span class="w"> </span><span class="n">Load</span><span class="w"> </span><span class="n">dataset</span><span class="w"> </span><span class="p">(</span><span class="n">local</span><span class="o">/</span><span class="n">HF</span><span class="p">)</span>
+<span class="w">   </span><span class="err">├─</span><span class="w"> </span><span class="n">Detect</span><span class="w"> </span><span class="n">text</span><span class="w"> </span><span class="n">columns</span>
+<span class="w">   </span><span class="err">├─</span><span class="w"> </span><span class="n">Filter</span><span class="w"> </span><span class="n">invalid</span><span class="w"> </span><span class="n">samples</span>
+<span class="w">   </span><span class="err">├─</span><span class="w"> </span><span class="n">Tokenize</span>
+<span class="w">   </span><span class="err">└─</span><span class="w"> </span><span class="n">Split</span><span class="w"> </span><span class="n">train</span><span class="o">/</span><span class="n">val</span>
+
+<span class="mf">4.</span><span class="w"> </span><span class="n">Training</span>
+<span class="w">   </span><span class="err">├─</span><span class="w"> </span><span class="n">Initialize</span><span class="w"> </span><span class="n">trainer</span><span class="w"> </span><span class="p">(</span><span class="n">LoRA</span><span class="o">/</span><span class="n">QLoRA</span><span class="o">/</span><span class="n">Full</span><span class="p">)</span>
+<span class="w">   </span><span class="err">├─</span><span class="w"> </span><span class="n">Setup</span><span class="w"> </span><span class="n">LoRA</span><span class="w"> </span><span class="n">adapters</span>
+<span class="w">   </span><span class="err">├─</span><span class="w"> </span><span class="n">Train</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">HF</span><span class="w"> </span><span class="n">Trainer</span>
+<span class="w">   </span><span class="err">└─</span><span class="w"> </span><span class="n">Save</span><span class="w"> </span><span class="n">checkpoints</span>
+
+<span class="mf">5.</span><span class="w"> </span><span class="n">Evaluation</span>
+<span class="w">   </span><span class="err">├─</span><span class="w"> </span><span class="n">Compute</span><span class="w"> </span><span class="n">metrics</span><span class="w"> </span><span class="p">(</span><span class="n">ROUGE</span><span class="o">/</span><span class="n">BLEU</span><span class="o">/</span><span class="n">etc</span><span class="p">)</span>
+<span class="w">   </span><span class="err">├─</span><span class="w"> </span><span class="n">Compare</span><span class="w"> </span><span class="n">base</span><span class="w"> </span><span class="n">vs</span><span class="w"> </span><span class="n">fine</span><span class="o">-</span><span class="n">tuned</span>
+<span class="w">   </span><span class="err">└─</span><span class="w"> </span><span class="n">Generate</span><span class="w"> </span><span class="n">report</span>
+
+<span class="mf">6.</span><span class="w"> </span><span class="n">Upload</span><span class="w"> </span><span class="p">(</span><span class="n">optional</span><span class="p">)</span>
+<span class="w">   </span><span class="err">└─</span><span class="w"> </span><span class="n">Push</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">HuggingFace</span><span class="w"> </span><span class="n">Hub</span>
+</code></pre></div>
+
+<hr />
+<h2 id="extension-points">🔌 Extension Points<a class="headerlink" href="#extension-points" title="Permanent link">&para;</a></h2>
+<h3 id="adding-a-new-data-source"><strong>Adding a New Data Source:</strong><a class="headerlink" href="#adding-a-new-data-source" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CustomLoader</span><span class="p">(</span><span class="n">DatasetLoader</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">can_handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">DatasetConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">config</span><span class="o">.</span><span class="n">source</span> <span class="o">==</span> <span class="n">DatasetSource</span><span class="o">.</span><span class="n">CUSTOM</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">DatasetConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dataset</span><span class="p">:</span>
+        <span class="c1"># Your loading logic</span>
+        <span class="k">return</span> <span class="n">dataset</span>
+
+<span class="c1"># Register</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_loader</span>
+<span class="n">register_loader</span><span class="p">(</span><span class="n">CustomLoader</span><span class="p">())</span>
+</code></pre></div>
+
+<h3 id="adding-a-new-training-method"><strong>Adding a New Training Method:</strong><a class="headerlink" href="#adding-a-new-training-method" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CustomTrainer</span><span class="p">(</span><span class="n">Trainer</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TrainingResult</span><span class="p">:</span>
+        <span class="c1"># Your training logic</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+<span class="c1"># Register in factory</span>
+<span class="n">TrainerFactory</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">TrainingMethod</span><span class="o">.</span><span class="n">CUSTOM</span><span class="p">,</span> <span class="n">CustomTrainer</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="adding-a-new-metric"><strong>Adding a New Metric:</strong><a class="headerlink" href="#adding-a-new-metric" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CustomMetric</span><span class="p">(</span><span class="n">Metric</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">references</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="c1"># Your metric logic</span>
+        <span class="k">return</span> <span class="n">score</span>
+
+<span class="c1"># Register</span>
+<span class="n">MetricRegistry</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">EvaluationMetric</span><span class="o">.</span><span class="n">CUSTOM</span><span class="p">,</span> <span class="n">CustomMetric</span><span class="p">)</span>
+</code></pre></div>
+
+<hr />
+<h2 id="migration-from-v1">🔄 Migration from v1<a class="headerlink" href="#migration-from-v1" title="Permanent link">&para;</a></h2>
+<h3 id="old-monolithic"><strong>Old (Monolithic):</strong><a class="headerlink" href="#old-monolithic" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Single 400-line file</span>
+<span class="n">finetuner</span> <span class="o">=</span> <span class="n">LLMFineTuner</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">,</span> <span class="s2">&quot;./output&quot;</span><span class="p">)</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">load_model</span><span class="p">()</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">load_dataset_from_source</span><span class="p">(</span><span class="s2">&quot;./data.json&quot;</span><span class="p">)</span>
+<span class="n">tokenized</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">prepare_dataset</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">setup_lora</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">tokenized</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="new-modular"><strong>New (Modular):</strong><a class="headerlink" href="#new-modular" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Separate concerns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.core.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">DatasetSource</span><span class="p">,</span> <span class="n">TrainingMethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.models.loader</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_model_and_tokenizer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">prepare_dataset</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.trainers</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoRATrainer</span>
+
+<span class="c1"># 1. Configuration (validated)</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">ConfigBuilder</span><span class="p">()</span> \
+    <span class="o">.</span><span class="n">with_model</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_dataset</span><span class="p">(</span><span class="s2">&quot;./data.json&quot;</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">DatasetSource</span><span class="o">.</span><span class="n">LOCAL_FILE</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_training</span><span class="p">(</span><span class="n">TrainingMethod</span><span class="o">.</span><span class="n">LORA</span><span class="p">,</span> <span class="s2">&quot;./output&quot;</span><span class="p">,</span> <span class="n">num_epochs</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_lora</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">lora_alpha</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+<span class="c1"># 2. Load model (with auto-detection)</span>
+<span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">load_model_and_tokenizer</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">to_config</span><span class="p">())</span>
+
+<span class="c1"># 3. Prepare data (with pipeline)</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">prepare_dataset</span><span class="p">(</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">to_config</span><span class="p">(),</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">tokenization</span><span class="o">.</span><span class="n">to_config</span><span class="p">(),</span>
+    <span class="n">tokenizer</span>
+<span class="p">)</span>
+
+<span class="c1"># 4. Train (with specific trainer)</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">LoRATrainer</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">training</span><span class="o">.</span><span class="n">to_config</span><span class="p">(),</span> <span class="n">config</span><span class="o">.</span><span class="n">lora</span><span class="o">.</span><span class="n">to_config</span><span class="p">())</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="benefits-of-new-architecture"><strong>Benefits of New Architecture:</strong><a class="headerlink" href="#benefits-of-new-architecture" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ <strong>Testable:</strong> Each component can be tested independently</li>
+<li>✅ <strong>Type-safe:</strong> Full type checking with mypy</li>
+<li>✅ <strong>Extensible:</strong> Add new methods without modifying core</li>
+<li>✅ <strong>Maintainable:</strong> Clear responsibilities, no 400-line files</li>
+<li>✅ <strong>Documented:</strong> Self-documenting with types and protocols</li>
+<li>✅ <strong>Production-ready:</strong> Error handling, logging, validation</li>
+</ul>
+<hr />
+<h2 id="comparison-v1-vs-v2">📊 Comparison: v1 vs v2<a class="headerlink" href="#comparison-v1-vs-v2" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>v1 (Monolithic)</th>
+<th>v2 (Modular)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Lines per file</strong></td>
+<td>400+</td>
+<td>&lt;200</td>
+</tr>
+<tr>
+<td><strong>Type hints</strong></td>
+<td>None</td>
+<td>Complete</td>
+</tr>
+<tr>
+<td><strong>Testing</strong></td>
+<td>Impossible</td>
+<td>Unit + Integration</td>
+</tr>
+<tr>
+<td><strong>Extensibility</strong></td>
+<td>Modify core</td>
+<td>Plugin system</td>
+</tr>
+<tr>
+<td><strong>Error handling</strong></td>
+<td>Generic</td>
+<td>Specific exceptions</td>
+</tr>
+<tr>
+<td><strong>Configuration</strong></td>
+<td>Hardcoded</td>
+<td>Validated configs</td>
+</tr>
+<tr>
+<td><strong>Logging</strong></td>
+<td>Print statements</td>
+<td>Structured logging</td>
+</tr>
+<tr>
+<td><strong>Methods</strong></td>
+<td>1 (LoRA)</td>
+<td>20+ (planned)</td>
+</tr>
+<tr>
+<td><strong>Maintainability</strong></td>
+<td>Poor</td>
+<td>Excellent</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="next-steps">🚀 Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<h3 id="phase-3-trainer-system-next-priority"><strong>Phase 3: Trainer System</strong> (Next Priority)<a class="headerlink" href="#phase-3-trainer-system-next-priority" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Abstract <code>Trainer</code> base class</li>
+<li><code>LoRATrainer</code> implementation</li>
+<li><code>QLoRATrainer</code> implementation</li>
+<li><code>FullFineTuner</code> implementation</li>
+<li><code>TrainerFactory</code> for method selection</li>
+</ul>
+<h3 id="phase-4-evaluation-system"><strong>Phase 4: Evaluation System</strong><a class="headerlink" href="#phase-4-evaluation-system" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Metric implementations (ROUGE, BLEU, Perplexity)</li>
+<li>Benchmarking pipeline</li>
+<li>Comparison reports</li>
+</ul>
+<h3 id="phase-5-cli-interface"><strong>Phase 5: CLI Interface</strong><a class="headerlink" href="#phase-5-cli-interface" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Typer-based CLI</li>
+<li>Subcommands for each operation</li>
+<li>Interactive mode</li>
+<li>Config file support</li>
+</ul>
+<hr />
+<h2 id="additional-resources">📚 Additional Resources<a class="headerlink" href="#additional-resources" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Configuration Guide:</strong> See <code>docs/configuration.md</code></li>
+<li><strong>API Reference:</strong> See <code>docs/api.md</code></li>
+<li><strong>Examples:</strong> See <code>examples/</code> directory</li>
+<li><strong>Contributing:</strong> See <code>CONTRIBUTING.md</code></li>
+</ul>
+<hr />
+<p><strong>Last Updated:</strong> 2025-01-29<br />
+<strong>Architecture Version:</strong> 2.0.0<br />
+<strong>Status:</strong> Phase 2 Complete (Data Pipeline)</p>
 
 
 
