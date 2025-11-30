@@ -1,4 +1,4 @@
-# 🤖 LLM Fine-Tuning CLI Tool
+# 🤖 Finetune CLI Tool
 
 A comprehensive command-line tool for fine-tuning Large Language Models using LoRA (Low-Rank Adaptation), with automatic ROUGE benchmarking and HuggingFace integration.
 
