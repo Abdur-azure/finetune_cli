@@ -1,0 +1,837 @@
+# CLI Guide
+
+**Complete guide to using the command-line interface**
+
+---
+
+## 📋 Table of Contents
+
+1. [Installation](#installation)
+2. [Quick Start](#quick-start)
+3. [Training Commands](#training-commands)
+4. [Evaluation Commands](#evaluation-commands)
+5. [Configuration Commands](#configuration-commands)
+6. [Recommendation Commands](#recommendation-commands)
+7. [Examples](#examples)
+8. [Tips & Tricks](#tips--tricks)
+
+---
+
+## 🚀 Installation
+
+### **Option 1: Install from Source**
+
+```bash
+# Clone repository
+git clone https://github.com/Abdur-azure/finetune_cli.git
+cd finetune_cli
+
+# Install in development mode
+pip install -e .
+
+# Verify installation
+finetune-cli --help
+```
+
+### **Option 2: Install via pip** (when published)
+
+```bash
+pip install finetune-cli
+```
+
+### **Verify Installation**
+
+```bash
+finetune-cli version
+```
+
+**Output:**
+```
+╭─────────────────────────────╮
+│ ℹ️  Version Info            │
+│ LLM Fine-Tuning Framework   │
+│ Version: 2.0.0              │
+│ Author: Abdur Rahman        │
+│ License: MIT                │
+╰─────────────────────────────╯
+```
+
+---
+
+## ⚡ Quick Start
+
+### **1. List Available Options**
+
+```bash
+# List training methods
+finetune-cli list-methods
+
+# List evaluation metrics
+finetune-cli list-metrics
+```
+
+### **2. Train a Model**
+
+```bash
+# Quick training with defaults
+finetune-cli train quick gpt2 ./data.jsonl ./outputs
+
+# Or with full options
+finetune-cli train run \
+    --model gpt2 \
+    --dataset ./data.jsonl \
+    --method lora \
+    --epochs 3 \
+    --output ./outputs
+```
+
+### **3. Evaluate the Model**
+
+```bash
+# Quick evaluation
+finetune-cli evaluate quick ./outputs ./test.jsonl
+
+# Or with specific metrics
+finetune-cli evaluate run \
+    --model ./outputs \
+    --dataset ./test.jsonl \
+    --metric rouge1 \
+    --metric bleu
+```
+
+---
+
+## 🎯 Training Commands
+
+### **`finetune-cli train run`**
+
+Train a model with full configuration options.
+
+**Basic Usage:**
+```bash
+finetune-cli train run \
+    --model <model_name> \
+    --dataset <dataset_path> \
+    --output <output_dir>
+```
+
+**All Options:**
+
+| Option | Short | Description | Default |
+|--------|-------|-------------|---------|
+| `--model` | `-m` | Model name or path | **Required** |
+| `--dataset` | `-d` | Dataset path | **Required** |
+| `--source` | | Dataset source: local or huggingface | `local` |
+| `--max-samples` | | Limit number of samples | `None` |
+| `--method` | | Training method: lora, qlora, full_finetuning | `lora` |
+| `--output` | `-o` | Output directory | `./outputs` |
+| `--epochs` | `-e` | Number of epochs | `3` |
+| `--batch-size` | `-b` | Batch size | `4` |
+| `--lr` | | Learning rate | `2e-4` |
+| `--lora-r` | | LoRA rank | `8` |
+| `--lora-alpha` | | LoRA alpha | `32` |
+| `--lora-dropout` | | LoRA dropout | `0.1` |
+| `--4bit` | | Load in 4-bit (QLoRA) | `False` |
+| `--8bit` | | Load in 8-bit (QLoRA) | `False` |
+| `--val-split` | | Validation split ratio | `0.1` |
+| `--max-length` | | Max sequence length | `512` |
+| `--grad-checkpoint` | | Enable gradient checkpointing | `False` |
+| `--log-level` | | Logging level | `INFO` |
+| `--save-config` | | Save configuration file | `True` |
+
+**Examples:**
+
+**LoRA Training:**
+```bash
+finetune-cli train run \
+    --model gpt2 \
+    --dataset ./data/train.jsonl \
+    --method lora \
+    --epochs 3 \
+    --batch-size 4 \
+    --lora-r 8 \
+    --lora-alpha 32 \
+    --output ./outputs/lora_model
+```
+
+**QLoRA Training (Large Model):**
+```bash
+finetune-cli train run \
+    --model meta-llama/Llama-2-7b-hf \
+    --dataset ./data/train.jsonl \
+    --method qlora \
+    --4bit \
+    --grad-checkpoint \
+    --epochs 2 \
+    --batch-size 2 \
+    --lora-r 16 \
+    --lora-alpha 64 \
+    --output ./outputs/llama_qlora
+```
+
+**Full Fine-tuning:**
+```bash
+finetune-cli train run \
+    --model gpt2 \
+    --dataset ./data/train.jsonl \
+    --method full_finetuning \
+    --epochs 3 \
+    --batch-size 2 \
+    --grad-checkpoint \
+    --output ./outputs/full_ft
+```
+
+**HuggingFace Dataset:**
+```bash
+finetune-cli train run \
+    --model gpt2 \
+    --dataset wikitext \
+    --source huggingface \
+    --max-samples 10000 \
+    --method lora \
+    --output ./outputs/wikitext_model
+```
+
+---
+
+### **`finetune-cli train quick`**
+
+Quick training with sensible defaults.
+
+**Usage:**
+```bash
+finetune-cli train quick <model> <dataset> <output>
+```
+
+**Example:**
+```bash
+finetune-cli train quick gpt2 ./data.jsonl ./outputs
+```
+
+Equivalent to:
+```bash
+finetune-cli train run \
+    --model gpt2 \
+    --dataset ./data.jsonl \
+    --method lora \
+    --epochs 3 \
+    --batch-size 4 \
+    --output ./outputs
+```
+
+---
+
+### **`finetune-cli train resume`**
+
+Resume training from checkpoint.
+
+**Usage:**
+```bash
+finetune-cli train resume <checkpoint_dir> --epochs <additional_epochs>
+```
+
+**Example:**
+```bash
+finetune-cli train resume ./outputs/checkpoint-100 --epochs 2
+```
+
+---
+
+## 📊 Evaluation Commands
+
+### **`finetune-cli evaluate run`**
+
+Evaluate a trained model.
+
+**Basic Usage:**
+```bash
+finetune-cli evaluate run \
+    --model <model_path> \
+    --dataset <test_dataset>
+```
+
+**All Options:**
+
+| Option | Short | Description | Default |
+|--------|-------|-------------|---------|
+| `--model` | `-m` | Model path | **Required** |
+| `--dataset` | `-d` | Test dataset path | **Required** |
+| `--max-samples` | | Limit samples | `None` |
+| `--metric` | | Metric to compute (multiple) | `rouge1, rouge2, rougeL` |
+| `--max-length` | | Max generation length | `100` |
+| `--temperature` | | Generation temperature | `0.7` |
+| `--batch-size` | `-b` | Batch size | `8` |
+| `--report` | | Save report to file | `None` |
+| `--format` | | Report format | `markdown` |
+| `--log-level` | | Logging level | `INFO` |
+
+**Examples:**
+
+**Basic Evaluation:**
+```bash
+finetune-cli evaluate run \
+    --model ./outputs/lora_model \
+    --dataset ./data/test.jsonl
+```
+
+**With Specific Metrics:**
+```bash
+finetune-cli evaluate run \
+    --model ./outputs/lora_model \
+    --dataset ./data/test.jsonl \
+    --metric rouge1 \
+    --metric rouge2 \
+    --metric bleu \
+    --metric f1
+```
+
+**Save Report:**
+```bash
+finetune-cli evaluate run \
+    --model ./outputs/lora_model \
+    --dataset ./data/test.jsonl \
+    --report ./reports/evaluation.md \
+    --format markdown
+```
+
+**Custom Generation:**
+```bash
+finetune-cli evaluate run \
+    --model ./outputs/lora_model \
+    --dataset ./data/test.jsonl \
+    --max-length 200 \
+    --temperature 0.9 \
+    --batch-size 4
+```
+
+---
+
+### **`finetune-cli evaluate benchmark`**
+
+Compare base model vs fine-tuned model.
+
+**Usage:**
+```bash
+finetune-cli evaluate benchmark \
+    --base <base_model> \
+    --finetuned <finetuned_model> \
+    --dataset <test_dataset>
+```
+
+**All Options:**
+
+| Option | Short | Description | Default |
+|--------|-------|-------------|---------|
+| `--base` | | Base model name/path | **Required** |
+| `--finetuned` | `-f` | Fine-tuned model path | **Required** |
+| `--dataset` | `-d` | Test dataset | **Required** |
+| `--max-samples` | | Limit samples | `100` |
+| `--metric` | | Metrics (multiple) | `rouge1, rouge2, rougeL` |
+| `--report` | `-r` | Report output path | `./benchmark_report.md` |
+| `--format` | | Report format | `markdown` |
+
+**Example:**
+```bash
+finetune-cli evaluate benchmark \
+    --base gpt2 \
+    --finetuned ./outputs/lora_model \
+    --dataset ./data/test.jsonl \
+    --metric rouge1 \
+    --metric rouge2 \
+    --metric bleu \
+    --report ./reports/benchmark.md
+```
+
+**Output:**
+```
+╭─────────────────────────────────────────╮
+│ 🔬 Benchmark Results                    │
+├─────────────────────────────────────────┤
+│ Metric    Base     Fine-tuned  Improve │
+│ rouge1    0.2345   0.3421     +45.86%  │
+│ rouge2    0.1234   0.2156     +74.71%  │
+│ rougeL    0.2123   0.3089     +45.50%  │
+├─────────────────────────────────────────┤
+│ Average                       +55.36%  │
+╰─────────────────────────────────────────╯
+```
+
+---
+
+### **`finetune-cli evaluate quick`**
+
+Quick evaluation with default metrics.
+
+**Usage:**
+```bash
+finetune-cli evaluate quick <model> <dataset>
+```
+
+**Example:**
+```bash
+finetune-cli evaluate quick ./outputs/lora_model ./data/test.jsonl
+```
+
+---
+
+## ⚙️ Configuration Commands
+
+### **`finetune-cli config generate`**
+
+Generate configuration template.
+
+**Usage:**
+```bash
+finetune-cli config generate \
+    --output <config_file> \
+    --method <training_method>
+```
+
+**Options:**
+
+| Option | Short | Description | Default |
+|--------|-------|-------------|---------|
+| `--output` | `-o` | Output file path | `./config.json` |
+| `--method` | | Training method | `lora` |
+| `--format` | | Format: json or yaml | `json` |
+
+**Examples:**
+
+**Generate LoRA Config:**
+```bash
+finetune-cli config generate \
+    --output ./configs/lora_config.json \
+    --method lora
+```
+
+**Generate YAML Config:**
+```bash
+finetune-cli config generate \
+    --output ./configs/training.yaml \
+    --method qlora \
+    --format yaml
+```
+
+**Generated Config Preview:**
+```json
+{
+  "model": {
+    "name": "gpt2",
+    "device": "auto"
+  },
+  "dataset": {
+    "source": "local_file",
+    "path": "./data.jsonl",
+    "max_samples": 1000
+  },
+  "training": {
+    "method": "lora",
+    "output_dir": "./outputs",
+    "num_epochs": 3,
+    "batch_size": 4,
+    "learning_rate": 0.0002
+  },
+  "lora": {
+    "r": 8,
+    "lora_alpha": 32,
+    "lora_dropout": 0.1
+  }
+}
+```
+
+---
+
+### **`finetune-cli config validate`**
+
+Validate configuration file.
+
+**Usage:**
+```bash
+finetune-cli config validate <config_file>
+```
+
+**Example:**
+```bash
+finetune-cli config validate ./configs/training.json
+```
+
+**Output:**
+```
+✓ Configuration is valid!
+
+Configuration Summary:
+  Model: gpt2
+  Dataset: ./data.jsonl
+  Method: lora
+  Epochs: 3
+  Batch Size: 4
+  LoRA Rank: 8
+  Metrics: rouge1, rouge2, rougeL
+```
+
+---
+
+### **`finetune-cli config show`**
+
+Display configuration file.
+
+**Usage:**
+```bash
+finetune-cli config show <config_file> [--section <section_name>]
+```
+
+**Examples:**
+
+**Show Full Config:**
+```bash
+finetune-cli config show ./configs/training.json
+```
+
+**Show Specific Section:**
+```bash
+finetune-cli config show ./configs/training.json --section training
+```
+
+---
+
+### **`finetune-cli config templates`**
+
+Show available templates.
+
+**Usage:**
+```bash
+finetune-cli config templates
+```
+
+**Output:**
+```
+╭───────────────────────────────────────────────────────╮
+│ 📋 Configuration Templates                            │
+├───────────────────────────────────────────────────────┤
+│ Template          │ Description         │ Command    │
+│ LoRA Training     │ Standard LoRA       │ config ... │
+│ QLoRA Training    │ Memory-efficient    │ config ... │
+│ Full Fine-tuning  │ Train all params    │ config ... │
+╰───────────────────────────────────────────────────────╯
+```
+
+---
+
+## 💡 Recommendation Commands
+
+### **`finetune-cli recommend method`**
+
+Get training method recommendation.
+
+**Usage:**
+```bash
+finetune-cli recommend method \
+    --model-size <size_in_billions> \
+    --vram <available_vram_gb>
+```
+
+**Options:**
+
+| Option | Description |
+|--------|-------------|
+| `--model-size` | Model size in billions (e.g., 0.124, 7, 13) |
+| `--vram` | Available VRAM in GB |
+| `--task` | Task complexity: simple, medium, complex |
+| `--multiple-adapters` | Need multiple task adapters |
+
+**Examples:**
+
+**Small Model:**
+```bash
+finetune-cli recommend method --model-size 0.124 --vram 8
+```
+
+**Output:**
+```
+✓ Recommended Method: lora
+Reason: Good balance of quality and efficiency
+
+Memory Estimates:
+  full_finetuning: 2.0 GB
+  lora: 1.0 GB
+  qlora: 0.5 GB
+  available: 8.0 GB
+```
+
+**Large Model:**
+```bash
+finetune-cli recommend method --model-size 7 --vram 12 --task complex
+```
+
+**Output:**
+```
+✓ Recommended Method: qlora
+Reason: Most memory efficient, enables large models on consumer hardware
+
+Memory Estimates:
+  full_finetuning: 112.0 GB
+  lora: 56.0 GB
+  qlora: 14.0 GB
+  available: 12.0 GB
+
+Alternative Methods:
+  • None (insufficient memory for other methods)
+```
+
+---
+
+### **`finetune-cli recommend config`**
+
+Get configuration recommendations.
+
+**Usage:**
+```bash
+finetune-cli recommend config <method> \
+    --dataset-size <num_samples>
+```
+
+**Example:**
+```bash
+finetune-cli recommend config lora --dataset-size 5000
+```
+
+**Output:**
+```
+╭────────────────────────────────────────────────╮
+│ LoRA Configuration                              │
+├────────────────────────────────────────────────┤
+│ Parameter    │ Recommended │ Explanation       │
+│ lora_r       │ 8           │ Rank determines   │
+│ lora_alpha   │ 32          │ Typically 2-4x    │
+│ lora_dropout │ 0.1         │ Standard          │
+│ epochs       │ 5           │ Based on dataset  │
+│ batch_size   │ 4           │ Balanced          │
+│ learning_rate│ 2e-4        │ Standard for LoRA │
+╰────────────────────────────────────────────────╯
+
+Tips:
+  • Start with these defaults and adjust based on results
+  • Monitor loss curves to detect under/overfitting
+  • Use validation set to prevent overfitting
+```
+
+---
+
+### **`finetune-cli recommend hardware`**
+
+Get hardware requirements.
+
+**Usage:**
+```bash
+finetune-cli recommend hardware <model_size> --method <method>
+```
+
+**Example:**
+```bash
+finetune-cli recommend hardware 7 --method qlora
+```
+
+**Output:**
+```
+Hardware Requirements
+Model: 7.0B parameters, Method: qlora
+
+╭─────────────────────────────────────╮
+│ Component   │ Requirement            │
+│ Min VRAM    │ ~14.0 GB              │
+│ Rec VRAM    │ ~16.8 GB              │
+│ System RAM  │ 16 GB+                │
+│ GPU         │ NVIDIA with CUDA      │
+╰─────────────────────────────────────╯
+
+Note: ~75% memory savings, enables large models on consumer GPUs
+
+Recommended GPUs:
+  ✓ RTX 3090 (24GB)
+  ✓ RTX 4090 (24GB)
+```
+
+---
+
+## 📚 Complete Examples
+
+### **Example 1: Full Training Pipeline**
+
+```bash
+# 1. Get method recommendation
+finetune-cli recommend method --model-size 0.124 --vram 8
+
+# 2. Generate configuration
+finetune-cli config generate --output config.json --method lora
+
+# 3. Validate configuration
+finetune-cli config validate config.json
+
+# 4. Train model
+finetune-cli train run \
+    --model gpt2 \
+    --dataset ./data/train.jsonl \
+    --method lora \
+    --epochs 3 \
+    --output ./outputs/model
+
+# 5. Evaluate model
+finetune-cli evaluate run \
+    --model ./outputs/model \
+    --dataset ./data/test.jsonl \
+    --report ./reports/eval.md
+
+# 6. Benchmark against base
+finetune-cli evaluate benchmark \
+    --base gpt2 \
+    --finetuned ./outputs/model \
+    --dataset ./data/test.jsonl \
+    --report ./reports/benchmark.md
+```
+
+### **Example 2: QLoRA Training for Large Model**
+
+```bash
+# Check hardware requirements
+finetune-cli recommend hardware 7 --method qlora
+
+# Get configuration recommendations
+finetune-cli recommend config qlora --dataset-size 10000
+
+# Train with QLoRA
+finetune-cli train run \
+    --model meta-llama/Llama-2-7b-hf \
+    --dataset ./data/large_dataset.jsonl \
+    --source local \
+    --max-samples 10000 \
+    --method qlora \
+    --4bit \
+    --grad-checkpoint \
+    --epochs 2 \
+    --batch-size 2 \
+    --lora-r 16 \
+    --lora-alpha 64 \
+    --output ./outputs/llama_qlora
+```
+
+### **Example 3: Batch Evaluation**
+
+```bash
+# Evaluate multiple checkpoints
+for checkpoint in ./outputs/checkpoints/*; do
+    finetune-cli evaluate run \
+        --model $checkpoint \
+        --dataset ./data/test.jsonl \
+        --report ./reports/eval_$(basename $checkpoint).md
+done
+```
+
+---
+
+## 💡 Tips & Tricks
+
+### **Using Configuration Files**
+
+Instead of long command lines, use config files:
+
+```bash
+# Generate and edit config
+finetune-cli config generate --output training.json
+nano training.json
+
+# Train using config (coming soon)
+finetune-cli train from-config training.json
+```
+
+### **Environment Variables**
+
+Set common options via environment:
+
+```bash
+export FINETUNE_MODEL=gpt2
+export FINETUNE_OUTPUT=./outputs
+export FINETUNE_LOG_LEVEL=DEBUG
+
+finetune-cli train run --dataset ./data.jsonl
+```
+
+### **Logging**
+
+Control verbosity:
+
+```bash
+# Quiet mode
+finetune-cli train run ... --log-level ERROR
+
+# Verbose mode
+finetune-cli train run ... --log-level DEBUG
+
+# Save logs to file
+finetune-cli train run ... 2>&1 | tee training.log
+```
+
+### **Shell Completion**
+
+Enable tab completion (future feature):
+
+```bash
+# Bash
+eval "$(finetune-cli --show-completion bash)"
+
+# Zsh
+eval "$(finetune-cli --show-completion zsh)"
+```
+
+---
+
+## 🆘 Troubleshooting
+
+### **Command Not Found**
+
+```bash
+# Verify installation
+pip show finetune-cli
+
+# Reinstall
+pip install -e . --force-reinstall
+```
+
+### **CUDA Out of Memory**
+
+```bash
+# Reduce batch size
+finetune-cli train run ... --batch-size 2
+
+# Enable gradient checkpointing
+finetune-cli train run ... --grad-checkpoint
+
+# Use QLoRA
+finetune-cli train run ... --method qlora --4bit
+```
+
+### **Slow Training**
+
+```bash
+# Increase batch size (if memory allows)
+finetune-cli train run ... --batch-size 8
+
+# Reduce max length
+finetune-cli train run ... --max-length 256
+
+# Limit samples for testing
+finetune-cli train run ... --max-samples 1000
+```
+
+---
+
+## 📖 See Also
+
+- [Training Guide](training_and_evaluation.md) - Detailed training documentation
+- [API Reference](api.md) - Programmatic usage
+- [Configuration Guide](configuration.md) - Configuration options
+- [Troubleshooting](troubleshooting.md) - Common issues
+
+---
+
+**Last Updated:** 2025-01-29  
+**CLI Version:** 2.0.0
