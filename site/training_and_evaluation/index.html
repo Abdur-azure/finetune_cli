@@ -1,0 +1,2680 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://Abdur-azure.github.io/finetune_cli/training_and_evaluation/">
+      
+      
+        <link rel="prev" href="../installation/">
+      
+      
+        <link rel="next" href="../troubleshooting/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Training and Evaluation Guide - Finetune CLI</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#training-and-evaluation-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Finetune CLI" class="md-header__button md-logo" aria-label="Finetune CLI" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Finetune CLI
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Training and Evaluation Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Abdur-azure/finetune_cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    finetune_cli
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Finetune CLI" class="md-nav__button md-logo" aria-label="Finetune CLI" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Finetune CLI
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Abdur-azure/finetune_cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    finetune_cli
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🤖 Finetune CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🏗️ Architecture Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Training and Evaluation Guide
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Training and Evaluation Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#training-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluation-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training-methods_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Training Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Training Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-lora-low-rank-adaptation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. LoRA (Low-Rank Adaptation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-qlora-quantized-lora" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. QLoRA (Quantized LoRA)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-full-fine-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Full Fine-tuning
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚙️ Training Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚙️ Training Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-training-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Training Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#learning-rate-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Learning Rate Selection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batch-size-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Batch Size Guidelines
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Training Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Training Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-quick-lora-training" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Quick LoRA Training
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-qlora-on-large-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: QLoRA on Large Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-resume-from-checkpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: Resume from Checkpoint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-4-training-with-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 4: Training with Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evaluation-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Evaluation Metrics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Evaluation Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#available-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rouge-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ROUGE Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bleu-score" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BLEU Score
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#perplexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Perplexity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f1-score" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F1 Score
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exact-match" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exact Match
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benchmarking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔬 Benchmarking
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔬 Benchmarking">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-benchmarking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Benchmarking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generate-reports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generate Reports
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compare-pre-computed-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compare Pre-computed Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 Complete Workflows
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 Complete Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#workflow-1-train-and-evaluate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow 1: Train and Evaluate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-2-beforeafter-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow 2: Before/After Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-3-quick-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow 3: Quick Evaluation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Best Practices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#training-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluation-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method Selection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Additional Resources
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Additional Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#training-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluation-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training-methods_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Training Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 Training Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-lora-low-rank-adaptation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. LoRA (Low-Rank Adaptation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-qlora-quantized-lora" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. QLoRA (Quantized LoRA)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-full-fine-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Full Fine-tuning
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚙️ Training Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚙️ Training Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-training-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Training Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#learning-rate-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Learning Rate Selection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batch-size-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Batch Size Guidelines
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📝 Training Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📝 Training Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-quick-lora-training" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Quick LoRA Training
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-qlora-on-large-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: QLoRA on Large Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-resume-from-checkpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: Resume from Checkpoint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-4-training-with-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 4: Training with Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evaluation-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Evaluation Metrics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Evaluation Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#available-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rouge-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ROUGE Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bleu-score" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BLEU Score
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#perplexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Perplexity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f1-score" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F1 Score
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exact-match" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exact Match
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benchmarking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔬 Benchmarking
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔬 Benchmarking">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-benchmarking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Benchmarking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generate-reports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generate Reports
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compare-pre-computed-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compare Pre-computed Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 Complete Workflows
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 Complete Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#workflow-1-train-and-evaluate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow 1: Train and Evaluate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-2-beforeafter-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow 2: Before/After Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-3-quick-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow 3: Quick Evaluation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Best Practices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#training-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluation-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Method Selection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Additional Resources
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Additional Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="training-and-evaluation-guide">Training and Evaluation Guide<a class="headerlink" href="#training-and-evaluation-guide" title="Permanent link">&para;</a></h1>
+<p><strong>Complete guide to training and evaluating LLMs with the fine-tuning framework</strong></p>
+<hr />
+<h2 id="table-of-contents">📋 Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
+<ol>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#training-methods">Training Methods</a></li>
+<li><a href="#training-configuration">Training Configuration</a></li>
+<li><a href="#training-examples">Training Examples</a></li>
+<li><a href="#evaluation-metrics">Evaluation Metrics</a></li>
+<li><a href="#benchmarking">Benchmarking</a></li>
+<li><a href="#complete-workflows">Complete Workflows</a></li>
+<li><a href="#best-practices">Best Practices</a></li>
+</ol>
+<hr />
+<h2 id="overview">🎯 Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>The framework provides three main training methods and comprehensive evaluation capabilities:</p>
+<h3 id="training-methods"><strong>Training Methods</strong><a class="headerlink" href="#training-methods" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>LoRA</strong> - Parameter-efficient fine-tuning (0.1-1% parameters)</li>
+<li><strong>QLoRA</strong> - Quantized LoRA for memory efficiency</li>
+<li><strong>Full Fine-tuning</strong> - Train all parameters</li>
+</ul>
+<h3 id="evaluation-features"><strong>Evaluation Features</strong><a class="headerlink" href="#evaluation-features" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>7 Metrics</strong> - ROUGE, BLEU, Perplexity, F1, Exact Match, Accuracy</li>
+<li><strong>Benchmarking</strong> - Compare base vs fine-tuned models</li>
+<li><strong>Reports</strong> - Generate Markdown, JSON, or HTML reports</li>
+</ul>
+<hr />
+<h2 id="training-methods_1">🚀 Training Methods<a class="headerlink" href="#training-methods_1" title="Permanent link">&para;</a></h2>
+<h3 id="1-lora-low-rank-adaptation"><strong>1. LoRA (Low-Rank Adaptation)</strong><a class="headerlink" href="#1-lora-low-rank-adaptation" title="Permanent link">&para;</a></h3>
+<p><strong>Overview:</strong>
+- Trains only 0.1-1% of parameters
+- Adds lightweight adapter layers
+- ~50% memory savings vs full fine-tuning
+- Can merge adapters back into base model</p>
+<p><strong>When to Use:</strong>
+- Most general-purpose fine-tuning tasks
+- Medium to large models (1B+ parameters)
+- When you need multiple task-specific adapters
+- Balance between quality and efficiency</p>
+<p><strong>Configuration:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.core.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">TrainingMethod</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">ConfigBuilder</span><span class="p">()</span> \
+    <span class="o">.</span><span class="n">with_model</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_training</span><span class="p">(</span><span class="n">TrainingMethod</span><span class="o">.</span><span class="n">LORA</span><span class="p">,</span> <span class="s2">&quot;./output&quot;</span><span class="p">,</span> <span class="n">num_epochs</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_lora</span><span class="p">(</span>
+        <span class="n">r</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>                    <span class="c1"># Rank (4, 8, 16, 32)</span>
+        <span class="n">lora_alpha</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>          <span class="c1"># Scaling (typically 2-4x rank)</span>
+        <span class="n">lora_dropout</span><span class="o">=</span><span class="mf">0.1</span>        <span class="c1"># Dropout (0.05-0.2)</span>
+    <span class="p">)</span> \
+    <span class="o">.</span><span class="n">build</span><span class="p">()</span>
+</code></pre></div>
+
+<p><strong>LoRA Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Range</th>
+<th>Recommended</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>r (rank)</strong></td>
+<td>1-256</td>
+<td>8-16</td>
+<td>Adapter capacity; higher = more parameters</td>
+</tr>
+<tr>
+<td><strong>alpha</strong></td>
+<td>1-256</td>
+<td>2-4× rank</td>
+<td>Scaling factor; affects learning strength</td>
+</tr>
+<tr>
+<td><strong>dropout</strong></td>
+<td>0.0-0.5</td>
+<td>0.1</td>
+<td>Regularization; prevents overfitting</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.trainers</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_with_lora</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">train_with_lora</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">train_dataset</span><span class="o">=</span><span class="n">train_data</span><span class="p">,</span>
+    <span class="n">training_config</span><span class="o">=</span><span class="n">training_config</span><span class="p">,</span>
+    <span class="n">lora_config</span><span class="o">=</span><span class="n">lora_config</span><span class="p">,</span>
+    <span class="n">eval_dataset</span><span class="o">=</span><span class="n">val_data</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final Loss: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">final_loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training Time: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">training_time_seconds</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Advanced: Merge Adapters</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># After training</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">LoRATrainer</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">training_config</span><span class="p">,</span> <span class="n">lora_config</span><span class="p">)</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+
+<span class="c1"># Merge adapters into base model</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">merge_and_save</span><span class="p">(</span><span class="s2">&quot;./merged_model&quot;</span><span class="p">)</span>
+<span class="c1"># Now you have a standalone model without PEFT dependency</span>
+</code></pre></div>
+
+<hr />
+<h3 id="2-qlora-quantized-lora"><strong>2. QLoRA (Quantized LoRA)</strong><a class="headerlink" href="#2-qlora-quantized-lora" title="Permanent link">&para;</a></h3>
+<p><strong>Overview:</strong>
+- LoRA on quantized models (4-bit or 8-bit)
+- ~75-88% memory savings vs full fine-tuning
+- Enables 7B+ models on consumer GPUs
+- Uses paged_adamw optimizer</p>
+<p><strong>When to Use:</strong>
+- Large models (7B+ parameters)
+- Consumer GPUs with limited VRAM
+- Memory-constrained environments
+- When 4-bit quantization is acceptable</p>
+<p><strong>Configuration:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">config</span> <span class="o">=</span> <span class="n">ConfigBuilder</span><span class="p">()</span> \
+    <span class="o">.</span><span class="n">with_model</span><span class="p">(</span>
+        <span class="s2">&quot;meta-llama/Llama-2-7b-hf&quot;</span><span class="p">,</span>
+        <span class="n">load_in_4bit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>           <span class="c1"># Enable 4-bit quantization</span>
+        <span class="n">device</span><span class="o">=</span><span class="n">DeviceType</span><span class="o">.</span><span class="n">AUTO</span>
+    <span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_training</span><span class="p">(</span>
+        <span class="n">TrainingMethod</span><span class="o">.</span><span class="n">QLORA</span><span class="p">,</span>
+        <span class="s2">&quot;./output&quot;</span><span class="p">,</span>
+        <span class="n">gradient_checkpointing</span><span class="o">=</span><span class="kc">True</span>   <span class="c1"># Required for QLoRA</span>
+    <span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_lora</span><span class="p">(</span>
+        <span class="n">r</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>                         <span class="c1"># Higher rank for quantized models</span>
+        <span class="n">lora_alpha</span><span class="o">=</span><span class="mi">64</span>
+    <span class="p">)</span> \
+    <span class="o">.</span><span class="n">build</span><span class="p">()</span>
+</code></pre></div>
+
+<p><strong>Memory Requirements (7B Model):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>VRAM Required</th>
+<th>Memory Savings</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Full FT</td>
+<td>~28GB</td>
+<td>-</td>
+</tr>
+<tr>
+<td>LoRA</td>
+<td>~14GB</td>
+<td>50%</td>
+</tr>
+<tr>
+<td>QLoRA (8-bit)</td>
+<td>~7GB</td>
+<td>75%</td>
+</tr>
+<tr>
+<td>QLoRA (4-bit)</td>
+<td>~4GB</td>
+<td>86%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.trainers</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_with_qlora</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">train_with_qlora</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">quantized_model</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">train_dataset</span><span class="o">=</span><span class="n">train_data</span><span class="p">,</span>
+    <span class="n">training_config</span><span class="o">=</span><span class="n">training_config</span><span class="p">,</span>
+    <span class="n">lora_config</span><span class="o">=</span><span class="n">lora_config</span><span class="p">,</span>
+    <span class="n">model_config</span><span class="o">=</span><span class="n">model_config</span>  <span class="c1"># Contains quantization info</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Best Practices:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.trainers</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_qlora_best_practices</span>
+
+<span class="n">practices</span> <span class="o">=</span> <span class="n">get_qlora_best_practices</span><span class="p">()</span>
+<span class="c1"># Returns comprehensive recommendations for QLoRA training</span>
+</code></pre></div>
+
+<hr />
+<h3 id="3-full-fine-tuning"><strong>3. Full Fine-tuning</strong><a class="headerlink" href="#3-full-fine-tuning" title="Permanent link">&para;</a></h3>
+<p><strong>Overview:</strong>
+- Trains all model parameters
+- Maximum adaptation capability
+- Highest memory requirements
+- Best for small models or unlimited GPU</p>
+<p><strong>When to Use:</strong>
+- Small models (&lt;1B parameters)
+- Tasks requiring substantial model changes
+- When GPU memory is abundant
+- Maximum quality is priority</p>
+<p><strong>Configuration:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">config</span> <span class="o">=</span> <span class="n">ConfigBuilder</span><span class="p">()</span> \
+    <span class="o">.</span><span class="n">with_model</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_training</span><span class="p">(</span>
+        <span class="n">TrainingMethod</span><span class="o">.</span><span class="n">FULL_FINETUNING</span><span class="p">,</span>
+        <span class="s2">&quot;./output&quot;</span><span class="p">,</span>
+        <span class="n">num_epochs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">batch_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>                <span class="c1"># Smaller batch for memory</span>
+        <span class="n">gradient_checkpointing</span><span class="o">=</span><span class="kc">True</span>  <span class="c1"># Recommended</span>
+    <span class="p">)</span> \
+    <span class="o">.</span><span class="n">build</span><span class="p">()</span>
+</code></pre></div>
+
+<p><strong>Memory Estimation:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.trainers</span><span class="w"> </span><span class="kn">import</span> <span class="n">FullFineTuner</span>
+
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">FullFineTuner</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="n">memory</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">estimate_memory_usage</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parameters: </span><span class="si">{</span><span class="n">memory</span><span class="p">[</span><span class="s1">&#39;parameters_gb&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gradients: </span><span class="si">{</span><span class="n">memory</span><span class="p">[</span><span class="s1">&#39;gradients_gb&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Optimizer: </span><span class="si">{</span><span class="n">memory</span><span class="p">[</span><span class="s1">&#39;optimizer_gb&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total: </span><span class="si">{</span><span class="n">memory</span><span class="p">[</span><span class="s1">&#39;total_estimated_gb&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> GB&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.trainers</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_full_finetuning</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">train_full_finetuning</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">train_dataset</span><span class="o">=</span><span class="n">train_data</span><span class="p">,</span>
+    <span class="n">training_config</span><span class="o">=</span><span class="n">training_config</span><span class="p">,</span>
+    <span class="n">eval_dataset</span><span class="o">=</span><span class="n">val_data</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<hr />
+<h2 id="training-configuration">⚙️ Training Configuration<a class="headerlink" href="#training-configuration" title="Permanent link">&para;</a></h2>
+<h3 id="core-training-parameters"><strong>Core Training Parameters</strong><a class="headerlink" href="#core-training-parameters" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="n">training_config</span> <span class="o">=</span> <span class="n">TrainingConfig</span><span class="p">(</span>
+    <span class="n">method</span><span class="o">=</span><span class="n">TrainingMethod</span><span class="o">.</span><span class="n">LORA</span><span class="p">,</span>
+    <span class="n">output_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;./outputs/model&quot;</span><span class="p">),</span>
+
+    <span class="c1"># Training schedule</span>
+    <span class="n">num_epochs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>                    <span class="c1"># Number of passes through data</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>                    <span class="c1"># Samples per GPU</span>
+    <span class="n">gradient_accumulation_steps</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>   <span class="c1"># Effective batch = 4 × 4 = 16</span>
+
+    <span class="c1"># Optimization</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">2e-4</span><span class="p">,</span>              <span class="c1"># Step size (1e-5 to 5e-4)</span>
+    <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>               <span class="c1"># Regularization</span>
+    <span class="n">warmup_ratio</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>                <span class="c1"># 10% warmup</span>
+    <span class="n">lr_scheduler_type</span><span class="o">=</span><span class="s2">&quot;cosine&quot;</span><span class="p">,</span>      <span class="c1"># Learning rate schedule</span>
+    <span class="n">max_grad_norm</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>               <span class="c1"># Gradient clipping</span>
+
+    <span class="c1"># Mixed precision</span>
+    <span class="n">fp16</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>                      <span class="c1"># FP16 training (NVIDIA GPUs)</span>
+    <span class="n">bf16</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>                      <span class="c1"># BF16 training (newer GPUs)</span>
+
+    <span class="c1"># Checkpointing</span>
+    <span class="n">save_strategy</span><span class="o">=</span><span class="s2">&quot;epoch&quot;</span><span class="p">,</span>           <span class="c1"># When to save checkpoints</span>
+    <span class="n">evaluation_strategy</span><span class="o">=</span><span class="s2">&quot;epoch&quot;</span><span class="p">,</span>     <span class="c1"># When to evaluate</span>
+    <span class="n">load_best_model_at_end</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>    <span class="c1"># Load best checkpoint after training</span>
+
+    <span class="c1"># Optimization</span>
+    <span class="n">gradient_checkpointing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>    <span class="c1"># Trade compute for memory</span>
+
+    <span class="c1"># Reproducibility</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">42</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h3 id="learning-rate-selection"><strong>Learning Rate Selection</strong><a class="headerlink" href="#learning-rate-selection" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Model Size</th>
+<th>Recommended LR</th>
+<th>Range</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Small (&lt;500M)</td>
+<td>2e-4</td>
+<td>1e-4 to 5e-4</td>
+</tr>
+<tr>
+<td>Medium (500M-3B)</td>
+<td>1e-4</td>
+<td>5e-5 to 2e-4</td>
+</tr>
+<tr>
+<td>Large (3B+)</td>
+<td>5e-5</td>
+<td>1e-5 to 1e-4</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Learning Rate Schedulers:</strong>
+- <code>linear</code> - Linear decay to 0
+- <code>cosine</code> - Cosine annealing (recommended)
+- <code>constant</code> - Fixed learning rate
+- <code>polynomial</code> - Polynomial decay</p>
+<h3 id="batch-size-guidelines"><strong>Batch Size Guidelines</strong><a class="headerlink" href="#batch-size-guidelines" title="Permanent link">&para;</a></h3>
+<p><strong>Effective Batch Size</strong> = <code>batch_size × gradient_accumulation_steps × num_gpus</code></p>
+<table>
+<thead>
+<tr>
+<th>GPU VRAM</th>
+<th>Batch Size</th>
+<th>Accumulation</th>
+<th>Effective</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8GB</td>
+<td>2</td>
+<td>4</td>
+<td>8</td>
+</tr>
+<tr>
+<td>12GB</td>
+<td>4</td>
+<td>4</td>
+<td>16</td>
+</tr>
+<tr>
+<td>16GB</td>
+<td>8</td>
+<td>4</td>
+<td>32</td>
+</tr>
+<tr>
+<td>24GB</td>
+<td>16</td>
+<td>4</td>
+<td>64</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tips:</strong>
+- Use gradient accumulation to simulate larger batches
+- Larger effective batches = more stable training
+- Smaller batches = faster iterations but noisier</p>
+<hr />
+<h2 id="training-examples">📝 Training Examples<a class="headerlink" href="#training-examples" title="Permanent link">&para;</a></h2>
+<h3 id="example-1-quick-lora-training"><strong>Example 1: Quick LoRA Training</strong><a class="headerlink" href="#example-1-quick-lora-training" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.core.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">TrainingMethod</span><span class="p">,</span> <span class="n">DatasetSource</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.models.loader</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_model_and_tokenizer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">prepare_dataset</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.trainers</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_model</span>
+
+<span class="c1"># 1. Configuration</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">ConfigBuilder</span><span class="p">()</span> \
+    <span class="o">.</span><span class="n">with_model</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_dataset</span><span class="p">(</span><span class="s2">&quot;./data.jsonl&quot;</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">DatasetSource</span><span class="o">.</span><span class="n">LOCAL_FILE</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_tokenization</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">512</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_training</span><span class="p">(</span><span class="n">TrainingMethod</span><span class="o">.</span><span class="n">LORA</span><span class="p">,</span> <span class="s2">&quot;./output&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_lora</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">lora_alpha</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+<span class="c1"># 2. Load model</span>
+<span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">load_model_and_tokenizer</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">to_config</span><span class="p">())</span>
+
+<span class="c1"># 3. Prepare data</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">prepare_dataset</span><span class="p">(</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">to_config</span><span class="p">(),</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">tokenization</span><span class="o">.</span><span class="n">to_config</span><span class="p">(),</span>
+    <span class="n">tokenizer</span>
+<span class="p">)</span>
+
+<span class="c1"># 4. Train</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">train_model</span><span class="p">(</span>
+    <span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">training</span><span class="o">.</span><span class="n">to_config</span><span class="p">(),</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">lora</span><span class="o">.</span><span class="n">to_config</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training complete! Loss: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">final_loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="example-2-qlora-on-large-model"><strong>Example 2: QLoRA on Large Model</strong><a class="headerlink" href="#example-2-qlora-on-large-model" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configure for 7B model on 12GB GPU</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">ConfigBuilder</span><span class="p">()</span> \
+    <span class="o">.</span><span class="n">with_model</span><span class="p">(</span>
+        <span class="s2">&quot;meta-llama/Llama-2-7b-hf&quot;</span><span class="p">,</span>
+        <span class="n">load_in_4bit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="n">DeviceType</span><span class="o">.</span><span class="n">CUDA</span>
+    <span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_dataset</span><span class="p">(</span><span class="s2">&quot;HuggingFaceH4/ultrachat_200k&quot;</span><span class="p">,</span> <span class="n">max_samples</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_training</span><span class="p">(</span>
+        <span class="n">TrainingMethod</span><span class="o">.</span><span class="n">QLORA</span><span class="p">,</span>
+        <span class="s2">&quot;./outputs/llama-qlora&quot;</span><span class="p">,</span>
+        <span class="n">num_epochs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">batch_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">gradient_accumulation_steps</span><span class="o">=</span><span class="mi">8</span>
+    <span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_lora</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">lora_alpha</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">lora_dropout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+<span class="c1"># Train</span>
+<span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">load_model_and_tokenizer</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">to_config</span><span class="p">())</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">prepare_dataset</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">train_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="example-3-resume-from-checkpoint"><strong>Example 3: Resume from Checkpoint</strong><a class="headerlink" href="#example-3-resume-from-checkpoint" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="c1"># Original training</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">train_model</span><span class="p">(</span>
+    <span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span>
+    <span class="n">training_config</span><span class="p">,</span>
+    <span class="n">lora_config</span>
+<span class="p">)</span>
+
+<span class="c1"># Resume from checkpoint</span>
+<span class="n">checkpoint_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;./outputs/model/checkpoint-100&quot;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">train_model</span><span class="p">(</span>
+    <span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span>
+    <span class="n">training_config</span><span class="p">,</span>
+    <span class="n">lora_config</span><span class="p">,</span>
+    <span class="n">resume_from_checkpoint</span><span class="o">=</span><span class="n">checkpoint_path</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h3 id="example-4-training-with-validation"><strong>Example 4: Training with Validation</strong><a class="headerlink" href="#example-4-training-with-validation" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Prepare data with splits</span>
+<span class="n">splits</span> <span class="o">=</span> <span class="n">prepare_dataset</span><span class="p">(</span>
+    <span class="n">dataset_config</span><span class="p">,</span>
+    <span class="n">tokenization_config</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">split_for_validation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">validation_ratio</span><span class="o">=</span><span class="mf">0.1</span>
+<span class="p">)</span>
+
+<span class="c1"># Train with validation</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">train_model</span><span class="p">(</span>
+    <span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">train_dataset</span><span class="o">=</span><span class="n">splits</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">],</span>
+    <span class="n">eval_dataset</span><span class="o">=</span><span class="n">splits</span><span class="p">[</span><span class="s1">&#39;validation&#39;</span><span class="p">],</span>
+    <span class="n">training_config</span><span class="o">=</span><span class="n">training_config</span><span class="p">,</span>
+    <span class="n">lora_config</span><span class="o">=</span><span class="n">lora_config</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<hr />
+<h2 id="evaluation-metrics">📊 Evaluation Metrics<a class="headerlink" href="#evaluation-metrics" title="Permanent link">&para;</a></h2>
+<h3 id="available-metrics"><strong>Available Metrics</strong><a class="headerlink" href="#available-metrics" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Range</th>
+<th>Higher is Better</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ROUGE-1</strong></td>
+<td>Unigram overlap</td>
+<td>0-1</td>
+<td>✓</td>
+</tr>
+<tr>
+<td><strong>ROUGE-2</strong></td>
+<td>Bigram overlap</td>
+<td>0-1</td>
+<td>✓</td>
+</tr>
+<tr>
+<td><strong>ROUGE-L</strong></td>
+<td>Longest common subsequence</td>
+<td>0-1</td>
+<td>✓</td>
+</tr>
+<tr>
+<td><strong>BLEU</strong></td>
+<td>N-gram precision</td>
+<td>0-1</td>
+<td>✓</td>
+</tr>
+<tr>
+<td><strong>Perplexity</strong></td>
+<td>Prediction quality</td>
+<td>1-∞</td>
+<td>✗ (lower is better)</td>
+</tr>
+<tr>
+<td><strong>F1</strong></td>
+<td>Token-level F1 score</td>
+<td>0-1</td>
+<td>✓</td>
+</tr>
+<tr>
+<td><strong>Exact Match</strong></td>
+<td>Exact string match</td>
+<td>0-1</td>
+<td>✓</td>
+</tr>
+</tbody>
+</table>
+<h3 id="rouge-metrics"><strong>ROUGE Metrics</strong><a class="headerlink" href="#rouge-metrics" title="Permanent link">&para;</a></h3>
+<p><strong>ROUGE (Recall-Oriented Understudy for Gisting Evaluation)</strong></p>
+<p>Measures overlap between generated and reference text.</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.evaluation</span><span class="w"> </span><span class="kn">import</span> <span class="n">evaluate_model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">EvaluationMetric</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">EvaluationConfig</span><span class="p">(</span>
+    <span class="n">metrics</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">EvaluationMetric</span><span class="o">.</span><span class="n">ROUGE_1</span><span class="p">,</span>  <span class="c1"># Unigram overlap</span>
+        <span class="n">EvaluationMetric</span><span class="o">.</span><span class="n">ROUGE_2</span><span class="p">,</span>  <span class="c1"># Bigram overlap</span>
+        <span class="n">EvaluationMetric</span><span class="o">.</span><span class="n">ROUGE_L</span>   <span class="c1"># Longest common subsequence</span>
+    <span class="p">],</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">8</span>
+<span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">evaluate_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">test_dataset</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ROUGE-1: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;rouge1&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ROUGE-2: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;rouge2&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ROUGE-L: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;rougeL&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>When to Use:</strong>
+- Summarization tasks
+- Text generation quality
+- Content preservation</p>
+<h3 id="bleu-score"><strong>BLEU Score</strong><a class="headerlink" href="#bleu-score" title="Permanent link">&para;</a></h3>
+<p><strong>BLEU (Bilingual Evaluation Understudy)</strong></p>
+<p>Measures n-gram precision between generated and reference.</p>
+<div class="codehilite"><pre><span></span><code><span class="n">config</span> <span class="o">=</span> <span class="n">EvaluationConfig</span><span class="p">(</span>
+    <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="n">EvaluationMetric</span><span class="o">.</span><span class="n">BLEU</span><span class="p">],</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">8</span>
+<span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">evaluate_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">test_dataset</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;BLEU: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;bleu&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>When to Use:</strong>
+- Translation tasks
+- Paraphrase generation
+- When precision matters more than recall</p>
+<h3 id="perplexity"><strong>Perplexity</strong><a class="headerlink" href="#perplexity" title="Permanent link">&para;</a></h3>
+<p>Measures how well the model predicts text. Lower is better.</p>
+<div class="codehilite"><pre><span></span><code><span class="n">config</span> <span class="o">=</span> <span class="n">EvaluationConfig</span><span class="p">(</span>
+    <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="n">EvaluationMetric</span><span class="o">.</span><span class="n">PERPLEXITY</span><span class="p">],</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">8</span>
+<span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">evaluate_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">test_dataset</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Perplexity: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;perplexity&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>When to Use:</strong>
+- Language modeling quality
+- Model comparison
+- Measuring fluency</p>
+<p><strong>Interpretation:</strong>
+- <code>1.0</code> - Perfect prediction
+- <code>10-50</code> - Excellent
+- <code>50-100</code> - Good
+- <code>100+</code> - Poor</p>
+<h3 id="f1-score"><strong>F1 Score</strong><a class="headerlink" href="#f1-score" title="Permanent link">&para;</a></h3>
+<p>Token-level precision and recall balance.</p>
+<div class="codehilite"><pre><span></span><code><span class="n">config</span> <span class="o">=</span> <span class="n">EvaluationConfig</span><span class="p">(</span>
+    <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="n">EvaluationMetric</span><span class="o">.</span><span class="n">F1</span><span class="p">],</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">8</span>
+<span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">evaluate_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">test_dataset</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;F1: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;f1&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>When to Use:</strong>
+- Information extraction
+- Question answering
+- When both precision and recall matter</p>
+<h3 id="exact-match"><strong>Exact Match</strong><a class="headerlink" href="#exact-match" title="Permanent link">&para;</a></h3>
+<p>Percentage of predictions that exactly match reference.</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.evaluation.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExactMatchMetric</span>
+
+<span class="c1"># With normalization</span>
+<span class="n">metric</span> <span class="o">=</span> <span class="n">ExactMatchMetric</span><span class="p">(</span>
+    <span class="n">ignore_case</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">ignore_punctuation</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># Without normalization</span>
+<span class="n">metric_strict</span> <span class="o">=</span> <span class="n">ExactMatchMetric</span><span class="p">(</span>
+    <span class="n">ignore_case</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">ignore_punctuation</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p><strong>When to Use:</strong>
+- Classification tasks
+- Structured output generation
+- Strict correctness requirements</p>
+<hr />
+<h2 id="benchmarking">🔬 Benchmarking<a class="headerlink" href="#benchmarking" title="Permanent link">&para;</a></h2>
+<h3 id="basic-benchmarking"><strong>Basic Benchmarking</strong><a class="headerlink" href="#basic-benchmarking" title="Permanent link">&para;</a></h3>
+<p>Compare base model vs fine-tuned model:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.evaluation</span><span class="w"> </span><span class="kn">import</span> <span class="n">benchmark_models</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">benchmark_models</span><span class="p">(</span>
+    <span class="n">base_model</span><span class="o">=</span><span class="n">base_model</span><span class="p">,</span>
+    <span class="n">finetuned_model</span><span class="o">=</span><span class="n">finetuned_model</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">dataset</span><span class="o">=</span><span class="n">test_dataset</span><span class="p">,</span>
+    <span class="n">config</span><span class="o">=</span><span class="n">eval_config</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average Improvement: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">get_average_improvement</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Output:</strong></p>
+<div class="codehilite"><pre><span></span><code>BENCHMARK RESULTS
+═══════════════════════════════════════════════════════════════════════
+Metric          Base         Fine-tuned   Improvement    
+───────────────────────────────────────────────────────────────────────
+rouge1          0.2345       0.3421       +45.86%
+rouge2          0.1234       0.2156       +74.71%
+rougeL          0.2123       0.3089       +45.50%
+═══════════════════════════════════════════════════════════════════════
+Average Improvement: +55.36%
+═══════════════════════════════════════════════════════════════════════
+</code></pre></div>
+
+<h3 id="generate-reports"><strong>Generate Reports</strong><a class="headerlink" href="#generate-reports" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.evaluation</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReportGenerator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="c1"># Markdown report</span>
+<span class="n">ReportGenerator</span><span class="o">.</span><span class="n">save_report</span><span class="p">(</span>
+    <span class="n">result</span><span class="p">,</span>
+    <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;./reports/benchmark.md&quot;</span><span class="p">),</span>
+    <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;markdown&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;GPT-2 LoRA Fine-tuning Results&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># HTML report</span>
+<span class="n">ReportGenerator</span><span class="o">.</span><span class="n">save_report</span><span class="p">(</span>
+    <span class="n">result</span><span class="p">,</span>
+    <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;./reports/benchmark.html&quot;</span><span class="p">),</span>
+    <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;html&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># JSON report</span>
+<span class="n">ReportGenerator</span><span class="o">.</span><span class="n">save_report</span><span class="p">(</span>
+    <span class="n">result</span><span class="p">,</span>
+    <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;./reports/benchmark.json&quot;</span><span class="p">),</span>
+    <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;json&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h3 id="compare-pre-computed-metrics"><strong>Compare Pre-computed Metrics</strong><a class="headerlink" href="#compare-pre-computed-metrics" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.evaluation</span><span class="w"> </span><span class="kn">import</span> <span class="n">compare_metrics</span>
+
+<span class="n">base_metrics</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;rouge1&#39;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span>
+    <span class="s1">&#39;rouge2&#39;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>
+    <span class="s1">&#39;rougeL&#39;</span><span class="p">:</span> <span class="mf">0.22</span>
+<span class="p">}</span>
+
+<span class="n">finetuned_metrics</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;rouge1&#39;</span><span class="p">:</span> <span class="mf">0.35</span><span class="p">,</span>
+    <span class="s1">&#39;rouge2&#39;</span><span class="p">:</span> <span class="mf">0.23</span><span class="p">,</span>
+    <span class="s1">&#39;rougeL&#39;</span><span class="p">:</span> <span class="mf">0.31</span>
+<span class="p">}</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">compare_metrics</span><span class="p">(</span><span class="n">base_metrics</span><span class="p">,</span> <span class="n">finetuned_metrics</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">improvements</span><span class="p">)</span>
+<span class="c1"># Output: {&#39;rouge1&#39;: 40.0, &#39;rouge2&#39;: 53.33, &#39;rougeL&#39;: 40.91}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="complete-workflows">🔄 Complete Workflows<a class="headerlink" href="#complete-workflows" title="Permanent link">&para;</a></h2>
+<h3 id="workflow-1-train-and-evaluate"><strong>Workflow 1: Train and Evaluate</strong><a class="headerlink" href="#workflow-1-train-and-evaluate" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.core.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">TrainingMethod</span><span class="p">,</span> <span class="n">EvaluationMetric</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.models.loader</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_model_and_tokenizer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">prepare_dataset</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.trainers</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.evaluation</span><span class="w"> </span><span class="kn">import</span> <span class="n">evaluate_model</span>
+
+<span class="c1"># 1. Configuration</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">ConfigBuilder</span><span class="p">()</span> \
+    <span class="o">.</span><span class="n">with_model</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_dataset</span><span class="p">(</span><span class="s2">&quot;./data.jsonl&quot;</span><span class="p">,</span> <span class="n">max_samples</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_tokenization</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">512</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_training</span><span class="p">(</span><span class="n">TrainingMethod</span><span class="o">.</span><span class="n">LORA</span><span class="p">,</span> <span class="s2">&quot;./output&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_lora</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">lora_alpha</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_evaluation</span><span class="p">(</span>
+        <span class="n">metrics</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">EvaluationMetric</span><span class="o">.</span><span class="n">ROUGE_1</span><span class="p">,</span>
+            <span class="n">EvaluationMetric</span><span class="o">.</span><span class="n">ROUGE_L</span><span class="p">,</span>
+            <span class="n">EvaluationMetric</span><span class="o">.</span><span class="n">PERPLEXITY</span>
+        <span class="p">]</span>
+    <span class="p">)</span> \
+    <span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+<span class="c1"># 2. Load model</span>
+<span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">load_model_and_tokenizer</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">to_config</span><span class="p">())</span>
+
+<span class="c1"># 3. Prepare data with splits</span>
+<span class="n">splits</span> <span class="o">=</span> <span class="n">prepare_dataset</span><span class="p">(</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">to_config</span><span class="p">(),</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">tokenization</span><span class="o">.</span><span class="n">to_config</span><span class="p">(),</span>
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">split_for_validation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">validation_ratio</span><span class="o">=</span><span class="mf">0.2</span>
+<span class="p">)</span>
+
+<span class="c1"># 4. Train</span>
+<span class="n">train_result</span> <span class="o">=</span> <span class="n">train_model</span><span class="p">(</span>
+    <span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">train_dataset</span><span class="o">=</span><span class="n">splits</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">],</span>
+    <span class="n">eval_dataset</span><span class="o">=</span><span class="n">splits</span><span class="p">[</span><span class="s1">&#39;validation&#39;</span><span class="p">],</span>
+    <span class="n">training_config</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">training</span><span class="o">.</span><span class="n">to_config</span><span class="p">(),</span>
+    <span class="n">lora_config</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">lora</span><span class="o">.</span><span class="n">to_config</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="c1"># 5. Evaluate</span>
+<span class="n">eval_result</span> <span class="o">=</span> <span class="n">evaluate_model</span><span class="p">(</span>
+    <span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">splits</span><span class="p">[</span><span class="s1">&#39;validation&#39;</span><span class="p">],</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">evaluation</span><span class="o">.</span><span class="n">to_config</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training Loss: </span><span class="si">{</span><span class="n">train_result</span><span class="o">.</span><span class="n">final_loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ROUGE-1: </span><span class="si">{</span><span class="n">eval_result</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;rouge1&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="workflow-2-beforeafter-comparison"><strong>Workflow 2: Before/After Comparison</strong><a class="headerlink" href="#workflow-2-beforeafter-comparison" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.evaluation</span><span class="w"> </span><span class="kn">import</span> <span class="n">benchmark_models</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="c1"># Load base model</span>
+<span class="n">base_model</span><span class="p">,</span> <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">load_model_and_tokenizer</span><span class="p">(</span><span class="n">model_config</span><span class="p">)</span>
+
+<span class="c1"># Train</span>
+<span class="n">finetuned_model</span> <span class="o">=</span> <span class="n">base_model</span>  <span class="c1"># Will be modified by training</span>
+<span class="n">train_result</span> <span class="o">=</span> <span class="n">train_model</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+<span class="c1"># Reload base model for fair comparison</span>
+<span class="n">base_model_fresh</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">load_model_and_tokenizer</span><span class="p">(</span><span class="n">model_config</span><span class="p">)</span>
+
+<span class="c1"># Benchmark</span>
+<span class="n">benchmark_result</span> <span class="o">=</span> <span class="n">benchmark_models</span><span class="p">(</span>
+    <span class="n">base_model</span><span class="o">=</span><span class="n">base_model_fresh</span><span class="p">,</span>
+    <span class="n">finetuned_model</span><span class="o">=</span><span class="n">finetuned_model</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">dataset</span><span class="o">=</span><span class="n">test_dataset</span><span class="p">,</span>
+    <span class="n">config</span><span class="o">=</span><span class="n">eval_config</span><span class="p">,</span>
+    <span class="n">save_report</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;./benchmark_report.md&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average Improvement: </span><span class="si">{</span><span class="n">benchmark_result</span><span class="o">.</span><span class="n">get_average_improvement</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="workflow-3-quick-evaluation"><strong>Workflow 3: Quick Evaluation</strong><a class="headerlink" href="#workflow-3-quick-evaluation" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.evaluation</span><span class="w"> </span><span class="kn">import</span> <span class="n">quick_evaluate</span>
+
+<span class="c1"># Fast evaluation without configuration</span>
+<span class="n">test_inputs</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;What is machine learning?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Explain neural networks.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Define artificial intelligence.&quot;</span>
+<span class="p">]</span>
+
+<span class="n">test_references</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Machine learning is a subset of AI...&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Neural networks are computing systems...&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Artificial intelligence is the simulation...&quot;</span>
+<span class="p">]</span>
+
+<span class="n">scores</span> <span class="o">=</span> <span class="n">quick_evaluate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">test_inputs</span><span class="p">,</span> <span class="n">test_references</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ROUGE-1: </span><span class="si">{</span><span class="n">scores</span><span class="p">[</span><span class="s1">&#39;rouge1&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ROUGE-L: </span><span class="si">{</span><span class="n">scores</span><span class="p">[</span><span class="s1">&#39;rougeL&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<hr />
+<h2 id="best-practices">💡 Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
+<h3 id="training-best-practices"><strong>Training Best Practices</strong><a class="headerlink" href="#training-best-practices" title="Permanent link">&para;</a></h3>
+<p><strong>1. Start Small, Scale Up</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Development</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">ConfigBuilder</span><span class="p">()</span> \
+    <span class="o">.</span><span class="n">with_dataset</span><span class="p">(</span><span class="s2">&quot;./data.jsonl&quot;</span><span class="p">,</span> <span class="n">max_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_training</span><span class="p">(</span><span class="n">num_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_lora</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+<span class="c1"># Production</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">ConfigBuilder</span><span class="p">()</span> \
+    <span class="o">.</span><span class="n">with_dataset</span><span class="p">(</span><span class="s2">&quot;./data.jsonl&quot;</span><span class="p">,</span> <span class="n">max_samples</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_training</span><span class="p">(</span><span class="n">num_epochs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_lora</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">build</span><span class="p">()</span>
+</code></pre></div>
+
+<p><strong>2. Monitor Training</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Enable logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+
+<span class="c1"># Save training state</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.trainers</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoRATrainer</span>
+
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">LoRATrainer</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+
+<span class="c1"># Access training state</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Best loss: </span><span class="si">{</span><span class="n">trainer</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">best_loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Best epoch: </span><span class="si">{</span><span class="n">trainer</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">best_epoch</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loss history: </span><span class="si">{</span><span class="n">trainer</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">loss_history</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>3. Use Validation Sets</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Always split data</span>
+<span class="n">splits</span> <span class="o">=</span> <span class="n">prepare_dataset</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">split_for_validation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Train with validation</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">train_model</span><span class="p">(</span>
+    <span class="n">train_dataset</span><span class="o">=</span><span class="n">splits</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">],</span>
+    <span class="n">eval_dataset</span><span class="o">=</span><span class="n">splits</span><span class="p">[</span><span class="s1">&#39;validation&#39;</span><span class="p">],</span>  <span class="c1"># Important!</span>
+    <span class="o">...</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p><strong>4. Handle OOM Errors</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="k">try</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">train_model</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">OutOfMemoryError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;OOM: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Suggestions:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Reduce batch_size&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Reduce max_length&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Enable gradient_checkpointing&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Use lower LoRA rank&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="evaluation-best-practices"><strong>Evaluation Best Practices</strong><a class="headerlink" href="#evaluation-best-practices" title="Permanent link">&para;</a></h3>
+<p><strong>1. Use Multiple Metrics</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">config</span> <span class="o">=</span> <span class="n">EvaluationConfig</span><span class="p">(</span>
+    <span class="n">metrics</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">EvaluationMetric</span><span class="o">.</span><span class="n">ROUGE_1</span><span class="p">,</span>
+        <span class="n">EvaluationMetric</span><span class="o">.</span><span class="n">ROUGE_2</span><span class="p">,</span>
+        <span class="n">EvaluationMetric</span><span class="o">.</span><span class="n">ROUGE_L</span><span class="p">,</span>
+        <span class="n">EvaluationMetric</span><span class="o">.</span><span class="n">BLEU</span><span class="p">,</span>
+        <span class="n">EvaluationMetric</span><span class="o">.</span><span class="n">F1</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p><strong>2. Separate Test Set</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Never evaluate on training data!</span>
+<span class="n">splits</span> <span class="o">=</span> <span class="n">prepare_dataset</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">validation_ratio</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+<span class="c1"># Use held-out validation set</span>
+<span class="n">eval_result</span> <span class="o">=</span> <span class="n">evaluate_model</span><span class="p">(</span>
+    <span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">splits</span><span class="p">[</span><span class="s1">&#39;validation&#39;</span><span class="p">],</span>  <span class="c1"># Not training set!</span>
+    <span class="n">eval_config</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p><strong>3. Consistent Evaluation</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Use same config for fair comparison</span>
+<span class="n">eval_config</span> <span class="o">=</span> <span class="n">EvaluationConfig</span><span class="p">(</span>
+    <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="o">...</span><span class="p">],</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">generation_max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">generation_temperature</span><span class="o">=</span><span class="mf">0.7</span>
+<span class="p">)</span>
+
+<span class="n">base_result</span> <span class="o">=</span> <span class="n">evaluate_model</span><span class="p">(</span><span class="n">base_model</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="n">eval_config</span><span class="p">)</span>
+<span class="n">ft_result</span> <span class="o">=</span> <span class="n">evaluate_model</span><span class="p">(</span><span class="n">finetuned_model</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="n">eval_config</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="method-selection"><strong>Method Selection</strong><a class="headerlink" href="#method-selection" title="Permanent link">&para;</a></h3>
+<p><strong>Use the Method Recommender:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.trainers</span><span class="w"> </span><span class="kn">import</span> <span class="n">MethodRecommender</span>
+
+<span class="n">recommendation</span> <span class="o">=</span> <span class="n">MethodRecommender</span><span class="o">.</span><span class="n">recommend</span><span class="p">(</span>
+    <span class="n">model_size_params</span><span class="o">=</span><span class="mf">124e6</span><span class="p">,</span>   <span class="c1"># GPT-2 small</span>
+    <span class="n">available_vram_gb</span><span class="o">=</span><span class="mf">8.0</span><span class="p">,</span>
+    <span class="n">task_complexity</span><span class="o">=</span><span class="s2">&quot;medium&quot;</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Recommended: </span><span class="si">{</span><span class="n">recommendation</span><span class="p">[</span><span class="s1">&#39;recommendation&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reason: </span><span class="si">{</span><span class="n">recommendation</span><span class="p">[</span><span class="s1">&#39;reason&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Decision Tree:</strong></p>
+<div class="codehilite"><pre><span></span><code>┌─<span class="w"> </span><span class="nv">Memory</span><span class="w"> </span><span class="nv">abundant</span><span class="w"> </span><span class="ss">(</span><span class="mi">24</span><span class="nv">GB</span><span class="o">+</span><span class="ss">)</span><span class="w"> </span>?
+│<span class="w">  </span>└─<span class="w"> </span><span class="nv">Yes</span><span class="w"> </span>→<span class="w"> </span><span class="nv">Full</span><span class="w"> </span><span class="nv">Fine</span><span class="o">-</span><span class="nv">tuning</span>
+│<span class="w">  </span>└─<span class="w"> </span><span class="nv">No</span><span class="w"> </span>→<span class="w"> </span><span class="k">Continue</span>
+│
+├─<span class="w"> </span><span class="nv">Model</span><span class="w"> </span><span class="nv">size</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="nv">B</span><span class="w"> </span>?
+│<span class="w">  </span>└─<span class="w"> </span><span class="nv">Yes</span><span class="w"> </span>→<span class="w"> </span><span class="nv">LoRA</span><span class="w"> </span><span class="nv">or</span><span class="w"> </span><span class="nv">Full</span><span class="w"> </span><span class="nv">Fine</span><span class="o">-</span><span class="nv">tuning</span>
+│<span class="w">  </span>└─<span class="w"> </span><span class="nv">No</span><span class="w"> </span>→<span class="w"> </span><span class="k">Continue</span>
+│
+├─<span class="w"> </span><span class="nv">Model</span><span class="w"> </span><span class="nv">size</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">7</span><span class="nv">B</span><span class="w"> </span>?
+│<span class="w">  </span>└─<span class="w"> </span><span class="nv">Yes</span><span class="w"> </span>→<span class="w"> </span><span class="nv">LoRA</span>
+│<span class="w">  </span>└─<span class="w"> </span><span class="nv">No</span><span class="w"> </span>→<span class="w"> </span><span class="nv">QLoRA</span>
+│
+└─<span class="w"> </span><span class="nv">Model</span><span class="w"> </span><span class="nv">size</span><span class="w"> </span><span class="mi">7</span><span class="nv">B</span><span class="o">+</span><span class="w"> </span>?
+<span class="w">   </span>└─<span class="w"> </span><span class="nv">Yes</span><span class="w"> </span>→<span class="w"> </span><span class="nv">QLoRA</span><span class="w"> </span><span class="ss">(</span><span class="mi">4</span><span class="o">-</span><span class="nv">bit</span><span class="ss">)</span>
+</code></pre></div>
+
+<hr />
+<h2 id="additional-resources">📚 Additional Resources<a class="headerlink" href="#additional-resources" title="Permanent link">&para;</a></h2>
+<h3 id="configuration-examples"><strong>Configuration Examples</strong><a class="headerlink" href="#configuration-examples" title="Permanent link">&para;</a></h3>
+<p>See <code>examples/complete_training_pipeline.py</code> for:
+- LoRA training
+- Full fine-tuning
+- Method recommendation
+- Checkpoint resumption
+- Config file usage</p>
+<h3 id="api-reference"><strong>API Reference</strong><a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="../api/#trainers">Trainers API</a></li>
+<li><a href="../api/#evaluation">Evaluation API</a></li>
+<li><a href="../api/#configuration">Configuration API</a></li>
+</ul>
+<h3 id="troubleshooting"><strong>Troubleshooting</strong><a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="../troubleshooting/#training">Training Issues</a></li>
+<li><a href="../troubleshooting/#memory">Memory Problems</a></li>
+<li><a href="../troubleshooting/#evaluation">Evaluation Issues</a></li>
+</ul>
+<hr />
+<h2 id="summary">🎓 Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<h3 id="quick-reference"><strong>Quick Reference</strong><a class="headerlink" href="#quick-reference" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Train with LoRA</td>
+<td><code>train_model(..., TrainingMethod.LORA, lora_config)</code></td>
+</tr>
+<tr>
+<td>Train with QLoRA</td>
+<td><code>train_model(..., TrainingMethod.QLORA, lora_config, model_config)</code></td>
+</tr>
+<tr>
+<td>Full fine-tuning</td>
+<td><code>train_model(..., TrainingMethod.FULL_FINETUNING)</code></td>
+</tr>
+<tr>
+<td>Evaluate model</td>
+<td><code>evaluate_model(model, tokenizer, dataset, config)</code></td>
+</tr>
+<tr>
+<td>Benchmark models</td>
+<td><code>benchmark_models(base, finetuned, tokenizer, dataset, config)</code></td>
+</tr>
+<tr>
+<td>Quick eval</td>
+<td><code>quick_evaluate(model, tokenizer, inputs, references)</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="key-takeaways"><strong>Key Takeaways</strong><a class="headerlink" href="#key-takeaways" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Start with LoRA</strong> for most use cases</li>
+<li><strong>Use QLoRA</strong> for large models on consumer GPUs</li>
+<li><strong>Monitor training</strong> with validation sets</li>
+<li><strong>Evaluate comprehensively</strong> with multiple metrics</li>
+<li><strong>Benchmark</strong> before/after to measure improvement</li>
+<li><strong>Save checkpoints</strong> frequently</li>
+<li><strong>Use gradient checkpointing</strong> if memory constrained</li>
+</ol>
+<hr />
+<p><strong>Last Updated:</strong> 2025-01-29<br />
+<strong>Version:</strong> 2.0.0</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.sections", "navigation.tracking", "content.code.copy"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

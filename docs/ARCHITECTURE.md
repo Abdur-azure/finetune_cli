@@ -1,4 +1,4 @@
-# 🏗️ Finetune CLI Framework - Architecture Overview
+# 🏗️ Architecture Overview
 
 **Version:** 2.0 (FAANG-Grade Refactor)  
 **Last Updated:** 2025-01-29
