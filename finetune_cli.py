@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-LLM Fine-Tuning CLI Tool
-A comprehensive tool for fine-tuning LLMs with LoRA, benchmarking, and HuggingFace integration
+LLM Fine-Tuning CLI Tool - Extended Edition
+Supports: LoRA, QLoRA, AdaLoRA with user-friendly method selection
 """
 
 import os
@@ -17,9 +17,17 @@ from transformers import (
     AutoTokenizer,
     TrainingArguments,
     Trainer,
-    DataCollatorForLanguageModeling
+    DataCollatorForLanguageModeling,
+    BitsAndBytesConfig
 )
-from peft import LoraConfig, get_peft_model, TaskType, PeftModel
+from peft import (
+    LoraConfig, 
+    get_peft_model, 
+    TaskType, 
+    PeftModel,
+    AdaLoraConfig,
+    prepare_model_for_kbit_training
+)
 from rouge_score import rouge_scorer
 from huggingface_hub import HfApi, login, create_repo
 from tqdm import tqdm
@@ -35,24 +43,64 @@ class LLMFineTuner:
         self.tokenizer = None
         self.model = None
         self.peft_model = None
+        self.method = None  # Track which method is being used
         
-    def load_model(self):
-        """Load the base model and tokenizer"""
+    def load_model(self, method: str = "lora", load_in_4bit: bool = False, load_in_8bit: bool = False):
+        """Load the base model and tokenizer with optional quantization"""
         print(f"\n🔄 Loading model: {self.model_name}")
+        print(f"📍 Method: {method.upper()}")
         print(f"📍 Device: {self.device}")
         
+        self.method = method
+        
+        # Load tokenizer
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
         
         # Set pad token if not exists
         if self.tokenizer.pad_token is None:
             self.tokenizer.pad_token = self.tokenizer.eos_token
+        
+        # Configure quantization for QLoRA
+        model_kwargs = {}
+        
+        if method == "qlora" or load_in_4bit or load_in_8bit:
+            print(f"⚙️  Configuring quantization...")
             
+            if load_in_4bit or (method == "qlora" and not load_in_8bit):
+                print("   Using 4-bit quantization (NF4)")
+                bnb_config = BitsAndBytesConfig(
+                    load_in_4bit=True,
+                    bnb_4bit_quant_type="nf4",
+                    bnb_4bit_compute_dtype=torch.float16,
+                    bnb_4bit_use_double_quant=True,
+                )
+                model_kwargs['quantization_config'] = bnb_config
+                model_kwargs['device_map'] = "auto"
+            elif load_in_8bit:
+                print("   Using 8-bit quantization")
+                bnb_config = BitsAndBytesConfig(
+                    load_in_8bit=True,
+                )
+                model_kwargs['quantization_config'] = bnb_config
+                model_kwargs['device_map'] = "auto"
+        else:
+            # Standard loading for LoRA and AdaLoRA
+            if self.device == "cuda":
+                model_kwargs['torch_dtype'] = torch.float16
+                model_kwargs['device_map'] = "auto"
+        
+        model_kwargs['low_cpu_mem_usage'] = True
+        
+        # Load model
         self.model = AutoModelForCausalLM.from_pretrained(
             self.model_name,
-            torch_dtype=torch.float16 if self.device == "cuda" else torch.float32,
-            device_map="auto" if self.device == "cuda" else None,
-            low_cpu_mem_usage=True
+            **model_kwargs
         )
+        
+        # Prepare model for k-bit training if using quantization
+        if method == "qlora" or load_in_4bit or load_in_8bit:
+            self.model = prepare_model_for_kbit_training(self.model)
+            print("✅ Model prepared for quantized training")
         
         print("✅ Model loaded successfully\n")
         
@@ -183,9 +231,6 @@ class LLMFineTuner:
             ["q_lin", "v_lin", "k_lin", "out_lin"],
             ["c_attn", "c_proj"],  # GPT-2 style
             ["qkv_proj", "out_proj"],
-            # MLP layers (optional, for more comprehensive tuning)
-            ["fc1", "fc2"],
-            ["up_proj", "down_proj", "gate_proj"],
         ]
         
         # Find matching patterns
@@ -206,7 +251,7 @@ class LLMFineTuner:
     
     def setup_lora(self, r: int = 8, lora_alpha: int = 32, lora_dropout: float = 0.1,
                    target_modules: Optional[List[str]] = None):
-        """Configure and apply LoRA to the model"""
+        """Configure and apply standard LoRA to the model"""
         print(f"\n🎯 Setting up LoRA configuration...")
         print(f"   - r: {r}")
         print(f"   - alpha: {lora_alpha}")
@@ -227,25 +272,112 @@ class LLMFineTuner:
         self.peft_model = get_peft_model(self.model, lora_config)
         self.peft_model.print_trainable_parameters()
         print("✅ LoRA applied\n")
+    
+    def setup_qlora(self, r: int = 16, lora_alpha: int = 64, lora_dropout: float = 0.1,
+                    target_modules: Optional[List[str]] = None):
+        """Configure and apply QLoRA (LoRA on quantized model)"""
+        print(f"\n🎯 Setting up QLoRA configuration...")
+        print(f"   - r: {r} (higher rank for quantized models)")
+        print(f"   - alpha: {lora_alpha}")
+        print(f"   - dropout: {lora_dropout}")
+        print(f"   - Model is quantized (4-bit or 8-bit)")
         
+        if target_modules is None:
+            target_modules = self.get_target_modules()
+        
+        lora_config = LoraConfig(
+            r=r,
+            lora_alpha=lora_alpha,
+            target_modules=target_modules,
+            lora_dropout=lora_dropout,
+            bias="none",
+            task_type=TaskType.CAUSAL_LM
+        )
+        
+        self.peft_model = get_peft_model(self.model, lora_config)
+        self.peft_model.print_trainable_parameters()
+        print("✅ QLoRA applied\n")
+        
+        # Print memory savings estimate
+        self._print_qlora_memory_savings()
+    
+    def _print_qlora_memory_savings(self):
+        """Print estimated memory savings from quantization"""
+        total_params = sum(p.numel() for p in self.model.parameters())
+        
+        # Estimate memory usage
+        quant_memory = total_params * 0.5 / 1e9  # 4-bit = 0.5 bytes per param
+        full_memory = total_params * 4 / 1e9     # FP32 = 4 bytes per param
+        savings_ratio = 8.0
+        
+        print(f"\n💾 QLoRA Memory Savings:")
+        print(f"   Quantized model: ~{quant_memory:.2f} GB")
+        print(f"   Full precision would be: ~{full_memory:.2f} GB")
+        print(f"   Memory savings: ~{savings_ratio:.1f}x\n")
+    
+    def setup_adalora(self, target_r: int = 8, init_r: int = 12, lora_alpha: int = 32, 
+                      lora_dropout: float = 0.1, target_modules: Optional[List[str]] = None,
+                      tinit: int = 0, tfinal: int = 0, deltaT: int = 10,
+                      beta1: float = 0.85, beta2: float = 0.85, orth_reg_weight: float = 0.5):
+        """Configure and apply AdaLoRA with dynamic rank allocation"""
+        print(f"\n🎯 Setting up AdaLoRA configuration (Adaptive LoRA)...")
+        print(f"   - target_r: {target_r} (target average rank)")
+        print(f"   - init_r: {init_r} (initial rank, will be pruned)")
+        print(f"   - alpha: {lora_alpha}")
+        print(f"   - dropout: {lora_dropout}")
+        print(f"   - Rank allocation: DYNAMIC (importance-based)")
+        
+        if target_modules is None:
+            target_modules = self.get_target_modules()
+        
+        adalora_config = AdaLoraConfig(
+            task_type=TaskType.CAUSAL_LM,
+            target_r=target_r,
+            init_r=init_r,
+            lora_alpha=lora_alpha,
+            lora_dropout=lora_dropout,
+            target_modules=target_modules,
+            # Pruning schedule
+            tinit=tinit,
+            tfinal=tfinal,
+            deltaT=deltaT,
+            # Importance scoring parameters
+            beta1=beta1,
+            beta2=beta2,
+            # Regularization
+            orth_reg_weight=orth_reg_weight,
+        )
+        
+        self.peft_model = get_peft_model(self.model, adalora_config)
+        self.peft_model.print_trainable_parameters()
+        print("✅ AdaLoRA applied")
+        print("   Ranks will be dynamically adjusted during training\n")
+    
     def train(self, train_dataset: Dataset, num_epochs: int = 3, 
-              batch_size: int = 4, learning_rate: float = 2e-4):
-        """Train the model with LoRA"""
-        print(f"\n🚀 Starting training...")
+              batch_size: int = 4, learning_rate: float = 2e-4,
+              gradient_accumulation_steps: int = 4):
+        """Train the model with the configured method"""
+        print(f"\n🚀 Starting training with {self.method.upper()}...")
         print(f"   - Epochs: {num_epochs}")
         print(f"   - Batch size: {batch_size}")
-        print(f"   - Learning rate: {learning_rate}\n")
+        print(f"   - Learning rate: {learning_rate}")
+        print(f"   - Gradient accumulation: {gradient_accumulation_steps}\n")
+        
+        # Determine if using FP16 based on device and method
+        use_fp16 = self.device == "cuda" and self.method != "qlora"
         
         training_args = TrainingArguments(
             output_dir=self.output_dir,
             num_train_epochs=num_epochs,
             per_device_train_batch_size=batch_size,
-            gradient_accumulation_steps=4,
+            gradient_accumulation_steps=gradient_accumulation_steps,
             learning_rate=learning_rate,
-            fp16=self.device == "cuda",
+            fp16=use_fp16,
             logging_steps=10,
             save_strategy="epoch",
-            report_to=None
+            report_to=None,
+            # QLoRA specific optimizations
+            optim="paged_adamw_32bit" if self.method == "qlora" else "adamw_torch",
         )
         
         data_collator = DataCollatorForLanguageModeling(
@@ -367,6 +499,34 @@ class LLMFineTuner:
             print(f"❌ Error uploading model: {e}\n")
 
 
+def print_method_info():
+    """Print information about available methods"""
+    print("\n" + "="*70)
+    print("📚 FINE-TUNING METHODS GUIDE")
+    print("="*70)
+    
+    print("\n1️⃣  LoRA (Low-Rank Adaptation)")
+    print("   • Memory: Moderate (~50% of full fine-tuning)")
+    print("   • Trainable params: ~0.1-1%")
+    print("   • Best for: General purpose, balanced efficiency")
+    print("   • GPU requirement: 8GB+ VRAM")
+    
+    print("\n2️⃣  QLoRA (Quantized LoRA)")
+    print("   • Memory: Very Low (~12-25% of full fine-tuning)")
+    print("   • Trainable params: ~0.1-1%")
+    print("   • Best for: Large models (7B+), limited GPU memory")
+    print("   • GPU requirement: 6GB+ VRAM (can run 7B models!)")
+    
+    print("\n3️⃣  AdaLoRA (Adaptive LoRA)")
+    print("   • Memory: Moderate (same as LoRA)")
+    print("   • Trainable params: ~0.1-1%")
+    print("   • Best for: Optimal performance, automatic rank allocation")
+    print("   • GPU requirement: 8GB+ VRAM")
+    print("   • Special: Dynamically adjusts ranks during training")
+    
+    print("\n" + "="*70 + "\n")
+
+
 def get_user_input(prompt: str, default: Optional[str] = None) -> str:
     """Get user input with optional default value"""
     if default:
@@ -376,20 +536,54 @@ def get_user_input(prompt: str, default: Optional[str] = None) -> str:
 
 
 def main():
-    print("="*60)
-    print("🤖 LLM Fine-Tuning CLI Tool with LoRA")
-    print("="*60)
+    print("="*70)
+    print("🤖 LLM Fine-Tuning CLI Tool - Extended Edition")
+    print("   Supports: LoRA, QLoRA, AdaLoRA")
+    print("="*70)
     
-    # Step 1: Model Selection
-    print("\n📝 STEP 1: Model Configuration")
+    # Step 1: Method Selection
+    print("\n📝 STEP 1: Select Fine-Tuning Method")
+    print_method_info()
+    
+    print("Available methods:")
+    print("  1. LoRA       - Balanced efficiency and performance")
+    print("  2. QLoRA      - Maximum memory efficiency (for large models)")
+    print("  3. AdaLoRA    - Adaptive rank allocation (best performance)")
+    print("  4. Show detailed info about methods")
+    
+    method_choice = get_user_input("\nSelect method [1-4]", "1")
+    
+    if method_choice == "4":
+        print_method_info()
+        method_choice = get_user_input("Select method [1-3]", "1")
+    
+    method_map = {
+        "1": "lora",
+        "2": "qlora",
+        "3": "adalora"
+    }
+    
+    selected_method = method_map.get(method_choice, "lora")
+    
+    print(f"\n✅ Selected method: {selected_method.upper()}")
+    
+    # Step 2: Model Configuration
+    print("\n📝 STEP 2: Model Configuration")
     model_name = get_user_input("Enter model name (e.g., gpt2, facebook/opt-125m)", "gpt2")
     output_dir = get_user_input("Enter output directory", "./finetuned_model")
     
     finetuner = LLMFineTuner(model_name, output_dir)
-    finetuner.load_model()
     
-    # Step 2: Dataset Loading
-    print("\n📝 STEP 2: Dataset Configuration")
+    # Load model with appropriate configuration
+    if selected_method == "qlora":
+        print("\n💡 QLoRA uses 4-bit quantization by default")
+        use_8bit = get_user_input("Use 8-bit instead of 4-bit? (yes/no)", "no").lower() == "yes"
+        finetuner.load_model(method=selected_method, load_in_4bit=not use_8bit, load_in_8bit=use_8bit)
+    else:
+        finetuner.load_model(method=selected_method)
+    
+    # Step 3: Dataset Loading
+    print("\n📝 STEP 3: Dataset Configuration")
     print("\n💡 Dataset Loading Options:")
     print("   1. Local file (JSON, JSONL, CSV, TXT)")
     print("   2. HuggingFace dataset repository")
@@ -448,65 +642,115 @@ def main():
     
     print(f"✅ Using columns for training: {text_columns}")
     
-    # Step 3: Benchmark Before Fine-tuning
-    print("\n📝 STEP 3: Pre-training Benchmark")
-    num_samples = min(10, len(dataset))
+    # Step 4: Benchmark Before Fine-tuning
+    print("\n📝 STEP 4: Pre-training Benchmark")
+    run_benchmark = get_user_input("Run pre-training benchmark? (yes/no)", "yes").lower()
     
-    # Create test prompts from detected text columns
-    test_prompts = []
-    for i in range(num_samples):
-        if len(text_columns) == 1:
-            prompt = str(dataset[i][text_columns[0]])[:50]
-        else:
-            prompt = " ".join([str(dataset[i][col])[:30] for col in text_columns])[:50]
-        test_prompts.append(prompt)
+    base_scores = None
+    if run_benchmark in ['yes', 'y']:
+        num_samples = min(10, len(dataset))
+        
+        # Create test prompts from detected text columns
+        test_prompts = []
+        for i in range(num_samples):
+            if len(text_columns) == 1:
+                prompt = str(dataset[i][text_columns[0]])[:50]
+            else:
+                prompt = " ".join([str(dataset[i][col])[:30] for col in text_columns])[:50]
+            test_prompts.append(prompt)
+        
+        print(f"Using {num_samples} samples for benchmarking...")
+        base_scores = finetuner.benchmark(test_prompts, use_finetuned=False)
     
-    print(f"Using {num_samples} samples for benchmarking...")
-    base_scores = finetuner.benchmark(test_prompts, use_finetuned=False)
+    # Step 5: Method-Specific Configuration
+    print(f"\n📝 STEP 5: {selected_method.upper()} Configuration")
     
-    # Step 4: LoRA Configuration
-    print("\n📝 STEP 4: LoRA Configuration")
-    print("\n💡 LoRA Parameter Guide:")
-    print("   • r (rank): Controls adapter size. Lower = faster, less memory")
-    print("     Examples: 4 (very light), 8 (balanced), 16 (strong), 32 (heavy)")
-    print("   • alpha: Scaling factor. Typically 2x the rank")
-    print("     Examples: 16 (for r=8), 32 (for r=16), 64 (for r=32)")
-    print("   • dropout: Regularization. Higher = less overfitting")
-    print("     Examples: 0.05 (low), 0.1 (balanced), 0.2 (high)\n")
+    if selected_method == "lora":
+        print("\n💡 LoRA Parameter Guide:")
+        print("   • r (rank): Controls adapter size (4=light, 8=balanced, 16=strong)")
+        print("   • alpha: Scaling factor (typically 2x the rank)")
+        print("   • dropout: Regularization (0.05=low, 0.1=balanced, 0.2=high)\n")
+        
+        lora_r = int(get_user_input("Enter LoRA r (rank)", "8"))
+        lora_alpha = int(get_user_input("Enter LoRA alpha", "32"))
+        lora_dropout = float(get_user_input("Enter LoRA dropout", "0.1"))
+        
+        finetuner.setup_lora(r=lora_r, lora_alpha=lora_alpha, lora_dropout=lora_dropout)
     
-    lora_r = int(get_user_input("Enter LoRA r (rank)", "8"))
-    lora_alpha = int(get_user_input("Enter LoRA alpha", "32"))
-    lora_dropout = float(get_user_input("Enter LoRA dropout", "0.1"))
+    elif selected_method == "qlora":
+        print("\n💡 QLoRA Parameter Guide:")
+        print("   • Higher rank recommended for quantized models (8-16)")
+        print("   • alpha: 4x the rank works well")
+        print("   • dropout: 0.1 is standard\n")
+        
+        lora_r = int(get_user_input("Enter QLoRA r (rank)", "16"))
+        lora_alpha = int(get_user_input("Enter QLoRA alpha", "64"))
+        lora_dropout = float(get_user_input("Enter QLoRA dropout", "0.1"))
+        
+        finetuner.setup_qlora(r=lora_r, lora_alpha=lora_alpha, lora_dropout=lora_dropout)
     
-    finetuner.setup_lora(r=lora_r, lora_alpha=lora_alpha, lora_dropout=lora_dropout)
+    elif selected_method == "adalora":
+        print("\n💡 AdaLoRA Parameter Guide:")
+        print("   • target_r: Target average rank after pruning (4-16)")
+        print("   • init_r: Initial rank before pruning (1.5-2x target_r)")
+        print("   • Ranks will be automatically adjusted during training\n")
+        
+        target_r = int(get_user_input("Enter target rank", "8"))
+        init_r = int(get_user_input("Enter initial rank", "12"))
+        lora_alpha = int(get_user_input("Enter LoRA alpha", "32"))
+        lora_dropout = float(get_user_input("Enter LoRA dropout", "0.1"))
+        
+        print("\n💡 Advanced AdaLoRA settings (press Enter to use defaults)")
+        tinit = int(get_user_input("Pruning start step (0 = from beginning)", "0") or "0")
+        tfinal = int(get_user_input("Pruning end step (0 = auto-calculate)", "0") or "0")
+        deltaT = int(get_user_input("Steps between pruning iterations", "10") or "10")
+        
+        finetuner.setup_adalora(
+            target_r=target_r,
+            init_r=init_r,
+            lora_alpha=lora_alpha,
+            lora_dropout=lora_dropout,
+            tinit=tinit,
+            tfinal=tfinal,
+            deltaT=deltaT
+        )
     
-    # Step 5: Training
-    print("\n📝 STEP 5: Training Configuration")
+    # Step 6: Training Configuration
+    print("\n📝 STEP 6: Training Configuration")
     num_epochs = int(get_user_input("Enter number of epochs", "3"))
     batch_size = int(get_user_input("Enter batch size", "4"))
     learning_rate = float(get_user_input("Enter learning rate", "2e-4"))
+    gradient_accum = int(get_user_input("Enter gradient accumulation steps", "4"))
     
-    finetuner.train(tokenized_dataset, num_epochs, batch_size, learning_rate)
+    # Train
+    finetuner.train(
+        tokenized_dataset, 
+        num_epochs=num_epochs, 
+        batch_size=batch_size, 
+        learning_rate=learning_rate,
+        gradient_accumulation_steps=gradient_accum
+    )
     
-    # Step 6: Benchmark After Fine-tuning
-    print("\n📝 STEP 6: Post-training Benchmark")
-    finetuned_scores = finetuner.benchmark(test_prompts, use_finetuned=True)
+    # Step 7: Benchmark After Fine-tuning
+    if run_benchmark in ['yes', 'y']:
+        print("\n📝 STEP 7: Post-training Benchmark")
+        finetuned_scores = finetuner.benchmark(test_prompts, use_finetuned=True)
+        
+        # Show comparison
+        print("\n" + "="*70)
+        print("📊 PERFORMANCE COMPARISON")
+        print("="*70)
+        print(f"{'Metric':<12} {'Base Model':<15} {'Fine-tuned':<15} {'Improvement':<15}")
+        print("-"*70)
+        for metric in base_scores:
+            base = base_scores[metric]
+            finetuned = finetuned_scores[metric]
+            improvement = ((finetuned - base) / base * 100) if base > 0 else 0
+            print(f"{metric.upper():<12} {base:<15.4f} {finetuned:<15.4f} {improvement:+.2f}%")
+        print("="*70 + "\n")
     
-    # Show comparison
-    print("\n" + "="*60)
-    print("📊 PERFORMANCE COMPARISON")
-    print("="*60)
-    print(f"{'Metric':<12} {'Base Model':<15} {'Fine-tuned':<15} {'Improvement':<15}")
-    print("-"*60)
-    for metric in base_scores:
-        base = base_scores[metric]
-        finetuned = finetuned_scores[metric]
-        improvement = ((finetuned - base) / base * 100) if base > 0 else 0
-        print(f"{metric.upper():<12} {base:<15.4f} {finetuned:<15.4f} {improvement:+.2f}%")
-    print("="*60 + "\n")
-    
-    # Step 7: Upload to HuggingFace
-    print("\n📝 STEP 7: HuggingFace Upload (Optional)")
+    # Step 8: Upload to HuggingFace (Optional)
+    print("\n📝 STEP 8: HuggingFace Upload (Optional)")
     upload = get_user_input("Upload to HuggingFace? (yes/no)", "no").lower()
     
     if upload in ['yes', 'y']:
@@ -525,9 +769,28 @@ def main():
             private
         )
     
-    print("\n" + "="*60)
-    print("🎉 Fine-tuning complete!")
-    print("="*60)
+    print("\n" + "="*70)
+    print(f"🎉 Fine-tuning complete using {selected_method.upper()}!")
+    print("="*70)
+    print(f"\n✅ Model saved to: {output_dir}")
+    print(f"✅ Method used: {selected_method.upper()}")
+    print(f"✅ Tokenizer saved")
+    
+    if selected_method == "adalora":
+        print("\n💡 AdaLoRA Info:")
+        print("   - Ranks were dynamically adjusted during training")
+        print("   - Final rank distribution is optimized for your task")
+    elif selected_method == "qlora":
+        print("\n💡 QLoRA Info:")
+        print("   - Base model was quantized (4-bit or 8-bit)")
+        print("   - Only LoRA adapters are saved")
+        print("   - Significantly reduced memory footprint")
+    
+    print("\n📚 Next Steps:")
+    print("   1. Test the model with your own prompts")
+    print("   2. Evaluate on a held-out test set")
+    print("   3. Deploy or share on HuggingFace Hub")
+    print("\n")
 
 
 if __name__ == "__main__":
@@ -538,4 +801,6 @@ if __name__ == "__main__":
         sys.exit(0)
     except Exception as e:
         print(f"\n❌ Error: {e}")
+        import traceback
+        traceback.print_exc()
         sys.exit(1)
