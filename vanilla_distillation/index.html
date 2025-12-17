@@ -1,0 +1,2677 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://Abdur-azure.github.io/finetune_cli/vanilla_distillation/">
+      
+      
+        <link rel="prev" href="../usage/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Knowledge Distillation Guide - Finetune CLI</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#knowledge-distillation-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Finetune CLI" class="md-header__button md-logo" aria-label="Finetune CLI" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Finetune CLI
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Knowledge Distillation Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Abdur-azure/finetune_cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    finetune_cli
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Finetune CLI" class="md-nav__button md-logo" aria-label="Finetune CLI" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Finetune CLI
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Abdur-azure/finetune_cli" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    finetune_cli
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🤖 Finetune CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🏗️ Architecture Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../distillation_update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge Distillation Update
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../training_and_evaluation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Training and Evaluation Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge Distillation Guide
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge Distillation Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Concepts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vanilla-distillation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔵 Vanilla Distillation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔵 Vanilla Distillation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mathematical-formulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mathematical Formulation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advantages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advantages
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-to-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Use
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#feature-distillation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔴 Feature Distillation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔴 Feature Distillation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mathematical-formulation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mathematical Formulation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advantages_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advantages
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-to-use_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Use
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-parameters_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparison-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Comparison Table
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Comparison Table">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#performance-comparison-typical" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Comparison (Typical)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-guide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚙️ Configuration Guide
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚙️ Configuration Guide">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#choosing-temperature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choosing Temperature
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#choosing-alpha" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choosing Alpha
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#teacher-student-pairing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Teacher-Student Pairing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Use Cases
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Use Cases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#use-case-1-mobile-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Case 1: Mobile Deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-case-2-production-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Case 2: Production API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-case-3-edge-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Case 3: Edge AI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-case-4-domain-adaptation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Case 4: Domain Adaptation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 Best Practices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-teacher-model-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Teacher Model Selection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-hyperparameter-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Hyperparameter Tuning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-training-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Training Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-validation-and-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Validation and Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-common-pitfalls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Common Pitfalls
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-basic-vanilla-distillation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Basic Vanilla Distillation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-advanced-feature-distillation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Advanced Feature Distillation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-comparison-study" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: Comparison Study
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔬 Advanced Topics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔬 Advanced Topics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multi-teacher-distillation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-Teacher Distillation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#progressive-distillation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Progressive Distillation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-specific-distillation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task-Specific Distillation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-benchmarks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Performance Benchmarks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-decision-guide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Decision Guide
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Concepts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vanilla-distillation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔵 Vanilla Distillation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔵 Vanilla Distillation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mathematical-formulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mathematical Formulation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advantages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advantages
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-to-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Use
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#feature-distillation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔴 Feature Distillation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔴 Feature Distillation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mathematical-formulation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mathematical Formulation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advantages_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advantages
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-to-use_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to Use
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-parameters_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparison-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Comparison Table
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Comparison Table">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#performance-comparison-typical" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Comparison (Typical)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-guide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚙️ Configuration Guide
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚙️ Configuration Guide">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#choosing-temperature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choosing Temperature
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#choosing-alpha" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choosing Alpha
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#teacher-student-pairing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Teacher-Student Pairing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Use Cases
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 Use Cases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#use-case-1-mobile-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Case 1: Mobile Deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-case-2-production-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Case 2: Production API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-case-3-edge-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Case 3: Edge AI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-case-4-domain-adaptation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Case 4: Domain Adaptation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 Best Practices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-teacher-model-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Teacher Model Selection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-hyperparameter-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Hyperparameter Tuning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-training-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Training Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-validation-and-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Validation and Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-common-pitfalls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Common Pitfalls
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-basic-vanilla-distillation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Basic Vanilla Distillation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-advanced-feature-distillation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Advanced Feature Distillation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-comparison-study" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: Comparison Study
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔬 Advanced Topics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔬 Advanced Topics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multi-teacher-distillation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-Teacher Distillation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#progressive-distillation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Progressive Distillation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-specific-distillation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task-Specific Distillation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-benchmarks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Performance Benchmarks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-decision-guide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Decision Guide
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="knowledge-distillation-guide">Knowledge Distillation Guide<a class="headerlink" href="#knowledge-distillation-guide" title="Permanent link">&para;</a></h1>
+<p><strong>Complete guide to Knowledge Distillation methods in the LLM Fine-Tuning Framework</strong></p>
+<hr />
+<h2 id="table-of-contents">📋 Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
+<ol>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#vanilla-distillation">Vanilla Distillation</a></li>
+<li><a href="#feature-distillation">Feature Distillation</a></li>
+<li><a href="#comparison-table">Comparison Table</a></li>
+<li><a href="#configuration-guide">Configuration Guide</a></li>
+<li><a href="#use-cases">Use Cases</a></li>
+<li><a href="#best-practices">Best Practices</a></li>
+<li><a href="#examples">Examples</a></li>
+</ol>
+<hr />
+<h2 id="overview">🎯 Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p><strong>Knowledge Distillation</strong> is a model compression technique where a smaller <strong>student model</strong> learns to mimic a larger, more powerful <strong>teacher model</strong>. This enables:</p>
+<ul>
+<li><strong>Model Compression</strong>: Reduce model size by 2-10x</li>
+<li><strong>Inference Speed</strong>: Faster predictions on resource-constrained devices</li>
+<li><strong>Efficiency</strong>: Maintain most of the teacher's performance with fewer parameters</li>
+<li><strong>Deployment</strong>: Enable edge deployment and mobile applications</li>
+</ul>
+<h3 id="key-concepts"><strong>Key Concepts</strong><a class="headerlink" href="#key-concepts" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Teacher Model</strong></td>
+<td>Large, pre-trained model with strong performance</td>
+</tr>
+<tr>
+<td><strong>Student Model</strong></td>
+<td>Smaller model that learns from teacher</td>
+</tr>
+<tr>
+<td><strong>Knowledge Transfer</strong></td>
+<td>Process of transferring teacher's knowledge to student</td>
+</tr>
+<tr>
+<td><strong>Soft Targets</strong></td>
+<td>Probability distributions (softer than hard labels)</td>
+</tr>
+<tr>
+<td><strong>Temperature</strong></td>
+<td>Controls softness of probability distributions</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="vanilla-distillation">🔵 Vanilla Distillation<a class="headerlink" href="#vanilla-distillation" title="Permanent link">&para;</a></h2>
+<h3 id="overview_1"><strong>Overview</strong><a class="headerlink" href="#overview_1" title="Permanent link">&para;</a></h3>
+<p><strong>Vanilla Distillation</strong> (also called <strong>Output Distillation</strong>) transfers knowledge through the teacher's output probability distributions.</p>
+<p><strong>How It Works:</strong>
+1. Teacher generates soft probability distributions using temperature scaling
+2. Student learns to match these distributions via KL divergence
+3. Combined loss: α × CrossEntropy + (1-α) × KL_Divergence</p>
+<h3 id="mathematical-formulation"><strong>Mathematical Formulation</strong><a class="headerlink" href="#mathematical-formulation" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>Soft Targets: p_teacher = softmax(logits_teacher / T)
+Student Predictions: p_student = log_softmax(logits_student / T)
+
+KL Loss = KL_div(p_student, p_teacher) × T²
+Total Loss = α × CE_loss + (1-α) × KL_loss
+</code></pre></div>
+
+<p>Where:
+- <strong>T</strong> = Temperature (higher = softer distributions)
+- <strong>α</strong> = Weight for standard cross-entropy loss
+- <strong>KL_div</strong> = Kullback-Leibler divergence</p>
+<h3 id="advantages"><strong>Advantages</strong><a class="headerlink" href="#advantages" title="Permanent link">&para;</a></h3>
+<p>✅ <strong>Simple</strong>: Only requires output logits<br />
+✅ <strong>Effective</strong>: Proven to work well across domains<br />
+✅ <strong>Fast</strong>: Minimal computational overhead<br />
+✅ <strong>Universal</strong>: Works with any architecture  </p>
+<h3 id="when-to-use"><strong>When to Use</strong><a class="headerlink" href="#when-to-use" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Model Compression</strong>: Reducing model size while maintaining performance</li>
+<li><strong>Task Generalization</strong>: Teacher provides richer supervision than hard labels</li>
+<li><strong>Transfer Learning</strong>: Transferring knowledge to a different architecture</li>
+<li><strong>Edge Deployment</strong>: Creating smaller models for mobile/embedded devices</li>
+</ul>
+<h3 id="configuration-parameters"><strong>Configuration Parameters</strong><a class="headerlink" href="#configuration-parameters" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Range</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>temperature</code></td>
+<td>1.0-10.0</td>
+<td>2.0</td>
+<td>Softness of probability distributions</td>
+</tr>
+<tr>
+<td><code>alpha</code></td>
+<td>0.0-1.0</td>
+<td>0.5</td>
+<td>Weight for cross-entropy loss</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Temperature Guide:</strong>
+- <strong>T = 1.0</strong>: Hard targets (no distillation benefit)
+- <strong>T = 2.0</strong>: Balanced softness (recommended)
+- <strong>T = 5.0</strong>: Very soft targets (for very different architectures)
+- <strong>T = 10.0</strong>: Maximum softness (rarely needed)</p>
+<p><strong>Alpha Guide:</strong>
+- <strong>α = 0.0</strong>: Pure distillation (no ground truth)
+- <strong>α = 0.3</strong>: Mostly distillation (recommended for strong teachers)
+- <strong>α = 0.5</strong>: Balanced (default, good starting point)
+- <strong>α = 0.7</strong>: Mostly ground truth (weaker teachers)
+- <strong>α = 1.0</strong>: No distillation (standard fine-tuning)</p>
+<h3 id="example-usage"><strong>Example Usage</strong><a class="headerlink" href="#example-usage" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMFineTuner</span>
+
+<span class="c1"># Initialize</span>
+<span class="n">finetuner</span> <span class="o">=</span> <span class="n">LLMFineTuner</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">,</span> <span class="s2">&quot;./distilled_model&quot;</span><span class="p">)</span>
+
+<span class="c1"># Load student model</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;vanilla_distillation&quot;</span><span class="p">)</span>
+
+<span class="c1"># Load teacher model</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">load_teacher_model</span><span class="p">(</span><span class="s2">&quot;gpt2-medium&quot;</span><span class="p">)</span>
+
+<span class="c1"># Setup vanilla distillation</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">setup_vanilla_distillation</span><span class="p">(</span>
+    <span class="n">temperature</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span>
+<span class="p">)</span>
+
+<span class="c1"># Train</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">num_epochs</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>CLI Usage:</strong></p>
+<div class="codehilite"><pre><span></span><code>python<span class="w"> </span>finetune_cli.py
+
+<span class="c1"># Select method: 4 (Vanilla Distillation)</span>
+<span class="c1"># Student model: gpt2</span>
+<span class="c1"># Teacher model: gpt2-medium</span>
+<span class="c1"># Temperature: 2.0</span>
+<span class="c1"># Alpha: 0.5</span>
+</code></pre></div>
+
+<hr />
+<h2 id="feature-distillation">🔴 Feature Distillation<a class="headerlink" href="#feature-distillation" title="Permanent link">&para;</a></h2>
+<h3 id="overview_2"><strong>Overview</strong><a class="headerlink" href="#overview_2" title="Permanent link">&para;</a></h3>
+<p><strong>Feature Distillation</strong> (also called <strong>Intermediate Layer Distillation</strong>) transfers knowledge through intermediate layer representations, not just final outputs.</p>
+<p><strong>How It Works:</strong>
+1. Extract hidden states from teacher's intermediate layers
+2. Extract corresponding hidden states from student's layers
+3. Minimize MSE between teacher and student representations
+4. Combine with output distillation or standard loss</p>
+<h3 id="mathematical-formulation_1"><strong>Mathematical Formulation</strong><a class="headerlink" href="#mathematical-formulation_1" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="n">Feature</span><span class="w"> </span><span class="n">Loss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">N</span><span class="p">)</span><span class="w"> </span><span class="err">×</span><span class="w"> </span><span class="n">Σ</span><span class="w"> </span><span class="n">MSE</span><span class="p">(</span><span class="n">h_student</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">h_teacher</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">)</span>
+
+<span class="k">Where</span><span class="err">:</span>
+<span class="o">-</span><span class="w"> </span><span class="n">h_student</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">student</span><span class="s1">&#39;s hidden states at layer i</span>
+<span class="s1">- h_teacher[i] = teacher&#39;</span><span class="n">s</span><span class="w"> </span><span class="n">hidden</span><span class="w"> </span><span class="n">states</span><span class="w"> </span><span class="k">at</span><span class="w"> </span><span class="n">layer</span><span class="w"> </span><span class="n">i</span>
+<span class="o">-</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">layers</span><span class="w"> </span><span class="n">being</span><span class="w"> </span><span class="n">matched</span>
+
+<span class="n">Total</span><span class="w"> </span><span class="n">Loss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">α</span><span class="w"> </span><span class="err">×</span><span class="w"> </span><span class="n">CE_loss</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">α</span><span class="p">)</span><span class="w"> </span><span class="err">×</span><span class="w"> </span><span class="n">Feature_loss</span>
+</code></pre></div>
+
+<h3 id="advantages_1"><strong>Advantages</strong><a class="headerlink" href="#advantages_1" title="Permanent link">&para;</a></h3>
+<p>✅ <strong>Richer Knowledge</strong>: Captures intermediate representations<br />
+✅ <strong>Better Generalization</strong>: Learns feature hierarchies<br />
+✅ <strong>Architectural Understanding</strong>: Transfers layer-wise knowledge<br />
+✅ <strong>Improved Performance</strong>: Often outperforms vanilla distillation  </p>
+<h3 id="when-to-use_1"><strong>When to Use</strong><a class="headerlink" href="#when-to-use_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Complex Tasks</strong>: Tasks requiring understanding of intermediate features</li>
+<li><strong>Similar Architectures</strong>: Student and teacher have similar layer structures</li>
+<li><strong>Maximum Performance</strong>: When you want the best possible student</li>
+<li><strong>Feature Learning</strong>: When intermediate representations are important</li>
+</ul>
+<h3 id="configuration-parameters_1"><strong>Configuration Parameters</strong><a class="headerlink" href="#configuration-parameters_1" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Range</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>temperature</code></td>
+<td>1.0-10.0</td>
+<td>2.0</td>
+<td>For output distillation component</td>
+</tr>
+<tr>
+<td><code>alpha</code></td>
+<td>0.0-1.0</td>
+<td>0.3</td>
+<td>Weight for CE loss (lower for feature distillation)</td>
+</tr>
+<tr>
+<td><code>feature_layers</code></td>
+<td>List[int]</td>
+<td>Auto</td>
+<td>Which layers to match</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Layer Selection Strategies:</strong></p>
+<ol>
+<li>
+<p><strong>Auto (Default)</strong>: Evenly spaced layers
+   <code>python
+   # If student has 12 layers, selects: [0, 3, 6, 9]
+   feature_layers = None  # Auto-detect</code></p>
+</li>
+<li>
+<p><strong>All Layers</strong>: Maximum knowledge transfer
+   <code>python
+   feature_layers = list(range(12))  # All 12 layers</code></p>
+</li>
+<li>
+<p><strong>Key Layers</strong>: Focus on important layers
+   <code>python
+   feature_layers = [0, 5, 11]  # First, middle, last</code></p>
+</li>
+<li>
+<p><strong>Late Layers</strong>: Focus on high-level features
+   <code>python
+   feature_layers = [8, 9, 10, 11]  # Last 4 layers</code></p>
+</li>
+</ol>
+<h3 id="example-usage_1"><strong>Example Usage</strong><a class="headerlink" href="#example-usage_1" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMFineTuner</span>
+
+<span class="c1"># Initialize</span>
+<span class="n">finetuner</span> <span class="o">=</span> <span class="n">LLMFineTuner</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">,</span> <span class="s2">&quot;./distilled_model&quot;</span><span class="p">)</span>
+
+<span class="c1"># Load models</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;feature_distillation&quot;</span><span class="p">)</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">load_teacher_model</span><span class="p">(</span><span class="s2">&quot;gpt2-large&quot;</span><span class="p">)</span>
+
+<span class="c1"># Setup feature distillation</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">setup_feature_distillation</span><span class="p">(</span>
+    <span class="n">temperature</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>  <span class="c1"># Lower alpha for feature focus</span>
+    <span class="n">feature_layers</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">11</span><span class="p">]</span>  <span class="c1"># Key layers</span>
+<span class="p">)</span>
+
+<span class="c1"># Train</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">num_epochs</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>CLI Usage:</strong></p>
+<div class="codehilite"><pre><span></span><code>python<span class="w"> </span>finetune_cli.py
+
+<span class="c1"># Select method: 5 (Feature Distillation)</span>
+<span class="c1"># Student model: gpt2</span>
+<span class="c1"># Teacher model: gpt2-large</span>
+<span class="c1"># Temperature: 2.0</span>
+<span class="c1"># Alpha: 0.3</span>
+</code></pre></div>
+
+<hr />
+<h2 id="comparison-table">📊 Comparison Table<a class="headerlink" href="#comparison-table" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Vanilla Distillation</th>
+<th>Feature Distillation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Complexity</strong></td>
+<td>Low</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td><strong>Training Speed</strong></td>
+<td>Fast</td>
+<td>Slower (2-3x overhead)</td>
+</tr>
+<tr>
+<td><strong>Memory Usage</strong></td>
+<td>Low</td>
+<td>Higher (stores hidden states)</td>
+</tr>
+<tr>
+<td><strong>Performance</strong></td>
+<td>Good</td>
+<td>Better</td>
+</tr>
+<tr>
+<td><strong>Teacher-Student Gap</strong></td>
+<td>Works with large gaps</td>
+<td>Better with similar architectures</td>
+</tr>
+<tr>
+<td><strong>Hyperparameter Tuning</strong></td>
+<td>Easier (2 params)</td>
+<td>More complex (3+ params)</td>
+</tr>
+<tr>
+<td><strong>Use Case</strong></td>
+<td>General compression</td>
+<td>Maximum performance</td>
+</tr>
+<tr>
+<td><strong>Implementation</strong></td>
+<td>Simple</td>
+<td>More involved</td>
+</tr>
+</tbody>
+</table>
+<h3 id="performance-comparison-typical"><strong>Performance Comparison (Typical)</strong><a class="headerlink" href="#performance-comparison-typical" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Student Size</th>
+<th>Performance Retained</th>
+<th>Training Time</th>
+<th>Memory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Vanilla Distillation</strong></td>
+<td>50% of teacher</td>
+<td>85-90%</td>
+<td>1x</td>
+<td>1.2x</td>
+</tr>
+<tr>
+<td><strong>Feature Distillation</strong></td>
+<td>50% of teacher</td>
+<td>90-95%</td>
+<td>2x</td>
+<td>1.5x</td>
+</tr>
+<tr>
+<td><strong>No Distillation</strong></td>
+<td>50% of teacher</td>
+<td>75-80%</td>
+<td>1x</td>
+<td>1x</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="configuration-guide">⚙️ Configuration Guide<a class="headerlink" href="#configuration-guide" title="Permanent link">&para;</a></h2>
+<h3 id="choosing-temperature"><strong>Choosing Temperature</strong><a class="headerlink" href="#choosing-temperature" title="Permanent link">&para;</a></h3>
+<p><strong>General Guidelines:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Temperature</th>
+<th>Use Case</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1.0-1.5</strong></td>
+<td>Similar architectures, small gap</td>
+<td>GPT-2 → GPT-2-small</td>
+</tr>
+<tr>
+<td><strong>2.0-3.0</strong></td>
+<td>Moderate gap (recommended)</td>
+<td>GPT-2-medium → GPT-2</td>
+</tr>
+<tr>
+<td><strong>4.0-6.0</strong></td>
+<td>Large gap</td>
+<td>GPT-2-large → GPT-2</td>
+</tr>
+<tr>
+<td><strong>7.0-10.0</strong></td>
+<td>Very different architectures</td>
+<td>BERT → DistilBERT</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tuning Strategy:</strong>
+1. Start with T=2.0
+2. If student struggles: increase to 3.0-4.0
+3. If overfitting: decrease to 1.5
+4. Monitor validation loss to find optimal value</p>
+<h3 id="choosing-alpha"><strong>Choosing Alpha</strong><a class="headerlink" href="#choosing-alpha" title="Permanent link">&para;</a></h3>
+<p><strong>Decision Matrix:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Teacher Quality</th>
+<th>Task Difficulty</th>
+<th>Recommended Alpha</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Strong</td>
+<td>Easy</td>
+<td>0.2-0.3</td>
+</tr>
+<tr>
+<td>Strong</td>
+<td>Hard</td>
+<td>0.4-0.5</td>
+</tr>
+<tr>
+<td>Moderate</td>
+<td>Easy</td>
+<td>0.5-0.6</td>
+</tr>
+<tr>
+<td>Moderate</td>
+<td>Hard</td>
+<td>0.6-0.7</td>
+</tr>
+<tr>
+<td>Weak</td>
+<td>Any</td>
+<td>0.7-0.9</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rules of Thumb:</strong>
+- <strong>Strong teacher + abundant data</strong>: Lower alpha (0.2-0.4)
+- <strong>Weak teacher or noisy data</strong>: Higher alpha (0.6-0.8)
+- <strong>Balanced approach</strong>: α = 0.5
+- <strong>Feature distillation</strong>: Use 0.2-0.4 (focus on features)</p>
+<h3 id="teacher-student-pairing"><strong>Teacher-Student Pairing</strong><a class="headerlink" href="#teacher-student-pairing" title="Permanent link">&para;</a></h3>
+<p><strong>Recommended Compression Ratios:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Teacher</th>
+<th>Student</th>
+<th>Compression</th>
+<th>Method</th>
+<th>Expected Performance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPT-2 Medium (355M)</td>
+<td>GPT-2 (124M)</td>
+<td>2.9x</td>
+<td>Vanilla</td>
+<td>85-90%</td>
+</tr>
+<tr>
+<td>GPT-2 Large (774M)</td>
+<td>GPT-2 Medium (355M)</td>
+<td>2.2x</td>
+<td>Feature</td>
+<td>90-95%</td>
+</tr>
+<tr>
+<td>GPT-2 XL (1.5B)</td>
+<td>GPT-2 Large (774M)</td>
+<td>1.9x</td>
+<td>Feature</td>
+<td>92-97%</td>
+</tr>
+<tr>
+<td>LLaMA-7B</td>
+<td>LLaMA-3B</td>
+<td>2.3x</td>
+<td>Feature</td>
+<td>88-93%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key Principles:</strong>
+- <strong>Moderate gap</strong> (2-4x compression) works best
+- <strong>Too small gap</strong>: Minimal benefit
+- <strong>Too large gap</strong>: Performance drop
+- <strong>Architecture similarity</strong>: Important for feature distillation</p>
+<hr />
+<h2 id="use-cases">💡 Use Cases<a class="headerlink" href="#use-cases" title="Permanent link">&para;</a></h2>
+<h3 id="use-case-1-mobile-deployment"><strong>Use Case 1: Mobile Deployment</strong><a class="headerlink" href="#use-case-1-mobile-deployment" title="Permanent link">&para;</a></h3>
+<p><strong>Scenario</strong>: Deploy GPT-2-large quality on mobile devices</p>
+<p><strong>Solution</strong>: Vanilla Distillation</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Teacher: GPT-2-large (774M params)</span>
+<span class="c1"># Student: GPT-2 (124M params)</span>
+<span class="c1"># Result: 6.2x smaller, 85% performance</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">setup_vanilla_distillation</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Benefits:</strong>
+- 6x faster inference
+- Fits in mobile memory
+- Maintains most capabilities</p>
+<h3 id="use-case-2-production-api"><strong>Use Case 2: Production API</strong><a class="headerlink" href="#use-case-2-production-api" title="Permanent link">&para;</a></h3>
+<p><strong>Scenario</strong>: Reduce inference costs for high-volume API</p>
+<p><strong>Solution</strong>: Feature Distillation</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Teacher: GPT-2-XL (1.5B params)</span>
+<span class="c1"># Student: GPT-2-large (774M params)</span>
+<span class="c1"># Result: 2x smaller, 95% performance</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">setup_feature_distillation</span><span class="p">(</span>
+    <span class="n">temperature</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+    <span class="n">feature_layers</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">23</span><span class="p">]</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Benefits:</strong>
+- 2x throughput
+- 50% cost reduction
+- Minimal quality loss</p>
+<h3 id="use-case-3-edge-ai"><strong>Use Case 3: Edge AI</strong><a class="headerlink" href="#use-case-3-edge-ai" title="Permanent link">&para;</a></h3>
+<p><strong>Scenario</strong>: IoT device with 512MB RAM</p>
+<p><strong>Solution</strong>: Aggressive Vanilla Distillation</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Teacher: GPT-2-medium (355M)</span>
+<span class="c1"># Student: DistilGPT-2 (82M)</span>
+<span class="c1"># Result: 4.3x smaller, fits in 512MB</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">setup_vanilla_distillation</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="mf">4.0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Benefits:</strong>
+- Runs on constrained hardware
+- Offline inference
+- 70-80% performance retained</p>
+<h3 id="use-case-4-domain-adaptation"><strong>Use Case 4: Domain Adaptation</strong><a class="headerlink" href="#use-case-4-domain-adaptation" title="Permanent link">&para;</a></h3>
+<p><strong>Scenario</strong>: Transfer medical knowledge from large model</p>
+<p><strong>Solution</strong>: Feature Distillation with domain data</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Teacher: GPT-2-large fine-tuned on medical data</span>
+<span class="c1"># Student: GPT-2 trained with distillation</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">setup_feature_distillation</span><span class="p">(</span>
+    <span class="n">temperature</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
+    <span class="n">feature_layers</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">11</span><span class="p">]</span>  <span class="c1"># Key medical knowledge layers</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Benefits:</strong>
+- Captures domain-specific representations
+- Smaller model with specialized knowledge
+- Better than training student from scratch</p>
+<hr />
+<h2 id="best-practices">🎓 Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
+<h3 id="1-teacher-model-selection"><strong>1. Teacher Model Selection</strong><a class="headerlink" href="#1-teacher-model-selection" title="Permanent link">&para;</a></h3>
+<p><strong>Do:</strong>
+- ✅ Use a model 2-4x larger than student
+- ✅ Ensure teacher is well-trained on target task
+- ✅ Use similar architecture families when possible
+- ✅ Verify teacher performance before distillation</p>
+<p><strong>Don't:</strong>
+- ❌ Use poorly trained teachers (will transfer mistakes)
+- ❌ Use teachers with vastly different architectures for feature distillation
+- ❌ Skip teacher validation
+- ❌ Use compression ratios &gt; 10x</p>
+<h3 id="2-hyperparameter-tuning"><strong>2. Hyperparameter Tuning</strong><a class="headerlink" href="#2-hyperparameter-tuning" title="Permanent link">&para;</a></h3>
+<p><strong>Tuning Order:</strong>
+1. <strong>Temperature</strong>: Start with 2.0, adjust based on loss convergence
+2. <strong>Alpha</strong>: Start with 0.5, tune based on validation performance
+3. <strong>Feature Layers</strong>: Start with auto-selection, refine if needed</p>
+<p><strong>Grid Search Example:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Try these combinations</span>
+<span class="n">configs</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s1">&#39;temp&#39;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">},</span>
+    <span class="p">{</span><span class="s1">&#39;temp&#39;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">},</span>
+    <span class="p">{</span><span class="s1">&#39;temp&#39;</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span> <span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="mf">0.4</span><span class="p">},</span>
+    <span class="p">{</span><span class="s1">&#39;temp&#39;</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">,</span> <span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">},</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<h3 id="3-training-strategy"><strong>3. Training Strategy</strong><a class="headerlink" href="#3-training-strategy" title="Permanent link">&para;</a></h3>
+<p><strong>Recommended Approach:</strong>
+1. <strong>Pre-train student</strong>: Regular training first (optional)
+2. <strong>Distillation</strong>: Apply distillation for refinement
+3. <strong>Fine-tune</strong>: Additional epochs on hard examples
+4. <strong>Evaluation</strong>: Test on held-out set</p>
+<p><strong>Training Schedule:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Phase 1: Standard training (optional)</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;standard&quot;</span><span class="p">)</span>
+
+<span class="c1"># Phase 2: Distillation</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">setup_vanilla_distillation</span><span class="p">(</span><span class="n">temp</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Phase 3: Fine-tuning</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">hard_examples</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="4-validation-and-testing"><strong>4. Validation and Testing</strong><a class="headerlink" href="#4-validation-and-testing" title="Permanent link">&para;</a></h3>
+<p><strong>Metrics to Track:</strong>
+- <strong>Student Loss</strong>: Should converge below teacher's
+- <strong>KL Divergence</strong>: Should decrease over time
+- <strong>Task Performance</strong>: Compare student vs teacher on validation
+- <strong>Inference Speed</strong>: Measure actual speedup</p>
+<p><strong>Validation Strategy:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Regular validation during training</span>
+<span class="n">val_scores_student</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">student_model</span><span class="p">,</span> <span class="n">val_set</span><span class="p">)</span>
+<span class="n">val_scores_teacher</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">teacher_model</span><span class="p">,</span> <span class="n">val_set</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Performance retention: </span><span class="si">{</span><span class="n">val_scores_student</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">val_scores_teacher</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="5-common-pitfalls"><strong>5. Common Pitfalls</strong><a class="headerlink" href="#5-common-pitfalls" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Pitfall</th>
+<th>Symptom</th>
+<th>Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Too high temperature</strong></td>
+<td>Student loss doesn't converge</td>
+<td>Lower to 2.0-3.0</td>
+</tr>
+<tr>
+<td><strong>Too low alpha</strong></td>
+<td>Ignores ground truth</td>
+<td>Increase to 0.5-0.7</td>
+</tr>
+<tr>
+<td><strong>Wrong layers</strong></td>
+<td>Poor feature transfer</td>
+<td>Use auto-selection or key layers</td>
+</tr>
+<tr>
+<td><strong>Undertrained teacher</strong></td>
+<td>Student learns errors</td>
+<td>Train teacher thoroughly first</td>
+</tr>
+<tr>
+<td><strong>Overfitting</strong></td>
+<td>Good train, poor val</td>
+<td>Increase regularization, lower alpha</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="examples">📚 Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<h3 id="example-1-basic-vanilla-distillation"><strong>Example 1: Basic Vanilla Distillation</strong><a class="headerlink" href="#example-1-basic-vanilla-distillation" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMFineTuner</span>
+
+<span class="c1"># Setup</span>
+<span class="n">finetuner</span> <span class="o">=</span> <span class="n">LLMFineTuner</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">,</span> <span class="s2">&quot;./vanilla_distilled&quot;</span><span class="p">)</span>
+
+<span class="c1"># Load models</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;vanilla_distillation&quot;</span><span class="p">)</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">load_teacher_model</span><span class="p">(</span><span class="s2">&quot;gpt2-medium&quot;</span><span class="p">)</span>
+
+<span class="c1"># Load dataset</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">load_dataset_from_source</span><span class="p">(</span><span class="s2">&quot;./data.jsonl&quot;</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+<span class="n">tokenized</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">prepare_dataset</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">512</span><span class="p">)</span>
+
+<span class="c1"># Configure vanilla distillation</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">setup_vanilla_distillation</span><span class="p">(</span>
+    <span class="n">temperature</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span>
+<span class="p">)</span>
+
+<span class="c1"># Train</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">train</span><span class="p">(</span>
+    <span class="n">tokenized</span><span class="p">,</span>
+    <span class="n">num_epochs</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">2e-4</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Vanilla distillation complete!&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="example-2-advanced-feature-distillation"><strong>Example 2: Advanced Feature Distillation</strong><a class="headerlink" href="#example-2-advanced-feature-distillation" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMFineTuner</span>
+
+<span class="c1"># Setup</span>
+<span class="n">finetuner</span> <span class="o">=</span> <span class="n">LLMFineTuner</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">,</span> <span class="s2">&quot;./feature_distilled&quot;</span><span class="p">)</span>
+
+<span class="c1"># Load models</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;feature_distillation&quot;</span><span class="p">)</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">load_teacher_model</span><span class="p">(</span><span class="s2">&quot;gpt2-large&quot;</span><span class="p">)</span>
+
+<span class="c1"># Load dataset</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">load_dataset_from_source</span><span class="p">(</span>
+    <span class="s2">&quot;wikitext&quot;</span><span class="p">,</span>
+    <span class="n">dataset_config</span><span class="o">=</span><span class="s2">&quot;wikitext-2-raw-v1&quot;</span><span class="p">,</span>
+    <span class="n">num_samples</span><span class="o">=</span><span class="mi">20000</span>
+<span class="p">)</span>
+<span class="n">tokenized</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">prepare_dataset</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">512</span><span class="p">)</span>
+
+<span class="c1"># Configure feature distillation</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">setup_feature_distillation</span><span class="p">(</span>
+    <span class="n">temperature</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>  <span class="c1"># Focus more on features</span>
+    <span class="n">feature_layers</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">]</span>  <span class="c1"># Key layers</span>
+<span class="p">)</span>
+
+<span class="c1"># Train with smaller learning rate</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">train</span><span class="p">(</span>
+    <span class="n">tokenized</span><span class="p">,</span>
+    <span class="n">num_epochs</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-4</span>  <span class="c1"># Lower LR for feature matching</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Feature distillation complete!&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="example-3-comparison-study"><strong>Example 3: Comparison Study</strong><a class="headerlink" href="#example-3-comparison-study" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMFineTuner</span>
+
+<span class="c1"># Compare vanilla vs feature distillation</span>
+<span class="n">methods</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">&quot;vanilla&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">}),</span>
+    <span class="p">(</span><span class="s2">&quot;feature&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span> <span class="s2">&quot;feature_layers&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">})</span>
+<span class="p">]</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">method_name</span><span class="p">,</span> <span class="n">config</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">50</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training with </span><span class="si">{</span><span class="n">method_name</span><span class="si">}</span><span class="s2"> distillation&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">50</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">finetuner</span> <span class="o">=</span> <span class="n">LLMFineTuner</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;./distilled_</span><span class="si">{</span><span class="n">method_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">finetuner</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method_name</span><span class="si">}</span><span class="s2">_distillation&quot;</span><span class="p">)</span>
+    <span class="n">finetuner</span><span class="o">.</span><span class="n">load_teacher_model</span><span class="p">(</span><span class="s2">&quot;gpt2-medium&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Setup distillation</span>
+    <span class="k">if</span> <span class="n">method_name</span> <span class="o">==</span> <span class="s2">&quot;vanilla&quot;</span><span class="p">:</span>
+        <span class="n">finetuner</span><span class="o">.</span><span class="n">setup_vanilla_distillation</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">finetuner</span><span class="o">.</span><span class="n">setup_feature_distillation</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="p">)</span>
+
+    <span class="c1"># Train and evaluate</span>
+    <span class="n">finetuner</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">num_epochs</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">benchmark</span><span class="p">(</span><span class="n">test_prompts</span><span class="p">,</span> <span class="n">use_finetuned</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">results</span><span class="p">[</span><span class="n">method_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">scores</span>
+
+<span class="c1"># Compare results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">70</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;COMPARISON: Vanilla vs Feature Distillation&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">70</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;vanilla&quot;</span><span class="p">]:</span>
+    <span class="n">vanilla_score</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;vanilla&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span>
+    <span class="n">feature_score</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;feature&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span>
+    <span class="n">improvement</span> <span class="o">=</span> <span class="p">(</span><span class="n">feature_score</span> <span class="o">-</span> <span class="n">vanilla_score</span><span class="p">)</span> <span class="o">/</span> <span class="n">vanilla_score</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">metric</span><span class="si">}</span><span class="s2">: Vanilla=</span><span class="si">{</span><span class="n">vanilla_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, Feature=</span><span class="si">{</span><span class="n">feature_score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, Δ=</span><span class="si">{</span><span class="n">improvement</span><span class="si">:</span><span class="s2">+.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<hr />
+<h2 id="advanced-topics">🔬 Advanced Topics<a class="headerlink" href="#advanced-topics" title="Permanent link">&para;</a></h2>
+<h3 id="multi-teacher-distillation"><strong>Multi-Teacher Distillation</strong><a class="headerlink" href="#multi-teacher-distillation" title="Permanent link">&para;</a></h3>
+<p>Combine knowledge from multiple teachers:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Pseudo-code (would require custom implementation)</span>
+<span class="n">teacher1</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="s2">&quot;gpt2-medium&quot;</span><span class="p">)</span>
+<span class="n">teacher2</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="s2">&quot;opt-350m&quot;</span><span class="p">)</span>
+
+<span class="c1"># Average teacher outputs</span>
+<span class="n">combined_logits</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">teacher1_logits</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">teacher2_logits</span>
+</code></pre></div>
+
+<h3 id="progressive-distillation"><strong>Progressive Distillation</strong><a class="headerlink" href="#progressive-distillation" title="Permanent link">&para;</a></h3>
+<p>Distill in stages:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Stage 1: Large → Medium</span>
+<span class="n">distill</span><span class="p">(</span><span class="n">teacher</span><span class="o">=</span><span class="s2">&quot;gpt2-xl&quot;</span><span class="p">,</span> <span class="n">student</span><span class="o">=</span><span class="s2">&quot;gpt2-large&quot;</span><span class="p">)</span>
+
+<span class="c1"># Stage 2: Medium → Small</span>
+<span class="n">distill</span><span class="p">(</span><span class="n">teacher</span><span class="o">=</span><span class="s2">&quot;gpt2-large&quot;</span><span class="p">,</span> <span class="n">student</span><span class="o">=</span><span class="s2">&quot;gpt2-medium&quot;</span><span class="p">)</span>
+
+<span class="c1"># Stage 3: Small → Tiny</span>
+<span class="n">distill</span><span class="p">(</span><span class="n">teacher</span><span class="o">=</span><span class="s2">&quot;gpt2-medium&quot;</span><span class="p">,</span> <span class="n">student</span><span class="o">=</span><span class="s2">&quot;gpt2&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="task-specific-distillation"><strong>Task-Specific Distillation</strong><a class="headerlink" href="#task-specific-distillation" title="Permanent link">&para;</a></h3>
+<p>Focus on specific capabilities:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Distill only summarization capability</span>
+<span class="n">finetuner</span><span class="o">.</span><span class="n">setup_feature_distillation</span><span class="p">(</span>
+    <span class="n">feature_layers</span><span class="o">=</span><span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span>  <span class="c1"># High-level reasoning layers</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span>  <span class="c1"># Heavy distillation focus</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<hr />
+<h2 id="performance-benchmarks">📊 Performance Benchmarks<a class="headerlink" href="#performance-benchmarks" title="Permanent link">&para;</a></h2>
+<p><strong>Typical Results (GPT-2 family):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Teacher</th>
+<th>Student</th>
+<th>Method</th>
+<th>ROUGE-L</th>
+<th>Perplexity</th>
+<th>Compression</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPT-2-medium</td>
+<td>GPT-2</td>
+<td>None</td>
+<td>0.28</td>
+<td>45.2</td>
+<td>2.9x</td>
+</tr>
+<tr>
+<td>GPT-2-medium</td>
+<td>GPT-2</td>
+<td>Vanilla</td>
+<td>0.34</td>
+<td>38.7</td>
+<td>2.9x</td>
+</tr>
+<tr>
+<td>GPT-2-medium</td>
+<td>GPT-2</td>
+<td>Feature</td>
+<td>0.36</td>
+<td>36.4</td>
+<td>2.9x</td>
+</tr>
+<tr>
+<td>GPT-2-large</td>
+<td>GPT-2-medium</td>
+<td>Vanilla</td>
+<td>0.41</td>
+<td>32.1</td>
+<td>2.2x</td>
+</tr>
+<tr>
+<td>GPT-2-large</td>
+<td>GPT-2-medium</td>
+<td>Feature</td>
+<td>0.43</td>
+<td>29.8</td>
+<td>2.2x</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="summary">🎯 Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<h3 id="quick-decision-guide"><strong>Quick Decision Guide</strong><a class="headerlink" href="#quick-decision-guide" title="Permanent link">&para;</a></h3>
+<p><strong>Use Vanilla Distillation when:</strong>
+- ✅ You need fast training
+- ✅ Memory is limited
+- ✅ Teacher and student are very different
+- ✅ You want simple implementation</p>
+<p><strong>Use Feature Distillation when:</strong>
+- ✅ You want maximum performance
+- ✅ Architectures are similar
+- ✅ You can afford longer training
+- ✅ Intermediate features matter</p>
+<h3 id="key-takeaways"><strong>Key Takeaways</strong><a class="headerlink" href="#key-takeaways" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Distillation</strong> reduces model size while maintaining performance</li>
+<li><strong>Temperature</strong> controls softness (start with 2.0)</li>
+<li><strong>Alpha</strong> balances distillation vs ground truth (start with 0.5 for vanilla, 0.3 for feature)</li>
+<li><strong>Feature distillation</strong> often outperforms vanilla but is more complex</li>
+<li><strong>Teacher quality</strong> is critical - train teachers thoroughly</li>
+</ol>
+<hr />
+<p><strong>Last Updated:</strong> 2025-01-29<br />
+<strong>Version:</strong> 2.0.0<br />
+<strong>Framework:</strong> LLM Fine-Tuning CLI Extended Edition</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.sections", "navigation.tracking", "content.code.copy"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>
