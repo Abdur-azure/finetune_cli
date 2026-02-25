@@ -1,409 +1,230 @@
 """
-Model benchmarking and comparison system.
-
-Compares base models against fine-tuned models with comprehensive reporting.
+Benchmarking pipeline — computes metrics before and after fine-tuning
+and produces a structured comparison report.
 """
 
-from typing import Dict, List, Optional
+from dataclasses import dataclass, field
 from pathlib import Path
-import json
+from typing import Callable, Dict, List, Optional
+import time
 
-from transformers import PreTrainedModel, PreTrainedTokenizer
 from datasets import Dataset
+from transformers import PreTrainedModel, PreTrainedTokenizer
 
-from ..core.types import EvaluationConfig
-from ..utils.logging import get_logger, LogProgress
-from .base import Benchmarker, ComparisonResult
-from .evaluator import StandardEvaluator
+from ..core.types import EvaluationConfig, EvaluationMetric
+from ..utils.logging import get_logger
+from .metrics import MetricRegistry, Metric
 
 
 logger = get_logger(__name__)
 
 
 # ============================================================================
-# STANDARD BENCHMARKER
+# RESULT TYPES
 # ============================================================================
 
 
-class StandardBenchmarker(Benchmarker):
+@dataclass(frozen=True)
+class EvaluationResult:
+    """Scores for a single model evaluation pass."""
+
+    model_label: str
+    """Human-readable label, e.g. 'base' or 'fine-tuned'."""
+
+    scores: Dict[str, float]
+    """metric_name → score."""
+
+    num_samples: int
+    """Number of samples evaluated."""
+
+    elapsed_seconds: float
+    """Wall-clock time for this evaluation."""
+
+
+@dataclass(frozen=True)
+class BenchmarkReport:
+    """Before/after comparison report."""
+
+    baseline: EvaluationResult
+    finetuned: EvaluationResult
+
+    @property
+    def improvements(self) -> Dict[str, float]:
+        """
+        Absolute score change (finetuned − baseline) for each metric.
+        Negative values indicate degradation.
+        """
+        result = {}
+        for k, v in self.finetuned.scores.items():
+            baseline_v = self.baseline.scores.get(k, 0.0)
+            result[k] = v - baseline_v
+        return result
+
+    def summary(self) -> str:
+        """Formatted multi-line summary string."""
+        lines = [
+            "=" * 60,
+            " BENCHMARK REPORT",
+            "=" * 60,
+            f"{'Metric':<18} {'Baseline':>10} {'Fine-tuned':>12} {'Δ':>8}",
+            "-" * 60,
+        ]
+        for metric in self.baseline.scores:
+            base_v = self.baseline.scores[metric]
+            ft_v = self.finetuned.scores.get(metric, float("nan"))
+            delta = ft_v - base_v
+            arrow = "▲" if delta > 0 else ("▼" if delta < 0 else "–")
+            lines.append(
+                f"{metric:<18} {base_v:>10.4f} {ft_v:>12.4f} {arrow}{abs(delta):>6.4f}"
+            )
+        lines.append("=" * 60)
+        return "\n".join(lines)
+
+
+# ============================================================================
+# BENCHMARK RUNNER
+# ============================================================================
+
+
+class BenchmarkRunner:
     """
-    Standard implementation of model benchmarking.
-    
-    Evaluates both base and fine-tuned models on the same dataset
-    and computes improvement metrics.
+    Evaluates a model on a dataset with configurable metrics.
+
+    Usage::
+
+        runner = BenchmarkRunner(eval_config, tokenizer)
+        baseline = runner.evaluate(base_model, dataset, label="base")
+        finetuned = runner.evaluate(ft_model, dataset, label="fine-tuned")
+        report = BenchmarkReport(baseline, finetuned)
+        print(report.summary())
     """
-    
-    def benchmark(
+
+    def __init__(
+        self,
+        config: EvaluationConfig,
+        tokenizer: PreTrainedTokenizer,
+    ):
+        self.config = config
+        self.tokenizer = tokenizer
+        self.logger = get_logger(self.__class__.__name__)
+
+    # ------------------------------------------------------------------
+    # Public API
+    # ------------------------------------------------------------------
+
+    def evaluate(
+        self,
+        model: PreTrainedModel,
+        dataset: Dataset,
+        label: str = "model",
+        text_column: str = "text",
+    ) -> EvaluationResult:
+        """
+        Run all configured metrics on *dataset* using *model*.
+
+        Args:
+            model: The model to evaluate (base or fine-tuned).
+            dataset: Dataset with a text column.
+            label: Human-readable label for the result.
+            text_column: Column containing reference text.
+
+        Returns:
+            EvaluationResult with per-metric scores.
+        """
+        self.logger.info(f"Evaluating '{label}' on {len(dataset)} samples...")
+
+        # Limit samples
+        samples = dataset
+        if self.config.num_samples and len(dataset) > self.config.num_samples:
+            samples = dataset.select(range(self.config.num_samples))
+
+        references: List[str] = samples[text_column]
+        predictions: List[str] = self._generate(model, references)
+
+        scores: Dict[str, float] = {}
+        start = time.time()
+
+        for metric_enum in self.config.metrics:
+            try:
+                metric = MetricRegistry.get(
+                    metric_enum,
+                    model=model,
+                    tokenizer=self.tokenizer,
+                    batch_size=self.config.batch_size,
+                    max_length=self.config.generation_max_length,
+                )
+                score = metric.compute(predictions, references)
+                scores[metric_enum.value] = score
+                self.logger.info(f"  {metric_enum.value}: {score:.4f}")
+            except Exception as exc:
+                self.logger.warning(f"  {metric_enum.value}: FAILED — {exc}")
+                scores[metric_enum.value] = float("nan")
+
+        return EvaluationResult(
+            model_label=label,
+            scores=scores,
+            num_samples=len(samples),
+            elapsed_seconds=time.time() - start,
+        )
+
+    def run_comparison(
         self,
         base_model: PreTrainedModel,
         finetuned_model: PreTrainedModel,
-        tokenizer: PreTrainedTokenizer,
         dataset: Dataset,
-        config: EvaluationConfig
-    ) -> ComparisonResult:
+        text_column: str = "text",
+    ) -> BenchmarkReport:
         """
-        Benchmark base vs fine-tuned model.
-        
-        Args:
-            base_model: Original base model
-            finetuned_model: Fine-tuned model
-            tokenizer: Tokenizer
-            dataset: Evaluation dataset
-            config: Evaluation configuration
-        
-        Returns:
-            Comparison results with improvements
+        Evaluate both models and return a comparison report.
         """
-        with LogProgress(logger, "Benchmarking models"):
-            
-            # Evaluate base model
-            logger.info("Evaluating base model...")
-            base_evaluator = StandardEvaluator(base_model, tokenizer, config)
-            base_result = base_evaluator.evaluate(dataset)
-            
-            # Evaluate fine-tuned model
-            logger.info("Evaluating fine-tuned model...")
-            ft_evaluator = StandardEvaluator(finetuned_model, tokenizer, config)
-            ft_result = ft_evaluator.evaluate(dataset)
-            
-            # Compute improvements
-            improvements = self._compute_improvements(
-                base_result.metrics,
-                ft_result.metrics
-            )
-            
-            # Build comparison result
-            result = ComparisonResult(
-                base_metrics=base_result.metrics,
-                finetuned_metrics=ft_result.metrics,
-                improvements=improvements
-            )
-            
-            # Log summary
-            self._log_comparison(result)
-            
-            return result
-    
-    def _compute_improvements(
+        baseline = self.evaluate(base_model, dataset, label="base", text_column=text_column)
+        finetuned = self.evaluate(finetuned_model, dataset, label="fine-tuned", text_column=text_column)
+        report = BenchmarkReport(baseline=baseline, finetuned=finetuned)
+        self.logger.info("\n" + report.summary())
+        return report
+
+    # ------------------------------------------------------------------
+    # Internal generation
+    # ------------------------------------------------------------------
+
+    def _generate(
         self,
-        base_metrics: Dict[str, float],
-        ft_metrics: Dict[str, float]
-    ) -> Dict[str, float]:
-        """
-        Compute improvement percentages.
-        
-        Args:
-            base_metrics: Base model metrics
-            ft_metrics: Fine-tuned model metrics
-        
-        Returns:
-            Dictionary of improvement percentages
-        """
-        improvements = {}
-        
-        for metric_name in base_metrics:
-            base_score = base_metrics[metric_name]
-            ft_score = ft_metrics.get(metric_name, 0.0)
-            
-            # Calculate percentage improvement
-            if base_score > 0:
-                improvement = ((ft_score - base_score) / base_score) * 100
-            else:
-                improvement = 0.0
-            
-            improvements[metric_name] = improvement
-        
-        return improvements
-    
-    def _log_comparison(self, result: ComparisonResult) -> None:
-        """Log comparison results."""
-        logger.info("\n" + "="*70)
-        logger.info("BENCHMARK RESULTS")
-        logger.info("="*70)
-        logger.info(f"{'Metric':<15} {'Base':<12} {'Fine-tuned':<12} {'Improvement':<15}")
-        logger.info("-"*70)
-        
-        for metric in result.base_metrics:
-            base = result.base_metrics[metric]
-            ft = result.finetuned_metrics[metric]
-            imp = result.improvements[metric]
-            
-            logger.info(
-                f"{metric:<15} {base:<12.4f} {ft:<12.4f} {imp:>+7.2f}%"
+        model: PreTrainedModel,
+        prompts: List[str],
+    ) -> List[str]:
+        """Generate text for each prompt using the model."""
+        import torch
+
+        model.eval()
+        results = []
+        device = next(model.parameters()).device
+        cfg = self.config
+
+        for i in range(0, len(prompts), self.config.batch_size):
+            batch = prompts[i : i + self.config.batch_size]
+            inputs = self.tokenizer(
+                batch,
+                return_tensors="pt",
+                truncation=True,
+                padding=True,
+                max_length=cfg.generation_max_length,
+            ).to(device)
+
+            with torch.no_grad():
+                output_ids = model.generate(
+                    **inputs,
+                    max_new_tokens=cfg.generation_max_length,
+                    temperature=cfg.generation_temperature,
+                    top_p=cfg.generation_top_p,
+                    do_sample=cfg.generation_do_sample,
+                    pad_token_id=self.tokenizer.eos_token_id,
+                )
+
+            # Decode only newly generated tokens
+            input_len = inputs["input_ids"].shape[1]
+            decoded = self.tokenizer.batch_decode(
+                output_ids[:, input_len:], skip_special_tokens=True
             )
-        
-        logger.info("="*70)
-        avg_improvement = result.get_average_improvement()
-        logger.info(f"Average Improvement: {avg_improvement:+.2f}%")
-        logger.info("="*70 + "\n")
+            results.extend(decoded)
 
-
-# ============================================================================
-# REPORT GENERATOR
-# ============================================================================
-
-
-class ReportGenerator:
-    """
-    Generates formatted reports from benchmark results.
-    """
-    
-    @staticmethod
-    def generate_markdown(
-        result: ComparisonResult,
-        title: str = "Model Benchmark Report"
-    ) -> str:
-        """
-        Generate Markdown report.
-        
-        Args:
-            result: Comparison results
-            title: Report title
-        
-        Returns:
-            Markdown formatted report
-        """
-        lines = [
-            f"# {title}",
-            "",
-            f"**Generated:** {result.timestamp.strftime('%Y-%m-%d %H:%M:%S')}",
-            "",
-            "## Results Summary",
-            "",
-            "| Metric | Base Model | Fine-tuned Model | Improvement |",
-            "|--------|------------|------------------|-------------|"
-        ]
-        
-        for metric in result.base_metrics:
-            base = result.base_metrics[metric]
-            ft = result.finetuned_metrics[metric]
-            imp = result.improvements[metric]
-            
-            lines.append(
-                f"| {metric} | {base:.4f} | {ft:.4f} | {imp:+.2f}% |"
-            )
-        
-        lines.extend([
-            "",
-            "## Key Findings",
-            "",
-            f"- **Average Improvement:** {result.get_average_improvement():+.2f}%"
-        ])
-        
-        # Find best/worst improvements
-        best_metric = max(result.improvements, key=result.improvements.get)
-        worst_metric = min(result.improvements, key=result.improvements.get)
-        
-        lines.extend([
-            f"- **Best Improvement:** {best_metric} ({result.improvements[best_metric]:+.2f}%)",
-            f"- **Worst Improvement:** {worst_metric} ({result.improvements[worst_metric]:+.2f}%)",
-            ""
-        ])
-        
-        return "\n".join(lines)
-    
-    @staticmethod
-    def generate_json(result: ComparisonResult) -> str:
-        """
-        Generate JSON report.
-        
-        Args:
-            result: Comparison results
-        
-        Returns:
-            JSON formatted report
-        """
-        return json.dumps(result.to_dict(), indent=2)
-    
-    @staticmethod
-    def generate_html(
-        result: ComparisonResult,
-        title: str = "Model Benchmark Report"
-    ) -> str:
-        """
-        Generate HTML report.
-        
-        Args:
-            result: Comparison results
-            title: Report title
-        
-        Returns:
-            HTML formatted report
-        """
-        html = f"""
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{title}</title>
-    <style>
-        body {{ font-family: Arial, sans-serif; margin: 40px; }}
-        h1 {{ color: #333; }}
-        table {{ border-collapse: collapse; width: 100%; margin: 20px 0; }}
-        th, td {{ border: 1px solid #ddd; padding: 12px; text-align: left; }}
-        th {{ background-color: #4CAF50; color: white; }}
-        tr:nth-child(even) {{ background-color: #f2f2f2; }}
-        .positive {{ color: green; }}
-        .negative {{ color: red; }}
-        .summary {{ background-color: #e7f3fe; padding: 15px; margin: 20px 0; border-left: 6px solid #2196F3; }}
-    </style>
-</head>
-<body>
-    <h1>{title}</h1>
-    <p><strong>Generated:</strong> {result.timestamp.strftime('%Y-%m-%d %H:%M:%S')}</p>
-    
-    <h2>Results</h2>
-    <table>
-        <tr>
-            <th>Metric</th>
-            <th>Base Model</th>
-            <th>Fine-tuned Model</th>
-            <th>Improvement</th>
-        </tr>
-"""
-        
-        for metric in result.base_metrics:
-            base = result.base_metrics[metric]
-            ft = result.finetuned_metrics[metric]
-            imp = result.improvements[metric]
-            
-            color_class = "positive" if imp > 0 else "negative"
-            
-            html += f"""
-        <tr>
-            <td>{metric}</td>
-            <td>{base:.4f}</td>
-            <td>{ft:.4f}</td>
-            <td class="{color_class}">{imp:+.2f}%</td>
-        </tr>
-"""
-        
-        avg_improvement = result.get_average_improvement()
-        avg_color = "positive" if avg_improvement > 0 else "negative"
-        
-        html += f"""
-    </table>
-    
-    <div class="summary">
-        <h3>Summary</h3>
-        <p><strong>Average Improvement:</strong> <span class="{avg_color}">{avg_improvement:+.2f}%</span></p>
-    </div>
-</body>
-</html>
-"""
-        
-        return html
-    
-    @staticmethod
-    def save_report(
-        result: ComparisonResult,
-        output_path: Path,
-        format: str = "markdown",
-        title: str = "Model Benchmark Report"
-    ) -> None:
-        """
-        Save report to file.
-        
-        Args:
-            result: Comparison results
-            output_path: Output file path
-            format: Report format ('markdown', 'json', 'html')
-            title: Report title
-        """
-        output_path = Path(output_path)
-        output_path.parent.mkdir(parents=True, exist_ok=True)
-        
-        if format == "markdown":
-            content = ReportGenerator.generate_markdown(result, title)
-        elif format == "json":
-            content = ReportGenerator.generate_json(result)
-        elif format == "html":
-            content = ReportGenerator.generate_html(result, title)
-        else:
-            raise ValueError(f"Unknown format: {format}")
-        
-        with open(output_path, 'w') as f:
-            f.write(content)
-        
-        logger.info(f"Report saved to: {output_path}")
-
-
-# ============================================================================
-# CONVENIENCE FUNCTIONS
-# ============================================================================
-
-
-def benchmark_models(
-    base_model: PreTrainedModel,
-    finetuned_model: PreTrainedModel,
-    tokenizer: PreTrainedTokenizer,
-    dataset: Dataset,
-    config: EvaluationConfig,
-    save_report: Optional[Path] = None
-) -> ComparisonResult:
-    """
-    Convenience function for benchmarking models.
-    
-    Args:
-        base_model: Original base model
-        finetuned_model: Fine-tuned model
-        tokenizer: Tokenizer
-        dataset: Evaluation dataset
-        config: Evaluation configuration
-        save_report: Optional path to save report
-    
-    Returns:
-        Comparison results
-    
-    Example:
-        >>> from finetune_cli.evaluation import benchmark_models
-        >>> from finetune_cli.core.config import ConfigBuilder
-        >>> 
-        >>> result = benchmark_models(
-        ...     base_model, finetuned_model, tokenizer, test_dataset,
-        ...     eval_config,
-        ...     save_report=Path("./benchmark_report.md")
-        ... )
-        >>> print(f"Average improvement: {result.get_average_improvement():.2f}%")
-    """
-    benchmarker = StandardBenchmarker()
-    result = benchmarker.benchmark(
-        base_model, finetuned_model, tokenizer, dataset, config
-    )
-    
-    if save_report:
-        ReportGenerator.save_report(
-            result, save_report, format="markdown"
-        )
-    
-    return result
-
-
-def compare_metrics(
-    base_metrics: Dict[str, float],
-    finetuned_metrics: Dict[str, float]
-) -> ComparisonResult:
-    """
-    Compare pre-computed metrics.
-    
-    Args:
-        base_metrics: Base model metrics
-        finetuned_metrics: Fine-tuned model metrics
-    
-    Returns:
-        Comparison result
-    
-    Example:
-        >>> base = {'rouge1': 0.25, 'rouge2': 0.15}
-        >>> finetuned = {'rouge1': 0.35, 'rouge2': 0.22}
-        >>> result = compare_metrics(base, finetuned)
-        >>> print(result.improvements)
-        {'rouge1': 40.0, 'rouge2': 46.67}
-    """
-    benchmarker = StandardBenchmarker()
-    improvements = benchmarker._compute_improvements(base_metrics, finetuned_metrics)
-    
-    return ComparisonResult(
-        base_metrics=base_metrics,
-        finetuned_metrics=finetuned_metrics,
-        improvements=improvements
-    )
+        return results

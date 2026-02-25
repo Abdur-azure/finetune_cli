@@ -1,491 +1,212 @@
 """
-Abstract base classes and interfaces for trainers.
+Abstract base trainer and shared result types.
 
-Defines the contract that all trainer implementations must follow,
-along with shared utilities and base functionality.
+All concrete trainers extend BaseTrainer and return TrainingResult.
 """
 
 from abc import ABC, abstractmethod
-from typing import Optional, Dict, Any, Callable
-from pathlib import Path
 from dataclasses import dataclass, field
-from datetime import datetime
-import time
+from pathlib import Path
+from typing import Any, Dict, Optional, Union
 
-import torch
-from datasets import Dataset
-from transformers import PreTrainedModel, PreTrainedTokenizer, TrainingArguments
+from transformers import PreTrainedModel, PreTrainedTokenizer
+from datasets import Dataset, DatasetDict
 
-from ..core.types import TrainingConfig, TrainingResult, TrainingMethod
-from ..core.exceptions import TrainingError, TrainingFailedError
-from ..utils.logging import get_logger, log_model_info, LogProgress
-
-
-logger = get_logger(__name__)
+from ..core.types import TrainingConfig, LoRAConfig
+from ..core.exceptions import TrainingError
+from ..utils.logging import get_logger
 
 
 # ============================================================================
-# TRAINING STATE
+# RESULT TYPE
 # ============================================================================
 
 
-@dataclass
-class TrainingState:
-    """
-    Tracks the state of training process.
-    
-    Used for checkpointing, resuming, and monitoring.
-    """
-    
-    # Identifiers
-    run_id: str
-    method: TrainingMethod
-    start_time: datetime
-    
-    # Progress
-    current_epoch: int = 0
-    current_step: int = 0
-    total_steps: int = 0
-    
-    # Metrics
-    current_loss: float = float('inf')
-    best_loss: float = float('inf')
-    best_epoch: int = 0
-    loss_history: list = field(default_factory=list)
-    
-    # Status
-    is_training: bool = False
-    is_completed: bool = False
-    
-    def to_dict(self) -> Dict[str, Any]:
-        """Convert to dictionary for serialization."""
-        return {
-            'run_id': self.run_id,
-            'method': self.method.value,
-            'start_time': self.start_time.isoformat(),
-            'current_epoch': self.current_epoch,
-            'current_step': self.current_step,
-            'total_steps': self.total_steps,
-            'current_loss': self.current_loss,
-            'best_loss': self.best_loss,
-            'best_epoch': self.best_epoch,
-            'loss_history': self.loss_history,
-            'is_training': self.is_training,
-            'is_completed': self.is_completed
-        }
-    
-    @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'TrainingState':
-        """Create from dictionary."""
-        data['start_time'] = datetime.fromisoformat(data['start_time'])
-        data['method'] = TrainingMethod(data['method'])
-        return cls(**data)
+@dataclass(frozen=True)
+class TrainingResult:
+    """Immutable result returned by any trainer."""
+
+    output_dir: Path
+    """Directory where the model/adapter was saved."""
+
+    train_loss: float
+    """Final training loss."""
+
+    eval_loss: Optional[float]
+    """Final evaluation loss (None if no validation set was provided)."""
+
+    epochs_completed: int
+    """Number of epochs actually run."""
+
+    steps_completed: int
+    """Total optimizer steps completed."""
+
+    training_time_seconds: float
+    """Wall-clock training time."""
+
+    trainer_logs: Dict[str, Any] = field(default_factory=dict)
+    """Raw log history from the HF Trainer."""
 
 
 # ============================================================================
-# ABSTRACT TRAINER
+# ABSTRACT BASE TRAINER
 # ============================================================================
 
 
 class BaseTrainer(ABC):
     """
-    Abstract base class for all trainer implementations.
-    
-    Provides common functionality and defines the interface that
-    all trainers must implement.
+    Abstract base for all trainers.
+
+    Subclasses implement ``_setup_peft`` to configure PEFT adapters and
+    ``_build_training_args`` to customise HuggingFace TrainingArguments.
+    The ``train`` method orchestrates the full flow.
     """
-    
+
     def __init__(
         self,
         model: PreTrainedModel,
         tokenizer: PreTrainedTokenizer,
-        config: TrainingConfig
+        training_config: TrainingConfig,
     ):
-        """
-        Initialize trainer.
-        
-        Args:
-            model: Model to train
-            tokenizer: Tokenizer for the model
-            config: Training configuration
-        """
         self.model = model
         self.tokenizer = tokenizer
-        self.config = config
-        self.logger = get_logger(f"{__name__}.{self.__class__.__name__}")
-        
-        # State
-        self.state: Optional[TrainingState] = None
-        self.start_time: Optional[float] = None
-        
-        # Callbacks
-        self._callbacks: list = []
-        
-        # Validate setup
-        self._validate_setup()
-    
-    def _validate_setup(self) -> None:
-        """Validate trainer setup."""
-        # Check model is in correct mode
-        if not self.model.training:
-            self.model.train()
-            self.logger.debug("Set model to training mode")
-        
-        # Check output directory
-        self.config.output_dir.mkdir(parents=True, exist_ok=True)
-        self.logger.debug(f"Output directory: {self.config.output_dir}")
-        
-        # Log model info
-        log_model_info(self.logger, self.model)
-    
-    # ========================================================================
-    # ABSTRACT METHODS (Must be implemented by subclasses)
-    # ========================================================================
-    
-    @abstractmethod
-    def prepare_model(self) -> PreTrainedModel:
-        """
-        Prepare model for training (apply LoRA, setup optimizer, etc.).
-        
-        Returns:
-            Prepared model ready for training
-        """
-        pass
-    
-    @abstractmethod
-    def get_training_args(self) -> TrainingArguments:
-        """
-        Build HuggingFace TrainingArguments from config.
-        
-        Returns:
-            TrainingArguments object
-        """
-        pass
-    
-    @abstractmethod
-    def cleanup(self) -> None:
-        """
-        Cleanup after training (merge adapters, clear cache, etc.).
-        """
-        pass
-    
-    # ========================================================================
-    # TRAINING WORKFLOW
-    # ========================================================================
-    
+        self.training_config = training_config
+        self.logger = get_logger(self.__class__.__name__)
+
+    # ------------------------------------------------------------------
+    # Public API
+    # ------------------------------------------------------------------
+
     def train(
         self,
-        train_dataset: Dataset,
-        eval_dataset: Optional[Dataset] = None,
-        resume_from_checkpoint: Optional[Path] = None
+        dataset: Union[Dataset, DatasetDict],
     ) -> TrainingResult:
         """
-        Main training method.
-        
+        Run training end-to-end.
+
         Args:
-            train_dataset: Training dataset
-            eval_dataset: Optional evaluation dataset
-            resume_from_checkpoint: Optional checkpoint to resume from
-        
+            dataset: Either a single Dataset (train only) or a DatasetDict
+                     with 'train' and optional 'validation' keys.
+
         Returns:
-            Training results
-        
-        Raises:
-            TrainingError: If training fails
+            TrainingResult with metrics and output path.
         """
-        with LogProgress(self.logger, f"Training with {self.config.method.value}"):
-            try:
-                # Initialize state
-                self._initialize_state()
-                
-                # Prepare model
-                self.logger.info("Preparing model for training...")
-                prepared_model = self.prepare_model()
-                
-                # Build training arguments
-                training_args = self.get_training_args()
-                
-                # Execute training
-                result = self._execute_training(
-                    prepared_model,
-                    train_dataset,
-                    eval_dataset,
-                    training_args,
-                    resume_from_checkpoint
-                )
-                
-                # Cleanup
-                self.cleanup()
-                
-                # Mark complete
-                self.state.is_completed = True
-                self.state.is_training = False
-                
-                return result
-                
-            except KeyboardInterrupt:
-                self.logger.warning("Training interrupted by user")
-                self.state.is_training = False
-                raise
-            
-            except Exception as e:
-                self.logger.error(f"Training failed: {e}")
-                self.state.is_training = False
-                raise TrainingFailedError(str(e), self.state.current_epoch)
-    
-    def _initialize_state(self) -> None:
-        """Initialize training state."""
-        import uuid
-        
-        self.state = TrainingState(
-            run_id=str(uuid.uuid4())[:8],
-            method=self.config.method,
-            start_time=datetime.now()
+        import time
+
+        self.logger.info(f"Starting training — method: {self.training_config.method.value}")
+
+        # Unpack splits
+        if isinstance(dataset, DatasetDict):
+            train_dataset = dataset["train"]
+            eval_dataset = dataset.get("validation")
+        else:
+            train_dataset = dataset
+            eval_dataset = None
+
+        # Setup PEFT adapters (subclass responsibility)
+        self.model = self._setup_peft(self.model)
+
+        # Build HF TrainingArguments
+        training_args = self._build_training_args()
+
+        # Build HF Trainer
+        hf_trainer = self._build_hf_trainer(
+            training_args, train_dataset, eval_dataset
         )
-        self.state.is_training = True
-        self.start_time = time.time()
-        
-        self.logger.info(f"Training run ID: {self.state.run_id}")
-    
+
+        # Train
+        start = time.time()
+        try:
+            train_output = hf_trainer.train()
+        except Exception as exc:
+            raise TrainingError(
+                self.training_config.method.value,
+                str(exc),
+            ) from exc
+
+        elapsed = time.time() - start
+
+        # Persist
+        output_dir = Path(self.training_config.output_dir)
+        hf_trainer.save_model(str(output_dir))
+        self.tokenizer.save_pretrained(str(output_dir))
+        self.logger.info(f"Model saved to {output_dir}")
+
+        # Extract metrics
+        logs = hf_trainer.state.log_history
+        eval_loss = self._extract_last(logs, "eval_loss")
+
+        return TrainingResult(
+            output_dir=output_dir,
+            train_loss=train_output.training_loss,
+            eval_loss=eval_loss,
+            epochs_completed=int(train_output.metrics.get("epoch", self.training_config.num_epochs)),
+            steps_completed=train_output.global_step,
+            training_time_seconds=elapsed,
+            trainer_logs={str(i): entry for i, entry in enumerate(logs)},
+        )
+
+    # ------------------------------------------------------------------
+    # Subclass hooks
+    # ------------------------------------------------------------------
+
     @abstractmethod
-    def _execute_training(
-        self,
-        model: PreTrainedModel,
-        train_dataset: Dataset,
-        eval_dataset: Optional[Dataset],
-        training_args: TrainingArguments,
-        resume_from_checkpoint: Optional[Path]
-    ) -> TrainingResult:
-        """
-        Execute the actual training loop.
-        
-        Args:
-            model: Prepared model
-            train_dataset: Training data
-            eval_dataset: Optional evaluation data
-            training_args: Training arguments
-            resume_from_checkpoint: Optional checkpoint path
-        
-        Returns:
-            Training results
-        """
-        pass
-    
-    # ========================================================================
-    # SAVING & LOADING
-    # ========================================================================
-    
-    def save(self, output_dir: Optional[Path] = None) -> None:
-        """
-        Save trained model and training state.
-        
-        Args:
-            output_dir: Directory to save to (uses config.output_dir if None)
-        """
-        output_dir = output_dir or self.config.output_dir
-        output_dir = Path(output_dir)
-        output_dir.mkdir(parents=True, exist_ok=True)
-        
-        self.logger.info(f"Saving model to: {output_dir}")
-        
-        # Save model (implemented by subclass)
-        self._save_model(output_dir)
-        
-        # Save tokenizer
-        self.tokenizer.save_pretrained(output_dir)
-        
-        # Save training state
-        if self.state:
-            import json
-            state_file = output_dir / "training_state.json"
-            with open(state_file, 'w') as f:
-                json.dump(self.state.to_dict(), f, indent=2)
-        
-        self.logger.info("Model saved successfully")
-    
-    @abstractmethod
-    def _save_model(self, output_dir: Path) -> None:
-        """
-        Save model-specific artifacts.
-        
-        Args:
-            output_dir: Directory to save to
-        """
-        pass
-    
-    def load_checkpoint(self, checkpoint_path: Path) -> None:
-        """
-        Load from checkpoint.
-        
-        Args:
-            checkpoint_path: Path to checkpoint directory
-        """
-        self.logger.info(f"Loading checkpoint from: {checkpoint_path}")
-        
-        # Load training state
-        import json
-        state_file = checkpoint_path / "training_state.json"
-        if state_file.exists():
-            with open(state_file, 'r') as f:
-                state_dict = json.load(f)
-            self.state = TrainingState.from_dict(state_dict)
-            self.logger.info(f"Resumed from epoch {self.state.current_epoch}")
-    
-    # ========================================================================
-    # CALLBACKS
-    # ========================================================================
-    
-    def add_callback(self, callback: Callable) -> None:
-        """
-        Add training callback.
-        
-        Args:
-            callback: Callback function
-        """
-        self._callbacks.append(callback)
-    
-    def _trigger_callbacks(self, event: str, **kwargs) -> None:
-        """
-        Trigger all callbacks for an event.
-        
-        Args:
-            event: Event name
-            **kwargs: Event data
-        """
-        for callback in self._callbacks:
-            try:
-                callback(event, self.state, **kwargs)
-            except Exception as e:
-                self.logger.warning(f"Callback error: {e}")
-    
-    # ========================================================================
-    # UTILITIES
-    # ========================================================================
-    
-    def get_device(self) -> torch.device:
-        """Get training device."""
-        if torch.cuda.is_available():
-            return torch.device("cuda")
-        elif torch.backends.mps.is_available():
-            return torch.device("mps")
-        else:
-            return torch.device("cpu")
-    
-    def estimate_memory_usage(self) -> Dict[str, float]:
-        """
-        Estimate memory usage for training.
-        
-        Returns:
-            Dictionary with memory estimates in GB
-        """
-        param_count = sum(p.numel() for p in self.model.parameters())
-        trainable_params = sum(p.numel() for p in self.model.parameters() if p.requires_grad)
-        
-        # Rough estimates (assuming float32)
-        param_memory = param_count * 4 / 1e9  # Parameters
-        grad_memory = trainable_params * 4 / 1e9  # Gradients
-        optimizer_memory = trainable_params * 8 / 1e9  # Adam state
-        activation_memory = self.config.batch_size * self.config.gradient_accumulation_steps * 0.5  # Rough estimate
-        
-        return {
-            'parameters_gb': param_memory,
-            'gradients_gb': grad_memory,
-            'optimizer_gb': optimizer_memory,
-            'activations_gb': activation_memory,
-            'total_estimated_gb': param_memory + grad_memory + optimizer_memory + activation_memory
-        }
-    
-    def log_training_info(self) -> None:
-        """Log detailed training information."""
-        self.logger.info("Training Configuration:")
-        self.logger.info(f"  Method: {self.config.method.value}")
-        self.logger.info(f"  Epochs: {self.config.num_epochs}")
-        self.logger.info(f"  Batch size: {self.config.batch_size}")
-        self.logger.info(f"  Gradient accumulation: {self.config.gradient_accumulation_steps}")
-        self.logger.info(f"  Effective batch size: {self.config.batch_size * self.config.gradient_accumulation_steps}")
-        self.logger.info(f"  Learning rate: {self.config.learning_rate}")
-        self.logger.info(f"  Weight decay: {self.config.weight_decay}")
-        self.logger.info(f"  Warmup ratio: {self.config.warmup_ratio}")
-        self.logger.info(f"  LR scheduler: {self.config.lr_scheduler_type}")
-        self.logger.info(f"  Max grad norm: {self.config.max_grad_norm}")
-        self.logger.info(f"  FP16: {self.config.fp16}")
-        self.logger.info(f"  BF16: {self.config.bf16}")
-        self.logger.info(f"  Gradient checkpointing: {self.config.gradient_checkpointing}")
-        
-        # Memory estimation
-        memory = self.estimate_memory_usage()
-        self.logger.info("Estimated Memory Usage:")
-        for key, value in memory.items():
-            self.logger.info(f"  {key}: {value:.2f} GB")
+    def _setup_peft(self, model: PreTrainedModel) -> PreTrainedModel:
+        """Configure and attach PEFT adapters to the model."""
 
+    def _build_training_args(self):
+        """Build HuggingFace TrainingArguments from training_config."""
+        from transformers import TrainingArguments
 
-# ============================================================================
-# TRAINING METRICS TRACKER
-# ============================================================================
+        cfg = self.training_config
+        do_eval = cfg.evaluation_strategy != "no"
+        return TrainingArguments(
+            output_dir=str(cfg.output_dir),
+            num_train_epochs=cfg.num_epochs,
+            per_device_train_batch_size=cfg.batch_size,
+            gradient_accumulation_steps=cfg.gradient_accumulation_steps,
+            learning_rate=cfg.learning_rate,
+            warmup_ratio=cfg.warmup_ratio,
+            lr_scheduler_type=cfg.lr_scheduler_type,
+            weight_decay=cfg.weight_decay,
+            fp16=cfg.fp16,
+            bf16=cfg.bf16,
+            logging_steps=cfg.logging_steps,
+            save_steps=cfg.save_steps or 500,
+            save_strategy=cfg.save_strategy,
+            evaluation_strategy=cfg.evaluation_strategy,
+            load_best_model_at_end=do_eval and cfg.load_best_model_at_end,
+            seed=cfg.seed,
+            gradient_checkpointing=cfg.gradient_checkpointing,
+            report_to="none",
+            remove_unused_columns=False,
+        )
 
+    def _build_hf_trainer(self, training_args, train_dataset, eval_dataset):
+        """Construct the HuggingFace Trainer."""
+        from transformers import Trainer, DataCollatorForLanguageModeling
 
-class MetricsTracker:
-    """
-    Tracks and aggregates training metrics.
-    """
-    
-    def __init__(self):
-        self.metrics: Dict[str, list] = {}
-        self.step_metrics: Dict[int, Dict[str, float]] = {}
-    
-    def add(self, step: int, metric_name: str, value: float) -> None:
-        """
-        Add a metric value.
-        
-        Args:
-            step: Training step
-            metric_name: Name of metric
-            value: Metric value
-        """
-        if metric_name not in self.metrics:
-            self.metrics[metric_name] = []
-        
-        self.metrics[metric_name].append(value)
-        
-        if step not in self.step_metrics:
-            self.step_metrics[step] = {}
-        self.step_metrics[step][metric_name] = value
-    
-    def get_latest(self, metric_name: str) -> Optional[float]:
-        """Get latest value for metric."""
-        if metric_name in self.metrics and self.metrics[metric_name]:
-            return self.metrics[metric_name][-1]
+        data_collator = DataCollatorForLanguageModeling(
+            tokenizer=self.tokenizer,
+            mlm=False,
+        )
+
+        return Trainer(
+            model=self.model,
+            args=training_args,
+            train_dataset=train_dataset,
+            eval_dataset=eval_dataset,
+            data_collator=data_collator,
+        )
+
+    # ------------------------------------------------------------------
+    # Helpers
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _extract_last(logs: list, key: str) -> Optional[float]:
+        """Return the last value for *key* from the HF log history."""
+        for entry in reversed(logs):
+            if key in entry:
+                return float(entry[key])
         return None
-    
-    def get_best(self, metric_name: str, mode: str = 'min') -> Optional[float]:
-        """
-        Get best value for metric.
-        
-        Args:
-            metric_name: Metric name
-            mode: 'min' or 'max'
-        """
-        if metric_name not in self.metrics or not self.metrics[metric_name]:
-            return None
-        
-        if mode == 'min':
-            return min(self.metrics[metric_name])
-        else:
-            return max(self.metrics[metric_name])
-    
-    def get_average(self, metric_name: str) -> Optional[float]:
-        """Get average value for metric."""
-        if metric_name not in self.metrics or not self.metrics[metric_name]:
-            return None
-        return sum(self.metrics[metric_name]) / len(self.metrics[metric_name])
-    
-    def get_history(self, metric_name: str) -> list:
-        """Get full history for metric."""
-        return self.metrics.get(metric_name, [])
-    
-    def to_dict(self) -> Dict[str, Any]:
-        """Convert to dictionary."""
-        return {
-            'metrics': self.metrics,
-            'step_metrics': self.step_metrics
-        }
