@@ -1,572 +1,206 @@
 # API Reference
 
-Complete reference for the `LLMFineTuner` class and its methods.
-
-## LLMFineTuner Class
-
-The main class for fine-tuning language models with LoRA.
-
-### Constructor
-
-```python
-LLMFineTuner(model_name: str, output_dir: str = "./finetuned_model")
-```
-
-**Parameters:**
-
-- `model_name` (str): HuggingFace model identifier (e.g., "gpt2", "facebook/opt-125m")
-- `output_dir` (str, optional): Directory to save fine-tuned model. Default: "./finetuned_model"
-
-**Attributes:**
-
-- `model_name` (str): Name of the base model
-- `output_dir` (str): Output directory path
-- `device` (str): Device for training ("cuda" or "cpu")
-- `tokenizer` (AutoTokenizer): HuggingFace tokenizer instance
-- `model` (AutoModelForCausalLM): Base model instance
-- `peft_model` (PeftModel): LoRA-adapted model instance
-
-**Example:**
-
-```python
-from finetune_cli import LLMFineTuner
-
-finetuner = LLMFineTuner(
-    model_name="gpt2",
-    output_dir="./my_model"
-)
-```
-
-## Methods
-
-### load_model()
-
-Load the base model and tokenizer from HuggingFace.
-
-```python
-def load_model() -> None
-```
-
-**Returns:** None
-
-**Side Effects:**
-
-- Initializes `self.tokenizer`
-- Initializes `self.model`
-- Sets pad_token if not present
-
-**Example:**
-
-```python
-finetuner = LLMFineTuner("gpt2")
-finetuner.load_model()
-```
-
-**Notes:**
-
-- Automatically uses FP16 on CUDA devices
-- Sets device_map="auto" for multi-GPU support
-- Uses low_cpu_mem_usage for efficient loading
+Python API for programmatic use. All public classes are importable from their respective subpackages.
 
 ---
 
-### load_dataset_from_source()
+## Configuration — `finetune_cli.core.config`
 
-Load dataset from local file or HuggingFace Hub.
+### `ConfigBuilder`
+
+Fluent builder for constructing a validated `PipelineConfig`.
 
 ```python
-def load_dataset_from_source(
-    dataset_source: str,
-    dataset_config: Optional[str] = None,
-    split: str = "train",
-    num_samples: Optional[int] = None,
-    data_files: Optional[str] = None
-) -> Dataset
+from finetune_cli.core.config import ConfigBuilder
+from finetune_cli.core.types import TrainingMethod, DatasetSource
+
+config = (
+    ConfigBuilder()
+    .with_model("gpt2", torch_dtype="float32")
+    .with_dataset("./data.jsonl", source=DatasetSource.LOCAL_FILE, max_samples=1000)
+    .with_tokenization(max_length=512)
+    .with_training(TrainingMethod.LORA, "./output", num_epochs=3, batch_size=4)
+    .with_lora(r=8, lora_alpha=32, lora_dropout=0.1)
+    .build()
+)
 ```
 
-**Parameters:**
+**Methods:**
 
-- `dataset_source` (str): Local file path or HuggingFace dataset name
-- `dataset_config` (str, optional): Dataset configuration/subset name
-- `split` (str): Dataset split to load. Default: "train"
-- `num_samples` (int, optional): Limit number of samples to load
-- `data_files` (str, optional): Specific files to load from repository
+| Method | Key kwargs | Description |
+|--------|-----------|-------------|
+| `.with_model(name, **kwargs)` | `torch_dtype`, `load_in_4bit`, `load_in_8bit` | Set model config |
+| `.with_dataset(path, source, **kwargs)` | `max_samples`, `text_columns`, `shuffle` | Set dataset config |
+| `.with_tokenization(**kwargs)` | `max_length`, `truncation`, `padding` | Set tokenization config |
+| `.with_training(method, output_dir, **kwargs)` | `num_epochs`, `batch_size`, `learning_rate`, `fp16` | Set training config |
+| `.with_lora(**kwargs)` | `r`, `lora_alpha`, `lora_dropout`, `target_modules` | Set LoRA config |
+| `.with_evaluation(metrics, **kwargs)` | `batch_size`, `num_samples` | Set evaluation config |
+| `.build()` | — | Validate and return `PipelineConfig` |
 
-**Returns:** `Dataset` object
+### `PipelineConfig`
 
-**Supported Formats:**
-
-- Local: `.json`, `.jsonl`, `.csv`, `.txt`
-- HuggingFace: Any public dataset
-
-**Example:**
+Pydantic model holding the full pipeline config. Supports JSON and YAML I/O.
 
 ```python
-# Load local file
-dataset = finetuner.load_dataset_from_source(
-    dataset_source="./data.jsonl",
-    num_samples=1000
-)
+# Load from file
+config = PipelineConfig.from_yaml(Path("config.yaml"))
+config = PipelineConfig.from_json(Path("config.json"))
 
-# Load HuggingFace dataset
-dataset = finetuner.load_dataset_from_source(
-    dataset_source="wikitext",
-    dataset_config="wikitext-2-raw-v1",
-    split="train",
-    num_samples=5000
-)
-
-# Load specific file from large repo
-dataset = finetuner.load_dataset_from_source(
-    dataset_source="HuggingFaceH4/ultrachat_200k",
-    data_files="data/train_sft-00000-of-00004.parquet",
-    num_samples=2000
-)
+# Save to file
+config.to_yaml(Path("config.yaml"))
+config.to_json(Path("config.json"))
 ```
 
 ---
 
-### detect_text_columns()
+## Data Pipeline — `finetune_cli.data`
 
-Automatically detect text columns in a dataset.
+### `quick_load`
 
-```python
-def detect_text_columns(dataset: Dataset) -> List[str]
-```
-
-**Parameters:**
-
-- `dataset` (Dataset): Dataset to analyze
-
-**Returns:** List of column names containing text data
-
-**Detection Strategy:**
-
-1. Checks for common text column names
-2. Inspects data types of columns
-3. Returns all string-type columns
-
-**Common Names Detected:**
-
-- text, content, input, output
-- prompt, response, instruction
-- question, answer
-
-**Example:**
+One-liner for loading and tokenizing a dataset.
 
 ```python
-dataset = finetuner.load_dataset_from_source("./data.jsonl")
-text_cols = finetuner.detect_text_columns(dataset)
-print(f"Found columns: {text_cols}")
-# Output: Found columns: ['prompt', 'response']
-```
+from finetune_cli.data import quick_load
+from transformers import AutoTokenizer
 
----
-
-### prepare_dataset()
-
-Tokenize and prepare dataset for training.
-
-```python
-def prepare_dataset(
-    dataset: Dataset,
-    text_columns: Optional[List[str]] = None,
-    max_length: int = 512
-) -> Tuple[Dataset, List[str]]
-```
-
-**Parameters:**
-
-- `dataset` (Dataset): Raw dataset to prepare
-- `text_columns` (List[str], optional): Columns to use. Auto-detects if None
-- `max_length` (int): Maximum sequence length. Default: 512
-
-**Returns:** Tuple of (tokenized_dataset, text_columns_used)
-
-**Processing Steps:**
-
-1. Auto-detects text columns if not provided
-2. Combines multiple columns if present
-3. Tokenizes with truncation and padding
-4. Removes original columns
-
-**Example:**
-
-```python
-dataset = finetuner.load_dataset_from_source("./data.jsonl")
-
-# Auto-detect columns
-tokenized, cols = finetuner.prepare_dataset(dataset, max_length=512)
-
-# Manual column specification
-tokenized, cols = finetuner.prepare_dataset(
-    dataset,
-    text_columns=["prompt", "response"],
-    max_length=256
-)
-```
-
----
-
-### get_target_modules()
-
-Automatically detect target modules for LoRA based on model architecture.
-
-```python
-def get_target_modules() -> Union[List[str], str]
-```
-
-**Returns:** List of module names or "all-linear" as fallback
-
-**Detection Patterns:**
-
-- GPT-2 style: `["c_attn", "c_proj"]`
-- Transformer style: `["q_proj", "v_proj", "k_proj", "o_proj"]`
-- Alternative: `["query", "value", "key", "dense"]`
-
-**Example:**
-
-```python
-finetuner.load_model()
-modules = finetuner.get_target_modules()
-print(f"Detected modules: {modules}")
-# Output: Detected modules: ['q_proj', 'v_proj', 'k_proj', 'o_proj']
-```
-
-**Notes:**
-
-- Automatically called by `setup_lora()`
-- Fallback to "all-linear" if no pattern matches
-
----
-
-### setup_lora()
-
-Configure and apply LoRA to the model.
-
-```python
-def setup_lora(
-    r: int = 8,
-    lora_alpha: int = 32,
-    lora_dropout: float = 0.1,
-    target_modules: Optional[List[str]] = None
-) -> None
-```
-
-**Parameters:**
-
-- `r` (int): LoRA rank. Default: 8
-- `lora_alpha` (int): LoRA alpha scaling. Default: 32
-- `lora_dropout` (float): Dropout probability. Default: 0.1
-- `target_modules` (List[str], optional): Modules to apply LoRA. Auto-detects if None
-
-**Returns:** None
-
-**Side Effects:**
-
-- Creates `self.peft_model` with LoRA adapters
-- Prints trainable parameter statistics
-
-**Example:**
-
-```python
-finetuner.load_model()
-
-# Default configuration
-finetuner.setup_lora()
-
-# Custom configuration
-finetuner.setup_lora(
-    r=16,
-    lora_alpha=64,
-    lora_dropout=0.15,
-    target_modules=["q_proj", "v_proj"]
-)
-```
-
-**Output:**
-
-```
-trainable params: 294,912 || all params: 124,439,808 || trainable%: 0.2370
-```
-
----
-
-### train()
-
-Train the model with LoRA adapters.
-
-```python
-def train(
-    train_dataset: Dataset,
-    num_epochs: int = 3,
-    batch_size: int = 4,
-    learning_rate: float = 2e-4
-) -> None
-```
-
-**Parameters:**
-
-- `train_dataset` (Dataset): Tokenized training dataset
-- `num_epochs` (int): Number of training epochs. Default: 3
-- `batch_size` (int): Per-device batch size. Default: 4
-- `learning_rate` (float): Learning rate. Default: 2e-4
-
-**Returns:** None
-
-**Side Effects:**
-
-- Trains the model
-- Saves checkpoints to output_dir
-- Saves final model and tokenizer
-
-**Training Configuration:**
-
-- Gradient accumulation: 4 steps
-- FP16: Enabled on CUDA
-- Logging: Every 10 steps
-- Save strategy: Per epoch
-
-**Example:**
-
-```python
-finetuner.load_model()
-dataset = finetuner.load_dataset_from_source("./data.jsonl")
-tokenized, _ = finetuner.prepare_dataset(dataset)
-finetuner.setup_lora()
-
-finetuner.train(
-    train_dataset=tokenized,
-    num_epochs=3,
-    batch_size=8,
-    learning_rate=2e-4
-)
-```
-
----
-
-### benchmark()
-
-Benchmark model performance using ROUGE scores.
-
-```python
-def benchmark(
-    test_prompts: List[str],
-    use_finetuned: bool = False
-) -> Dict[str, float]
-```
-
-**Parameters:**
-
-- `test_prompts` (List[str]): List of prompts to evaluate
-- `use_finetuned` (bool): Use fine-tuned model. Default: False (uses base model)
-
-**Returns:** Dictionary with ROUGE scores
-
-**Metrics Computed:**
-
-- ROUGE-1: Unigram overlap
-- ROUGE-2: Bigram overlap
-- ROUGE-L: Longest common subsequence
-
-**Example:**
-
-```python
-test_prompts = [
-    "What is machine learning?",
-    "Explain neural networks.",
-    "Define artificial intelligence."
-]
-
-# Benchmark base model
-base_scores = finetuner.benchmark(test_prompts, use_finetuned=False)
-
-# After training
-finetuned_scores = finetuner.benchmark(test_prompts, use_finetuned=True)
-
-# Compare
-for metric in base_scores:
-    improvement = (finetuned_scores[metric] - base_scores[metric]) / base_scores[metric] * 100
-    print(f"{metric}: {improvement:+.2f}% improvement")
-```
-
-**Output Format:**
-
-```python
-{
-    'rouge1': 0.3245,
-    'rouge2': 0.2134,
-    'rougeL': 0.2987
-}
-```
-
----
-
-### upload_to_huggingface()
-
-Upload fine-tuned model to HuggingFace Hub.
-
-```python
-def upload_to_huggingface(
-    repo_name: str,
-    token: Optional[str] = None,
-    create_new: bool = False,
-    private: bool = False
-) -> None
-```
-
-**Parameters:**
-
-- `repo_name` (str): Repository name (format: "username/repo-name")
-- `token` (str, optional): HuggingFace API token. Uses cached login if None
-- `create_new` (bool): Create new repository. Default: False
-- `private` (bool): Make repository private. Default: False
-
-**Returns:** None
-
-**Requirements:**
-
-- Valid HuggingFace token with write permissions
-- Trained model in output_dir
-
-**Example:**
-
-```python
-# After training
-finetuner.upload_to_huggingface(
-    repo_name="myusername/gpt2-finetuned",
-    token="hf_xxxxxxxxxxxxx",
-    create_new=True,
-    private=False
-)
-```
-
-**Successful Upload:**
-
-```
-✅ Model uploaded successfully to: https://huggingface.co/myusername/gpt2-finetuned
-```
-
-## Usage Patterns
-
-### Complete Training Pipeline
-
-```python
-from finetune_cli import LLMFineTuner
-
-# Initialize
-finetuner = LLMFineTuner("gpt2", "./my_model")
-
-# Load model
-finetuner.load_model()
-
-# Load and prepare data
-dataset = finetuner.load_dataset_from_source(
-    "./data.jsonl",
-    num_samples=5000
-)
-tokenized, cols = finetuner.prepare_dataset(dataset, max_length=512)
-
-# Pre-training benchmark
-test_prompts = ["Sample prompt 1", "Sample prompt 2"]
-base_scores = finetuner.benchmark(test_prompts, use_finetuned=False)
-
-# Setup LoRA
-finetuner.setup_lora(r=8, lora_alpha=32, lora_dropout=0.1)
-
-# Train
-finetuner.train(tokenized, num_epochs=3, batch_size=4, learning_rate=2e-4)
-
-# Post-training benchmark
-finetuned_scores = finetuner.benchmark(test_prompts, use_finetuned=True)
-
-# Upload
-finetuner.upload_to_huggingface(
-    "username/model-name",
-    create_new=True
-)
-```
-
-### Loading Fine-tuned Model
-
-```python
-from transformers import AutoTokenizer, AutoModelForCausalLM
-from peft import PeftModel
-
-# Load base model
-base_model = AutoModelForCausalLM.from_pretrained("gpt2")
 tokenizer = AutoTokenizer.from_pretrained("gpt2")
-
-# Load LoRA adapters
-model = PeftModel.from_pretrained(base_model, "./my_model")
-
-# Inference
-prompt = "Hello, how are you?"
-inputs = tokenizer(prompt, return_tensors="pt")
-outputs = model.generate(**inputs, max_new_tokens=50)
-print(tokenizer.decode(outputs[0], skip_special_tokens=True))
+dataset = quick_load("./data.jsonl", tokenizer, max_samples=500, max_length=512)
+# Returns: datasets.Dataset with input_ids, attention_mask, labels
 ```
 
-### Merging Adapters (Optional)
+### `prepare_dataset`
+
+Full pipeline with optional train/validation split.
 
 ```python
-from peft import PeftModel
+from finetune_cli.data import prepare_dataset
 
-# Load model with adapters
-model = PeftModel.from_pretrained(base_model, "./my_model")
-
-# Merge adapters into base model
-merged_model = model.merge_and_unload()
-
-# Save merged model
-merged_model.save_pretrained("./merged_model")
-tokenizer.save_pretrained("./merged_model")
+result = prepare_dataset(
+    dataset_config=config.dataset.to_config(),
+    tokenization_config=config.tokenization.to_config(),
+    tokenizer=tokenizer,
+    split_for_validation=True,
+    validation_ratio=0.1,
+)
+# result["train"], result["validation"]
 ```
 
-## Helper Functions
+### `DataPipeline`
 
-### get_user_input()
-
-Interactive prompt with optional default value.
+Stateful pipeline class — use when you need statistics or to save processed data.
 
 ```python
-def get_user_input(prompt: str, default: Optional[str] = None) -> str
+from finetune_cli.data import DataPipeline
+
+pipeline = DataPipeline(dataset_config, tokenization_config, tokenizer)
+dataset = pipeline.run(split_for_validation=False)
+stats = pipeline.get_statistics()   # {"num_samples": 1000, "avg_words": 42, ...}
+pipeline.save_processed(Path("./data/processed"))
 ```
 
-**Example:**
+---
+
+## Model Loading — `finetune_cli.models.loader`
 
 ```python
-model_name = get_user_input("Enter model name", "gpt2")
-# Prompt: Enter model name [gpt2]:
+from finetune_cli.models.loader import load_model_and_tokenizer
+
+model, tokenizer = load_model_and_tokenizer(config.model.to_config())
 ```
 
-## Type Definitions
+Handles device mapping, 4-bit/8-bit quantization, and `pad_token` setup automatically.
+
+---
+
+## Trainers — `finetune_cli.trainers`
+
+### `TrainerFactory.train` (recommended)
+
+Single entry point — selects the right trainer based on `TrainingMethod`.
 
 ```python
-from typing import Optional, Dict, List, Tuple
-from datasets import Dataset
-from transformers import AutoModelForCausalLM, AutoTokenizer
-from peft import PeftModel
+from finetune_cli.trainers import TrainerFactory
+
+result = TrainerFactory.train(
+    model=model,
+    tokenizer=tokenizer,
+    dataset=dataset,
+    training_config=config.training.to_config(),
+    lora_config=config.lora.to_config(),
+)
+# result.output_dir, result.train_loss, result.steps_completed
 ```
 
-## Error Handling
-
-The tool includes comprehensive error handling:
+### `LoRATrainer` / `QLoRATrainer` (direct use)
 
 ```python
-try:
-    finetuner.train(dataset)
-except RuntimeError as e:
-    if "out of memory" in str(e):
-        print("Reduce batch size or sequence length")
-    raise
-except KeyboardInterrupt:
-    print("Training interrupted")
-    sys.exit(0)
+from finetune_cli.trainers import LoRATrainer
+
+trainer = LoRATrainer(model, tokenizer, training_config, lora_config)
+result = trainer.train(dataset)
 ```
 
-## Next Steps
+### `TrainingResult`
 
-- See [Usage Guide](usage.md) for CLI workflow
-- Check [Examples](examples.md) for practical use cases
-- Review [Configuration](configuration.md) for parameter tuning
+Frozen dataclass returned by all trainers.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `output_dir` | `Path` | Where the adapter was saved |
+| `train_loss` | `float` | Final training loss |
+| `steps_completed` | `int` | Total training steps |
+| `elapsed_seconds` | `float` | Wall-clock training time |
+
+---
+
+## Evaluation — `finetune_cli.evaluation`
+
+### `BenchmarkRunner`
+
+```python
+from finetune_cli.evaluation import BenchmarkRunner
+from finetune_cli.core.types import EvaluationConfig, EvaluationMetric
+
+eval_cfg = EvaluationConfig(
+    metrics=[EvaluationMetric.ROUGE_L, EvaluationMetric.BLEU],
+    num_samples=100,
+    generation_max_length=100,
+)
+runner = BenchmarkRunner(eval_cfg, tokenizer)
+
+# Single model score
+result = runner.evaluate(model, dataset, label="fine-tuned")
+print(result.scores)  # {"rougeL": 0.42, "bleu": 0.19}
+
+# Before/after comparison
+report = runner.run_comparison(base_model, ft_model, dataset)
+print(report.summary())
+print(report.improvements)  # {"rougeL": +0.12, "bleu": +0.07}
+```
+
+### Available metrics
+
+| `EvaluationMetric` value | Class | Notes |
+|--------------------------|-------|-------|
+| `rouge1`, `rouge2`, `rougeL` | `RougeMetric` | Token overlap |
+| `bleu` | `BleuMetric` | N-gram precision (requires `nltk punkt`) |
+| `perplexity` | `PerplexityMetric` | Requires model |
+
+---
+
+## Exceptions — `finetune_cli.core.exceptions`
+
+All exceptions inherit from `FineTuneError`.
+
+```python
+from finetune_cli.core.exceptions import (
+    InvalidConfigError,      # Bad config value
+    MissingConfigError,      # Required field absent
+    IncompatibleConfigError, # Conflicting options (e.g. fp16 + bf16)
+    DatasetNotFoundError,    # File path doesn't exist
+    EmptyDatasetError,       # Dataset loaded but has 0 rows
+    NoTextColumnsError,      # No string columns found
+    TrainingError,           # Training loop failure
+    ModelLoadError,          # Model download / load failed
+)
+```

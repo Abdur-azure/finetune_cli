@@ -1,366 +1,155 @@
-# Configuration Guide
+# Usage Guide
 
-This guide explains all configuration parameters and how to optimize them for your use case.
+This guide covers all four `finetune-cli` subcommands with real examples.
 
-## LoRA Parameters
+---
 
-LoRA (Low-Rank Adaptation) is a parameter-efficient fine-tuning technique that adds trainable rank decomposition matrices to existing weights.
+## Installation check
 
-### Rank (r)
-
-The rank of the low-rank matrices added to model layers.
-
-**What it controls**: The capacity of the adapter to learn new patterns.
-
-**Values and Use Cases:**
-
-| Rank | Trainable Params | Memory | Use Case |
-|------|-----------------|---------|-----------|
-| 4 | ~0.1-0.5M | Low | Quick experiments, simple tasks |
-| 8 | ~0.5-2M | Moderate | General purpose, balanced performance |
-| 16 | ~2-8M | Higher | Complex tasks, significant adaptation |
-| 32 | ~8-32M | High | Maximum quality, specialized domains |
-
-**Choosing rank:**
-
-```python
-# Simple classification or entity extraction
-r = 4
-
-# General text generation or summarization
-r = 8
-
-# Complex reasoning or domain adaptation
-r = 16
-
-# Specialized medical/legal/technical domains
-r = 32
+```bash
+finetune-cli --help
 ```
 
-**Trade-offs:**
+---
 
-- ✅ Higher rank: Better adaptation, handles complex patterns
-- ❌ Higher rank: More memory, longer training, risk of overfitting
+## `train` — Fine-tune a model
 
-### Alpha (α)
+### Using flags (quick experiments)
 
-Scaling factor applied to LoRA weights.
-
-**What it controls**: The influence of LoRA updates relative to pre-trained weights.
-
-**Formula**: `scaling = alpha / r`
-
-**Recommended values:**
-
-- Standard: `alpha = 2 × r` (e.g., r=8, alpha=16)
-- Conservative: `alpha = r` (less aggressive updates)
-- Aggressive: `alpha = 4 × r` (stronger adaptation)
-
-**Examples:**
-
-```python
-# Conservative (maintains more of base model)
-r = 8, alpha = 8    # scaling = 1.0
-
-# Standard (recommended)
-r = 8, alpha = 16   # scaling = 2.0
-
-# Aggressive (stronger fine-tuning)
-r = 8, alpha = 32   # scaling = 4.0
+```bash
+finetune-cli train \
+  --model gpt2 \
+  --dataset ./data.jsonl \
+  --lora-r 8 \
+  --lora-alpha 32 \
+  --epochs 3 \
+  --batch-size 4 \
+  --output ./output
 ```
 
-**When to adjust:**
+### Using a config file (recommended for reproducibility)
 
-- Increase alpha if model isn't adapting enough
-- Decrease alpha if model forgets pre-trained knowledge
-
-### Dropout
-
-Regularization technique to prevent overfitting.
-
-**What it controls**: Probability of randomly disabling LoRA parameters during training.
-
-**Values:**
-
-- `0.0`: No dropout (risk of overfitting on small datasets)
-- `0.05`: Light regularization (large, diverse datasets)
-- `0.1`: Standard regularization (general purpose)
-- `0.2`: Heavy regularization (small or noisy datasets)
-
-**Choosing dropout:**
-
-```python
-# Large dataset (> 50k samples), clean data
-dropout = 0.05
-
-# Medium dataset (5k-50k samples)
-dropout = 0.1
-
-# Small dataset (< 5k samples) or noisy data
-dropout = 0.2
+```bash
+finetune-cli train --config examples/configs/lora_gpt2.yaml
 ```
 
-### Target Modules
+### QLoRA (4-bit, memory-efficient)
 
-Specifies which model layers to apply LoRA to.
-
-**Auto-detection**: The tool automatically identifies optimal target modules.
-
-**Common patterns:**
-
-```python
-# Attention layers only (memory efficient)
-["q_proj", "v_proj"]
-
-# Full attention (recommended)
-["q_proj", "k_proj", "v_proj", "o_proj"]
-
-# Attention + MLP (maximum adaptation)
-["q_proj", "k_proj", "v_proj", "o_proj", "fc1", "fc2"]
+```bash
+finetune-cli train \
+  --model meta-llama/Llama-3.2-1B \
+  --dataset ./data.jsonl \
+  --4bit \
+  --fp16 \
+  --lora-r 16 \
+  --epochs 2 \
+  --output ./output_qlora
 ```
 
-**Manual override** (advanced):
+### All `train` flags
 
-You can modify the code to specify custom targets:
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--config` | — | YAML or JSON config file (overrides all flags) |
+| `--model` | `gpt2` | HuggingFace model id |
+| `--dataset` | — | Path to local dataset file |
+| `--hf-dataset` | — | HuggingFace dataset id |
+| `--output` | `./output` | Output directory |
+| `--method` | `lora` | Training method (`lora`, `qlora`) |
+| `--lora-r` | `8` | LoRA rank |
+| `--lora-alpha` | `32` | LoRA alpha |
+| `--lora-dropout` | `0.1` | LoRA dropout |
+| `--epochs` | `3` | Number of training epochs |
+| `--batch-size` | `4` | Per-device batch size |
+| `--lr` | `2e-4` | Learning rate |
+| `--max-length` | `512` | Max token sequence length |
+| `--max-samples` | — | Limit dataset to N samples |
+| `--4bit` | off | Load model in 4-bit (QLoRA) |
+| `--fp16` | off | Mixed precision FP16 |
 
-```python
-target_modules = ["q_proj", "v_proj"]  # Attention queries and values only
+---
+
+## `evaluate` — Score a saved checkpoint
+
+```bash
+finetune-cli evaluate \
+  --model-path ./output \
+  --dataset ./test.jsonl \
+  --metrics rougeL,bleu
 ```
 
-## Training Parameters
-
-### Number of Epochs
-
-Complete passes through the training dataset.
-
-**Guidelines by dataset size:**
-
-| Dataset Size | Recommended Epochs |
-|--------------|-------------------|
-| < 1,000 samples | 5-10 |
-| 1,000-5,000 | 3-7 |
-| 5,000-50,000 | 3-5 |
-| > 50,000 | 1-3 |
-
-**Signs of:**
-
-- **Underfitting**: Loss still decreasing, ROUGE scores improving
-  - Solution: Increase epochs
-  
-- **Overfitting**: Training loss decreases but validation loss increases
-  - Solution: Decrease epochs, increase dropout
-
-### Batch Size
-
-Number of samples processed before updating model weights.
-
-**Memory constraints:**
-
-| GPU VRAM | Model Size | Max Batch Size |
-|----------|-----------|----------------|
-| 8GB | Small (< 500M params) | 2-4 |
-| 12GB | Small-Medium | 4-8 |
-| 16GB | Medium (1-3B params) | 4-8 |
-| 24GB | Large (7B params) | 8-16 |
-
-**Effective batch size** with gradient accumulation:
-
-```python
-# Config in training_args
-per_device_train_batch_size = 4
-gradient_accumulation_steps = 4
-# Effective batch size = 4 × 4 = 16
-```
-
-**Tips:**
-
-- Start with batch_size=4 and adjust based on memory
-- Smaller batches = more frequent updates, noisier gradients
-- Larger batches = more stable gradients, better generalization
-
-### Learning Rate
-
-Step size for weight updates.
-
-**Common values:**
-
-| Learning Rate | Use Case |
-|--------------|----------|
-| 1e-5 | Very conservative, large models |
-| 5e-5 | Conservative, stable training |
-| 1e-4 | Moderate, good starting point |
-| 2e-4 | Standard for LoRA (recommended) |
-| 5e-4 | Aggressive, small models |
-| 1e-3 | Very aggressive, risk of instability |
-
-**Learning rate schedule:**
-
-The tool uses a constant learning rate. For advanced use, you can modify to use:
-
-- Linear decay
-- Cosine decay
-- Warmup + decay
-
-**Signs of poor learning rate:**
-
-- **Too high**: Loss oscillates or diverges, NaN values
-  - Solution: Reduce by 50% (e.g., 2e-4 → 1e-4)
-
-- **Too low**: Loss decreases very slowly
-  - Solution: Increase by 2x (e.g., 1e-4 → 2e-4)
-
-### Maximum Sequence Length
-
-Maximum number of tokens per training sample.
-
-**Choosing max length:**
-
-```python
-# Short texts (tweets, titles, Q&A)
-max_length = 128
-
-# Medium texts (paragraphs, summaries)
-max_length = 512
-
-# Long texts (articles, documents)
-max_length = 1024
-
-# Very long texts (research papers)
-max_length = 2048
-```
-
-**Trade-offs:**
-
-- ✅ Longer sequences: Better context understanding
-- ❌ Longer sequences: Quadratic memory increase, slower training
-
-**Memory impact:**
+Prints a score table:
 
 ```
-Memory ∝ batch_size × max_length²
+Results:
+  rougeL               0.4231
+  bleu                 0.1876
 ```
 
-Doubling max_length quadruples memory usage!
+---
 
-## Advanced Configuration
+## `benchmark` — Compare base vs fine-tuned
 
-### Gradient Accumulation
-
-Simulate larger batch sizes without more memory.
-
-**In the code** (line 222):
-
-```python
-gradient_accumulation_steps = 4  # Accumulate gradients over 4 steps
+```bash
+finetune-cli benchmark gpt2 ./output \
+  --dataset ./test.jsonl \
+  --metrics rougeL,bleu \
+  --num-samples 200
 ```
 
-**Calculation:**
+Prints a before/after delta report:
 
 ```
-Effective Batch Size = batch_size × gradient_accumulation_steps × num_gpus
+Metric       Base      Fine-tuned   Delta
+rougeL       0.3012    0.4231       ▲ 0.1219
+bleu         0.1204    0.1876       ▲ 0.0672
 ```
 
-### Mixed Precision (FP16)
+---
 
-Use 16-bit floating point for faster training and less memory.
+## `upload` — Push to HuggingFace Hub
 
-**Automatically enabled** when CUDA is available:
+### Upload LoRA adapter (default)
 
-```python
-fp16 = self.device == "cuda"  # Line 228
+```bash
+finetune-cli upload ./output username/my-model --token $HF_TOKEN
 ```
 
-**Benefits:**
+### Merge adapter into base model, then upload
 
-- 50% less memory
-- 2-3x faster training
-- Minimal accuracy loss
-
-### Model Quantization
-
-For very large models, you can enable quantization:
-
-```python
-# Add to model loading (line 59)
-model = AutoModelForCausalLM.from_pretrained(
-    model_name,
-    load_in_8bit=True,  # Quantize to 8-bit
-    device_map="auto"
-)
+```bash
+finetune-cli upload ./output username/my-model \
+  --merge-adapter \
+  --base-model gpt2 \
+  --token $HF_TOKEN
 ```
 
-## Configuration Recipes
+The merged model is a standard HuggingFace model — no PEFT dependency required for inference.
 
-### Recipe 1: Quick Experimentation
+### Private repository
 
-```
-Samples: 1000
-Max Length: 256
-LoRA r: 4
-LoRA alpha: 16
-Dropout: 0.1
-Epochs: 3
-Batch Size: 4
-Learning Rate: 2e-4
+```bash
+finetune-cli upload ./output username/my-model --private
 ```
 
-**Best for**: Testing ideas, rapid iteration
+!!! tip "Token via environment variable"
+    Set `HF_TOKEN` in your environment instead of passing `--token` every time:
+    ```bash
+    export HF_TOKEN=hf_...
+    finetune-cli upload ./output username/my-model
+    ```
 
-### Recipe 2: Balanced Quality
+---
 
-```
-Samples: 10000
-Max Length: 512
-LoRA r: 8
-LoRA alpha: 32
-Dropout: 0.1
-Epochs: 3
-Batch Size: 8
-Learning Rate: 2e-4
-```
+## Supported dataset formats
 
-**Best for**: Production models, general tasks
+| Format | Extension | Notes |
+|--------|-----------|-------|
+| JSON Lines | `.jsonl` | One JSON object per line — recommended |
+| JSON | `.json` | Array of objects or single dict |
+| CSV | `.csv` | Auto-detects text columns |
+| Parquet | `.parquet` | Columnar format |
+| Plain text | `.txt` | One sample per line |
+| HuggingFace | — | Any public Hub dataset via `--hf-dataset` |
 
-### Recipe 3: Maximum Quality
-
-```
-Samples: 50000+
-Max Length: 1024
-LoRA r: 16
-LoRA alpha: 64
-Dropout: 0.1
-Epochs: 3
-Batch Size: 8
-Learning Rate: 1e-4
-```
-
-**Best for**: Specialized domains, publication-quality results
-
-### Recipe 4: Memory-Constrained
-
-```
-Samples: 5000
-Max Length: 256
-LoRA r: 4
-LoRA alpha: 16
-Dropout: 0.1
-Epochs: 5
-Batch Size: 2
-Learning Rate: 2e-4
-```
-
-**Best for**: Limited GPU memory (< 8GB)
-
-## Optimization Tips
-
-1. **Start conservative**: Use lower rank, smaller batch, fewer epochs
-2. **Monitor metrics**: Watch loss curves and ROUGE scores
-3. **Iterate gradually**: Increase one parameter at a time
-4. **Save checkpoints**: Keep best performing configurations
-5. **Profile memory**: Use `nvidia-smi` to track GPU usage
-
-## Next Steps
-
-- See practical [Examples](examples.md)
-- Understand [Troubleshooting](troubleshooting.md) common issues
-- Explore [API Reference](api.md) for programmatic usage
+Text columns are auto-detected. To specify explicitly, use a config file with `dataset.text_columns`.

@@ -1,366 +1,199 @@
-# Configuration Guide
+# Configuration Reference
 
-This guide explains all configuration parameters and how to optimize them for your use case.
+`finetune-cli` uses YAML (or JSON) config files for reproducible, shareable training runs. Every flag available on the CLI maps to a field in the config file.
 
-## LoRA Parameters
+---
 
-LoRA (Low-Rank Adaptation) is a parameter-efficient fine-tuning technique that adds trainable rank decomposition matrices to existing weights.
+## Full config structure
 
-### Rank (r)
+```yaml
+model:
+  name: "gpt2"                 # HuggingFace model id
+  device: "auto"               # auto | cpu | cuda | mps
+  torch_dtype: "float32"       # float32 | float16 | bfloat16 | auto
+  load_in_4bit: false          # QLoRA — quantize base model
+  load_in_8bit: false          # 8-bit inference mode
+  trust_remote_code: false
 
-The rank of the low-rank matrices added to model layers.
+dataset:
+  source: "local_file"         # local_file | huggingface_hub
+  path: "./data/train.jsonl"   # file path or HF dataset id
+  split: "train"
+  max_samples: 1000            # null = use all
+  shuffle: true
+  seed: 42
+  text_columns: null           # null = auto-detect
 
-**What it controls**: The capacity of the adapter to learn new patterns.
+tokenization:
+  max_length: 512
+  truncation: true
+  padding: "max_length"        # max_length | longest | do_not_pad
+  add_special_tokens: true
+  return_attention_mask: true
 
-**Values and Use Cases:**
+training:
+  method: "lora"               # lora | qlora
+  output_dir: "./output"
+  num_epochs: 3
+  batch_size: 4
+  gradient_accumulation_steps: 4
+  learning_rate: 0.0002
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  lr_scheduler_type: "cosine"
+  fp16: false
+  bf16: false
+  logging_steps: 10
+  save_strategy: "epoch"       # no | epoch | steps
+  evaluation_strategy: "no"    # no | epoch | steps
+  gradient_checkpointing: false
+  seed: 42
 
-| Rank | Trainable Params | Memory | Use Case |
-|------|-----------------|---------|-----------|
-| 4 | ~0.1-0.5M | Low | Quick experiments, simple tasks |
-| 8 | ~0.5-2M | Moderate | General purpose, balanced performance |
-| 16 | ~2-8M | Higher | Complex tasks, significant adaptation |
-| 32 | ~8-32M | High | Maximum quality, specialized domains |
+lora:
+  r: 8                         # rank — higher = more capacity + VRAM
+  lora_alpha: 32               # scaling factor (typical: 2× r)
+  lora_dropout: 0.1
+  target_modules: null         # null = auto-detect
+  bias: "none"                 # none | all | lora_only
+  init_lora_weights: true
 
-**Choosing rank:**
-
-```python
-# Simple classification or entity extraction
-r = 4
-
-# General text generation or summarization
-r = 8
-
-# Complex reasoning or domain adaptation
-r = 16
-
-# Specialized medical/legal/technical domains
-r = 32
+evaluation:                    # optional
+  metrics:
+    - "rougeL"
+    - "bleu"
+  batch_size: 8
+  num_samples: 100
+  generation_max_length: 100
+  generation_temperature: 0.7
+  generation_top_p: 0.9
+  generation_do_sample: true
 ```
 
-**Trade-offs:**
+---
 
-- ✅ Higher rank: Better adaptation, handles complex patterns
-- ❌ Higher rank: More memory, longer training, risk of overfitting
+## LoRA parameter guide
 
-### Alpha (α)
+### Rank (`r`)
 
-Scaling factor applied to LoRA weights.
+Controls how many parameters LoRA adds. Higher rank = more expressive but more VRAM.
 
-**What it controls**: The influence of LoRA updates relative to pre-trained weights.
+| Rank | Parameters added | VRAM overhead | Best for |
+|------|-----------------|---------------|----------|
+| 4 | ~0.1% | Minimal | Quick experiments |
+| 8 | ~0.2% | Low | General purpose (default) |
+| 16 | ~0.4% | Medium | Domain adaptation |
+| 32+ | ~0.8%+ | High | Maximum adaptation |
 
-**Formula**: `scaling = alpha / r`
+### Alpha (`lora_alpha`)
 
-**Recommended values:**
+Scaling factor for the LoRA update. Rule of thumb: **alpha = 2× r**.
 
-- Standard: `alpha = 2 × r` (e.g., r=8, alpha=16)
-- Conservative: `alpha = r` (less aggressive updates)
-- Aggressive: `alpha = 4 × r` (stronger adaptation)
+```yaml
+# Conservative (less aggressive update)
+lora_alpha: 16  # with r: 8
 
-**Examples:**
+# Standard
+lora_alpha: 32  # with r: 8
 
-```python
-# Conservative (maintains more of base model)
-r = 8, alpha = 8    # scaling = 1.0
-
-# Standard (recommended)
-r = 8, alpha = 16   # scaling = 2.0
-
-# Aggressive (stronger fine-tuning)
-r = 8, alpha = 32   # scaling = 4.0
+# Aggressive (more aggressive update, may need lower lr)
+lora_alpha: 64  # with r: 8
 ```
 
-**When to adjust:**
+### Target modules
 
-- Increase alpha if model isn't adapting enough
-- Decrease alpha if model forgets pre-trained knowledge
+Set to `null` for auto-detection. Override when auto-detection misses layers:
 
-### Dropout
+```yaml
+# GPT-2
+target_modules: ["c_attn", "c_proj"]
 
-Regularization technique to prevent overfitting.
+# LLaMA / Mistral
+target_modules: ["q_proj", "k_proj", "v_proj", "o_proj"]
 
-**What it controls**: Probability of randomly disabling LoRA parameters during training.
-
-**Values:**
-
-- `0.0`: No dropout (risk of overfitting on small datasets)
-- `0.05`: Light regularization (large, diverse datasets)
-- `0.1`: Standard regularization (general purpose)
-- `0.2`: Heavy regularization (small or noisy datasets)
-
-**Choosing dropout:**
-
-```python
-# Large dataset (> 50k samples), clean data
-dropout = 0.05
-
-# Medium dataset (5k-50k samples)
-dropout = 0.1
-
-# Small dataset (< 5k samples) or noisy data
-dropout = 0.2
+# BERT
+target_modules: ["query", "value"]
 ```
 
-### Target Modules
+---
 
-Specifies which model layers to apply LoRA to.
+## Configuration recipes
 
-**Auto-detection**: The tool automatically identifies optimal target modules.
+### Quick experiment (CPU-friendly)
 
-**Common patterns:**
-
-```python
-# Attention layers only (memory efficient)
-["q_proj", "v_proj"]
-
-# Full attention (recommended)
-["q_proj", "k_proj", "v_proj", "o_proj"]
-
-# Attention + MLP (maximum adaptation)
-["q_proj", "k_proj", "v_proj", "o_proj", "fc1", "fc2"]
+```yaml
+model:
+  name: "gpt2"
+  torch_dtype: "float32"
+dataset:
+  max_samples: 500
+tokenization:
+  max_length: 256
+training:
+  num_epochs: 1
+  batch_size: 2
+  gradient_accumulation_steps: 2
+lora:
+  r: 4
+  lora_alpha: 8
 ```
 
-**Manual override** (advanced):
+### Balanced quality (8GB GPU)
 
-You can modify the code to specify custom targets:
-
-```python
-target_modules = ["q_proj", "v_proj"]  # Attention queries and values only
+```yaml
+model:
+  name: "gpt2-medium"
+  torch_dtype: "float16"
+training:
+  num_epochs: 3
+  batch_size: 4
+  gradient_accumulation_steps: 4
+  fp16: true
+lora:
+  r: 8
+  lora_alpha: 32
 ```
 
-## Training Parameters
+### Large model on limited VRAM (QLoRA)
 
-### Number of Epochs
-
-Complete passes through the training dataset.
-
-**Guidelines by dataset size:**
-
-| Dataset Size | Recommended Epochs |
-|--------------|-------------------|
-| < 1,000 samples | 5-10 |
-| 1,000-5,000 | 3-7 |
-| 5,000-50,000 | 3-5 |
-| > 50,000 | 1-3 |
-
-**Signs of:**
-
-- **Underfitting**: Loss still decreasing, ROUGE scores improving
-  - Solution: Increase epochs
-  
-- **Overfitting**: Training loss decreases but validation loss increases
-  - Solution: Decrease epochs, increase dropout
-
-### Batch Size
-
-Number of samples processed before updating model weights.
-
-**Memory constraints:**
-
-| GPU VRAM | Model Size | Max Batch Size |
-|----------|-----------|----------------|
-| 8GB | Small (< 500M params) | 2-4 |
-| 12GB | Small-Medium | 4-8 |
-| 16GB | Medium (1-3B params) | 4-8 |
-| 24GB | Large (7B params) | 8-16 |
-
-**Effective batch size** with gradient accumulation:
-
-```python
-# Config in training_args
-per_device_train_batch_size = 4
-gradient_accumulation_steps = 4
-# Effective batch size = 4 × 4 = 16
+```yaml
+model:
+  name: "meta-llama/Llama-3.2-1B"
+  load_in_4bit: true
+  torch_dtype: "float16"
+training:
+  method: "qlora"
+  batch_size: 2
+  gradient_accumulation_steps: 8
+  fp16: true
+  gradient_checkpointing: true
+lora:
+  r: 16
+  lora_alpha: 32
+  target_modules: ["q_proj", "k_proj", "v_proj", "o_proj"]
 ```
 
-**Tips:**
+---
 
-- Start with batch_size=4 and adjust based on memory
-- Smaller batches = more frequent updates, noisier gradients
-- Larger batches = more stable gradients, better generalization
+## Generating a config file
 
-### Learning Rate
+Use the built-in examples as a starting point:
 
-Step size for weight updates.
+```bash
+# Copy and edit
+cp examples/configs/lora_gpt2.yaml my_config.yaml
 
-**Common values:**
-
-| Learning Rate | Use Case |
-|--------------|----------|
-| 1e-5 | Very conservative, large models |
-| 5e-5 | Conservative, stable training |
-| 1e-4 | Moderate, good starting point |
-| 2e-4 | Standard for LoRA (recommended) |
-| 5e-4 | Aggressive, small models |
-| 1e-3 | Very aggressive, risk of instability |
-
-**Learning rate schedule:**
-
-The tool uses a constant learning rate. For advanced use, you can modify to use:
-
-- Linear decay
-- Cosine decay
-- Warmup + decay
-
-**Signs of poor learning rate:**
-
-- **Too high**: Loss oscillates or diverges, NaN values
-  - Solution: Reduce by 50% (e.g., 2e-4 → 1e-4)
-
-- **Too low**: Loss decreases very slowly
-  - Solution: Increase by 2x (e.g., 1e-4 → 2e-4)
-
-### Maximum Sequence Length
-
-Maximum number of tokens per training sample.
-
-**Choosing max length:**
-
-```python
-# Short texts (tweets, titles, Q&A)
-max_length = 128
-
-# Medium texts (paragraphs, summaries)
-max_length = 512
-
-# Long texts (articles, documents)
-max_length = 1024
-
-# Very long texts (research papers)
-max_length = 2048
+# Or generate from the CLI (coming soon)
+finetune-cli train --model gpt2 --dataset ./data.jsonl --output ./output
+# Training args are logged — copy them into a config file
 ```
 
-**Trade-offs:**
+---
 
-- ✅ Longer sequences: Better context understanding
-- ❌ Longer sequences: Quadratic memory increase, slower training
+## JSON vs YAML
 
-**Memory impact:**
+Both formats are supported. YAML is recommended for readability. JSON is useful for programmatic generation.
 
+```bash
+finetune-cli train --config config.yaml
+finetune-cli train --config config.json
 ```
-Memory ∝ batch_size × max_length²
-```
-
-Doubling max_length quadruples memory usage!
-
-## Advanced Configuration
-
-### Gradient Accumulation
-
-Simulate larger batch sizes without more memory.
-
-**In the code** (line 222):
-
-```python
-gradient_accumulation_steps = 4  # Accumulate gradients over 4 steps
-```
-
-**Calculation:**
-
-```
-Effective Batch Size = batch_size × gradient_accumulation_steps × num_gpus
-```
-
-### Mixed Precision (FP16)
-
-Use 16-bit floating point for faster training and less memory.
-
-**Automatically enabled** when CUDA is available:
-
-```python
-fp16 = self.device == "cuda"  # Line 228
-```
-
-**Benefits:**
-
-- 50% less memory
-- 2-3x faster training
-- Minimal accuracy loss
-
-### Model Quantization
-
-For very large models, you can enable quantization:
-
-```python
-# Add to model loading (line 59)
-model = AutoModelForCausalLM.from_pretrained(
-    model_name,
-    load_in_8bit=True,  # Quantize to 8-bit
-    device_map="auto"
-)
-```
-
-## Configuration Recipes
-
-### Recipe 1: Quick Experimentation
-
-```
-Samples: 1000
-Max Length: 256
-LoRA r: 4
-LoRA alpha: 16
-Dropout: 0.1
-Epochs: 3
-Batch Size: 4
-Learning Rate: 2e-4
-```
-
-**Best for**: Testing ideas, rapid iteration
-
-### Recipe 2: Balanced Quality
-
-```
-Samples: 10000
-Max Length: 512
-LoRA r: 8
-LoRA alpha: 32
-Dropout: 0.1
-Epochs: 3
-Batch Size: 8
-Learning Rate: 2e-4
-```
-
-**Best for**: Production models, general tasks
-
-### Recipe 3: Maximum Quality
-
-```
-Samples: 50000+
-Max Length: 1024
-LoRA r: 16
-LoRA alpha: 64
-Dropout: 0.1
-Epochs: 3
-Batch Size: 8
-Learning Rate: 1e-4
-```
-
-**Best for**: Specialized domains, publication-quality results
-
-### Recipe 4: Memory-Constrained
-
-```
-Samples: 5000
-Max Length: 256
-LoRA r: 4
-LoRA alpha: 16
-Dropout: 0.1
-Epochs: 5
-Batch Size: 2
-Learning Rate: 2e-4
-```
-
-**Best for**: Limited GPU memory (< 8GB)
-
-## Optimization Tips
-
-1. **Start conservative**: Use lower rank, smaller batch, fewer epochs
-2. **Monitor metrics**: Watch loss curves and ROUGE scores
-3. **Iterate gradually**: Increase one parameter at a time
-4. **Save checkpoints**: Keep best performing configurations
-5. **Profile memory**: Use `nvidia-smi` to track GPU usage
-
-## Next Steps
-
-- See practical [Examples](examples.md)
-- Understand [Troubleshooting](troubleshooting.md) common issues
-- Explore [API Reference](api.md) for programmatic usage

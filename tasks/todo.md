@@ -3,27 +3,28 @@
 ## Status Legend
 - [ ] = Todo
 - [x] = Complete
-- [~] = Blocked/alternative used
 
 ---
 
-## Current Sprint — Close the Loop
+## Current Sprint — Sync Docs to v2
 
-- [ ] Run integration test — pytest tests/test_integration.py -v -s
-- [x] Deprecate v1 finetune_cli.py — deprecation warning redirecting to new CLI
-- [x] Verify data pipeline wiring — trace config → data → trainer in CLI
-- [x] Add CHANGELOG.md — v1→v2 migration, what changed, what's new
+- [x] Rewrite docs/index.md
+- [x] Rewrite docs/usage.md
+- [x] Rewrite docs/api.md
+- [x] Rewrite docs/configuration.md
+- [ ] Verify mkdocs build passes locally — `mkdocs build --strict`
 
 ---
 
 ## Previously Completed
 
 - [x] Phases 3-5 — trainers/, evaluation/, cli/main.py
-- [x] tests/ — unit + integration tests (unit: all green)
-- [x] CI workflow, upload subcommand, example YAML configs
-- [x] Foundation stabilised — pyproject.toml, conftest.py, all __init__.py files
+- [x] tests/ — all 35+ unit tests + integration test green
+- [x] CI, upload subcommand, example YAML configs
+- [x] Foundation — pyproject.toml, conftest.py, data pipeline
+- [x] CHANGELOG.md, v1 deprecation shim
 
 ---
 
 ## Acceptance Gate
-Integration test green → repo is considered end-to-end verified.
+`mkdocs build --strict` passes with zero warnings.

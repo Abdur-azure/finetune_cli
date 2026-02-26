@@ -25,7 +25,7 @@
     
     
       
-        <title>Configuration Guide - Finetune CLI</title>
+        <title>Configuration Reference - Finetune CLI</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#configuration-guide" class="md-skip">
+        <a href="#configuration-reference" class="md-skip">
           Skip to content
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Configuration Guide
+              Configuration Reference
             
           </span>
         </div>
@@ -237,7 +237,7 @@
   <span class="md-ellipsis">
     
   
-    🤖 Finetune CLI
+    finetune-cli
   
 
     
@@ -327,7 +327,7 @@
   <span class="md-ellipsis">
     
   
-    Configuration Guide
+    Configuration Reference
   
 
     
@@ -345,7 +345,7 @@
   <span class="md-ellipsis">
     
   
-    Configuration Guide
+    Configuration Reference
   
 
     
@@ -371,15 +371,26 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#lora-parameters" class="md-nav__link">
+  <a href="#full-config-structure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        LoRA Parameters
+        Full config structure
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="LoRA Parameters">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lora-parameter-guide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LoRA parameter guide
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LoRA parameter guide">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -394,21 +405,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#alpha" class="md-nav__link">
+  <a href="#alpha-lora_alpha" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Alpha (α)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dropout" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dropout
+        Alpha (lora_alpha)
       
     </span>
   </a>
@@ -419,118 +419,7 @@
   <a href="#target-modules" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Target Modules
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#training-parameters" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Training Parameters
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Training Parameters">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#number-of-epochs" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Number of Epochs
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#batch-size" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Batch Size
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#learning-rate" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Learning Rate
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#maximum-sequence-length" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Maximum Sequence Length
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#advanced-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Advanced Configuration
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Advanced Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#gradient-accumulation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Gradient Accumulation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#mixed-precision-fp16" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Mixed Precision (FP16)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#model-quantization" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Model Quantization
+        Target modules
       
     </span>
   </a>
@@ -546,19 +435,19 @@
   <a href="#configuration-recipes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configuration Recipes
+        Configuration recipes
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Configuration Recipes">
+    <nav class="md-nav" aria-label="Configuration recipes">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#recipe-1-quick-experimentation" class="md-nav__link">
+  <a href="#quick-experiment-cpu-friendly" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Recipe 1: Quick Experimentation
+        Quick experiment (CPU-friendly)
       
     </span>
   </a>
@@ -566,10 +455,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#recipe-2-balanced-quality" class="md-nav__link">
+  <a href="#balanced-quality-8gb-gpu" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Recipe 2: Balanced Quality
+        Balanced quality (8GB GPU)
       
     </span>
   </a>
@@ -577,21 +466,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#recipe-3-maximum-quality" class="md-nav__link">
+  <a href="#large-model-on-limited-vram-qlora" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Recipe 3: Maximum Quality
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#recipe-4-memory-constrained" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Recipe 4: Memory-Constrained
+        Large model on limited VRAM (QLoRA)
       
     </span>
   </a>
@@ -604,10 +482,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#optimization-tips" class="md-nav__link">
+  <a href="#generating-a-config-file" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Optimization Tips
+        Generating a config file
       
     </span>
   </a>
@@ -615,10 +493,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
+  <a href="#json-vs-yaml" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Next Steps
+        JSON vs YAML
       
     </span>
   </a>
@@ -755,7 +633,7 @@
   <span class="md-ellipsis">
     
   
-    Configuration Guide
+    Usage Guide
   
 
     
@@ -822,15 +700,26 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#lora-parameters" class="md-nav__link">
+  <a href="#full-config-structure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        LoRA Parameters
+        Full config structure
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="LoRA Parameters">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lora-parameter-guide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LoRA parameter guide
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LoRA parameter guide">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -845,21 +734,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#alpha" class="md-nav__link">
+  <a href="#alpha-lora_alpha" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Alpha (α)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dropout" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dropout
+        Alpha (lora_alpha)
       
     </span>
   </a>
@@ -870,118 +748,7 @@
   <a href="#target-modules" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Target Modules
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#training-parameters" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Training Parameters
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Training Parameters">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#number-of-epochs" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Number of Epochs
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#batch-size" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Batch Size
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#learning-rate" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Learning Rate
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#maximum-sequence-length" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Maximum Sequence Length
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#advanced-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Advanced Configuration
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Advanced Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#gradient-accumulation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Gradient Accumulation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#mixed-precision-fp16" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Mixed Precision (FP16)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#model-quantization" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Model Quantization
+        Target modules
       
     </span>
   </a>
@@ -997,19 +764,19 @@
   <a href="#configuration-recipes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configuration Recipes
+        Configuration recipes
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Configuration Recipes">
+    <nav class="md-nav" aria-label="Configuration recipes">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#recipe-1-quick-experimentation" class="md-nav__link">
+  <a href="#quick-experiment-cpu-friendly" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Recipe 1: Quick Experimentation
+        Quick experiment (CPU-friendly)
       
     </span>
   </a>
@@ -1017,10 +784,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#recipe-2-balanced-quality" class="md-nav__link">
+  <a href="#balanced-quality-8gb-gpu" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Recipe 2: Balanced Quality
+        Balanced quality (8GB GPU)
       
     </span>
   </a>
@@ -1028,21 +795,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#recipe-3-maximum-quality" class="md-nav__link">
+  <a href="#large-model-on-limited-vram-qlora" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Recipe 3: Maximum Quality
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#recipe-4-memory-constrained" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Recipe 4: Memory-Constrained
+        Large model on limited VRAM (QLoRA)
       
     </span>
   </a>
@@ -1055,10 +811,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#optimization-tips" class="md-nav__link">
+  <a href="#generating-a-config-file" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Optimization Tips
+        Generating a config file
       
     </span>
   </a>
@@ -1066,10 +822,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
+  <a href="#json-vs-yaml" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Next Steps
+        JSON vs YAML
       
     </span>
   </a>
@@ -1096,400 +852,203 @@
   
 
 
-<h1 id="configuration-guide">Configuration Guide<a class="headerlink" href="#configuration-guide" title="Permanent link">&para;</a></h1>
-<p>This guide explains all configuration parameters and how to optimize them for your use case.</p>
-<h2 id="lora-parameters">LoRA Parameters<a class="headerlink" href="#lora-parameters" title="Permanent link">&para;</a></h2>
-<p>LoRA (Low-Rank Adaptation) is a parameter-efficient fine-tuning technique that adds trainable rank decomposition matrices to existing weights.</p>
-<h3 id="rank-r">Rank (r)<a class="headerlink" href="#rank-r" title="Permanent link">&para;</a></h3>
-<p>The rank of the low-rank matrices added to model layers.</p>
-<p><strong>What it controls</strong>: The capacity of the adapter to learn new patterns.</p>
-<p><strong>Values and Use Cases:</strong></p>
+<h1 id="configuration-reference">Configuration Reference<a class="headerlink" href="#configuration-reference" title="Permanent link">&para;</a></h1>
+<p><code>finetune-cli</code> uses YAML (or JSON) config files for reproducible, shareable training runs. Every flag available on the CLI maps to a field in the config file.</p>
+<hr />
+<h2 id="full-config-structure">Full config structure<a class="headerlink" href="#full-config-structure" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code><span class="nt">model</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;gpt2&quot;</span><span class="w">                 </span><span class="c1"># HuggingFace model id</span>
+<span class="w">  </span><span class="nt">device</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;auto&quot;</span><span class="w">               </span><span class="c1"># auto | cpu | cuda | mps</span>
+<span class="w">  </span><span class="nt">torch_dtype</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;float32&quot;</span><span class="w">       </span><span class="c1"># float32 | float16 | bfloat16 | auto</span>
+<span class="w">  </span><span class="nt">load_in_4bit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">          </span><span class="c1"># QLoRA — quantize base model</span>
+<span class="w">  </span><span class="nt">load_in_8bit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">          </span><span class="c1"># 8-bit inference mode</span>
+<span class="w">  </span><span class="nt">trust_remote_code</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+
+<span class="nt">dataset</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;local_file&quot;</span><span class="w">         </span><span class="c1"># local_file | huggingface_hub</span>
+<span class="w">  </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./data/train.jsonl&quot;</span><span class="w">   </span><span class="c1"># file path or HF dataset id</span>
+<span class="w">  </span><span class="nt">split</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;train&quot;</span>
+<span class="w">  </span><span class="nt">max_samples</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span><span class="w">            </span><span class="c1"># null = use all</span>
+<span class="w">  </span><span class="nt">shuffle</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">seed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">42</span>
+<span class="w">  </span><span class="nt">text_columns</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span><span class="w">           </span><span class="c1"># null = auto-detect</span>
+
+<span class="nt">tokenization</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">max_length</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">512</span>
+<span class="w">  </span><span class="nt">truncation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">padding</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;max_length&quot;</span><span class="w">        </span><span class="c1"># max_length | longest | do_not_pad</span>
+<span class="w">  </span><span class="nt">add_special_tokens</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">return_attention_mask</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="nt">training</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;lora&quot;</span><span class="w">               </span><span class="c1"># lora | qlora</span>
+<span class="w">  </span><span class="nt">output_dir</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./output&quot;</span>
+<span class="w">  </span><span class="nt">num_epochs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">  </span><span class="nt">batch_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
+<span class="w">  </span><span class="nt">gradient_accumulation_steps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
+<span class="w">  </span><span class="nt">learning_rate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0002</span>
+<span class="w">  </span><span class="nt">weight_decay</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.01</span>
+<span class="w">  </span><span class="nt">warmup_ratio</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span>
+<span class="w">  </span><span class="nt">lr_scheduler_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;cosine&quot;</span>
+<span class="w">  </span><span class="nt">fp16</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">bf16</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">logging_steps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="w">  </span><span class="nt">save_strategy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;epoch&quot;</span><span class="w">       </span><span class="c1"># no | epoch | steps</span>
+<span class="w">  </span><span class="nt">evaluation_strategy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;no&quot;</span><span class="w">    </span><span class="c1"># no | epoch | steps</span>
+<span class="w">  </span><span class="nt">gradient_checkpointing</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">seed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">42</span>
+
+<span class="nt">lora</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">r</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span><span class="w">                         </span><span class="c1"># rank — higher = more capacity + VRAM</span>
+<span class="w">  </span><span class="nt">lora_alpha</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">32</span><span class="w">               </span><span class="c1"># scaling factor (typical: 2× r)</span>
+<span class="w">  </span><span class="nt">lora_dropout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span>
+<span class="w">  </span><span class="nt">target_modules</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span><span class="w">         </span><span class="c1"># null = auto-detect</span>
+<span class="w">  </span><span class="nt">bias</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;none&quot;</span><span class="w">                 </span><span class="c1"># none | all | lora_only</span>
+<span class="w">  </span><span class="nt">init_lora_weights</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="nt">evaluation</span><span class="p">:</span><span class="w">                    </span><span class="c1"># optional</span>
+<span class="w">  </span><span class="nt">metrics</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;rougeL&quot;</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;bleu&quot;</span>
+<span class="w">  </span><span class="nt">batch_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span>
+<span class="w">  </span><span class="nt">num_samples</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
+<span class="w">  </span><span class="nt">generation_max_length</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
+<span class="w">  </span><span class="nt">generation_temperature</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.7</span>
+<span class="w">  </span><span class="nt">generation_top_p</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.9</span>
+<span class="w">  </span><span class="nt">generation_do_sample</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+
+<hr />
+<h2 id="lora-parameter-guide">LoRA parameter guide<a class="headerlink" href="#lora-parameter-guide" title="Permanent link">&para;</a></h2>
+<h3 id="rank-r">Rank (<code>r</code>)<a class="headerlink" href="#rank-r" title="Permanent link">&para;</a></h3>
+<p>Controls how many parameters LoRA adds. Higher rank = more expressive but more VRAM.</p>
 <table>
 <thead>
 <tr>
 <th>Rank</th>
-<th>Trainable Params</th>
-<th>Memory</th>
-<th>Use Case</th>
+<th>Parameters added</th>
+<th>VRAM overhead</th>
+<th>Best for</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>4</td>
-<td>~0.1-0.5M</td>
-<td>Low</td>
-<td>Quick experiments, simple tasks</td>
+<td>~0.1%</td>
+<td>Minimal</td>
+<td>Quick experiments</td>
 </tr>
 <tr>
 <td>8</td>
-<td>~0.5-2M</td>
-<td>Moderate</td>
-<td>General purpose, balanced performance</td>
+<td>~0.2%</td>
+<td>Low</td>
+<td>General purpose (default)</td>
 </tr>
 <tr>
 <td>16</td>
-<td>~2-8M</td>
-<td>Higher</td>
-<td>Complex tasks, significant adaptation</td>
+<td>~0.4%</td>
+<td>Medium</td>
+<td>Domain adaptation</td>
 </tr>
 <tr>
-<td>32</td>
-<td>~8-32M</td>
+<td>32+</td>
+<td>~0.8%+</td>
 <td>High</td>
-<td>Maximum quality, specialized domains</td>
+<td>Maximum adaptation</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Choosing rank:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Simple classification or entity extraction</span>
-<span class="n">r</span> <span class="o">=</span> <span class="mi">4</span>
+<h3 id="alpha-lora_alpha">Alpha (<code>lora_alpha</code>)<a class="headerlink" href="#alpha-lora_alpha" title="Permanent link">&para;</a></h3>
+<p>Scaling factor for the LoRA update. Rule of thumb: <strong>alpha = 2× r</strong>.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Conservative (less aggressive update)</span>
+<span class="nt">lora_alpha</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">16</span><span class="w">  </span><span class="c1"># with r: 8</span>
 
-<span class="c1"># General text generation or summarization</span>
-<span class="n">r</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="c1"># Standard</span>
+<span class="nt">lora_alpha</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">32</span><span class="w">  </span><span class="c1"># with r: 8</span>
 
-<span class="c1"># Complex reasoning or domain adaptation</span>
-<span class="n">r</span> <span class="o">=</span> <span class="mi">16</span>
-
-<span class="c1"># Specialized medical/legal/technical domains</span>
-<span class="n">r</span> <span class="o">=</span> <span class="mi">32</span>
+<span class="c1"># Aggressive (more aggressive update, may need lower lr)</span>
+<span class="nt">lora_alpha</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">64</span><span class="w">  </span><span class="c1"># with r: 8</span>
 </code></pre></div>
 
-<p><strong>Trade-offs:</strong></p>
-<ul>
-<li>✅ Higher rank: Better adaptation, handles complex patterns</li>
-<li>❌ Higher rank: More memory, longer training, risk of overfitting</li>
-</ul>
-<h3 id="alpha">Alpha (α)<a class="headerlink" href="#alpha" title="Permanent link">&para;</a></h3>
-<p>Scaling factor applied to LoRA weights.</p>
-<p><strong>What it controls</strong>: The influence of LoRA updates relative to pre-trained weights.</p>
-<p><strong>Formula</strong>: <code>scaling = alpha / r</code></p>
-<p><strong>Recommended values:</strong></p>
-<ul>
-<li>Standard: <code>alpha = 2 × r</code> (e.g., r=8, alpha=16)</li>
-<li>Conservative: <code>alpha = r</code> (less aggressive updates)</li>
-<li>Aggressive: <code>alpha = 4 × r</code> (stronger adaptation)</li>
-</ul>
-<p><strong>Examples:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Conservative (maintains more of base model)</span>
-<span class="n">r</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mi">8</span>    <span class="c1"># scaling = 1.0</span>
+<h3 id="target-modules">Target modules<a class="headerlink" href="#target-modules" title="Permanent link">&para;</a></h3>
+<p>Set to <code>null</code> for auto-detection. Override when auto-detection misses layers:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># GPT-2</span>
+<span class="nt">target_modules</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;c_attn&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;c_proj&quot;</span><span class="p p-Indicator">]</span>
 
-<span class="c1"># Standard (recommended)</span>
-<span class="n">r</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mi">16</span>   <span class="c1"># scaling = 2.0</span>
+<span class="c1"># LLaMA / Mistral</span>
+<span class="nt">target_modules</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;q_proj&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;k_proj&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;v_proj&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;o_proj&quot;</span><span class="p p-Indicator">]</span>
 
-<span class="c1"># Aggressive (stronger fine-tuning)</span>
-<span class="n">r</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mi">32</span>   <span class="c1"># scaling = 4.0</span>
+<span class="c1"># BERT</span>
+<span class="nt">target_modules</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;query&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;value&quot;</span><span class="p p-Indicator">]</span>
 </code></pre></div>
 
-<p><strong>When to adjust:</strong></p>
-<ul>
-<li>Increase alpha if model isn't adapting enough</li>
-<li>Decrease alpha if model forgets pre-trained knowledge</li>
-</ul>
-<h3 id="dropout">Dropout<a class="headerlink" href="#dropout" title="Permanent link">&para;</a></h3>
-<p>Regularization technique to prevent overfitting.</p>
-<p><strong>What it controls</strong>: Probability of randomly disabling LoRA parameters during training.</p>
-<p><strong>Values:</strong></p>
-<ul>
-<li><code>0.0</code>: No dropout (risk of overfitting on small datasets)</li>
-<li><code>0.05</code>: Light regularization (large, diverse datasets)</li>
-<li><code>0.1</code>: Standard regularization (general purpose)</li>
-<li><code>0.2</code>: Heavy regularization (small or noisy datasets)</li>
-</ul>
-<p><strong>Choosing dropout:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Large dataset (&gt; 50k samples), clean data</span>
-<span class="n">dropout</span> <span class="o">=</span> <span class="mf">0.05</span>
-
-<span class="c1"># Medium dataset (5k-50k samples)</span>
-<span class="n">dropout</span> <span class="o">=</span> <span class="mf">0.1</span>
-
-<span class="c1"># Small dataset (&lt; 5k samples) or noisy data</span>
-<span class="n">dropout</span> <span class="o">=</span> <span class="mf">0.2</span>
+<hr />
+<h2 id="configuration-recipes">Configuration recipes<a class="headerlink" href="#configuration-recipes" title="Permanent link">&para;</a></h2>
+<h3 id="quick-experiment-cpu-friendly">Quick experiment (CPU-friendly)<a class="headerlink" href="#quick-experiment-cpu-friendly" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="nt">model</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;gpt2&quot;</span>
+<span class="w">  </span><span class="nt">torch_dtype</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;float32&quot;</span>
+<span class="nt">dataset</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">max_samples</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500</span>
+<span class="nt">tokenization</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">max_length</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">256</span>
+<span class="nt">training</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">num_epochs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="nt">batch_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">  </span><span class="nt">gradient_accumulation_steps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="nt">lora</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">r</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
+<span class="w">  </span><span class="nt">lora_alpha</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span>
 </code></pre></div>
 
-<h3 id="target-modules">Target Modules<a class="headerlink" href="#target-modules" title="Permanent link">&para;</a></h3>
-<p>Specifies which model layers to apply LoRA to.</p>
-<p><strong>Auto-detection</strong>: The tool automatically identifies optimal target modules.</p>
-<p><strong>Common patterns:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Attention layers only (memory efficient)</span>
-<span class="p">[</span><span class="s2">&quot;q_proj&quot;</span><span class="p">,</span> <span class="s2">&quot;v_proj&quot;</span><span class="p">]</span>
-
-<span class="c1"># Full attention (recommended)</span>
-<span class="p">[</span><span class="s2">&quot;q_proj&quot;</span><span class="p">,</span> <span class="s2">&quot;k_proj&quot;</span><span class="p">,</span> <span class="s2">&quot;v_proj&quot;</span><span class="p">,</span> <span class="s2">&quot;o_proj&quot;</span><span class="p">]</span>
-
-<span class="c1"># Attention + MLP (maximum adaptation)</span>
-<span class="p">[</span><span class="s2">&quot;q_proj&quot;</span><span class="p">,</span> <span class="s2">&quot;k_proj&quot;</span><span class="p">,</span> <span class="s2">&quot;v_proj&quot;</span><span class="p">,</span> <span class="s2">&quot;o_proj&quot;</span><span class="p">,</span> <span class="s2">&quot;fc1&quot;</span><span class="p">,</span> <span class="s2">&quot;fc2&quot;</span><span class="p">]</span>
+<h3 id="balanced-quality-8gb-gpu">Balanced quality (8GB GPU)<a class="headerlink" href="#balanced-quality-8gb-gpu" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="nt">model</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;gpt2-medium&quot;</span>
+<span class="w">  </span><span class="nt">torch_dtype</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;float16&quot;</span>
+<span class="nt">training</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">num_epochs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">  </span><span class="nt">batch_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
+<span class="w">  </span><span class="nt">gradient_accumulation_steps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
+<span class="w">  </span><span class="nt">fp16</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">lora</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">r</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span>
+<span class="w">  </span><span class="nt">lora_alpha</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">32</span>
 </code></pre></div>
 
-<p><strong>Manual override</strong> (advanced):</p>
-<p>You can modify the code to specify custom targets:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">target_modules</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;q_proj&quot;</span><span class="p">,</span> <span class="s2">&quot;v_proj&quot;</span><span class="p">]</span>  <span class="c1"># Attention queries and values only</span>
+<h3 id="large-model-on-limited-vram-qlora">Large model on limited VRAM (QLoRA)<a class="headerlink" href="#large-model-on-limited-vram-qlora" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="nt">model</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;meta-llama/Llama-3.2-1B&quot;</span>
+<span class="w">  </span><span class="nt">load_in_4bit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">torch_dtype</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;float16&quot;</span>
+<span class="nt">training</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;qlora&quot;</span>
+<span class="w">  </span><span class="nt">batch_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">  </span><span class="nt">gradient_accumulation_steps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span>
+<span class="w">  </span><span class="nt">fp16</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">gradient_checkpointing</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">lora</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">r</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">16</span>
+<span class="w">  </span><span class="nt">lora_alpha</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">32</span>
+<span class="w">  </span><span class="nt">target_modules</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;q_proj&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;k_proj&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;v_proj&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;o_proj&quot;</span><span class="p p-Indicator">]</span>
 </code></pre></div>
 
-<h2 id="training-parameters">Training Parameters<a class="headerlink" href="#training-parameters" title="Permanent link">&para;</a></h2>
-<h3 id="number-of-epochs">Number of Epochs<a class="headerlink" href="#number-of-epochs" title="Permanent link">&para;</a></h3>
-<p>Complete passes through the training dataset.</p>
-<p><strong>Guidelines by dataset size:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Dataset Size</th>
-<th>Recommended Epochs</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>&lt; 1,000 samples</td>
-<td>5-10</td>
-</tr>
-<tr>
-<td>1,000-5,000</td>
-<td>3-7</td>
-</tr>
-<tr>
-<td>5,000-50,000</td>
-<td>3-5</td>
-</tr>
-<tr>
-<td>&gt; 50,000</td>
-<td>1-3</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Signs of:</strong></p>
-<ul>
-<li><strong>Underfitting</strong>: Loss still decreasing, ROUGE scores improving</li>
-<li>
-<p>Solution: Increase epochs</p>
-</li>
-<li>
-<p><strong>Overfitting</strong>: Training loss decreases but validation loss increases</p>
-</li>
-<li>Solution: Decrease epochs, increase dropout</li>
-</ul>
-<h3 id="batch-size">Batch Size<a class="headerlink" href="#batch-size" title="Permanent link">&para;</a></h3>
-<p>Number of samples processed before updating model weights.</p>
-<p><strong>Memory constraints:</strong></p>
-<table>
-<thead>
-<tr>
-<th>GPU VRAM</th>
-<th>Model Size</th>
-<th>Max Batch Size</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>8GB</td>
-<td>Small (&lt; 500M params)</td>
-<td>2-4</td>
-</tr>
-<tr>
-<td>12GB</td>
-<td>Small-Medium</td>
-<td>4-8</td>
-</tr>
-<tr>
-<td>16GB</td>
-<td>Medium (1-3B params)</td>
-<td>4-8</td>
-</tr>
-<tr>
-<td>24GB</td>
-<td>Large (7B params)</td>
-<td>8-16</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Effective batch size</strong> with gradient accumulation:</p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Config in training_args</span>
-<span class="n">per_device_train_batch_size</span> <span class="o">=</span> <span class="mi">4</span>
-<span class="n">gradient_accumulation_steps</span> <span class="o">=</span> <span class="mi">4</span>
-<span class="c1"># Effective batch size = 4 × 4 = 16</span>
+<hr />
+<h2 id="generating-a-config-file">Generating a config file<a class="headerlink" href="#generating-a-config-file" title="Permanent link">&para;</a></h2>
+<p>Use the built-in examples as a starting point:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Copy and edit</span>
+cp<span class="w"> </span>examples/configs/lora_gpt2.yaml<span class="w"> </span>my_config.yaml
+
+<span class="c1"># Or generate from the CLI (coming soon)</span>
+finetune-cli<span class="w"> </span>train<span class="w"> </span>--model<span class="w"> </span>gpt2<span class="w"> </span>--dataset<span class="w"> </span>./data.jsonl<span class="w"> </span>--output<span class="w"> </span>./output
+<span class="c1"># Training args are logged — copy them into a config file</span>
 </code></pre></div>
 
-<p><strong>Tips:</strong></p>
-<ul>
-<li>Start with batch_size=4 and adjust based on memory</li>
-<li>Smaller batches = more frequent updates, noisier gradients</li>
-<li>Larger batches = more stable gradients, better generalization</li>
-</ul>
-<h3 id="learning-rate">Learning Rate<a class="headerlink" href="#learning-rate" title="Permanent link">&para;</a></h3>
-<p>Step size for weight updates.</p>
-<p><strong>Common values:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Learning Rate</th>
-<th>Use Case</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1e-5</td>
-<td>Very conservative, large models</td>
-</tr>
-<tr>
-<td>5e-5</td>
-<td>Conservative, stable training</td>
-</tr>
-<tr>
-<td>1e-4</td>
-<td>Moderate, good starting point</td>
-</tr>
-<tr>
-<td>2e-4</td>
-<td>Standard for LoRA (recommended)</td>
-</tr>
-<tr>
-<td>5e-4</td>
-<td>Aggressive, small models</td>
-</tr>
-<tr>
-<td>1e-3</td>
-<td>Very aggressive, risk of instability</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Learning rate schedule:</strong></p>
-<p>The tool uses a constant learning rate. For advanced use, you can modify to use:</p>
-<ul>
-<li>Linear decay</li>
-<li>Cosine decay</li>
-<li>Warmup + decay</li>
-</ul>
-<p><strong>Signs of poor learning rate:</strong></p>
-<ul>
-<li><strong>Too high</strong>: Loss oscillates or diverges, NaN values</li>
-<li>
-<p>Solution: Reduce by 50% (e.g., 2e-4 → 1e-4)</p>
-</li>
-<li>
-<p><strong>Too low</strong>: Loss decreases very slowly</p>
-</li>
-<li>Solution: Increase by 2x (e.g., 1e-4 → 2e-4)</li>
-</ul>
-<h3 id="maximum-sequence-length">Maximum Sequence Length<a class="headerlink" href="#maximum-sequence-length" title="Permanent link">&para;</a></h3>
-<p>Maximum number of tokens per training sample.</p>
-<p><strong>Choosing max length:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Short texts (tweets, titles, Q&amp;A)</span>
-<span class="n">max_length</span> <span class="o">=</span> <span class="mi">128</span>
-
-<span class="c1"># Medium texts (paragraphs, summaries)</span>
-<span class="n">max_length</span> <span class="o">=</span> <span class="mi">512</span>
-
-<span class="c1"># Long texts (articles, documents)</span>
-<span class="n">max_length</span> <span class="o">=</span> <span class="mi">1024</span>
-
-<span class="c1"># Very long texts (research papers)</span>
-<span class="n">max_length</span> <span class="o">=</span> <span class="mi">2048</span>
+<hr />
+<h2 id="json-vs-yaml">JSON vs YAML<a class="headerlink" href="#json-vs-yaml" title="Permanent link">&para;</a></h2>
+<p>Both formats are supported. YAML is recommended for readability. JSON is useful for programmatic generation.</p>
+<div class="codehilite"><pre><span></span><code>finetune-cli<span class="w"> </span>train<span class="w"> </span>--config<span class="w"> </span>config.yaml
+finetune-cli<span class="w"> </span>train<span class="w"> </span>--config<span class="w"> </span>config.json
 </code></pre></div>
-
-<p><strong>Trade-offs:</strong></p>
-<ul>
-<li>✅ Longer sequences: Better context understanding</li>
-<li>❌ Longer sequences: Quadratic memory increase, slower training</li>
-</ul>
-<p><strong>Memory impact:</strong></p>
-<div class="codehilite"><pre><span></span><code>Memory ∝ batch_size × max_length²
-</code></pre></div>
-
-<p>Doubling max_length quadruples memory usage!</p>
-<h2 id="advanced-configuration">Advanced Configuration<a class="headerlink" href="#advanced-configuration" title="Permanent link">&para;</a></h2>
-<h3 id="gradient-accumulation">Gradient Accumulation<a class="headerlink" href="#gradient-accumulation" title="Permanent link">&para;</a></h3>
-<p>Simulate larger batch sizes without more memory.</p>
-<p><strong>In the code</strong> (line 222):</p>
-<div class="codehilite"><pre><span></span><code><span class="n">gradient_accumulation_steps</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1"># Accumulate gradients over 4 steps</span>
-</code></pre></div>
-
-<p><strong>Calculation:</strong></p>
-<div class="codehilite"><pre><span></span><code>Effective Batch Size = batch_size × gradient_accumulation_steps × num_gpus
-</code></pre></div>
-
-<h3 id="mixed-precision-fp16">Mixed Precision (FP16)<a class="headerlink" href="#mixed-precision-fp16" title="Permanent link">&para;</a></h3>
-<p>Use 16-bit floating point for faster training and less memory.</p>
-<p><strong>Automatically enabled</strong> when CUDA is available:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">fp16</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s2">&quot;cuda&quot;</span>  <span class="c1"># Line 228</span>
-</code></pre></div>
-
-<p><strong>Benefits:</strong></p>
-<ul>
-<li>50% less memory</li>
-<li>2-3x faster training</li>
-<li>Minimal accuracy loss</li>
-</ul>
-<h3 id="model-quantization">Model Quantization<a class="headerlink" href="#model-quantization" title="Permanent link">&para;</a></h3>
-<p>For very large models, you can enable quantization:</p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Add to model loading (line 59)</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForCausalLM</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span>
-    <span class="n">model_name</span><span class="p">,</span>
-    <span class="n">load_in_8bit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># Quantize to 8-bit</span>
-    <span class="n">device_map</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span>
-<span class="p">)</span>
-</code></pre></div>
-
-<h2 id="configuration-recipes">Configuration Recipes<a class="headerlink" href="#configuration-recipes" title="Permanent link">&para;</a></h2>
-<h3 id="recipe-1-quick-experimentation">Recipe 1: Quick Experimentation<a class="headerlink" href="#recipe-1-quick-experimentation" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="n">Samples</span><span class="o">:</span><span class="w"> </span><span class="mi">1000</span>
-<span class="n">Max</span><span class="w"> </span><span class="n">Length</span><span class="o">:</span><span class="w"> </span><span class="mi">256</span>
-<span class="n">LoRA</span><span class="w"> </span><span class="n">r</span><span class="o">:</span><span class="w"> </span><span class="mi">4</span>
-<span class="n">LoRA</span><span class="w"> </span><span class="n">alpha</span><span class="o">:</span><span class="w"> </span><span class="mi">16</span>
-<span class="n">Dropout</span><span class="o">:</span><span class="w"> </span><span class="mf">0.1</span>
-<span class="n">Epochs</span><span class="o">:</span><span class="w"> </span><span class="mi">3</span>
-<span class="n">Batch</span><span class="w"> </span><span class="n">Size</span><span class="o">:</span><span class="w"> </span><span class="mi">4</span>
-<span class="n">Learning</span><span class="w"> </span><span class="n">Rate</span><span class="o">:</span><span class="w"> </span><span class="mi">2</span><span class="n">e</span><span class="o">-</span><span class="mi">4</span>
-</code></pre></div>
-
-<p><strong>Best for</strong>: Testing ideas, rapid iteration</p>
-<h3 id="recipe-2-balanced-quality">Recipe 2: Balanced Quality<a class="headerlink" href="#recipe-2-balanced-quality" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="n">Samples</span><span class="o">:</span><span class="w"> </span><span class="mi">10000</span>
-<span class="n">Max</span><span class="w"> </span><span class="n">Length</span><span class="o">:</span><span class="w"> </span><span class="mi">512</span>
-<span class="n">LoRA</span><span class="w"> </span><span class="n">r</span><span class="o">:</span><span class="w"> </span><span class="mi">8</span>
-<span class="n">LoRA</span><span class="w"> </span><span class="n">alpha</span><span class="o">:</span><span class="w"> </span><span class="mi">32</span>
-<span class="n">Dropout</span><span class="o">:</span><span class="w"> </span><span class="mf">0.1</span>
-<span class="n">Epochs</span><span class="o">:</span><span class="w"> </span><span class="mi">3</span>
-<span class="n">Batch</span><span class="w"> </span><span class="n">Size</span><span class="o">:</span><span class="w"> </span><span class="mi">8</span>
-<span class="n">Learning</span><span class="w"> </span><span class="n">Rate</span><span class="o">:</span><span class="w"> </span><span class="mi">2</span><span class="n">e</span><span class="o">-</span><span class="mi">4</span>
-</code></pre></div>
-
-<p><strong>Best for</strong>: Production models, general tasks</p>
-<h3 id="recipe-3-maximum-quality">Recipe 3: Maximum Quality<a class="headerlink" href="#recipe-3-maximum-quality" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="n">Samples</span><span class="o">:</span><span class="w"> </span><span class="mi">50000</span><span class="o">+</span>
-<span class="n">Max</span><span class="w"> </span><span class="n">Length</span><span class="o">:</span><span class="w"> </span><span class="mi">1024</span>
-<span class="n">LoRA</span><span class="w"> </span><span class="n">r</span><span class="o">:</span><span class="w"> </span><span class="mi">16</span>
-<span class="n">LoRA</span><span class="w"> </span><span class="n">alpha</span><span class="o">:</span><span class="w"> </span><span class="mi">64</span>
-<span class="n">Dropout</span><span class="o">:</span><span class="w"> </span><span class="mf">0.1</span>
-<span class="n">Epochs</span><span class="o">:</span><span class="w"> </span><span class="mi">3</span>
-<span class="n">Batch</span><span class="w"> </span><span class="n">Size</span><span class="o">:</span><span class="w"> </span><span class="mi">8</span>
-<span class="n">Learning</span><span class="w"> </span><span class="n">Rate</span><span class="o">:</span><span class="w"> </span><span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">4</span>
-</code></pre></div>
-
-<p><strong>Best for</strong>: Specialized domains, publication-quality results</p>
-<h3 id="recipe-4-memory-constrained">Recipe 4: Memory-Constrained<a class="headerlink" href="#recipe-4-memory-constrained" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="n">Samples</span><span class="o">:</span><span class="w"> </span><span class="mi">5000</span>
-<span class="n">Max</span><span class="w"> </span><span class="n">Length</span><span class="o">:</span><span class="w"> </span><span class="mi">256</span>
-<span class="n">LoRA</span><span class="w"> </span><span class="n">r</span><span class="o">:</span><span class="w"> </span><span class="mi">4</span>
-<span class="n">LoRA</span><span class="w"> </span><span class="n">alpha</span><span class="o">:</span><span class="w"> </span><span class="mi">16</span>
-<span class="n">Dropout</span><span class="o">:</span><span class="w"> </span><span class="mf">0.1</span>
-<span class="n">Epochs</span><span class="o">:</span><span class="w"> </span><span class="mi">5</span>
-<span class="n">Batch</span><span class="w"> </span><span class="n">Size</span><span class="o">:</span><span class="w"> </span><span class="mi">2</span>
-<span class="n">Learning</span><span class="w"> </span><span class="n">Rate</span><span class="o">:</span><span class="w"> </span><span class="mi">2</span><span class="n">e</span><span class="o">-</span><span class="mi">4</span>
-</code></pre></div>
-
-<p><strong>Best for</strong>: Limited GPU memory (&lt; 8GB)</p>
-<h2 id="optimization-tips">Optimization Tips<a class="headerlink" href="#optimization-tips" title="Permanent link">&para;</a></h2>
-<ol>
-<li><strong>Start conservative</strong>: Use lower rank, smaller batch, fewer epochs</li>
-<li><strong>Monitor metrics</strong>: Watch loss curves and ROUGE scores</li>
-<li><strong>Iterate gradually</strong>: Increase one parameter at a time</li>
-<li><strong>Save checkpoints</strong>: Keep best performing configurations</li>
-<li><strong>Profile memory</strong>: Use <code>nvidia-smi</code> to track GPU usage</li>
-</ol>
-<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
-<ul>
-<li>See practical <a href="../examples/">Examples</a></li>
-<li>Understand <a href="../troubleshooting/">Troubleshooting</a> common issues</li>
-<li>Explore <a href="../api/">API Reference</a> for programmatic usage</li>
-</ul>
 
 
 

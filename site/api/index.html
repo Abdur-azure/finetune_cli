@@ -237,7 +237,7 @@
   <span class="md-ellipsis">
     
   
-    🤖 Finetune CLI
+    finetune-cli
   
 
     
@@ -344,22 +344,33 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#llmfinetuner-class" class="md-nav__link">
+  <a href="#configuration-finetune_clicoreconfig" class="md-nav__link">
     <span class="md-ellipsis">
       
-        LLMFineTuner Class
+        Configuration — finetune_cli.core.config
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="LLMFineTuner Class">
+    <nav class="md-nav" aria-label="Configuration — finetune_cli.core.config">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#constructor" class="md-nav__link">
+  <a href="#configbuilder" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Constructor
+        ConfigBuilder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipelineconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PipelineConfig
       
     </span>
   </a>
@@ -372,44 +383,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#methods" class="md-nav__link">
+  <a href="#data-pipeline-finetune_clidata" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Methods
+        Data Pipeline — finetune_cli.data
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Methods">
+    <nav class="md-nav" aria-label="Data Pipeline — finetune_cli.data">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#load_model" class="md-nav__link">
+  <a href="#quick_load" class="md-nav__link">
     <span class="md-ellipsis">
       
-        load_model()
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#load_dataset_from_source" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        load_dataset_from_source()
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#detect_text_columns" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        detect_text_columns()
+        quick_load
       
     </span>
   </a>
@@ -420,7 +409,7 @@
   <a href="#prepare_dataset" class="md-nav__link">
     <span class="md-ellipsis">
       
-        prepare_dataset()
+        prepare_dataset
       
     </span>
   </a>
@@ -428,54 +417,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#get_target_modules" class="md-nav__link">
+  <a href="#datapipeline" class="md-nav__link">
     <span class="md-ellipsis">
       
-        get_target_modules()
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#setup_lora" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        setup_lora()
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#train" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        train()
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#benchmark" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        benchmark()
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#upload_to_huggingface" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        upload_to_huggingface()
+        DataPipeline
       
     </span>
   </a>
@@ -488,22 +433,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#usage-patterns" class="md-nav__link">
+  <a href="#model-loading-finetune_climodelsloader" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Usage Patterns
+        Model Loading — finetune_cli.models.loader
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Usage Patterns">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trainers-finetune_clitrainers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trainers — finetune_cli.trainers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Trainers — finetune_cli.trainers">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#complete-training-pipeline" class="md-nav__link">
+  <a href="#trainerfactorytrain-recommended" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Complete Training Pipeline
+        TrainerFactory.train (recommended)
       
     </span>
   </a>
@@ -511,10 +467,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#loading-fine-tuned-model" class="md-nav__link">
+  <a href="#loratrainer-qloratrainer-direct-use" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Loading Fine-tuned Model
+        LoRATrainer / QLoRATrainer (direct use)
       
     </span>
   </a>
@@ -522,10 +478,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#merging-adapters-optional" class="md-nav__link">
+  <a href="#trainingresult" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Merging Adapters (Optional)
+        TrainingResult
       
     </span>
   </a>
@@ -538,22 +494,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#helper-functions" class="md-nav__link">
+  <a href="#evaluation-finetune_clievaluation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Helper Functions
+        Evaluation — finetune_cli.evaluation
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Helper Functions">
+    <nav class="md-nav" aria-label="Evaluation — finetune_cli.evaluation">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#get_user_input" class="md-nav__link">
+  <a href="#benchmarkrunner" class="md-nav__link">
     <span class="md-ellipsis">
       
-        get_user_input()
+        BenchmarkRunner
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#available-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available metrics
       
     </span>
   </a>
@@ -566,32 +533,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#type-definitions" class="md-nav__link">
+  <a href="#exceptions-finetune_clicoreexceptions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Type Definitions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#error-handling" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Error Handling
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Next Steps
+        Exceptions — finetune_cli.core.exceptions
       
     </span>
   </a>
@@ -620,7 +565,7 @@
   <span class="md-ellipsis">
     
   
-    Configuration Guide
+    Configuration Reference
   
 
     
@@ -755,7 +700,7 @@
   <span class="md-ellipsis">
     
   
-    Configuration Guide
+    Usage Guide
   
 
     
@@ -822,22 +767,33 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#llmfinetuner-class" class="md-nav__link">
+  <a href="#configuration-finetune_clicoreconfig" class="md-nav__link">
     <span class="md-ellipsis">
       
-        LLMFineTuner Class
+        Configuration — finetune_cli.core.config
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="LLMFineTuner Class">
+    <nav class="md-nav" aria-label="Configuration — finetune_cli.core.config">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#constructor" class="md-nav__link">
+  <a href="#configbuilder" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Constructor
+        ConfigBuilder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipelineconfig" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PipelineConfig
       
     </span>
   </a>
@@ -850,44 +806,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#methods" class="md-nav__link">
+  <a href="#data-pipeline-finetune_clidata" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Methods
+        Data Pipeline — finetune_cli.data
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Methods">
+    <nav class="md-nav" aria-label="Data Pipeline — finetune_cli.data">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#load_model" class="md-nav__link">
+  <a href="#quick_load" class="md-nav__link">
     <span class="md-ellipsis">
       
-        load_model()
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#load_dataset_from_source" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        load_dataset_from_source()
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#detect_text_columns" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        detect_text_columns()
+        quick_load
       
     </span>
   </a>
@@ -898,7 +832,7 @@
   <a href="#prepare_dataset" class="md-nav__link">
     <span class="md-ellipsis">
       
-        prepare_dataset()
+        prepare_dataset
       
     </span>
   </a>
@@ -906,54 +840,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#get_target_modules" class="md-nav__link">
+  <a href="#datapipeline" class="md-nav__link">
     <span class="md-ellipsis">
       
-        get_target_modules()
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#setup_lora" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        setup_lora()
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#train" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        train()
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#benchmark" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        benchmark()
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#upload_to_huggingface" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        upload_to_huggingface()
+        DataPipeline
       
     </span>
   </a>
@@ -966,22 +856,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#usage-patterns" class="md-nav__link">
+  <a href="#model-loading-finetune_climodelsloader" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Usage Patterns
+        Model Loading — finetune_cli.models.loader
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Usage Patterns">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trainers-finetune_clitrainers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trainers — finetune_cli.trainers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Trainers — finetune_cli.trainers">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#complete-training-pipeline" class="md-nav__link">
+  <a href="#trainerfactorytrain-recommended" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Complete Training Pipeline
+        TrainerFactory.train (recommended)
       
     </span>
   </a>
@@ -989,10 +890,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#loading-fine-tuned-model" class="md-nav__link">
+  <a href="#loratrainer-qloratrainer-direct-use" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Loading Fine-tuned Model
+        LoRATrainer / QLoRATrainer (direct use)
       
     </span>
   </a>
@@ -1000,10 +901,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#merging-adapters-optional" class="md-nav__link">
+  <a href="#trainingresult" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Merging Adapters (Optional)
+        TrainingResult
       
     </span>
   </a>
@@ -1016,22 +917,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#helper-functions" class="md-nav__link">
+  <a href="#evaluation-finetune_clievaluation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Helper Functions
+        Evaluation — finetune_cli.evaluation
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Helper Functions">
+    <nav class="md-nav" aria-label="Evaluation — finetune_cli.evaluation">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#get_user_input" class="md-nav__link">
+  <a href="#benchmarkrunner" class="md-nav__link">
     <span class="md-ellipsis">
       
-        get_user_input()
+        BenchmarkRunner
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#available-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available metrics
       
     </span>
   </a>
@@ -1044,32 +956,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#type-definitions" class="md-nav__link">
+  <a href="#exceptions-finetune_clicoreexceptions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Type Definitions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#error-handling" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Error Handling
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Next Steps
+        Exceptions — finetune_cli.core.exceptions
       
     </span>
   </a>
@@ -1097,483 +987,247 @@
 
 
 <h1 id="api-reference">API Reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h1>
-<p>Complete reference for the <code>LLMFineTuner</code> class and its methods.</p>
-<h2 id="llmfinetuner-class">LLMFineTuner Class<a class="headerlink" href="#llmfinetuner-class" title="Permanent link">&para;</a></h2>
-<p>The main class for fine-tuning language models with LoRA.</p>
-<h3 id="constructor">Constructor<a class="headerlink" href="#constructor" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="n">LLMFineTuner</span><span class="p">(</span><span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;./finetuned_model&quot;</span><span class="p">)</span>
-</code></pre></div>
-
-<p><strong>Parameters:</strong></p>
-<ul>
-<li><code>model_name</code> (str): HuggingFace model identifier (e.g., "gpt2", "facebook/opt-125m")</li>
-<li><code>output_dir</code> (str, optional): Directory to save fine-tuned model. Default: "./finetuned_model"</li>
-</ul>
-<p><strong>Attributes:</strong></p>
-<ul>
-<li><code>model_name</code> (str): Name of the base model</li>
-<li><code>output_dir</code> (str): Output directory path</li>
-<li><code>device</code> (str): Device for training ("cuda" or "cpu")</li>
-<li><code>tokenizer</code> (AutoTokenizer): HuggingFace tokenizer instance</li>
-<li><code>model</code> (AutoModelForCausalLM): Base model instance</li>
-<li><code>peft_model</code> (PeftModel): LoRA-adapted model instance</li>
-</ul>
-<p><strong>Example:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMFineTuner</span>
-
-<span class="n">finetuner</span> <span class="o">=</span> <span class="n">LLMFineTuner</span><span class="p">(</span>
-    <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;gpt2&quot;</span><span class="p">,</span>
-    <span class="n">output_dir</span><span class="o">=</span><span class="s2">&quot;./my_model&quot;</span>
-<span class="p">)</span>
-</code></pre></div>
-
-<h2 id="methods">Methods<a class="headerlink" href="#methods" title="Permanent link">&para;</a></h2>
-<h3 id="load_model">load_model()<a class="headerlink" href="#load_model" title="Permanent link">&para;</a></h3>
-<p>Load the base model and tokenizer from HuggingFace.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">load_model</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span>
-</code></pre></div>
-
-<p><strong>Returns:</strong> None</p>
-<p><strong>Side Effects:</strong></p>
-<ul>
-<li>Initializes <code>self.tokenizer</code></li>
-<li>Initializes <code>self.model</code></li>
-<li>Sets pad_token if not present</li>
-</ul>
-<p><strong>Example:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">finetuner</span> <span class="o">=</span> <span class="n">LLMFineTuner</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">)</span>
-<span class="n">finetuner</span><span class="o">.</span><span class="n">load_model</span><span class="p">()</span>
-</code></pre></div>
-
-<p><strong>Notes:</strong></p>
-<ul>
-<li>Automatically uses FP16 on CUDA devices</li>
-<li>Sets device_map="auto" for multi-GPU support</li>
-<li>Uses low_cpu_mem_usage for efficient loading</li>
-</ul>
+<p>Python API for programmatic use. All public classes are importable from their respective subpackages.</p>
 <hr />
-<h3 id="load_dataset_from_source">load_dataset_from_source()<a class="headerlink" href="#load_dataset_from_source" title="Permanent link">&para;</a></h3>
-<p>Load dataset from local file or HuggingFace Hub.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">load_dataset_from_source</span><span class="p">(</span>
-    <span class="n">dataset_source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">dataset_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">split</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;train&quot;</span><span class="p">,</span>
-    <span class="n">num_samples</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">data_files</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dataset</span>
+<h2 id="configuration-finetune_clicoreconfig">Configuration — <code>finetune_cli.core.config</code><a class="headerlink" href="#configuration-finetune_clicoreconfig" title="Permanent link">&para;</a></h2>
+<h3 id="configbuilder"><code>ConfigBuilder</code><a class="headerlink" href="#configbuilder" title="Permanent link">&para;</a></h3>
+<p>Fluent builder for constructing a validated <code>PipelineConfig</code>.</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.core.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">TrainingMethod</span><span class="p">,</span> <span class="n">DatasetSource</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">ConfigBuilder</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">with_model</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">,</span> <span class="n">torch_dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">with_dataset</span><span class="p">(</span><span class="s2">&quot;./data.jsonl&quot;</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">DatasetSource</span><span class="o">.</span><span class="n">LOCAL_FILE</span><span class="p">,</span> <span class="n">max_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">with_tokenization</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">512</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">with_training</span><span class="p">(</span><span class="n">TrainingMethod</span><span class="o">.</span><span class="n">LORA</span><span class="p">,</span> <span class="s2">&quot;./output&quot;</span><span class="p">,</span> <span class="n">num_epochs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">with_lora</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">lora_alpha</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">lora_dropout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">build</span><span class="p">()</span>
+<span class="p">)</span>
 </code></pre></div>
 
-<p><strong>Parameters:</strong></p>
-<ul>
-<li><code>dataset_source</code> (str): Local file path or HuggingFace dataset name</li>
-<li><code>dataset_config</code> (str, optional): Dataset configuration/subset name</li>
-<li><code>split</code> (str): Dataset split to load. Default: "train"</li>
-<li><code>num_samples</code> (int, optional): Limit number of samples to load</li>
-<li><code>data_files</code> (str, optional): Specific files to load from repository</li>
-</ul>
-<p><strong>Returns:</strong> <code>Dataset</code> object</p>
-<p><strong>Supported Formats:</strong></p>
-<ul>
-<li>Local: <code>.json</code>, <code>.jsonl</code>, <code>.csv</code>, <code>.txt</code></li>
-<li>HuggingFace: Any public dataset</li>
-</ul>
-<p><strong>Example:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Load local file</span>
-<span class="n">dataset</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">load_dataset_from_source</span><span class="p">(</span>
-    <span class="n">dataset_source</span><span class="o">=</span><span class="s2">&quot;./data.jsonl&quot;</span><span class="p">,</span>
-    <span class="n">num_samples</span><span class="o">=</span><span class="mi">1000</span>
-<span class="p">)</span>
+<p><strong>Methods:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Key kwargs</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.with_model(name, **kwargs)</code></td>
+<td><code>torch_dtype</code>, <code>load_in_4bit</code>, <code>load_in_8bit</code></td>
+<td>Set model config</td>
+</tr>
+<tr>
+<td><code>.with_dataset(path, source, **kwargs)</code></td>
+<td><code>max_samples</code>, <code>text_columns</code>, <code>shuffle</code></td>
+<td>Set dataset config</td>
+</tr>
+<tr>
+<td><code>.with_tokenization(**kwargs)</code></td>
+<td><code>max_length</code>, <code>truncation</code>, <code>padding</code></td>
+<td>Set tokenization config</td>
+</tr>
+<tr>
+<td><code>.with_training(method, output_dir, **kwargs)</code></td>
+<td><code>num_epochs</code>, <code>batch_size</code>, <code>learning_rate</code>, <code>fp16</code></td>
+<td>Set training config</td>
+</tr>
+<tr>
+<td><code>.with_lora(**kwargs)</code></td>
+<td><code>r</code>, <code>lora_alpha</code>, <code>lora_dropout</code>, <code>target_modules</code></td>
+<td>Set LoRA config</td>
+</tr>
+<tr>
+<td><code>.with_evaluation(metrics, **kwargs)</code></td>
+<td><code>batch_size</code>, <code>num_samples</code></td>
+<td>Set evaluation config</td>
+</tr>
+<tr>
+<td><code>.build()</code></td>
+<td>—</td>
+<td>Validate and return <code>PipelineConfig</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="pipelineconfig"><code>PipelineConfig</code><a class="headerlink" href="#pipelineconfig" title="Permanent link">&para;</a></h3>
+<p>Pydantic model holding the full pipeline config. Supports JSON and YAML I/O.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Load from file</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">PipelineConfig</span><span class="o">.</span><span class="n">from_yaml</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;config.yaml&quot;</span><span class="p">))</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">PipelineConfig</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;config.json&quot;</span><span class="p">))</span>
 
-<span class="c1"># Load HuggingFace dataset</span>
-<span class="n">dataset</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">load_dataset_from_source</span><span class="p">(</span>
-    <span class="n">dataset_source</span><span class="o">=</span><span class="s2">&quot;wikitext&quot;</span><span class="p">,</span>
-    <span class="n">dataset_config</span><span class="o">=</span><span class="s2">&quot;wikitext-2-raw-v1&quot;</span><span class="p">,</span>
-    <span class="n">split</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">,</span>
-    <span class="n">num_samples</span><span class="o">=</span><span class="mi">5000</span>
-<span class="p">)</span>
-
-<span class="c1"># Load specific file from large repo</span>
-<span class="n">dataset</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">load_dataset_from_source</span><span class="p">(</span>
-    <span class="n">dataset_source</span><span class="o">=</span><span class="s2">&quot;HuggingFaceH4/ultrachat_200k&quot;</span><span class="p">,</span>
-    <span class="n">data_files</span><span class="o">=</span><span class="s2">&quot;data/train_sft-00000-of-00004.parquet&quot;</span><span class="p">,</span>
-    <span class="n">num_samples</span><span class="o">=</span><span class="mi">2000</span>
-<span class="p">)</span>
+<span class="c1"># Save to file</span>
+<span class="n">config</span><span class="o">.</span><span class="n">to_yaml</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;config.yaml&quot;</span><span class="p">))</span>
+<span class="n">config</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;config.json&quot;</span><span class="p">))</span>
 </code></pre></div>
 
 <hr />
-<h3 id="detect_text_columns">detect_text_columns()<a class="headerlink" href="#detect_text_columns" title="Permanent link">&para;</a></h3>
-<p>Automatically detect text columns in a dataset.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">detect_text_columns</span><span class="p">(</span><span class="n">dataset</span><span class="p">:</span> <span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-</code></pre></div>
+<h2 id="data-pipeline-finetune_clidata">Data Pipeline — <code>finetune_cli.data</code><a class="headerlink" href="#data-pipeline-finetune_clidata" title="Permanent link">&para;</a></h2>
+<h3 id="quick_load"><code>quick_load</code><a class="headerlink" href="#quick_load" title="Permanent link">&para;</a></h3>
+<p>One-liner for loading and tokenizing a dataset.</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">quick_load</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoTokenizer</span>
 
-<p><strong>Parameters:</strong></p>
-<ul>
-<li><code>dataset</code> (Dataset): Dataset to analyze</li>
-</ul>
-<p><strong>Returns:</strong> List of column names containing text data</p>
-<p><strong>Detection Strategy:</strong></p>
-<ol>
-<li>Checks for common text column names</li>
-<li>Inspects data types of columns</li>
-<li>Returns all string-type columns</li>
-</ol>
-<p><strong>Common Names Detected:</strong></p>
-<ul>
-<li>text, content, input, output</li>
-<li>prompt, response, instruction</li>
-<li>question, answer</li>
-</ul>
-<p><strong>Example:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">dataset</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">load_dataset_from_source</span><span class="p">(</span><span class="s2">&quot;./data.jsonl&quot;</span><span class="p">)</span>
-<span class="n">text_cols</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">detect_text_columns</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found columns: </span><span class="si">{</span><span class="n">text_cols</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="c1"># Output: Found columns: [&#39;prompt&#39;, &#39;response&#39;]</span>
-</code></pre></div>
-
-<hr />
-<h3 id="prepare_dataset">prepare_dataset()<a class="headerlink" href="#prepare_dataset" title="Permanent link">&para;</a></h3>
-<p>Tokenize and prepare dataset for training.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">prepare_dataset</span><span class="p">(</span>
-    <span class="n">dataset</span><span class="p">:</span> <span class="n">Dataset</span><span class="p">,</span>
-    <span class="n">text_columns</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">max_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">512</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
-</code></pre></div>
-
-<p><strong>Parameters:</strong></p>
-<ul>
-<li><code>dataset</code> (Dataset): Raw dataset to prepare</li>
-<li><code>text_columns</code> (List[str], optional): Columns to use. Auto-detects if None</li>
-<li><code>max_length</code> (int): Maximum sequence length. Default: 512</li>
-</ul>
-<p><strong>Returns:</strong> Tuple of (tokenized_dataset, text_columns_used)</p>
-<p><strong>Processing Steps:</strong></p>
-<ol>
-<li>Auto-detects text columns if not provided</li>
-<li>Combines multiple columns if present</li>
-<li>Tokenizes with truncation and padding</li>
-<li>Removes original columns</li>
-</ol>
-<p><strong>Example:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">dataset</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">load_dataset_from_source</span><span class="p">(</span><span class="s2">&quot;./data.jsonl&quot;</span><span class="p">)</span>
-
-<span class="c1"># Auto-detect columns</span>
-<span class="n">tokenized</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">prepare_dataset</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">512</span><span class="p">)</span>
-
-<span class="c1"># Manual column specification</span>
-<span class="n">tokenized</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">prepare_dataset</span><span class="p">(</span>
-    <span class="n">dataset</span><span class="p">,</span>
-    <span class="n">text_columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;prompt&quot;</span><span class="p">,</span> <span class="s2">&quot;response&quot;</span><span class="p">],</span>
-    <span class="n">max_length</span><span class="o">=</span><span class="mi">256</span>
-<span class="p">)</span>
-</code></pre></div>
-
-<hr />
-<h3 id="get_target_modules">get_target_modules()<a class="headerlink" href="#get_target_modules" title="Permanent link">&para;</a></h3>
-<p>Automatically detect target modules for LoRA based on model architecture.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_target_modules</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">]</span>
-</code></pre></div>
-
-<p><strong>Returns:</strong> List of module names or "all-linear" as fallback</p>
-<p><strong>Detection Patterns:</strong></p>
-<ul>
-<li>GPT-2 style: <code>["c_attn", "c_proj"]</code></li>
-<li>Transformer style: <code>["q_proj", "v_proj", "k_proj", "o_proj"]</code></li>
-<li>Alternative: <code>["query", "value", "key", "dense"]</code></li>
-</ul>
-<p><strong>Example:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">finetuner</span><span class="o">.</span><span class="n">load_model</span><span class="p">()</span>
-<span class="n">modules</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">get_target_modules</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Detected modules: </span><span class="si">{</span><span class="n">modules</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="c1"># Output: Detected modules: [&#39;q_proj&#39;, &#39;v_proj&#39;, &#39;k_proj&#39;, &#39;o_proj&#39;]</span>
-</code></pre></div>
-
-<p><strong>Notes:</strong></p>
-<ul>
-<li>Automatically called by <code>setup_lora()</code></li>
-<li>Fallback to "all-linear" if no pattern matches</li>
-</ul>
-<hr />
-<h3 id="setup_lora">setup_lora()<a class="headerlink" href="#setup_lora" title="Permanent link">&para;</a></h3>
-<p>Configure and apply LoRA to the model.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">setup_lora</span><span class="p">(</span>
-    <span class="n">r</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
-    <span class="n">lora_alpha</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span>
-    <span class="n">lora_dropout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
-    <span class="n">target_modules</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
-</code></pre></div>
-
-<p><strong>Parameters:</strong></p>
-<ul>
-<li><code>r</code> (int): LoRA rank. Default: 8</li>
-<li><code>lora_alpha</code> (int): LoRA alpha scaling. Default: 32</li>
-<li><code>lora_dropout</code> (float): Dropout probability. Default: 0.1</li>
-<li><code>target_modules</code> (List[str], optional): Modules to apply LoRA. Auto-detects if None</li>
-</ul>
-<p><strong>Returns:</strong> None</p>
-<p><strong>Side Effects:</strong></p>
-<ul>
-<li>Creates <code>self.peft_model</code> with LoRA adapters</li>
-<li>Prints trainable parameter statistics</li>
-</ul>
-<p><strong>Example:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">finetuner</span><span class="o">.</span><span class="n">load_model</span><span class="p">()</span>
-
-<span class="c1"># Default configuration</span>
-<span class="n">finetuner</span><span class="o">.</span><span class="n">setup_lora</span><span class="p">()</span>
-
-<span class="c1"># Custom configuration</span>
-<span class="n">finetuner</span><span class="o">.</span><span class="n">setup_lora</span><span class="p">(</span>
-    <span class="n">r</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
-    <span class="n">lora_alpha</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
-    <span class="n">lora_dropout</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>
-    <span class="n">target_modules</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;q_proj&quot;</span><span class="p">,</span> <span class="s2">&quot;v_proj&quot;</span><span class="p">]</span>
-<span class="p">)</span>
-</code></pre></div>
-
-<p><strong>Output:</strong></p>
-<div class="codehilite"><pre><span></span><code>trainable params: 294,912 || all params: 124,439,808 || trainable%: 0.2370
-</code></pre></div>
-
-<hr />
-<h3 id="train">train()<a class="headerlink" href="#train" title="Permanent link">&para;</a></h3>
-<p>Train the model with LoRA adapters.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span>
-    <span class="n">train_dataset</span><span class="p">:</span> <span class="n">Dataset</span><span class="p">,</span>
-    <span class="n">num_epochs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
-    <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
-    <span class="n">learning_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2e-4</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
-</code></pre></div>
-
-<p><strong>Parameters:</strong></p>
-<ul>
-<li><code>train_dataset</code> (Dataset): Tokenized training dataset</li>
-<li><code>num_epochs</code> (int): Number of training epochs. Default: 3</li>
-<li><code>batch_size</code> (int): Per-device batch size. Default: 4</li>
-<li><code>learning_rate</code> (float): Learning rate. Default: 2e-4</li>
-</ul>
-<p><strong>Returns:</strong> None</p>
-<p><strong>Side Effects:</strong></p>
-<ul>
-<li>Trains the model</li>
-<li>Saves checkpoints to output_dir</li>
-<li>Saves final model and tokenizer</li>
-</ul>
-<p><strong>Training Configuration:</strong></p>
-<ul>
-<li>Gradient accumulation: 4 steps</li>
-<li>FP16: Enabled on CUDA</li>
-<li>Logging: Every 10 steps</li>
-<li>Save strategy: Per epoch</li>
-</ul>
-<p><strong>Example:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">finetuner</span><span class="o">.</span><span class="n">load_model</span><span class="p">()</span>
-<span class="n">dataset</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">load_dataset_from_source</span><span class="p">(</span><span class="s2">&quot;./data.jsonl&quot;</span><span class="p">)</span>
-<span class="n">tokenized</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">prepare_dataset</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
-<span class="n">finetuner</span><span class="o">.</span><span class="n">setup_lora</span><span class="p">()</span>
-
-<span class="n">finetuner</span><span class="o">.</span><span class="n">train</span><span class="p">(</span>
-    <span class="n">train_dataset</span><span class="o">=</span><span class="n">tokenized</span><span class="p">,</span>
-    <span class="n">num_epochs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-    <span class="n">batch_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
-    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">2e-4</span>
-<span class="p">)</span>
-</code></pre></div>
-
-<hr />
-<h3 id="benchmark">benchmark()<a class="headerlink" href="#benchmark" title="Permanent link">&para;</a></h3>
-<p>Benchmark model performance using ROUGE scores.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">benchmark</span><span class="p">(</span>
-    <span class="n">test_prompts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
-    <span class="n">use_finetuned</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
-</code></pre></div>
-
-<p><strong>Parameters:</strong></p>
-<ul>
-<li><code>test_prompts</code> (List[str]): List of prompts to evaluate</li>
-<li><code>use_finetuned</code> (bool): Use fine-tuned model. Default: False (uses base model)</li>
-</ul>
-<p><strong>Returns:</strong> Dictionary with ROUGE scores</p>
-<p><strong>Metrics Computed:</strong></p>
-<ul>
-<li>ROUGE-1: Unigram overlap</li>
-<li>ROUGE-2: Bigram overlap</li>
-<li>ROUGE-L: Longest common subsequence</li>
-</ul>
-<p><strong>Example:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">test_prompts</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;What is machine learning?&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Explain neural networks.&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Define artificial intelligence.&quot;</span>
-<span class="p">]</span>
-
-<span class="c1"># Benchmark base model</span>
-<span class="n">base_scores</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">benchmark</span><span class="p">(</span><span class="n">test_prompts</span><span class="p">,</span> <span class="n">use_finetuned</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
-<span class="c1"># After training</span>
-<span class="n">finetuned_scores</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">benchmark</span><span class="p">(</span><span class="n">test_prompts</span><span class="p">,</span> <span class="n">use_finetuned</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="c1"># Compare</span>
-<span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">base_scores</span><span class="p">:</span>
-    <span class="n">improvement</span> <span class="o">=</span> <span class="p">(</span><span class="n">finetuned_scores</span><span class="p">[</span><span class="n">metric</span><span class="p">]</span> <span class="o">-</span> <span class="n">base_scores</span><span class="p">[</span><span class="n">metric</span><span class="p">])</span> <span class="o">/</span> <span class="n">base_scores</span><span class="p">[</span><span class="n">metric</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">metric</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">improvement</span><span class="si">:</span><span class="s2">+.2f</span><span class="si">}</span><span class="s2">% improvement&quot;</span><span class="p">)</span>
-</code></pre></div>
-
-<p><strong>Output Format:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span>
-    <span class="s1">&#39;rouge1&#39;</span><span class="p">:</span> <span class="mf">0.3245</span><span class="p">,</span>
-    <span class="s1">&#39;rouge2&#39;</span><span class="p">:</span> <span class="mf">0.2134</span><span class="p">,</span>
-    <span class="s1">&#39;rougeL&#39;</span><span class="p">:</span> <span class="mf">0.2987</span>
-<span class="p">}</span>
-</code></pre></div>
-
-<hr />
-<h3 id="upload_to_huggingface">upload_to_huggingface()<a class="headerlink" href="#upload_to_huggingface" title="Permanent link">&para;</a></h3>
-<p>Upload fine-tuned model to HuggingFace Hub.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">upload_to_huggingface</span><span class="p">(</span>
-    <span class="n">repo_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">create_new</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">private</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
-</code></pre></div>
-
-<p><strong>Parameters:</strong></p>
-<ul>
-<li><code>repo_name</code> (str): Repository name (format: "username/repo-name")</li>
-<li><code>token</code> (str, optional): HuggingFace API token. Uses cached login if None</li>
-<li><code>create_new</code> (bool): Create new repository. Default: False</li>
-<li><code>private</code> (bool): Make repository private. Default: False</li>
-</ul>
-<p><strong>Returns:</strong> None</p>
-<p><strong>Requirements:</strong></p>
-<ul>
-<li>Valid HuggingFace token with write permissions</li>
-<li>Trained model in output_dir</li>
-</ul>
-<p><strong>Example:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># After training</span>
-<span class="n">finetuner</span><span class="o">.</span><span class="n">upload_to_huggingface</span><span class="p">(</span>
-    <span class="n">repo_name</span><span class="o">=</span><span class="s2">&quot;myusername/gpt2-finetuned&quot;</span><span class="p">,</span>
-    <span class="n">token</span><span class="o">=</span><span class="s2">&quot;hf_xxxxxxxxxxxxx&quot;</span><span class="p">,</span>
-    <span class="n">create_new</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">private</span><span class="o">=</span><span class="kc">False</span>
-<span class="p">)</span>
-</code></pre></div>
-
-<p><strong>Successful Upload:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="err">✅</span><span class="w"> </span><span class="n">Model</span><span class="w"> </span><span class="n">uploaded</span><span class="w"> </span><span class="n">successfully</span><span class="w"> </span><span class="n">to</span><span class="p">:</span><span class="w"> </span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">huggingface</span><span class="o">.</span><span class="n">co</span><span class="o">/</span><span class="n">myusername</span><span class="o">/</span><span class="n">gpt2</span><span class="o">-</span><span class="n">finetuned</span>
-</code></pre></div>
-
-<h2 id="usage-patterns">Usage Patterns<a class="headerlink" href="#usage-patterns" title="Permanent link">&para;</a></h2>
-<h3 id="complete-training-pipeline">Complete Training Pipeline<a class="headerlink" href="#complete-training-pipeline" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMFineTuner</span>
-
-<span class="c1"># Initialize</span>
-<span class="n">finetuner</span> <span class="o">=</span> <span class="n">LLMFineTuner</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">,</span> <span class="s2">&quot;./my_model&quot;</span><span class="p">)</span>
-
-<span class="c1"># Load model</span>
-<span class="n">finetuner</span><span class="o">.</span><span class="n">load_model</span><span class="p">()</span>
-
-<span class="c1"># Load and prepare data</span>
-<span class="n">dataset</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">load_dataset_from_source</span><span class="p">(</span>
-    <span class="s2">&quot;./data.jsonl&quot;</span><span class="p">,</span>
-    <span class="n">num_samples</span><span class="o">=</span><span class="mi">5000</span>
-<span class="p">)</span>
-<span class="n">tokenized</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">prepare_dataset</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">512</span><span class="p">)</span>
-
-<span class="c1"># Pre-training benchmark</span>
-<span class="n">test_prompts</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Sample prompt 1&quot;</span><span class="p">,</span> <span class="s2">&quot;Sample prompt 2&quot;</span><span class="p">]</span>
-<span class="n">base_scores</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">benchmark</span><span class="p">(</span><span class="n">test_prompts</span><span class="p">,</span> <span class="n">use_finetuned</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
-<span class="c1"># Setup LoRA</span>
-<span class="n">finetuner</span><span class="o">.</span><span class="n">setup_lora</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">lora_alpha</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">lora_dropout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
-
-<span class="c1"># Train</span>
-<span class="n">finetuner</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">tokenized</span><span class="p">,</span> <span class="n">num_epochs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">2e-4</span><span class="p">)</span>
-
-<span class="c1"># Post-training benchmark</span>
-<span class="n">finetuned_scores</span> <span class="o">=</span> <span class="n">finetuner</span><span class="o">.</span><span class="n">benchmark</span><span class="p">(</span><span class="n">test_prompts</span><span class="p">,</span> <span class="n">use_finetuned</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="c1"># Upload</span>
-<span class="n">finetuner</span><span class="o">.</span><span class="n">upload_to_huggingface</span><span class="p">(</span>
-    <span class="s2">&quot;username/model-name&quot;</span><span class="p">,</span>
-    <span class="n">create_new</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>
-</code></pre></div>
-
-<h3 id="loading-fine-tuned-model">Loading Fine-tuned Model<a class="headerlink" href="#loading-fine-tuned-model" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">AutoModelForCausalLM</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">peft</span><span class="w"> </span><span class="kn">import</span> <span class="n">PeftModel</span>
-
-<span class="c1"># Load base model</span>
-<span class="n">base_model</span> <span class="o">=</span> <span class="n">AutoModelForCausalLM</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">)</span>
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">)</span>
-
-<span class="c1"># Load LoRA adapters</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">PeftModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">base_model</span><span class="p">,</span> <span class="s2">&quot;./my_model&quot;</span><span class="p">)</span>
-
-<span class="c1"># Inference</span>
-<span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;Hello, how are you?&quot;</span>
-<span class="n">inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span>
-<span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">,</span> <span class="n">max_new_tokens</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">quick_load</span><span class="p">(</span><span class="s2">&quot;./data.jsonl&quot;</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">max_samples</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">512</span><span class="p">)</span>
+<span class="c1"># Returns: datasets.Dataset with input_ids, attention_mask, labels</span>
 </code></pre></div>
 
-<h3 id="merging-adapters-optional">Merging Adapters (Optional)<a class="headerlink" href="#merging-adapters-optional" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">peft</span><span class="w"> </span><span class="kn">import</span> <span class="n">PeftModel</span>
+<h3 id="prepare_dataset"><code>prepare_dataset</code><a class="headerlink" href="#prepare_dataset" title="Permanent link">&para;</a></h3>
+<p>Full pipeline with optional train/validation split.</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">prepare_dataset</span>
 
-<span class="c1"># Load model with adapters</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">PeftModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">base_model</span><span class="p">,</span> <span class="s2">&quot;./my_model&quot;</span><span class="p">)</span>
-
-<span class="c1"># Merge adapters into base model</span>
-<span class="n">merged_model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">merge_and_unload</span><span class="p">()</span>
-
-<span class="c1"># Save merged model</span>
-<span class="n">merged_model</span><span class="o">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="s2">&quot;./merged_model&quot;</span><span class="p">)</span>
-<span class="n">tokenizer</span><span class="o">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="s2">&quot;./merged_model&quot;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">prepare_dataset</span><span class="p">(</span>
+    <span class="n">dataset_config</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">to_config</span><span class="p">(),</span>
+    <span class="n">tokenization_config</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">tokenization</span><span class="o">.</span><span class="n">to_config</span><span class="p">(),</span>
+    <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">split_for_validation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">validation_ratio</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="c1"># result[&quot;train&quot;], result[&quot;validation&quot;]</span>
 </code></pre></div>
 
-<h2 id="helper-functions">Helper Functions<a class="headerlink" href="#helper-functions" title="Permanent link">&para;</a></h2>
-<h3 id="get_user_input">get_user_input()<a class="headerlink" href="#get_user_input" title="Permanent link">&para;</a></h3>
-<p>Interactive prompt with optional default value.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_user_input</span><span class="p">(</span><span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
+<h3 id="datapipeline"><code>DataPipeline</code><a class="headerlink" href="#datapipeline" title="Permanent link">&para;</a></h3>
+<p>Stateful pipeline class — use when you need statistics or to save processed data.</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataPipeline</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">DataPipeline</span><span class="p">(</span><span class="n">dataset_config</span><span class="p">,</span> <span class="n">tokenization_config</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">)</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">split_for_validation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_statistics</span><span class="p">()</span>   <span class="c1"># {&quot;num_samples&quot;: 1000, &quot;avg_words&quot;: 42, ...}</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">save_processed</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;./data/processed&quot;</span><span class="p">))</span>
 </code></pre></div>
 
-<p><strong>Example:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">model_name</span> <span class="o">=</span> <span class="n">get_user_input</span><span class="p">(</span><span class="s2">&quot;Enter model name&quot;</span><span class="p">,</span> <span class="s2">&quot;gpt2&quot;</span><span class="p">)</span>
-<span class="c1"># Prompt: Enter model name [gpt2]:</span>
+<hr />
+<h2 id="model-loading-finetune_climodelsloader">Model Loading — <code>finetune_cli.models.loader</code><a class="headerlink" href="#model-loading-finetune_climodelsloader" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.models.loader</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_model_and_tokenizer</span>
+
+<span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">load_model_and_tokenizer</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">to_config</span><span class="p">())</span>
 </code></pre></div>
 
-<h2 id="type-definitions">Type Definitions<a class="headerlink" href="#type-definitions" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dataset</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoModelForCausalLM</span><span class="p">,</span> <span class="n">AutoTokenizer</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">peft</span><span class="w"> </span><span class="kn">import</span> <span class="n">PeftModel</span>
+<p>Handles device mapping, 4-bit/8-bit quantization, and <code>pad_token</code> setup automatically.</p>
+<hr />
+<h2 id="trainers-finetune_clitrainers">Trainers — <code>finetune_cli.trainers</code><a class="headerlink" href="#trainers-finetune_clitrainers" title="Permanent link">&para;</a></h2>
+<h3 id="trainerfactorytrain-recommended"><code>TrainerFactory.train</code> (recommended)<a class="headerlink" href="#trainerfactorytrain-recommended" title="Permanent link">&para;</a></h3>
+<p>Single entry point — selects the right trainer based on <code>TrainingMethod</code>.</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.trainers</span><span class="w"> </span><span class="kn">import</span> <span class="n">TrainerFactory</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">TrainerFactory</span><span class="o">.</span><span class="n">train</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">dataset</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span>
+    <span class="n">training_config</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">training</span><span class="o">.</span><span class="n">to_config</span><span class="p">(),</span>
+    <span class="n">lora_config</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">lora</span><span class="o">.</span><span class="n">to_config</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="c1"># result.output_dir, result.train_loss, result.steps_completed</span>
 </code></pre></div>
 
-<h2 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h2>
-<p>The tool includes comprehensive error handling:</p>
-<div class="codehilite"><pre><span></span><code><span class="k">try</span><span class="p">:</span>
-    <span class="n">finetuner</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="k">if</span> <span class="s2">&quot;out of memory&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reduce batch size or sequence length&quot;</span><span class="p">)</span>
-    <span class="k">raise</span>
-<span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training interrupted&quot;</span><span class="p">)</span>
-    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<h3 id="loratrainer-qloratrainer-direct-use"><code>LoRATrainer</code> / <code>QLoRATrainer</code> (direct use)<a class="headerlink" href="#loratrainer-qloratrainer-direct-use" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.trainers</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoRATrainer</span>
+
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">LoRATrainer</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">training_config</span><span class="p">,</span> <span class="n">lora_config</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
 </code></pre></div>
 
-<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
-<ul>
-<li>See <a href="../usage/">Usage Guide</a> for CLI workflow</li>
-<li>Check <a href="../examples/">Examples</a> for practical use cases</li>
-<li>Review <a href="../configuration/">Configuration</a> for parameter tuning</li>
-</ul>
+<h3 id="trainingresult"><code>TrainingResult</code><a class="headerlink" href="#trainingresult" title="Permanent link">&para;</a></h3>
+<p>Frozen dataclass returned by all trainers.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>output_dir</code></td>
+<td><code>Path</code></td>
+<td>Where the adapter was saved</td>
+</tr>
+<tr>
+<td><code>train_loss</code></td>
+<td><code>float</code></td>
+<td>Final training loss</td>
+</tr>
+<tr>
+<td><code>steps_completed</code></td>
+<td><code>int</code></td>
+<td>Total training steps</td>
+</tr>
+<tr>
+<td><code>elapsed_seconds</code></td>
+<td><code>float</code></td>
+<td>Wall-clock training time</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="evaluation-finetune_clievaluation">Evaluation — <code>finetune_cli.evaluation</code><a class="headerlink" href="#evaluation-finetune_clievaluation" title="Permanent link">&para;</a></h2>
+<h3 id="benchmarkrunner"><code>BenchmarkRunner</code><a class="headerlink" href="#benchmarkrunner" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.evaluation</span><span class="w"> </span><span class="kn">import</span> <span class="n">BenchmarkRunner</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">EvaluationConfig</span><span class="p">,</span> <span class="n">EvaluationMetric</span>
+
+<span class="n">eval_cfg</span> <span class="o">=</span> <span class="n">EvaluationConfig</span><span class="p">(</span>
+    <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="n">EvaluationMetric</span><span class="o">.</span><span class="n">ROUGE_L</span><span class="p">,</span> <span class="n">EvaluationMetric</span><span class="o">.</span><span class="n">BLEU</span><span class="p">],</span>
+    <span class="n">num_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">generation_max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">runner</span> <span class="o">=</span> <span class="n">BenchmarkRunner</span><span class="p">(</span><span class="n">eval_cfg</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">)</span>
+
+<span class="c1"># Single model score</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;fine-tuned&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">scores</span><span class="p">)</span>  <span class="c1"># {&quot;rougeL&quot;: 0.42, &quot;bleu&quot;: 0.19}</span>
+
+<span class="c1"># Before/after comparison</span>
+<span class="n">report</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="n">run_comparison</span><span class="p">(</span><span class="n">base_model</span><span class="p">,</span> <span class="n">ft_model</span><span class="p">,</span> <span class="n">dataset</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">report</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">report</span><span class="o">.</span><span class="n">improvements</span><span class="p">)</span>  <span class="c1"># {&quot;rougeL&quot;: +0.12, &quot;bleu&quot;: +0.07}</span>
+</code></pre></div>
+
+<h3 id="available-metrics">Available metrics<a class="headerlink" href="#available-metrics" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th><code>EvaluationMetric</code> value</th>
+<th>Class</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rouge1</code>, <code>rouge2</code>, <code>rougeL</code></td>
+<td><code>RougeMetric</code></td>
+<td>Token overlap</td>
+</tr>
+<tr>
+<td><code>bleu</code></td>
+<td><code>BleuMetric</code></td>
+<td>N-gram precision (requires <code>nltk punkt</code>)</td>
+</tr>
+<tr>
+<td><code>perplexity</code></td>
+<td><code>PerplexityMetric</code></td>
+<td>Requires model</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="exceptions-finetune_clicoreexceptions">Exceptions — <code>finetune_cli.core.exceptions</code><a class="headerlink" href="#exceptions-finetune_clicoreexceptions" title="Permanent link">&para;</a></h2>
+<p>All exceptions inherit from <code>FineTuneError</code>.</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">finetune_cli.core.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">InvalidConfigError</span><span class="p">,</span>      <span class="c1"># Bad config value</span>
+    <span class="n">MissingConfigError</span><span class="p">,</span>      <span class="c1"># Required field absent</span>
+    <span class="n">IncompatibleConfigError</span><span class="p">,</span> <span class="c1"># Conflicting options (e.g. fp16 + bf16)</span>
+    <span class="n">DatasetNotFoundError</span><span class="p">,</span>    <span class="c1"># File path doesn&#39;t exist</span>
+    <span class="n">EmptyDatasetError</span><span class="p">,</span>       <span class="c1"># Dataset loaded but has 0 rows</span>
+    <span class="n">NoTextColumnsError</span><span class="p">,</span>      <span class="c1"># No string columns found</span>
+    <span class="n">TrainingError</span><span class="p">,</span>           <span class="c1"># Training loop failure</span>
+    <span class="n">ModelLoadError</span><span class="p">,</span>          <span class="c1"># Model download / load failed</span>
+<span class="p">)</span>
+</code></pre></div>
 
 
 

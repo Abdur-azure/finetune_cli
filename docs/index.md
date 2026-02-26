@@ -1,70 +1,66 @@
-# 🤖 Finetune CLI
+# finetune-cli
 
-A comprehensive command-line tool for fine-tuning Large Language Models using LoRA (Low-Rank Adaptation), with automatic ROUGE benchmarking and HuggingFace integration.
+**Production-grade LLM fine-tuning from the command line.**
 
-[![Build](https://img.shields.io/github/actions/workflow/status/Abdur-azure/finetune_cli/deploy_docs.yml)](https://github.com/Abdur-azure/finetune_cli/actions)
-[![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/Abdur-azure/finetune_cli/blob/main/LICENSE)
+`finetune-cli` is a modular Python framework for fine-tuning large language models using LoRA and QLoRA. It provides a type-safe configuration system, a composable trainer stack, a benchmarking pipeline, and a clean CLI — all fully tested and CI-verified.
 
-## Overview
+---
 
-This tool simplifies the process of fine-tuning large language models by providing an interactive CLI interface with built-in benchmarking capabilities. Whether you're working with local datasets or HuggingFace repositories, this tool handles the complexity of LoRA configuration, training, and evaluation.
-
-## Key Features
-
-- **🎯 LoRA Fine-tuning**: Efficient parameter-efficient fine-tuning with automatic target module detection
-- **📊 Auto-benchmarking**: ROUGE score comparison before and after training to measure improvements
-- **🔍 Smart Dataset Loading**: Automatically detects text columns and handles multiple data formats
-- **📁 Flexible Data Sources**: Support for local files (JSON, JSONL, CSV, TXT) and HuggingFace datasets
-- **🎛️ Selective Loading**: Load specific files from large repositories to optimize memory usage
-- **🚀 HuggingFace Integration**: Push fine-tuned models directly to HuggingFace Hub
-- **🧠 Auto-detection**: Automatically identifies target modules for any model architecture
-
-## Quick Start
+## Quick start
 
 ```bash
-# Install dependencies
-pip install -r requirements.txt
+# Install
+git clone https://github.com/Abdur-azure/finetune_cli.git
+cd finetune_cli
+pip install -e .
 
-# Run the interactive CLI
-python finetune_cli.py
+# Fine-tune GPT-2 on a local dataset
+finetune-cli train --model gpt2 --dataset ./data.jsonl --epochs 3
+
+# Or use a config file (recommended)
+finetune-cli train --config examples/configs/lora_gpt2.yaml
 ```
 
-The tool will guide you through:
+---
 
-1. Model selection from HuggingFace
-2. Dataset loading and preparation
-3. Pre-training benchmark
-4. LoRA configuration
-5. Training process
-6. Post-training evaluation
-7. Optional upload to HuggingFace Hub
+## What's included
 
-## Why Use This Tool?
+| Component | Description |
+|-----------|-------------|
+| `finetune_cli train` | LoRA / QLoRA training with auto-detected target modules |
+| `finetune_cli evaluate` | ROUGE, BLEU, Perplexity scoring on a saved checkpoint |
+| `finetune_cli benchmark` | Before/after comparison report with delta indicators |
+| `finetune_cli upload` | Push adapter or merged model to HuggingFace Hub |
+| `ConfigBuilder` | Fluent Python API for building validated pipeline configs |
+| `DataPipeline` | Loads JSON/JSONL/CSV/Parquet/HF datasets, tokenizes, splits |
+| `TrainerFactory` | Single entry point — selects LoRATrainer or QLoRATrainer |
+| `BenchmarkRunner` | Model-agnostic evaluation with comparison reports |
 
-- **Simplified Workflow**: No need to write complex training scripts
-- **Best Practices Built-in**: Automatically handles tokenization, padding, and data collation
-- **Memory Efficient**: LoRA reduces memory requirements significantly
-- **Reproducible**: Consistent configuration and benchmarking across experiments
-- **Educational**: Learn fine-tuning concepts through interactive prompts
+---
 
-## Getting Started
+## Navigation
 
-Check out the [Installation Guide](installation.md) to set up your environment, then follow the [Usage Guide](usage.md) to start fine-tuning your first model.
+- **[Installation](installation.md)** — requirements, GPU setup, HuggingFace login
+- **[Usage Guide](usage.md)** — all CLI subcommands with examples
+- **[Configuration](configuration.md)** — YAML config reference and parameter guide
+- **[API Reference](api.md)** — Python API for programmatic use
+- **[Examples](examples.md)** — common workflows and recipes
+- **[Troubleshooting](troubleshooting.md)** — OOM, NaN loss, dataset errors
 
-## Documentation Structure
+---
 
-- **[Installation](installation.md)**: Setup instructions and prerequisites
-- **[Usage Guide](usage.md)**: Detailed walkthrough of all features
-- **[Configuration](configuration.md)**: Understanding LoRA parameters and training settings
-- **[API Reference](api.md)**: Technical documentation of core classes and methods
-- **[Examples](examples.md)**: Common use cases and recipes
-- **[Troubleshooting](troubleshooting.md)**: Solutions to common issues
+## Migrating from v1?
 
-## Project Status
+See [CHANGELOG.md](https://github.com/Abdur-azure/finetune_cli/blob/main/CHANGELOG.md) for the full v1 → v2 migration guide.
 
-This tool is actively maintained and open for contributions. If you encounter any issues or have suggestions, please open an issue on [GitHub](https://github.com/Abdur-azure/finetune_cli/issues).
+!!! note "v1 is deprecated"
+    Running `python finetune_cli.py` will display a migration message. The v1 interactive wizard has been replaced by the `finetune-cli` subcommands documented here.
 
-## License
+---
 
-MIT License - see [LICENSE](https://github.com/Abdur-azure/finetune_cli/blob/main/LICENSE) for details.
+## Project status
+
+- **Version:** 2.0.0
+- **Tests:** 35+ unit tests + integration test (all green)
+- **CI:** pytest matrix across Python 3.10 / 3.11 / 3.12
+- **License:** MIT
