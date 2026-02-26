@@ -1,23 +1,19 @@
-"""
-Trainers package for LLM fine-tuning.
-
-Provides implementations for various training methods:
-- LoRA: Parameter-efficient fine-tuning
-- QLoRA: Quantized LoRA for memory efficiency
-- Full Fine-tuning: Train all parameters
-
-High-level interface:
-- train_model: One-stop training function
-- TrainerFactory: Dynamic trainer creation
-- register_trainer: Add custom trainers
-"""
+"""Trainer system for the fine-tuning framework."""
 
 from .base import BaseTrainer, TrainingResult
 from .lora_trainer import LoRATrainer
 from .qlora_trainer import QLoRATrainer
+from .full_trainer import FullFineTuner
+from .instruction_trainer import InstructionTrainer, format_instruction_dataset
 from .factory import TrainerFactory
 
 __all__ = [
-    "BaseTrainer", "TrainingResult",
-    "LoRATrainer", "QLoRATrainer", "TrainerFactory",
+    "BaseTrainer",
+    "TrainingResult",
+    "LoRATrainer",
+    "QLoRATrainer",
+    "FullFineTuner",
+    "InstructionTrainer",
+    "format_instruction_dataset",
+    "TrainerFactory",
 ]

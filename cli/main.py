@@ -272,6 +272,93 @@ def benchmark(
 
 
 # ============================================================================
+# UPLOAD
+# ============================================================================
+
+
+@app.command()
+def upload(
+    model_path: Path = typer.Argument(..., help="Path to fine-tuned model/adapter to upload"),
+    repo_id: str = typer.Argument(..., help="HuggingFace repo id, e.g. 'username/my-model'"),
+    token: Optional[str] = typer.Option(None, "--token", "-t", help="HF API token (or set HF_TOKEN env var)"),
+    private: bool = typer.Option(False, "--private", help="Make repository private"),
+    commit_message: str = typer.Option("Upload fine-tuned model", "--message", "-m"),
+    merge_adapter: bool = typer.Option(False, "--merge-adapter", help="Merge LoRA adapter into base model before uploading"),
+    base_model: Optional[str] = typer.Option(None, "--base-model", help="Base model id (required when --merge-adapter is set)"),
+):
+    """Upload a fine-tuned model or LoRA adapter to HuggingFace Hub."""
+    import os
+
+    try:
+        from huggingface_hub import HfApi, create_repo
+    except ImportError:
+        console.print("[red]Error:[/red] huggingface_hub not installed. Run: pip install huggingface-hub")
+        raise typer.Exit(code=1)
+
+    if not model_path.exists():
+        console.print(f"[red]Error:[/red] Model path does not exist: {model_path}")
+        raise typer.Exit(code=1)
+
+    # Resolve token
+    resolved_token = token or os.environ.get("HF_TOKEN") or os.environ.get("HUGGING_FACE_HUB_TOKEN")
+    if not resolved_token:
+        console.print("[red]Error:[/red] No HF token provided. Use --token or set HF_TOKEN env var.")
+        raise typer.Exit(code=1)
+
+    console.print(Panel(f"[bold cyan]Uploading[/bold cyan] → {repo_id}"))
+    api = HfApi(token=resolved_token)
+
+    # Optionally merge LoRA adapter
+    upload_path = model_path
+    if merge_adapter:
+        if not base_model:
+            console.print("[red]Error:[/red] --base-model is required when using --merge-adapter")
+            raise typer.Exit(code=1)
+        console.print(f"Merging LoRA adapter with base model '{base_model}'...")
+        try:
+            from peft import PeftModel
+            from transformers import AutoModelForCausalLM, AutoTokenizer
+            import tempfile
+
+            base = AutoModelForCausalLM.from_pretrained(base_model)
+            merged = PeftModel.from_pretrained(base, str(model_path)).merge_and_unload()
+            tokenizer = AutoTokenizer.from_pretrained(str(model_path))
+
+            merge_dir = Path(tempfile.mkdtemp()) / "merged"
+            merge_dir.mkdir(parents=True)
+            merged.save_pretrained(str(merge_dir))
+            tokenizer.save_pretrained(str(merge_dir))
+            upload_path = merge_dir
+            console.print(f"[green]✓[/green] Merged model saved temporarily to {merge_dir}")
+        except Exception as exc:
+            console.print(f"[red]Merge failed:[/red] {exc}")
+            raise typer.Exit(code=1)
+
+    # Create repo (no-op if already exists)
+    try:
+        create_repo(repo_id, token=resolved_token, private=private, exist_ok=True)
+        console.print(f"[green]✓[/green] Repository ready: https://huggingface.co/{repo_id}")
+    except Exception as exc:
+        console.print(f"[red]Failed to create repo:[/red] {exc}")
+        raise typer.Exit(code=1)
+
+    # Upload folder
+    try:
+        api.upload_folder(
+            folder_path=str(upload_path),
+            repo_id=repo_id,
+            commit_message=commit_message,
+        )
+        console.print(Panel(
+            f"[bold green]✓ Upload complete[/bold green]\n"
+            f"Model live at: https://huggingface.co/{repo_id}"
+        ))
+    except Exception as exc:
+        console.print(f"[red]Upload failed:[/red] {exc}")
+        raise typer.Exit(code=1)
+
+
+# ============================================================================
 # ENTRY POINT
 # ============================================================================
 
@@ -282,3 +369,123 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+# ============================================================================
+# RECOMMEND
+# ============================================================================
+
+
+@app.command()
+def recommend(
+    model: str = typer.Argument(..., help="HuggingFace model id (e.g. gpt2)"),
+    dataset: Optional[Path] = typer.Option(None, "--dataset", "-d", help="Local dataset path"),
+    output: Optional[Path] = typer.Option(None, "--output", "-o", help="Save YAML config to file"),
+    vram_gb: Optional[float] = typer.Option(None, "--vram", help="Available VRAM in GB (auto-detect if omitted)"),
+):
+    """Suggest an optimal training config based on model size and available VRAM."""
+    import torch
+    import yaml
+
+    console.print(f"\n[bold cyan]Inspecting model:[/bold cyan] {model}\n")
+
+    # Detect VRAM
+    if vram_gb is None:
+        if torch.cuda.is_available():
+            vram_bytes = torch.cuda.get_device_properties(0).total_memory
+            vram_gb = vram_bytes / (1024 ** 3)
+            console.print(f"[green]Detected VRAM:[/green] {vram_gb:.1f} GB")
+        else:
+            vram_gb = 0.0
+            console.print("[yellow]No GPU detected — recommending CPU-safe config.[/yellow]")
+
+    # Estimate param count from HF config
+    try:
+        from transformers import AutoConfig
+        cfg = AutoConfig.from_pretrained(model)
+        hidden = getattr(cfg, "hidden_size", getattr(cfg, "n_embd", 768))
+        layers = getattr(cfg, "num_hidden_layers", getattr(cfg, "n_layer", 12))
+        param_millions = (hidden * hidden * 12 * layers) / 1_000_000
+    except Exception:
+        param_millions = 124
+
+    console.print(f"[green]Estimated parameters:[/green] ~{param_millions:.0f}M\n")
+
+    # Decision logic
+    if param_millions > 7000:
+        method, lora_r, batch, fp16, grad_ckpt = "qlora", 16, 1, True, True
+    elif param_millions > 1000:
+        if vram_gb >= 16:
+            method, lora_r, batch, fp16, grad_ckpt = "lora", 16, 4, True, False
+        else:
+            method, lora_r, batch, fp16, grad_ckpt = "qlora", 8, 2, True, True
+    elif param_millions > 300:
+        if vram_gb >= 8:
+            method, lora_r, batch, fp16, grad_ckpt = "lora", 8, 4, True, False
+        else:
+            method, lora_r, batch, fp16, grad_ckpt = "lora", 4, 2, False, False
+    else:
+        if vram_gb >= 4:
+            method, lora_r, batch, fp16, grad_ckpt = "lora", 8, 8, False, False
+        else:
+            method, lora_r, batch, fp16, grad_ckpt = "full_finetuning", 0, 4, False, False
+
+    grad_accum = max(1, 16 // batch)
+    load_4bit = method == "qlora"
+    dataset_path = str(dataset) if dataset else "./data/train.jsonl"
+
+    config_dict = {
+        "model": {
+            "name": model,
+            "device": "auto",
+            "torch_dtype": "float16" if fp16 else "float32",
+            "load_in_4bit": load_4bit,
+        },
+        "dataset": {
+            "source": "local_file",
+            "path": dataset_path,
+            "max_samples": None,
+            "shuffle": True,
+        },
+        "tokenization": {"max_length": 512, "truncation": True, "padding": "max_length"},
+        "training": {
+            "method": method,
+            "output_dir": "./output",
+            "num_epochs": 3,
+            "batch_size": batch,
+            "gradient_accumulation_steps": grad_accum,
+            "learning_rate": 2e-4 if method != "full_finetuning" else 5e-5,
+            "fp16": fp16,
+            "gradient_checkpointing": grad_ckpt,
+            "save_strategy": "epoch",
+        },
+    }
+    if method in ("lora", "qlora", "instruction_tuning"):
+        config_dict["lora"] = {
+            "r": lora_r,
+            "lora_alpha": lora_r * 2,
+            "lora_dropout": 0.1,
+            "target_modules": None,
+        }
+
+    console.print(Panel(
+        f"[bold]Recommended method:[/bold] [cyan]{method}[/cyan]\n"
+        f"[bold]LoRA rank:[/bold]          {lora_r if lora_r else 'N/A'}\n"
+        f"[bold]Batch size:[/bold]         {batch}\n"
+        f"[bold]Grad accum:[/bold]         {grad_accum}  (effective batch: {batch * grad_accum})\n"
+        f"[bold]FP16:[/bold]               {fp16}\n"
+        f"[bold]4-bit quant:[/bold]        {load_4bit}\n"
+        f"[bold]Grad checkpointing:[/bold] {grad_ckpt}",
+        title="Recommendation",
+        border_style="cyan",
+    ))
+
+    yaml_str = yaml.dump(config_dict, default_flow_style=False, sort_keys=False)
+
+    if output:
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(yaml_str, encoding="utf-8")
+        console.print(f"\n[green]✓[/green] Config saved to [bold]{output}[/bold]")
+    else:
+        console.print("\n[bold]Generated config:[/bold]")
+        console.print(yaml_str)

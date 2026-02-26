@@ -23,6 +23,8 @@ from ..core.exceptions import MissingConfigError
 from .base import BaseTrainer, TrainingResult
 from .lora_trainer import LoRATrainer
 from .qlora_trainer import QLoRATrainer
+from .full_trainer import FullFineTuner
+from .instruction_trainer import InstructionTrainer
 
 
 # ============================================================================
@@ -77,9 +79,17 @@ class TrainerFactory:
                 raise MissingConfigError("model_config", "QLoRA training")
             return QLoRATrainer(model, tokenizer, training_config, lora_config, model_config)
 
+        if method == TrainingMethod.FULL_FINETUNING:
+            return FullFineTuner(model, tokenizer, training_config)
+
+        if method == TrainingMethod.INSTRUCTION_TUNING:
+            if lora_config is None:
+                raise MissingConfigError("lora_config", "instruction tuning")
+            return InstructionTrainer(model, tokenizer, training_config, lora_config)
+
         raise NotImplementedError(
             f"Training method '{method.value}' is not yet implemented. "
-            f"Supported methods: lora, qlora."
+            f"Supported methods: lora, qlora, full_finetuning, instruction_tuning."
         )
 
     @staticmethod
