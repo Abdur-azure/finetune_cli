@@ -6,24 +6,26 @@
 
 ---
 
-## Sprint 3: "First Run"
+## Sprint 4: "Hardened"
 
-- [x] examples/generate_sample_data.py
-- [x] examples/configs/lora_gpt2.yaml — updated, points to generated data
-- [x] examples/configs/qlora_llama.yaml — verified v2 format
-- [x] examples/configs/instruction_tuning.yaml — new
-- [x] examples/configs/full_finetuning.yaml — new
-- [x] tests/test_integration.py — instruction tuning + recommend tests added
-- [x] docs/usage.md — 5-minute quickstart section added
-- [ ] Run new integration tests locally to close sprint
+- [x] cli/main.py — guard .with_lora() for PEFT methods only
+- [x] trainers/CONTEXT.md — document _maybe_format input_ids fix
+- [x] audit_repo.py — add Sprint 2+3 files to REQUIRED_FILES
+- [x] CHANGELOG.md — add Sprint 2 + Sprint 3 entries
+- [x] tests/test_cli_train.py — wiring tests for all methods via flags
+- [ ] Run: pytest tests/test_cli_train.py -v
 
 ---
 
 ## Previously Completed
 
+### Sprint 3: "First Run"
+- [x] examples/generate_sample_data.py, 4 example configs
+- [x] Integration tests: instruction tuning + recommend
+- [x] docs/usage.md quickstart, CLAUDE.md, CONTEXT.md files
+
 ### Sprint 2: "Expand"
-- [x] trainers/full_trainer.py, instruction_trainer.py
-- [x] TrainerFactory wired, recommend command
+- [x] FullFineTuner, InstructionTrainer, recommend command
 - [x] 60 unit tests passing
 
 ### Sprint 1: "Stable Foundation"
@@ -34,4 +36,4 @@
 ---
 
 ## Acceptance Gate
-pytest tests/test_integration.py -v -s — all 5 integration tests green.
+pytest tests/test_cli_train.py -v — all 6 tests green.

@@ -4,6 +4,38 @@ All notable changes to this project are documented here.
 
 ---
 
+## [2.1.0] — Sprint 2: "Expand" — 2025-02-26
+
+### Added
+- `FullFineTuner` trainer — trains all parameters, issues VRAM warning for models >1B params
+- `InstructionTrainer` trainer — alpaca-style `{instruction, input, response}` dataset formatting + LoRA
+- `TrainerFactory` wired for `full_finetuning` and `instruction_tuning` methods
+- `finetune-cli recommend` command — inspects model param count + VRAM, outputs ready-to-use YAML config
+- Unit tests: `test_full_trainer.py`, `test_instruction_trainer.py`, `test_recommend.py`
+
+### Fixed
+- `cli/__init__.py` — removed stale `setup()` call that crashed pytest collection on Windows
+
+---
+
+## [2.2.0] — Sprint 3: "First Run" — 2025-02-26
+
+### Added
+- `examples/generate_sample_data.py` — generates `data/sample.jsonl` + `data/instructions.jsonl`, stdlib only
+- `examples/configs/instruction_tuning.yaml` — new runnable config for InstructionTrainer
+- `examples/configs/full_finetuning.yaml` — new runnable config for FullFineTuner
+- `examples/configs/lora_gpt2.yaml` — updated to point to generated sample data
+- Integration tests: `test_instruction_tuning_saves_adapter`, `test_recommend_produces_runnable_config`
+- 5-minute quickstart section in `docs/usage.md`
+- `CLAUDE.md` at repo root — session context for AI-assisted development
+- `CONTEXT.md` in every key subpackage folder
+
+### Fixed
+- `InstructionTrainer._maybe_format()` — skip reformatting when dataset already has `input_ids` column
+- `test_full_trainer.py` VRAM warning test — replaced real tensor allocation with `MagicMock.numel()`
+
+---
+
 ## [2.0.0] — 2025-02-26
 
 ### Summary

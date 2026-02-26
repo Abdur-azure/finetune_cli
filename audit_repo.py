@@ -14,37 +14,37 @@ REQUIRED_FILES = [
     # Root
     "conftest.py",
     "pyproject.toml",
-    "__init__.py",
+    "finetune_cli/__init__.py",
 
     # Core
-    "core/__init__.py",
-    "core/exceptions.py",
-    "core/types.py",
-    "core/config.py",
+    "finetune_cli/core/__init__.py",
+    "finetune_cli/core/exceptions.py",
+    "finetune_cli/core/types.py",
+    "finetune_cli/core/config.py",
 
     # Utils
-    "utils/__init__.py",
-    "utils/logging.py",
+    "finetune_cli/utils/__init__.py",
+    "finetune_cli/utils/logging.py",
 
     # Models
-    "models/__init__.py",
-    "models/loader.py",
+    "finetune_cli/models/__init__.py",
+    "finetune_cli/models/loader.py",
 
     # Trainers
-    "trainers/__init__.py",
-    "trainers/base.py",
-    "trainers/lora_trainer.py",
-    "trainers/qlora_trainer.py",
-    "trainers/factory.py",
+    "finetune_cli/trainers/__init__.py",
+    "finetune_cli/trainers/base.py",
+    "finetune_cli/trainers/lora_trainer.py",
+    "finetune_cli/trainers/qlora_trainer.py",
+    "finetune_cli/trainers/factory.py",
 
     # Evaluation
-    "evaluation/__init__.py",
-    "evaluation/metrics.py",
-    "evaluation/benchmarker.py",
+    "finetune_cli/evaluation/__init__.py",
+    "finetune_cli/evaluation/metrics.py",
+    "finetune_cli/evaluation/benchmarker.py",
 
     # CLI
-    "cli/__init__.py",
-    "cli/main.py",
+    "finetune_cli/cli/__init__.py",
+    "finetune_cli/cli/main.py",
 
     # Tests
     "tests/__init__.py",
@@ -61,6 +61,29 @@ REQUIRED_FILES = [
     # Examples
     "examples/configs/lora_gpt2.yaml",
     "examples/configs/qlora_llama.yaml",
+    "examples/configs/instruction_tuning.yaml",
+    "examples/configs/full_finetuning.yaml",
+    "examples/generate_sample_data.py",
+
+    # Trainers — Sprint 2
+    "trainers/full_trainer.py",
+    "trainers/instruction_trainer.py",
+
+    # Tests — Sprint 2+3
+    "tests/test_full_trainer.py",
+    "tests/test_instruction_trainer.py",
+    "tests/test_recommend.py",
+    "tests/test_cli_train.py",
+
+    # Context files
+    "CLAUDE.md",
+    "core/CONTEXT.md",
+    "trainers/CONTEXT.md",
+    "data/CONTEXT.md",
+    "evaluation/CONTEXT.md",
+    "cli/CONTEXT.md",
+    "tests/CONTEXT.md",
+    "tasks/CONTEXT.md",
 
     # CI
     ".github/workflows/ci.yml",

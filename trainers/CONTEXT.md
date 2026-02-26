@@ -27,3 +27,16 @@ All training logic lives here. Each trainer is a concrete subclass of `BaseTrain
 - `output_dir` must always be populated — downstream CLI depends on it
 - VRAM / memory warnings belong in `__init__`, not `_setup_peft`
 - Never call `hf_trainer.train()` directly outside `base.py` — use `TrainerFactory.train()`
+
+## Mid-sprint fix — skip condition in `_maybe_format`
+
+`InstructionTrainer._maybe_format()` skips reformatting in two cases:
+1. Dataset already has a `text` column → pre-formatted, skip
+2. Dataset already has `input_ids` → pre-tokenized, skip entirely
+
+This was added to fix integration test failures where a tokenized dataset
+was passed directly but InstructionTrainer tried to reformat it and crashed
+with "instruction/response columns not found".
+
+**Rule:** Always check for `input_ids` before checking for `text` in any
+trainer that does dataset transformation.

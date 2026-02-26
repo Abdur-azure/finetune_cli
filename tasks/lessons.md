@@ -65,3 +65,33 @@ verifying data pipeline wiring.
 Never delete v1 files users might be running. Replace the body with a
 DeprecationWarning + sys.exit() that points to the v2 command.
 This gives users a clear migration message instead of a FileNotFoundError.
+
+## Pattern: Verify docs with term-presence checks, not just line counts
+When rewriting docs, assert that key v2 identifiers (CLI commands, class names,
+config keys) are present. A doc that builds without errors can still describe v1.
+Always check content, not just structure.
+
+## Pattern: Example data scripts must be zero-dependency
+generate_sample_data.py uses only stdlib (json, random, pathlib).
+Never import project modules or third-party libs in example generators —
+they must run before pip install -e . succeeds.
+
+## Pattern: Name sprints — makes changelog and reviews easier to navigate
+Sprint names (e.g. "First Run", "Expand") give reviewers instant context
+without reading every commit. Add to todo.md header and CHANGELOG.
+
+## Pattern: Guard lora_config by method — not unconditionally
+cli/main.py was calling .with_lora() for every method including full_finetuning.
+Always check the method set before attaching method-specific config.
+Pattern: define _LORA_METHODS = {LORA, QLORA, INSTRUCTION_TUNING} and gate on it.
+
+## Pattern: CHANGELOG and audit_repo.py are first-class deliverables
+After every sprint, update both. CHANGELOG tells humans what changed.
+audit_repo.py tells Claude (and contributors) what files must exist.
+Skipping these creates session drift — the next session starts blind.
+
+## Pattern: Write test_cli_train.py for every new method added to CLI
+When a new TrainingMethod is wired into the factory, add a CLI-level test
+that invokes the train command with --method <new_method> and asserts
+exit_code == 0. Mock the training stack — this is a wiring test, not a
+training test. Catches missing lora_config guards before they hit production.

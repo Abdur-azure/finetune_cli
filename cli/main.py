@@ -90,6 +90,11 @@ def train(
             ds_path = str(dataset) if dataset else str(hf_dataset)
             ds_source = DatasetSource.LOCAL_FILE if dataset else DatasetSource.HUGGINGFACE_HUB
 
+            _LORA_METHODS = {
+                TrainingMethod.LORA,
+                TrainingMethod.QLORA,
+                TrainingMethod.INSTRUCTION_TUNING,
+            }
             builder = (
                 ConfigBuilder()
                 .with_model(model, load_in_4bit=quantize_4bit)
@@ -103,8 +108,11 @@ def train(
                     learning_rate=lr,
                     fp16=fp16,
                 )
-                .with_lora(r=lora_r, lora_alpha=lora_alpha, lora_dropout=lora_dropout)
             )
+            if method in _LORA_METHODS:
+                builder = builder.with_lora(
+                    r=lora_r, lora_alpha=lora_alpha, lora_dropout=lora_dropout
+                )
             pipeline_config = builder.build()
 
         console.print(Panel(f"[bold green]Training[/bold green] {pipeline_config.model.name}"))
