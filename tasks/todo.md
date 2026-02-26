@@ -1,38 +1,30 @@
-# Tasks — Next Steps Plan
+# Tasks
 
 ## Status Legend
 - [ ] = Todo
 - [x] = Complete
-- [~] = Blocked / done via alternative
+- [~] = Blocked/alternative used
 
 ---
 
-## Current Sprint
+## Current Sprint — Stabilise Foundation
 
-- [~] Run test suite — sandbox has no network/packages; static AST verification done. Run locally: `pytest finetune_cli/tests/ -v`
-- [~] Fix import mismatches — resolved via cross-reference analysis before writing code
-- [x] Add `.github/workflows/ci.yml` — pytest on every push/PR
-- [x] Add `upload` CLI subcommand — push fine-tuned model to HuggingFace Hub
-- [x] Add example YAML configs — `examples/configs/lora_gpt2.yaml`, `qlora_llama.yaml`
-- [x] Write end-to-end integration test — `tests/test_integration.py`
-
----
-
-## Previously Completed (Phases 3-5)
-
-- [x] trainers/ — base, lora_trainer, qlora_trainer, factory
-- [x] evaluation/ — metrics, benchmarker
-- [x] cli/main.py — train, evaluate, benchmark subcommands
-- [x] tests/ — test_config, test_trainers, test_evaluation, conftest
+- [x] Audit missing files — all sandbox files catalogued
+- [x] Add root `conftest.py` — fixes pytest sys.path on Windows permanently
+- [x] Replace `setup.py` with `pyproject.toml` — eliminates Windows encoding bug
+- [x] Deliver all missing core files for local repo — exceptions.py, types.py,
+        config.py, utils/logging.py, models/loader.py, all __init__.py files
+- [ ] Verify tests pass locally — `pytest tests/ -v` all green (user action)
 
 ---
 
-## Review
+## Previously Completed
 
-### What was built this sprint
-- CI workflow (.github/workflows/ci.yml)
-- upload subcommand in CLI
-- Example YAML configs (gpt2 LoRA, llama QLoRA)
-- End-to-end integration test covering config > data > train > save
+- [x] Phases 3-5 — trainers/, evaluation/, cli/main.py
+- [x] tests/ — unit + integration tests
+- [x] CI workflow, upload subcommand, example YAML configs
 
-### Lessons captured — see tasks/lessons.md
+---
+
+## Acceptance Gate
+No new features until `pytest tests/ -v` is fully green locally.

@@ -16,6 +16,13 @@ from ..core.types import TrainingConfig, LoRAConfig
 from ..core.exceptions import TrainingError
 from ..utils.logging import get_logger
 
+@dataclass
+class TrainingState:
+    """Mutable training state tracked during a run."""
+    current_epoch: int = 0
+    current_step: int = 0
+    best_loss: float = float("inf")
+    is_complete: bool = False
 
 # ============================================================================
 # RESULT TYPE
@@ -174,7 +181,7 @@ class BaseTrainer(ABC):
             logging_steps=cfg.logging_steps,
             save_steps=cfg.save_steps or 500,
             save_strategy=cfg.save_strategy,
-            evaluation_strategy=cfg.evaluation_strategy,
+            eval_strategy=cfg.evaluation_strategy,
             load_best_model_at_end=do_eval and cfg.load_best_model_at_end,
             seed=cfg.seed,
             gradient_checkpointing=cfg.gradient_checkpointing,

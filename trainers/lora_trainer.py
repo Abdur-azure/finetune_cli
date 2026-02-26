@@ -76,7 +76,7 @@ class LoRATrainer(BaseTrainer):
     # ------------------------------------------------------------------
 
     @staticmethod
-    def _count_parameters(model: PreTrainedModel):
+    def _count_parameters(model):
         trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
         total = sum(p.numel() for p in model.parameters())
-        return trainable, total
+        return trainable, total if total > 0 else 1

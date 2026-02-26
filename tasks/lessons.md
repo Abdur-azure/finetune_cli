@@ -39,3 +39,18 @@ adapter-only upload path.
 Write YAML example configs to be runnable — real model names, real dataset
 paths (with placeholders clearly marked). They serve as both documentation
 and fixture inputs for integration tests.
+
+## Pattern: Root conftest.py is the most reliable pytest path fix
+Never rely on PYTHONPATH env vars or `pip install -e .` for test discovery.
+A root conftest.py with `sys.path.insert(0, repo_root)` works universally
+across Windows/macOS/Linux and all pytest invocation styles.
+
+## Pattern: pyproject.toml over setup.py for Windows compatibility
+setup.py calls read_text() without encoding= which crashes on Windows cp1252.
+pyproject.toml is declarative — no Python code runs during install, no
+encoding bugs possible. Always use pyproject.toml for new projects.
+
+## Pattern: Ship an audit script with generated file sets
+When delivering many files across sessions, include audit_repo.py so the user
+can instantly see which files are missing from their local repo without
+manually comparing directory listings.

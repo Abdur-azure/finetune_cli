@@ -1,0 +1,92 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "finetune-cli"
+version = "2.0.0"
+description = "Production-grade LLM fine-tuning framework with CLI"
+readme = { file = "README.md", content-type = "text/markdown" }
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "Abdur Rahman" }
+]
+keywords = ["llm", "fine-tuning", "lora", "qlora", "transformers"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "torch>=2.0.0",
+    "transformers>=4.35.0",
+    "datasets>=2.14.0",
+    "peft>=0.7.0",
+    "accelerate>=0.24.0",
+    "rouge-score>=0.1.2",
+    "nltk>=3.8.0",
+    "pandas>=2.0.0",
+    "sentencepiece>=0.1.99",
+    "protobuf>=3.20.0",
+    "huggingface-hub>=0.19.0",
+    "pydantic>=2.0.0",
+    "pyyaml>=6.0.0",
+    "typer>=0.9.0",
+    "rich>=13.0.0",
+    "tqdm>=4.65.0",
+    "bitsandbytes>=0.41.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-timeout>=2.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+]
+docs = [
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.0.0",
+    "mkdocs-minify-plugin>=0.7.0",
+    "pymdown-extensions>=10.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Abdur-azure/finetune_cli"
+Documentation = "https://Abdur-azure.github.io/finetune_cli"
+Issues = "https://github.com/Abdur-azure/finetune_cli/issues"
+
+[project.scripts]
+finetune-cli = "finetune_cli.cli.main:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["finetune_cli*"]
+exclude = ["tests*", "examples*", "docs*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+timeout = 120
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+select = ["E", "F", "W", "I"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.10"
+ignore_missing_imports = true
+warn_return_any = false
