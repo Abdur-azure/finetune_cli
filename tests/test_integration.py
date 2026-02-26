@@ -144,8 +144,8 @@ class TestEndToEnd:
         assert result.train_loss >= 0.0
 
         # Saved model must contain config.json (HF standard)
-        assert (save_dir / "config.json").exists(), \
-            f"config.json not found in {save_dir}. Contents: {list(save_dir.iterdir())}"
+        assert (save_dir / "adapter_config.json").exists(), \
+            f"adapter_config.json not found in {save_dir}. Contents: {list(save_dir.iterdir())}"
 
     def test_rouge_metric_runs_on_strings(self):
         """ROUGE metric computes without needing a live model."""

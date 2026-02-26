@@ -54,3 +54,14 @@ encoding bugs possible. Always use pyproject.toml for new projects.
 When delivering many files across sessions, include audit_repo.py so the user
 can instantly see which files are missing from their local repo without
 manually comparing directory listings.
+
+## Pattern: data/__init__.py must mirror CLI imports exactly
+The CLI does `from ..data import quick_load` — if __init__.py doesn't
+re-export quick_load the import fails silently at runtime not test time.
+Always trace the full import chain from CLI → package → module when
+verifying data pipeline wiring.
+
+## Pattern: Deprecation shims beat deletion
+Never delete v1 files users might be running. Replace the body with a
+DeprecationWarning + sys.exit() that points to the v2 command.
+This gives users a clear migration message instead of a FileNotFoundError.
