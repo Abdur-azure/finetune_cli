@@ -1,10 +1,10 @@
-# LoRA fine-tuning — GPT-2 on generated sample data
+# Instruction fine-tuning — GPT-2 on alpaca-style generated data
 #
 # Prerequisites:
 #   python examples/generate_sample_data.py
 #
 # Usage:
-#   finetune-cli train --config examples/configs/lora_gpt2.yaml
+#   finetune-cli train --config examples/configs/instruction_tuning.yaml
 
 model:
   name: "gpt2"
@@ -16,11 +16,15 @@ model:
 
 dataset:
   source: "local_file"
-  path: "./data/sample.jsonl"
+  path: "./data/instructions.jsonl"
   split: "train"
-  max_samples: 500
+  max_samples: 300
   shuffle: true
   seed: 42
+  text_columns:
+    - "instruction"
+    - "input"
+    - "response"
 
 tokenization:
   max_length: 256
@@ -30,8 +34,8 @@ tokenization:
   return_attention_mask: true
 
 training:
-  method: "lora"
-  output_dir: "./outputs/gpt2_lora"
+  method: "instruction_tuning"
+  output_dir: "./outputs/gpt2_instruction"
   num_epochs: 3
   batch_size: 4
   gradient_accumulation_steps: 4

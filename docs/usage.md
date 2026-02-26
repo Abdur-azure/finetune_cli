@@ -4,6 +4,44 @@ This guide covers all four `finetune-cli` subcommands with real examples.
 
 ---
 
+## 5-minute quickstart
+
+**Step 1 — Install:**
+```bash
+git clone https://github.com/Abdur-azure/finetune_cli.git
+cd finetune_cli
+pip install -e .
+```
+
+**Step 2 — Generate sample data:**
+```bash
+python examples/generate_sample_data.py
+# Creates: data/sample.jsonl (500 rows, causal LM)
+#          data/instructions.jsonl (300 rows, alpaca format)
+```
+
+**Step 3 — Train:**
+```bash
+# LoRA on GPT-2 (CPU-safe, ~2 min)
+finetune-cli train --config examples/configs/lora_gpt2.yaml
+
+# Instruction tuning (alpaca format)
+finetune-cli train --config examples/configs/instruction_tuning.yaml
+
+# Full fine-tuning (small model only)
+finetune-cli train --config examples/configs/full_finetuning.yaml
+```
+
+**Step 4 — Not sure which config to use? Ask:**
+```bash
+finetune-cli recommend gpt2 --output my_config.yaml
+finetune-cli train --config my_config.yaml
+```
+
+---
+
+---
+
 ## Installation check
 
 ```bash

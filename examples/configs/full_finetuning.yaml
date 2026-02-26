@@ -1,10 +1,11 @@
-# LoRA fine-tuning — GPT-2 on generated sample data
+# Full fine-tuning — GPT-2 (small, CPU-safe)
+# Trains all 124M parameters. Only suitable for small models.
 #
 # Prerequisites:
 #   python examples/generate_sample_data.py
 #
 # Usage:
-#   finetune-cli train --config examples/configs/lora_gpt2.yaml
+#   finetune-cli train --config examples/configs/full_finetuning.yaml
 
 model:
   name: "gpt2"
@@ -18,24 +19,24 @@ dataset:
   source: "local_file"
   path: "./data/sample.jsonl"
   split: "train"
-  max_samples: 500
+  max_samples: 300
   shuffle: true
   seed: 42
 
 tokenization:
-  max_length: 256
+  max_length: 128
   truncation: true
   padding: "max_length"
   add_special_tokens: true
   return_attention_mask: true
 
 training:
-  method: "lora"
-  output_dir: "./outputs/gpt2_lora"
-  num_epochs: 3
-  batch_size: 4
-  gradient_accumulation_steps: 4
-  learning_rate: 0.0002
+  method: "full_finetuning"
+  output_dir: "./outputs/gpt2_full"
+  num_epochs: 2
+  batch_size: 2
+  gradient_accumulation_steps: 8
+  learning_rate: 0.00005
   weight_decay: 0.01
   warmup_ratio: 0.1
   lr_scheduler_type: "cosine"
@@ -44,13 +45,5 @@ training:
   logging_steps: 10
   save_strategy: "epoch"
   evaluation_strategy: "no"
+  gradient_checkpointing: false
   seed: 42
-
-lora:
-  r: 8
-  lora_alpha: 16
-  lora_dropout: 0.1
-  target_modules: null
-  bias: "none"
-  fan_in_fan_out: false
-  init_lora_weights: true

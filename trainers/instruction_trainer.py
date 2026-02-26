@@ -135,7 +135,13 @@ class InstructionTrainer(LoRATrainer):
     # ------------------------------------------------------------------
 
     def _maybe_format(self, dataset: Dataset) -> Dataset:
-        """Format if needed, skip if 'text' column already present."""
+        """Format if needed; skip if already tokenized or pre-formatted."""
+        # Already tokenized — nothing to format
+        if "input_ids" in dataset.column_names:
+            self.logger.info("Dataset already tokenized — skipping reformatting.")
+            return dataset
+
+        # Already has a text column — no reformatting needed
         if "text" in dataset.column_names:
             self.logger.info("Dataset already has 'text' column — skipping reformatting.")
             return dataset
