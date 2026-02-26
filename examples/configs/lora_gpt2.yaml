@@ -1,0 +1,64 @@
+# LoRA fine-tuning example — GPT-2 on a local JSONL dataset
+#
+# Usage:
+#   python -m finetune_cli.cli train --config examples/configs/lora_gpt2.yaml
+
+model:
+  name: "gpt2"
+  device: "auto"
+  torch_dtype: "float32"
+  load_in_8bit: false
+  load_in_4bit: false
+  trust_remote_code: false
+
+dataset:
+  source: "local_file"
+  path: "./data/train.jsonl"      # <-- update to your file
+  split: "train"
+  max_samples: 1000
+  shuffle: true
+  seed: 42
+
+tokenization:
+  max_length: 512
+  truncation: true
+  padding: "max_length"
+  add_special_tokens: true
+  return_attention_mask: true
+
+training:
+  method: "lora"
+  output_dir: "./outputs/gpt2_lora"
+  num_epochs: 3
+  batch_size: 4
+  gradient_accumulation_steps: 4
+  learning_rate: 0.0002
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  lr_scheduler_type: "cosine"
+  fp16: false
+  bf16: false
+  logging_steps: 10
+  save_strategy: "epoch"
+  evaluation_strategy: "no"
+  seed: 42
+
+lora:
+  r: 8
+  lora_alpha: 32
+  lora_dropout: 0.1
+  target_modules: null          # null = auto-detect
+  bias: "none"
+  fan_in_fan_out: false
+  init_lora_weights: true
+
+evaluation:
+  metrics:
+    - "rougeL"
+    - "bleu"
+  batch_size: 8
+  num_samples: 100
+  generation_max_length: 100
+  generation_temperature: 0.7
+  generation_top_p: 0.9
+  generation_do_sample: true

@@ -1,54 +1,38 @@
-# Implementation Plan: Phases 3–5 + Tests
+# Tasks — Next Steps Plan
 
 ## Status Legend
 - [ ] = Todo
 - [x] = Complete
+- [~] = Blocked / done via alternative
 
 ---
 
-## Phase 3: Trainer System
+## Current Sprint
 
-- [x] `trainers/base.py` — Abstract `BaseTrainer`, `TrainingResult` dataclass
-- [x] `trainers/lora_trainer.py` — `LoRATrainer` (PEFT + HF Trainer)
-- [x] `trainers/qlora_trainer.py` — `QLoRATrainer` (4-bit quantized LoRA)
-- [x] `trainers/factory.py` — `TrainerFactory` registry pattern
-- [x] `trainers/__init__.py` — Public exports
+- [~] Run test suite — sandbox has no network/packages; static AST verification done. Run locally: `pytest finetune_cli/tests/ -v`
+- [~] Fix import mismatches — resolved via cross-reference analysis before writing code
+- [x] Add `.github/workflows/ci.yml` — pytest on every push/PR
+- [x] Add `upload` CLI subcommand — push fine-tuned model to HuggingFace Hub
+- [x] Add example YAML configs — `examples/configs/lora_gpt2.yaml`, `qlora_llama.yaml`
+- [x] Write end-to-end integration test — `tests/test_integration.py`
 
-## Phase 4: Evaluation System
+---
 
-- [x] `evaluation/metrics.py` — ROUGE, BLEU, Perplexity calculators
-- [x] `evaluation/benchmarker.py` — `BenchmarkRunner`, before/after comparison
-- [x] `evaluation/__init__.py` — Public exports
+## Previously Completed (Phases 3-5)
 
-## Phase 5: Typer CLI
-
-- [x] `cli/main.py` — `train`, `evaluate`, `benchmark` subcommands
-- [x] `cli/__init__.py` — Exports
-
-## Tests
-
-- [x] `tests/test_config.py` — ConfigBuilder, Pydantic validation
-- [x] `tests/test_trainers.py` — LoRATrainer unit tests (mocked HF)
-- [x] `tests/test_evaluation.py` — Metrics unit tests
-- [x] `tests/conftest.py` — Shared fixtures
-
-## Task Tracking
-
-- [x] `tasks/todo.md` (this file)
-- [x] `tasks/lessons.md`
+- [x] trainers/ — base, lora_trainer, qlora_trainer, factory
+- [x] evaluation/ — metrics, benchmarker
+- [x] cli/main.py — train, evaluate, benchmark subcommands
+- [x] tests/ — test_config, test_trainers, test_evaluation, conftest
 
 ---
 
 ## Review
 
-### What was built
-- Full trainer system (LoRA, QLoRA, factory)
-- Evaluation system (metrics + benchmarker)
-- Typer-based CLI wiring all phases together
-- Test suite with mocked dependencies
+### What was built this sprint
+- CI workflow (.github/workflows/ci.yml)
+- upload subcommand in CLI
+- Example YAML configs (gpt2 LoRA, llama QLoRA)
+- End-to-end integration test covering config > data > train > save
 
-### Architecture decisions
-- `BaseTrainer` uses HF `Trainer` internally; subclasses only override PEFT setup
-- `QLoRATrainer` extends `LoRATrainer` — adds BitsAndBytes 4-bit config
-- `BenchmarkRunner` is model-agnostic; accepts any callable generator
-- CLI `train` command is thin — delegates to `ConfigBuilder` + `TrainerFactory`
+### Lessons captured — see tasks/lessons.md

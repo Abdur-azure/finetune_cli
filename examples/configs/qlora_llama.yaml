@@ -1,0 +1,70 @@
+# QLoRA fine-tuning example — LLaMA-3.2-1B on a HuggingFace dataset
+# Designed for 6–8GB VRAM using 4-bit quantization.
+#
+# Usage:
+#   python -m finetune_cli.cli train --config examples/configs/qlora_llama.yaml
+
+model:
+  name: "meta-llama/Llama-3.2-1B"   # requires HF token + accepted license
+  device: "auto"
+  torch_dtype: "float16"
+  load_in_4bit: true                  # QLoRA — quantize base model to 4-bit
+  load_in_8bit: false
+  trust_remote_code: false
+
+dataset:
+  source: "huggingface_hub"
+  path: "tatsu-lab/alpaca"            # instruction-tuning dataset
+  split: "train"
+  max_samples: 5000
+  shuffle: true
+  seed: 42
+
+tokenization:
+  max_length: 512
+  truncation: true
+  padding: "max_length"
+  add_special_tokens: true
+  return_attention_mask: true
+
+training:
+  method: "qlora"
+  output_dir: "./outputs/llama_qlora"
+  num_epochs: 2
+  batch_size: 2                       # small batch for memory efficiency
+  gradient_accumulation_steps: 8      # effective batch = 16
+  learning_rate: 0.0002
+  weight_decay: 0.01
+  warmup_ratio: 0.05
+  lr_scheduler_type: "cosine"
+  fp16: true                          # mixed precision
+  bf16: false
+  logging_steps: 25
+  save_strategy: "epoch"
+  evaluation_strategy: "no"
+  gradient_checkpointing: true        # saves VRAM at cost of ~20% speed
+  seed: 42
+
+lora:
+  r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  target_modules:                     # explicit for LLaMA attention layers
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+  bias: "none"
+  fan_in_fan_out: false
+  init_lora_weights: true
+
+evaluation:
+  metrics:
+    - "rougeL"
+    - "bleu"
+  batch_size: 4
+  num_samples: 200
+  generation_max_length: 150
+  generation_temperature: 0.7
+  generation_top_p: 0.9
+  generation_do_sample: true
