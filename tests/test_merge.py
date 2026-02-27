@@ -54,7 +54,7 @@ def _mock_merge_stack(output_dir: Path):
         patch("peft.PeftModel.from_pretrained", return_value=mock_peft_model),
         patch("transformers.AutoTokenizer.from_pretrained", return_value=mock_tokenizer),
     ]
-    return patches, mock_merged, mock_tokenizer
+    return patches, mock_merged, mock_tokenizer, mock_peft_model
 
 
 # ============================================================================
@@ -68,7 +68,7 @@ class TestMergeCommand:
         adapter_dir = _make_adapter_dir(tmp_path)
         output_dir = tmp_path / "merged"
 
-        patches, _, _ = _mock_merge_stack(output_dir)
+        patches, _, _, _ = _mock_merge_stack(output_dir)
         with patches[0], patches[1], patches[2]:
             result = runner.invoke(app, [
                 "merge",
@@ -85,7 +85,7 @@ class TestMergeCommand:
         adapter_dir = _make_adapter_dir(tmp_path)
         output_dir = tmp_path / "merged"
 
-        patches, mock_merged, mock_tokenizer = _mock_merge_stack(output_dir)
+        patches, mock_merged, mock_tokenizer, _ = _mock_merge_stack(output_dir)
         with patches[0], patches[1], patches[2]:
             runner.invoke(app, [
                 "merge", str(adapter_dir), str(output_dir), "--base-model", "gpt2",
@@ -99,15 +99,13 @@ class TestMergeCommand:
         adapter_dir = _make_adapter_dir(tmp_path)
         output_dir = tmp_path / "merged"
 
-        patches, _, _ = _mock_merge_stack(output_dir)
+        patches, _, _, mock_peft_model = _mock_merge_stack(output_dir)
         with patches[0], patches[1], patches[2]:
             runner.invoke(app, [
                 "merge", str(adapter_dir), str(output_dir), "--base-model", "gpt2",
             ])
-
-        # The mock PeftModel returned by from_pretrained must have had merge_and_unload called
-        import peft
-        peft.PeftModel.from_pretrained.return_value.merge_and_unload.assert_called_once()
+            # Assert inside the with block — mock only valid while patch is active
+            mock_peft_model.merge_and_unload.assert_called_once()
 
     def test_merge_missing_adapter_dir_exits_1(self, tmp_path):
         """Non-existent adapter_dir exits with code 1."""
@@ -149,7 +147,7 @@ class TestMergeCommand:
     def test_merge_invalid_dtype_exits_1(self, tmp_path):
         """Unknown --dtype value exits with code 1."""
         adapter_dir = _make_adapter_dir(tmp_path)
-        patches, _, _ = _mock_merge_stack(tmp_path / "out")
+        patches, _, _, _ = _mock_merge_stack(tmp_path / "out")
         with patches[0], patches[1], patches[2]:
             result = runner.invoke(app, [
                 "merge",
@@ -166,7 +164,7 @@ class TestMergeCommand:
         adapter_dir = _make_adapter_dir(tmp_path)
         output_dir = tmp_path / "merged_fp16"
 
-        patches, _, _ = _mock_merge_stack(output_dir)
+        patches, _, _, _ = _mock_merge_stack(output_dir)
         with patches[0], patches[1], patches[2]:
             result = runner.invoke(app, [
                 "merge",

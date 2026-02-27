@@ -69,6 +69,6 @@ jobs:
       - name: Install linting tools
         run: pip install ruff mypy
       - name: Ruff lint check
-        run: ruff check finetune_cli/ --ignore E501
+        run: ruff check finetune_cli/
       - name: Type check (non-blocking)
         run: mypy finetune_cli/core/ finetune_cli/trainers/ --ignore-missing-imports || true
