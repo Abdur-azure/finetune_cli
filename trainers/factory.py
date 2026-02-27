@@ -25,6 +25,7 @@ from .lora_trainer import LoRATrainer
 from .qlora_trainer import QLoRATrainer
 from .full_trainer import FullFineTuner
 from .instruction_trainer import InstructionTrainer
+from .dpo_trainer import DPOTrainer, validate_dpo_dataset
 
 
 # ============================================================================
@@ -87,9 +88,14 @@ class TrainerFactory:
                 raise MissingConfigError("lora_config", "instruction tuning")
             return InstructionTrainer(model, tokenizer, training_config, lora_config)
 
+        if method == TrainingMethod.DPO:
+            if lora_config is None:
+                raise MissingConfigError("lora_config", "DPO training")
+            return DPOTrainer(model, tokenizer, training_config, lora_config)
+
         raise NotImplementedError(
             f"Training method '{method.value}' is not yet implemented. "
-            f"Supported methods: lora, qlora, full_finetuning, instruction_tuning."
+            f"Supported methods: lora, qlora, full_finetuning, instruction_tuning, dpo."
         )
 
     @staticmethod

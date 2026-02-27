@@ -4,6 +4,20 @@ All notable changes to this project are documented here.
 
 ---
 
+## [2.6.0] — Sprint 8: "DPO" — 2025-02-27
+
+### Added
+- `trainers/dpo_trainer.py` — `DPOTrainer` wrapping TRL's DPOTrainer with LoRA adapter setup
+- `validate_dpo_dataset()` — validates `prompt`, `chosen`, `rejected` columns before training
+- `TrainerFactory` wired for `dpo` method
+- `trainers/__init__.py` exports `DPOTrainer`, `validate_dpo_dataset`
+- `cli/main.py` — `dpo` added to `_LORA_METHODS`
+- `examples/configs/dpo.yaml` — runnable config using Anthropic/hh-rlhf dataset
+- `tests/test_dpo_trainer.py` — 10 unit tests (validate, factory, happy path, error cases)
+- `tests/test_cli_train.py` — `test_dpo_via_flags` added
+
+---
+
 ## [2.5.0] — Sprint 7: "CI Tight" — 2025-02-27
 
 ### Fixed

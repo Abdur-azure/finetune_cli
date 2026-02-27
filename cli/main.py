@@ -94,6 +94,7 @@ def train(
                 TrainingMethod.LORA,
                 TrainingMethod.QLORA,
                 TrainingMethod.INSTRUCTION_TUNING,
+                TrainingMethod.DPO,
             }
             builder = (
                 ConfigBuilder()

@@ -5,6 +5,7 @@ from .lora_trainer import LoRATrainer
 from .qlora_trainer import QLoRATrainer
 from .full_trainer import FullFineTuner
 from .instruction_trainer import InstructionTrainer, format_instruction_dataset
+from .dpo_trainer import DPOTrainer, validate_dpo_dataset
 from .factory import TrainerFactory
 
 __all__ = [
@@ -15,5 +16,7 @@ __all__ = [
     "FullFineTuner",
     "InstructionTrainer",
     "format_instruction_dataset",
+    "DPOTrainer",
+    "validate_dpo_dataset",
     "TrainerFactory",
 ]

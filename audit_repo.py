@@ -63,11 +63,13 @@ REQUIRED_FILES = [
     "examples/configs/qlora_llama.yaml",
     "examples/configs/instruction_tuning.yaml",
     "examples/configs/full_finetuning.yaml",
+    "examples/configs/dpo.yaml",
     "examples/generate_sample_data.py",
 
     # Trainers — Sprint 2
     "trainers/full_trainer.py",
     "trainers/instruction_trainer.py",
+    "trainers/dpo_trainer.py",
 
     # Tests — Sprint 2+3
     "tests/test_full_trainer.py",
@@ -75,6 +77,7 @@ REQUIRED_FILES = [
     "tests/test_recommend.py",
     "tests/test_cli_train.py",
     "tests/test_merge.py",
+    "tests/test_dpo_trainer.py",
 
     # Context files
     "CLAUDE.md",

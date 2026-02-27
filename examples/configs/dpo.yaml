@@ -1,0 +1,47 @@
+# DPO (Direct Preference Optimization) — example config
+#
+# Dataset must have: prompt, chosen, rejected columns.
+# This config uses the Anthropic HH-RLHF dataset (small split).
+#
+# Usage:
+#   finetune-cli train --config examples/configs/dpo.yaml
+#
+# Requirements:
+#   pip install trl>=0.7.0
+
+model:
+  name: gpt2
+  device: auto
+  torch_dtype: float32
+  load_in_4bit: false
+
+dataset:
+  source: huggingface_hub
+  path: Anthropic/hh-rlhf
+  split: train
+  max_samples: 500
+  shuffle: true
+
+tokenization:
+  max_length: 512
+  truncation: true
+  padding: max_length
+
+training:
+  method: dpo
+  output_dir: ./outputs/gpt2_dpo
+  num_epochs: 1
+  batch_size: 2
+  gradient_accumulation_steps: 4
+  learning_rate: 5.0e-5
+  warmup_ratio: 0.1
+  fp16: false
+  gradient_checkpointing: false
+  save_strategy: epoch
+  logging_steps: 10
+
+lora:
+  r: 8
+  lora_alpha: 16
+  lora_dropout: 0.05
+  target_modules: null   # auto-detect

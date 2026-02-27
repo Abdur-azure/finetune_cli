@@ -6,17 +6,24 @@
 
 ---
 
-## Sprint 7: "CI Tight"
+## Sprint 8: "DPO"
 
-- [x] .github/workflows/ci.yml — install pytest-timeout, add --timeout=60 to unit step
-- [x] tasks/CONTEXT.md — sprint table updated through Sprint 6
-- [x] docs/index.md — version 2.4.0, 70+ tests, merge + recommend in component table
-- [x] CHANGELOG.md — Sprint 7 entry
-- [ ] Push to main — verify CI goes green
+- [x] trainers/dpo_trainer.py — DPOTrainer + validate_dpo_dataset
+- [x] trainers/factory.py — DPO wired
+- [x] trainers/__init__.py — DPOTrainer exported
+- [x] cli/main.py — DPO added to _LORA_METHODS
+- [x] examples/configs/dpo.yaml — runnable example config
+- [x] tests/test_dpo_trainer.py — 10 unit tests
+- [x] tests/test_cli_train.py — test_dpo_via_flags added
+- [x] CHANGELOG.md + audit_repo.py updated
+- [ ] Run: pytest tests/test_dpo_trainer.py -v
 
 ---
 
 ## Previously Completed
+
+### Sprint 7: "CI Tight"
+- [x] ci.yml paths, pytest-timeout, ruff config, absolute imports in tests
 
 ### Sprint 6: "Documented"
 - [x] README, CONTRIBUTING, docs/api.md, CLAUDE.md, cli/CONTEXT.md
@@ -39,4 +46,4 @@
 ---
 
 ## Acceptance Gate
-Push to main — GitHub Actions CI goes green on all 3 Python versions.
+pytest tests/test_dpo_trainer.py -v — all 10 tests green.
