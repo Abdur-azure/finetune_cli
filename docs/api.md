@@ -188,6 +188,61 @@ print(report.improvements)  # {"rougeL": +0.12, "bleu": +0.07}
 
 ---
 
+## DPO — `finetune_cli.trainers.dpo_trainer`
+
+### Dataset requirements
+
+DPO datasets must have exactly three string columns:
+
+| Column | Description |
+|--------|-------------|
+| `prompt` | The instruction or input context |
+| `chosen` | The preferred completion |
+| `rejected` | The dispreferred completion |
+
+### `validate_dpo_dataset`
+
+```python
+from finetune_cli.trainers import validate_dpo_dataset
+
+validate_dpo_dataset(dataset)
+# Raises DatasetError if prompt / chosen / rejected columns are missing
+```
+
+### `DPOTrainer`
+
+```python
+from finetune_cli.trainers import DPOTrainer
+
+trainer = DPOTrainer(
+    model=model,
+    tokenizer=tokenizer,
+    training_config=training_config,   # method must be TrainingMethod.DPO
+    lora_config=lora_config,
+    beta=0.1,                          # DPO temperature — lower = closer to reference
+)
+result = trainer.train(dataset)
+```
+
+`beta` controls how far the fine-tuned policy can deviate from the reference model. Default `0.1` works well for most cases; increase toward `0.5` for more aggressive preference learning.
+
+**Requires:** `pip install trl>=0.7.0`
+
+### Via CLI
+
+```bash
+finetune-cli train --config examples/configs/dpo.yaml
+
+# or inline
+finetune-cli train \
+  --model gpt2 \
+  --hf-dataset Anthropic/hh-rlhf \
+  --method dpo \
+  --epochs 1
+```
+
+---
+
 ## Exceptions — `finetune_cli.core.exceptions`
 
 All exceptions inherit from `FineTuneError`.

@@ -11,6 +11,7 @@ All training logic lives here. Each trainer is a concrete subclass of `BaseTrain
 | `qlora_trainer.py` | `QLoRATrainer` — extends LoRATrainer with 4-bit quantization via BitsAndBytes. |
 | `full_trainer.py` | `FullFineTuner` — unfreezes all params, no PEFT. Issues VRAM warning for models >1B params. |
 | `instruction_trainer.py` | `InstructionTrainer` — extends LoRATrainer. Reformats alpaca-style `{instruction, input, response}` datasets before training. Skips reformatting if `input_ids` or `text` column already present. |
+| `dpo_trainer.py` | `DPOTrainer` — wraps TRL DPOTrainer with LoRA. Validates prompt/chosen/rejected columns. Requires trl>=0.7.0. |
 | `factory.py` | `TrainerFactory` — single entry point. Validates required configs, selects and instantiates the right trainer. |
 
 ## Adding a new trainer

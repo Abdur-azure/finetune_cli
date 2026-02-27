@@ -19,6 +19,8 @@ Session state. Read both files at the start of every working session.
 | 4 | Hardened | CLI lora guard, test_cli_train.py, CHANGELOG, audit_repo |
 | 5 | Merge & Release | finetune-cli merge command, test_merge.py (8 tests) |
 | 6 | Documented | README, CONTRIBUTING, api.md, docs/index.md all updated |
+| 7 | CI Tight | ci.yml paths, pytest-timeout, ruff lint section, absolute imports |
+| 8 | DPO | DPOTrainer, validate_dpo_dataset, factory wired, 10 tests |
 
 ## Workflow
 

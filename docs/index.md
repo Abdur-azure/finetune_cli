@@ -37,6 +37,7 @@ finetune-cli train --config examples/configs/lora_gpt2.yaml
 | `BenchmarkRunner` | Model-agnostic evaluation with comparison reports |
 | `finetune_cli merge` | Merge LoRA adapter into base model → standalone model |
 | `finetune_cli recommend` | Inspect model size + VRAM, output optimal YAML config |
+| `DPOTrainer` | Direct Preference Optimization on prompt/chosen/rejected datasets (requires trl) |
 
 ---
 
@@ -62,7 +63,7 @@ See [CHANGELOG.md](https://github.com/Abdur-azure/finetune_cli/blob/main/CHANGEL
 
 ## Project status
 
-- **Version:** 2.4.0
-- **Tests:** 70+ unit tests + integration tests (all green)
+- **Version:** 2.6.0
+- **Tests:** 85+ unit tests + integration tests (all green)
 - **CI:** pytest matrix across Python 3.10 / 3.11 / 3.12
 - **License:** MIT

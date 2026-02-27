@@ -99,6 +99,8 @@ pytest tests/ -v
 | 4 | Hardened | ✅ Complete |
 | 5 | Merge & Release | ✅ Complete |
 | 6 | Documented | ✅ Complete |
+| 7 | CI Tight | ✅ Complete |
+| 8 | DPO | ✅ Complete |
 
 Current task state: `tasks/todo.md`
 Accumulated lessons: `tasks/lessons.md`

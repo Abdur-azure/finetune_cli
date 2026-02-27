@@ -4,6 +4,17 @@ All notable changes to this project are documented here.
 
 ---
 
+## [2.7.0] — Sprint 9: "Housekeeping" — 2025-02-27
+
+### Fixed (drift from lessons.md recurring pattern)
+- `tasks/CONTEXT.md` — added Sprint 7 (CI Tight) and Sprint 8 (DPO) to sprint table
+- `CLAUDE.md` — sprint history updated to Sprint 8
+- `docs/index.md` — version 2.6.0, test count 85+, DPOTrainer added to component table
+- `trainers/CONTEXT.md` — DPOTrainer row added to file table
+- `docs/api.md` — DPO section added (dataset requirements, beta param, validate_dpo_dataset, CLI usage)
+
+---
+
 ## [2.6.0] — Sprint 8: "DPO" — 2025-02-27
 
 ### Added
