@@ -6,18 +6,21 @@
 
 ---
 
-## Sprint 10: "DPO Runnable"
+## Sprint 11: "Version Sync"
 
-- [x] generate_sample_data.py — generate_dpo_samples() → data/dpo_sample.jsonl (200 rows)
-- [x] examples/configs/dpo.yaml — switched to local_file source
-- [x] pyproject.toml — trl>=0.7.0 in [project.optional-dependencies] dpo group
-- [x] docs/configuration.md — DPO section added
-- [x] CHANGELOG.md + lessons.md updated
-- [x] Verified: python examples/generate_sample_data.py → 200 rows, correct columns
+- [x] pyproject.toml — version 2.0.0 → 2.8.0
+- [x] tasks/CONTEXT.md — Sprint 9 + 10 rows added
+- [x] CLAUDE.md — sprint history through Sprint 10
+- [x] docs/index.md — version 2.8.0
+- [x] CONTRIBUTING.md — Sprint-end checklist section added
+- [x] CHANGELOG.md — Sprint 11 entry
 
 ---
 
 ## Previously Completed
+
+### Sprint 10: "DPO Runnable"
+- [x] dpo_sample.jsonl generator, local config, trl optional dep, docs/configuration.md
 
 ### Sprint 9: "Housekeeping"
 - [x] CONTEXT.md, CLAUDE.md, docs/index.md, trainers/CONTEXT.md, docs/api.md synced
@@ -49,5 +52,4 @@
 ---
 
 ## Acceptance Gate
-python examples/generate_sample_data.py
-→ data/dpo_sample.jsonl (200 rows, prompt/chosen/rejected) created with no network.
+No code changed. Review: python audit_repo.py and pip show finetune-cli → 2.8.0.

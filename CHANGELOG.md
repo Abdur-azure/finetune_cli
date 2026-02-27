@@ -4,6 +4,17 @@ All notable changes to this project are documented here.
 
 ---
 
+## [2.9.0] — Sprint 11: "Version Sync" — 2025-02-27
+
+### Fixed (recurring drift pattern, final structural fix)
+- `pyproject.toml` — version bumped from 2.0.0 to 2.8.0 (never updated across 10 sprints)
+- `tasks/CONTEXT.md` — Sprint 9 (Housekeeping) and Sprint 10 (DPO Runnable) rows added
+- `CLAUDE.md` — sprint history updated through Sprint 10
+- `docs/index.md` — version updated to 2.8.0
+- `CONTRIBUTING.md` — **Sprint-end checklist** section added; 7-item mandatory checklist that covers every file that has drifted across sprints
+
+---
+
 ## [2.8.0] — Sprint 10: "DPO Runnable" — 2025-02-27
 
 ### Added

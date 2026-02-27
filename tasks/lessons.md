@@ -169,3 +169,13 @@ and update the example config to source: local_file before the sprint closes.
 trl is only needed for DPO. Adding it to core dependencies would force all users to
 install it. Use optional groups: pip install "finetune-cli[dpo]".
 Same pattern applies to any future optional-only dependency.
+
+## Pattern: pyproject.toml version must be bumped every sprint
+pyproject.toml version was "2.0.0" through 10 sprints. pip show finetune-cli
+reported the wrong version the entire time. Rule: version bump is item 1 of
+the sprint-end checklist. Format: MAJOR.MINOR.PATCH where MINOR = sprint number.
+
+## Pattern: Checklists beat documentation for recurring tasks
+Documenting a pattern in lessons.md is not enough if the pattern requires
+action at a specific moment (sprint-end). A checklist in CONTRIBUTING.md
+that must be ticked off is the only reliable enforcement mechanism.

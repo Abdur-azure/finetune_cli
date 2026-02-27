@@ -69,6 +69,24 @@ These have been learned the hard way:
 
 ---
 
+## Sprint-end checklist
+
+Run this every time a sprint closes — no exceptions. These are the items that have drifted every sprint without it.
+
+```
+[ ] pyproject.toml          version = "X.Y.Z" bumped
+[ ] tasks/CONTEXT.md        new sprint row added to table
+[ ] CLAUDE.md               new sprint row added to history table
+[ ] docs/index.md           version + test count updated
+[ ] CHANGELOG.md            sprint entry added
+[ ] audit_repo.py           any new files added to REQUIRED_FILES
+[ ] tasks/todo.md           sprint archived, acceptance gate recorded
+```
+
+This checklist is enforced by `lessons.md` pattern: *"tasks/CONTEXT.md sprint table drifts — update it every sprint"* and *"docs/index.md is a second source of truth"*. If you skip any item, the next session starts with stale context.
+
+---
+
 ## Before submitting a PR
 
 ```bash
