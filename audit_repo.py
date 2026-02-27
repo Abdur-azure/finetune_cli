@@ -74,6 +74,7 @@ REQUIRED_FILES = [
     "tests/test_instruction_trainer.py",
     "tests/test_recommend.py",
     "tests/test_cli_train.py",
+    "tests/test_merge.py",
 
     # Context files
     "CLAUDE.md",

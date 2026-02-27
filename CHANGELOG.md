@@ -4,6 +4,17 @@ All notable changes to this project are documented here.
 
 ---
 
+## [2.3.0] — Sprint 5: "Merge & Release" — 2025-02-27
+
+### Added
+- `finetune-cli merge` subcommand — merges LoRA adapter into base model, saves
+  standalone model runnable without PEFT installed
+- `--dtype` flag (float32 | float16 | bfloat16) for merge output precision
+- `tests/test_merge.py` — 8 unit tests covering happy path, error cases, dtype validation
+- Upload lesson from lessons.md now fully implemented as a standalone CLI command
+
+---
+
 ## [2.1.0] — Sprint 2: "Expand" — 2025-02-26
 
 ### Added

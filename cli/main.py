@@ -367,6 +367,104 @@ def upload(
 
 
 # ============================================================================
+# MERGE
+# ============================================================================
+
+
+@app.command()
+def merge(
+    adapter_dir: Path = typer.Argument(..., help="Path to saved LoRA adapter directory"),
+    output_dir: Path = typer.Argument(..., help="Directory to save the merged standalone model"),
+    base_model: str = typer.Option(..., "--base-model", "-b", help="Base HuggingFace model id"),
+    dtype: str = typer.Option("float32", "--dtype", help="Torch dtype: float32 | float16 | bfloat16"),
+):
+    """Merge a LoRA adapter into its base model and save a standalone model.
+
+    The merged model runs without PEFT installed and can be used directly
+    with transformers or uploaded to HuggingFace Hub.
+
+    Example:
+        finetune-cli merge ./outputs/gpt2_lora ./outputs/gpt2_merged --base-model gpt2
+    """
+    try:
+        from peft import PeftModel
+        from transformers import AutoModelForCausalLM, AutoTokenizer
+        import torch
+    except ImportError as exc:
+        console.print(f"[red]Error:[/red] Missing dependency: {exc}")
+        raise typer.Exit(code=1)
+
+    if not adapter_dir.exists():
+        console.print(f"[red]Error:[/red] Adapter directory not found: {adapter_dir}")
+        raise typer.Exit(code=1)
+
+    adapter_config = adapter_dir / "adapter_config.json"
+    if not adapter_config.exists():
+        console.print(
+            f"[red]Error:[/red] No adapter_config.json in {adapter_dir}. "
+            "Is this a valid PEFT adapter directory?"
+        )
+        raise typer.Exit(code=1)
+
+    try:
+        _DTYPE_MAP = {
+            "float32": torch.float32,
+            "float16": torch.float16,
+            "bfloat16": torch.bfloat16,
+        }
+        if dtype not in _DTYPE_MAP:
+            console.print(f"[red]Error:[/red] Unknown dtype '{dtype}'. Choose: float32 | float16 | bfloat16")
+            raise typer.Exit(code=1)
+
+        torch_dtype = _DTYPE_MAP[dtype]
+
+        panel_text = (
+            "[bold cyan]Merging adapter[/bold cyan]\n"
+            f"Base model : {base_model}\n"
+            f"Adapter    : {adapter_dir}\n"
+            f"Output     : {output_dir}\n"
+            f"Dtype      : {dtype}"
+        )
+        console.print(Panel(panel_text))
+
+        console.print("Loading base model...")
+        base = AutoModelForCausalLM.from_pretrained(base_model, torch_dtype=torch_dtype)
+
+        console.print("Attaching LoRA adapter...")
+        peft_model = PeftModel.from_pretrained(base, str(adapter_dir))
+
+        console.print("Merging weights and unloading adapter...")
+        merged = peft_model.merge_and_unload()
+
+        console.print("Loading tokenizer...")
+        tokenizer = AutoTokenizer.from_pretrained(str(adapter_dir))
+
+        output_dir.mkdir(parents=True, exist_ok=True)
+        console.print(f"Saving merged model to {output_dir}...")
+        merged.save_pretrained(str(output_dir))
+        tokenizer.save_pretrained(str(output_dir))
+
+        # Verify output
+        expected = ["config.json", "tokenizer.json"]
+        missing = [f for f in expected if not (output_dir / f).exists()]
+        if missing:
+            console.print(f"[yellow]Warning:[/yellow] Expected files not found: {missing}")
+
+        msg = (
+            "[bold green]\u2713 Merge complete[/bold green]\n"
+            f"Standalone model saved to: {output_dir}\n"
+            f'Run with: AutoModelForCausalLM.from_pretrained("{output_dir}")'
+        )
+        console.print(Panel(msg))
+
+    except typer.Exit:
+        raise
+    except Exception as exc:
+        console.print(f"[red]Merge failed:[/red] {exc}")
+        raise typer.Exit(code=1)
+
+
+# ============================================================================
 # ENTRY POINT
 # ============================================================================
 

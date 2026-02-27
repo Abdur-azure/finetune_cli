@@ -95,3 +95,15 @@ When a new TrainingMethod is wired into the factory, add a CLI-level test
 that invokes the train command with --method <new_method> and asserts
 exit_code == 0. Mock the training stack — this is a wiring test, not a
 training test. Catches missing lora_config guards before they hit production.
+
+## Pattern: Use string concatenation not f-strings for multiline Panel content
+When building Rich Panel content across multiple lines, avoid putting \n
+inside f-strings — heredocs interpret them as literal newlines which breaks
+the string literal. Instead build the string with concatenation:
+    panel_text = "[header]\n" + f"field: {value}\n" ...
+Or use a separate variable assigned before the Panel() call.
+
+## Pattern: Implement lessons as commands, not just notes
+lessons.md had "upload needs merge option" documented since Sprint 1.
+It sat unbuilt for 4 sprints. During the drill, review lessons.md for
+unactioned items and prioritise them as sprint tasks.

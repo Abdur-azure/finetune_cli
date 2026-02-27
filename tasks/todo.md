@@ -6,34 +6,32 @@
 
 ---
 
-## Sprint 4: "Hardened"
+## Sprint 5: "Merge & Release"
 
-- [x] cli/main.py — guard .with_lora() for PEFT methods only
-- [x] trainers/CONTEXT.md — document _maybe_format input_ids fix
-- [x] audit_repo.py — add Sprint 2+3 files to REQUIRED_FILES
-- [x] CHANGELOG.md — add Sprint 2 + Sprint 3 entries
-- [x] tests/test_cli_train.py — wiring tests for all methods via flags
-- [ ] Run: pytest tests/test_cli_train.py -v
+- [x] cli/main.py — merge subcommand (local adapter → standalone model)
+- [x] tests/test_merge.py — 8 unit tests
+- [x] CHANGELOG.md — Sprint 5 entry
+- [x] audit_repo.py — test_merge.py added
+- [x] lessons.md — f-string Panel pattern + unactioned lessons pattern
+- [ ] Run: pytest tests/test_merge.py -v
 
 ---
 
 ## Previously Completed
 
+### Sprint 4: "Hardened"
+- [x] cli/main.py lora guard, test_cli_train.py, CHANGELOG, audit_repo
+
 ### Sprint 3: "First Run"
-- [x] examples/generate_sample_data.py, 4 example configs
-- [x] Integration tests: instruction tuning + recommend
-- [x] docs/usage.md quickstart, CLAUDE.md, CONTEXT.md files
+- [x] Examples, sample data, integration tests, CLAUDE.md, CONTEXT.md files
 
 ### Sprint 2: "Expand"
-- [x] FullFineTuner, InstructionTrainer, recommend command
-- [x] 60 unit tests passing
+- [x] FullFineTuner, InstructionTrainer, recommend command, 60 tests
 
 ### Sprint 1: "Stable Foundation"
-- [x] All unit + integration tests green
-- [x] CI, pyproject.toml, conftest.py, data pipeline
-- [x] CHANGELOG.md, v1 deprecation, docs rewritten
+- [x] All tests green, CI, pyproject.toml, docs
 
 ---
 
 ## Acceptance Gate
-pytest tests/test_cli_train.py -v — all 6 tests green.
+pytest tests/test_merge.py -v — all 8 tests green.
