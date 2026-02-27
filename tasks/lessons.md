@@ -107,3 +107,16 @@ Or use a separate variable assigned before the Panel() call.
 lessons.md had "upload needs merge option" documented since Sprint 1.
 It sat unbuilt for 4 sprints. During the drill, review lessons.md for
 unactioned items and prioritise them as sprint tasks.
+
+## Pattern: Install pytest-timeout whenever --timeout is used in CI
+If ci.yml uses --timeout=N, pytest-timeout must be in the install step.
+Missing it causes pytest to silently ignore the flag (no error, no timeout).
+Always audit install step against all pytest flags used in the workflow.
+
+## Pattern: tasks/CONTEXT.md sprint table drifts — update it every sprint
+The sprint table in tasks/CONTEXT.md was frozen at Sprint 3 through Sprint 7.
+Rule: when archiving a sprint in todo.md, also add a row to CONTEXT.md.
+
+## Pattern: docs/index.md is a second source of truth — keep it in sync
+Version number, test count, and component table in docs/index.md all drifted.
+After each sprint, grep for hardcoded version strings and test counts and update them.

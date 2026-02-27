@@ -33,8 +33,10 @@ finetune-cli train --config examples/configs/lora_gpt2.yaml
 | `finetune_cli upload` | Push adapter or merged model to HuggingFace Hub |
 | `ConfigBuilder` | Fluent Python API for building validated pipeline configs |
 | `DataPipeline` | Loads JSON/JSONL/CSV/Parquet/HF datasets, tokenizes, splits |
-| `TrainerFactory` | Single entry point — selects LoRATrainer or QLoRATrainer |
+| `TrainerFactory` | Single entry point — selects trainer for lora / qlora / instruction_tuning / full_finetuning |
 | `BenchmarkRunner` | Model-agnostic evaluation with comparison reports |
+| `finetune_cli merge` | Merge LoRA adapter into base model → standalone model |
+| `finetune_cli recommend` | Inspect model size + VRAM, output optimal YAML config |
 
 ---
 
@@ -60,7 +62,7 @@ See [CHANGELOG.md](https://github.com/Abdur-azure/finetune_cli/blob/main/CHANGEL
 
 ## Project status
 
-- **Version:** 2.0.0
-- **Tests:** 35+ unit tests + integration test (all green)
+- **Version:** 2.4.0
+- **Tests:** 70+ unit tests + integration tests (all green)
 - **CI:** pytest matrix across Python 3.10 / 3.11 / 3.12
 - **License:** MIT

@@ -4,6 +4,16 @@ All notable changes to this project are documented here.
 
 ---
 
+## [2.5.0] — Sprint 7: "CI Tight" — 2025-02-27
+
+### Fixed
+- `.github/workflows/ci.yml` — install `pytest-timeout` (was used with `--timeout=120` but never installed)
+- `.github/workflows/ci.yml` — added `--timeout=60` to unit test step so hung tests fail fast
+- `tasks/CONTEXT.md` — sprint table updated to include Sprints 4, 5, 6
+- `docs/index.md` — version bumped to 2.4.0, test count updated to 70+, added `merge` and `recommend` to component table, fixed `TrainerFactory` description to reflect 4 methods
+
+---
+
 ## [2.4.0] — Sprint 6: "Documented" — 2025-02-27
 
 ### Added
