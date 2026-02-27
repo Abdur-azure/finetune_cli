@@ -4,6 +4,16 @@ All notable changes to this project are documented here.
 
 ---
 
+## [2.8.0] — Sprint 10: "DPO Runnable" — 2025-02-27
+
+### Added
+- `examples/generate_sample_data.py` — `generate_dpo_samples(200)` added; outputs `data/dpo_sample.jsonl` with `prompt`, `chosen`, `rejected` columns; stdlib only, no network
+- `examples/configs/dpo.yaml` — switched from `huggingface_hub` to `local_file` (`data/dpo_sample.jsonl`); fully offline-runnable
+- `pyproject.toml` — `[project.optional-dependencies] dpo = ["trl>=0.7.0"]`; install with `pip install "finetune-cli[dpo]"`
+- `docs/configuration.md` — DPO section added: beta param, dataset columns, offline quickstart
+
+---
+
 ## [2.7.0] — Sprint 9: "Housekeeping" — 2025-02-27
 
 ### Fixed (drift from lessons.md recurring pattern)

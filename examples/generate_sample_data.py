@@ -9,11 +9,13 @@ Usage:
 Outputs:
     data/sample.jsonl          — 500 rows, causal LM format  (lora, qlora, full fine-tuning)
     data/instructions.jsonl    — 300 rows, alpaca format      (instruction tuning)
+    data/dpo_sample.jsonl      — 200 rows, DPO format         (prompt, chosen, rejected)
 
 Run this once before executing any example config:
     finetune-cli train --config examples/configs/lora_gpt2.yaml
     finetune-cli train --config examples/configs/instruction_tuning.yaml
     finetune-cli train --config examples/configs/full_finetuning.yaml
+    finetune-cli train --config examples/configs/dpo.yaml
 """
 
 import json
@@ -126,6 +128,55 @@ def generate_instruction_samples(n: int = 300) -> list:
     return samples
 
 
+
+# ============================================================================
+# DPO SAMPLE DATA
+# ============================================================================
+
+_QUESTIONS = [
+    "What is the best way to learn {topic}?",
+    "How do you explain {topic} to a beginner?",
+    "What are the key challenges in {topic}?",
+    "Can you summarise the main ideas behind {topic}?",
+    "What resources would you recommend for {topic}?",
+]
+
+_CHOSEN_TEMPLATES = [
+    "A great way to learn {topic} is to start with the fundamentals, then "
+    "build hands-on projects that apply the concepts progressively.",
+    "To explain {topic} to a beginner: focus on the intuition first, use "
+    "concrete examples, and avoid jargon until the core idea is clear.",
+    "The key challenges in {topic} include data quality, compute constraints, "
+    "and the gap between research benchmarks and real-world performance.",
+    "{topic} is built on a few core ideas: representation learning, "
+    "optimisation via gradient descent, and generalisation to unseen data.",
+    "For {topic}, I'd recommend starting with fast.ai or the original papers, "
+    "combined with a hands-on coding project to reinforce understanding.",
+]
+
+_REJECTED_TEMPLATES = [
+    "Just Google it. There are plenty of tutorials online about {topic}.",
+    "{topic} is very complex. You probably won't understand it without a PhD.",
+    "I'm not sure. {topic} is hard to explain.",
+    "{topic} is basically just statistics. Nothing special.",
+    "Any book works. It doesn't really matter which one you pick for {topic}.",
+]
+
+
+def generate_dpo_samples(n: int = 200) -> list:
+    samples = []
+    for i in range(n):
+        topic = random.choice(_TOPICS)
+        question = random.choice(_QUESTIONS).format(topic=topic)
+        chosen = random.choice(_CHOSEN_TEMPLATES).format(topic=topic)
+        rejected = random.choice(_REJECTED_TEMPLATES).format(topic=topic)
+        samples.append({
+            "prompt": question,
+            "chosen": chosen,
+            "rejected": rejected,
+        })
+    return samples
+
 # ============================================================================
 # WRITE FILES
 # ============================================================================
@@ -146,10 +197,14 @@ def main() -> None:
     instructions = generate_instruction_samples(300)
     write_jsonl(DATA_DIR / "instructions.jsonl", instructions)
 
+    dpo = generate_dpo_samples(200)
+    write_jsonl(DATA_DIR / "dpo_sample.jsonl", dpo)
+
     print(
         "\nDone. Run an example:\n"
         "  finetune-cli train --config examples/configs/lora_gpt2.yaml\n"
         "  finetune-cli train --config examples/configs/instruction_tuning.yaml\n"
+        "  finetune-cli train --config examples/configs/dpo.yaml\n"
     )
 
 

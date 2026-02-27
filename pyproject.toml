@@ -45,6 +45,9 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+dpo = [
+    "trl>=0.7.0",  # required for DPOTrainer only
+]
 dev = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",

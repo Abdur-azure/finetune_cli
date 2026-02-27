@@ -147,3 +147,25 @@ Always use absolute imports in test files: `from finetune_cli.cli.main import ap
 `ruff check finetune_cli/` in ci.yml caused E902 because ruff resolves paths
 relative to pyproject.toml location. Use `ruff check .` and let pyproject.toml
 [tool.ruff] control which files get linted via `include`/`exclude`.
+
+## Pattern: DPO requires trl — guard with try/except ImportError inside train()
+DPOTrainer imports trl inside the train() method, not at module level.
+This keeps the trainer importable even without trl installed.
+The ImportError is caught and re-raised as TrainingError with an install hint.
+Same pattern should be used for any optional heavy dependency.
+
+## Pattern: DPO datasets need column validation before training starts
+TRL's DPOTrainer gives an opaque error if columns are missing.
+Always call validate_dpo_dataset() immediately after unpacking splits,
+before any model setup, so the error message is clear and fast.
+
+## Pattern: Every trainer needs an offline sample dataset + local config
+DPO was built in Sprint 8 but left pointing at Anthropic/hh-rlhf (network required).
+LoRA and instruction tuning both have local data via generate_sample_data.py.
+Rule: when adding a new trainer, also add a generator function to generate_sample_data.py
+and update the example config to source: local_file before the sprint closes.
+
+## Pattern: Optional heavy deps belong in [project.optional-dependencies]
+trl is only needed for DPO. Adding it to core dependencies would force all users to
+install it. Use optional groups: pip install "finetune-cli[dpo]".
+Same pattern applies to any future optional-only dependency.

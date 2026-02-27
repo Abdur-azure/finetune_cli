@@ -6,18 +6,21 @@
 
 ---
 
-## Sprint 9: "Housekeeping"
+## Sprint 10: "DPO Runnable"
 
-- [x] tasks/CONTEXT.md — Sprint 7 + 8 rows added
-- [x] CLAUDE.md — Sprint 7 + 8 in history table
-- [x] docs/index.md — v2.6.0, 85+ tests, DPOTrainer in table
-- [x] trainers/CONTEXT.md — DPOTrainer row added
-- [x] docs/api.md — DPO section added
-- [x] CHANGELOG.md — Sprint 9 entry
+- [x] generate_sample_data.py — generate_dpo_samples() → data/dpo_sample.jsonl (200 rows)
+- [x] examples/configs/dpo.yaml — switched to local_file source
+- [x] pyproject.toml — trl>=0.7.0 in [project.optional-dependencies] dpo group
+- [x] docs/configuration.md — DPO section added
+- [x] CHANGELOG.md + lessons.md updated
+- [x] Verified: python examples/generate_sample_data.py → 200 rows, correct columns
 
 ---
 
 ## Previously Completed
+
+### Sprint 9: "Housekeeping"
+- [x] CONTEXT.md, CLAUDE.md, docs/index.md, trainers/CONTEXT.md, docs/api.md synced
 
 ### Sprint 8: "DPO"
 - [x] DPOTrainer, validate_dpo_dataset, factory, tests, example config
@@ -46,5 +49,5 @@
 ---
 
 ## Acceptance Gate
-No code changed — no test gate needed.
-Review: python audit_repo.py and confirm all files present.
+python examples/generate_sample_data.py
+→ data/dpo_sample.jsonl (200 rows, prompt/chosen/rejected) created with no network.
