@@ -69,8 +69,12 @@ tasks/                 # todo.md + lessons.md — read these every session
 3. Add the new `TrainingMethod` enum value to `core/types.py` if missing
 4. Wire the new method in `trainers/factory.py` `TrainerFactory.create()`
 5. Export from `trainers/__init__.py`
-6. Write `tests/test_<name>_trainer.py` — mock HF Trainer, no GPU needed
-7. Update `docs/api.md` and `docs/configuration.md`
+6. Add to `_LORA_METHODS` in `cli/main.py` if it needs a LoRA config
+7. Write `tests/test_<name>_trainer.py` — mock HF Trainer, no GPU required
+8. Add a CLI test to `tests/test_cli_train.py` asserting `exit_code == 0`
+9. Add example config to `examples/configs/<n>.yaml` pointing at local data
+10. Update `docs/api.md` and `docs/configuration.md`
+11. Update `CHANGELOG.md` and `audit_repo.py`
 
 ---
 
@@ -103,6 +107,8 @@ pytest tests/ -v
 | 8 | DPO | ✅ Complete |
 | 9 | Housekeeping | ✅ Complete |
 | 10 | DPO Runnable | ✅ Complete |
+| 11 | Version Sync | ✅ Complete |
+| 12 | Usage Guide Current | ✅ Complete |
 
 Current task state: `tasks/todo.md`
 Accumulated lessons: `tasks/lessons.md`

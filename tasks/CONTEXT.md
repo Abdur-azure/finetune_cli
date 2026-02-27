@@ -23,6 +23,8 @@ Session state. Read both files at the start of every working session.
 | 8 | DPO | DPOTrainer, validate_dpo_dataset, factory wired, 10 tests |
 | 9 | Housekeeping | CONTEXT.md, CLAUDE.md, docs/index.md, api.md synced |
 | 10 | DPO Runnable | dpo_sample.jsonl generator, local config, trl optional dep |
+| 11 | Version Sync | pyproject.toml 2.8.0, CONTRIBUTING sprint-end checklist |
+| 12 | Usage Guide Current | docs/usage.md all 6 commands, CLAUDE.md 11-step checklist |
 
 ## Workflow
 

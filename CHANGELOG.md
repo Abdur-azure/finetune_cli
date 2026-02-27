@@ -4,6 +4,18 @@ All notable changes to this project are documented here.
 
 ---
 
+## [2.9.1] — Sprint 12: "Usage Guide Current" — 2025-02-27
+
+### Fixed
+- `docs/usage.md` — fully rewritten: all 6 commands documented, all 5 training methods
+  with examples (lora, qlora, instruction_tuning, full_finetuning, dpo), merge and
+  recommend sections added, dataset column requirements table added
+- `CLAUDE.md` — trainer checklist expanded from 7 to 11 steps to match CONTRIBUTING.md:
+  added `_LORA_METHODS` gate (step 6), CLI test requirement (step 8),
+  local example config requirement (step 9), CHANGELOG + audit_repo step (step 11)
+
+---
+
 ## [2.9.0] — Sprint 11: "Version Sync" — 2025-02-27
 
 ### Fixed (recurring drift pattern, final structural fix)
