@@ -747,11 +747,19 @@ finetune-cli<span class="w"> </span>train<span class="w"> </span>--config<span c
 </tr>
 <tr>
 <td><code>TrainerFactory</code></td>
-<td>Single entry point — selects LoRATrainer or QLoRATrainer</td>
+<td>Single entry point — selects trainer for lora / qlora / instruction_tuning / full_finetuning</td>
 </tr>
 <tr>
 <td><code>BenchmarkRunner</code></td>
 <td>Model-agnostic evaluation with comparison reports</td>
+</tr>
+<tr>
+<td><code>finetune_cli merge</code></td>
+<td>Merge LoRA adapter into base model → standalone model</td>
+</tr>
+<tr>
+<td><code>finetune_cli recommend</code></td>
+<td>Inspect model size + VRAM, output optimal YAML config</td>
 </tr>
 </tbody>
 </table>
@@ -775,8 +783,8 @@ finetune-cli<span class="w"> </span>train<span class="w"> </span>--config<span c
 <hr />
 <h2 id="project-status">Project status<a class="headerlink" href="#project-status" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Version:</strong> 2.0.0</li>
-<li><strong>Tests:</strong> 35+ unit tests + integration test (all green)</li>
+<li><strong>Version:</strong> 2.4.0</li>
+<li><strong>Tests:</strong> 70+ unit tests + integration tests (all green)</li>
 <li><strong>CI:</strong> pytest matrix across Python 3.10 / 3.11 / 3.12</li>
 <li><strong>License:</strong> MIT</li>
 </ul>
