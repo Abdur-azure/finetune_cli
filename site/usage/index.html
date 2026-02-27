@@ -506,6 +506,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#5-minute-quickstart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5-minute quickstart
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#installation-check" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -722,6 +733,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#5-minute-quickstart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5-minute quickstart
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#installation-check" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -898,6 +920,37 @@
 
 <h1 id="usage-guide">Usage Guide<a class="headerlink" href="#usage-guide" title="Permanent link">&para;</a></h1>
 <p>This guide covers all four <code>finetune-cli</code> subcommands with real examples.</p>
+<hr />
+<h2 id="5-minute-quickstart">5-minute quickstart<a class="headerlink" href="#5-minute-quickstart" title="Permanent link">&para;</a></h2>
+<p><strong>Step 1 — Install:</strong></p>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/Abdur-azure/finetune_cli.git
+<span class="nb">cd</span><span class="w"> </span>finetune_cli
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+</code></pre></div>
+
+<p><strong>Step 2 — Generate sample data:</strong></p>
+<div class="codehilite"><pre><span></span><code>python<span class="w"> </span>examples/generate_sample_data.py
+<span class="c1"># Creates: data/sample.jsonl (500 rows, causal LM)</span>
+<span class="c1">#          data/instructions.jsonl (300 rows, alpaca format)</span>
+</code></pre></div>
+
+<p><strong>Step 3 — Train:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># LoRA on GPT-2 (CPU-safe, ~2 min)</span>
+finetune-cli<span class="w"> </span>train<span class="w"> </span>--config<span class="w"> </span>examples/configs/lora_gpt2.yaml
+
+<span class="c1"># Instruction tuning (alpaca format)</span>
+finetune-cli<span class="w"> </span>train<span class="w"> </span>--config<span class="w"> </span>examples/configs/instruction_tuning.yaml
+
+<span class="c1"># Full fine-tuning (small model only)</span>
+finetune-cli<span class="w"> </span>train<span class="w"> </span>--config<span class="w"> </span>examples/configs/full_finetuning.yaml
+</code></pre></div>
+
+<p><strong>Step 4 — Not sure which config to use? Ask:</strong></p>
+<div class="codehilite"><pre><span></span><code>finetune-cli<span class="w"> </span>recommend<span class="w"> </span>gpt2<span class="w"> </span>--output<span class="w"> </span>my_config.yaml
+finetune-cli<span class="w"> </span>train<span class="w"> </span>--config<span class="w"> </span>my_config.yaml
+</code></pre></div>
+
+<hr />
 <hr />
 <h2 id="installation-check">Installation check<a class="headerlink" href="#installation-check" title="Permanent link">&para;</a></h2>
 <div class="codehilite"><pre><span></span><code>finetune-cli<span class="w"> </span>--help

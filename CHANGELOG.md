@@ -4,6 +4,17 @@ All notable changes to this project are documented here.
 
 ---
 
+## [2.4.0] — Sprint 6: "Documented" — 2025-02-27
+
+### Added
+- `README.md` fully rewritten for v2 — all 6 commands, 4 training methods, Python API example
+- `CONTRIBUTING.md` — how to add trainers, CLI commands, sprint conventions, lessons summary
+- `docs/api.md` — added `FullFineTuner`, `InstructionTrainer`, `merge`, `recommend`, `upload` sections
+- `CLAUDE.md` sprint history updated through Sprint 6
+- `cli/CONTEXT.md` updated to include `merge` command
+
+---
+
 ## [2.3.0] — Sprint 5: "Merge & Release" — 2025-02-27
 
 ### Added

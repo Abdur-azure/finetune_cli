@@ -11,6 +11,7 @@ Typer-based CLI. All user-facing subcommands live in `main.py`.
 | `benchmark` | Before/after comparison: base model vs fine-tuned |
 | `upload` | Pushes adapter (or merged model) to HuggingFace Hub |
 | `recommend` | Inspects model param count + VRAM, outputs a ready-to-use YAML config |
+| `merge` | Merges LoRA adapter into base model, saves standalone model (no PEFT required) |
 
 ## Rules
 

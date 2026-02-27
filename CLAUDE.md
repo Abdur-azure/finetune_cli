@@ -96,6 +96,9 @@ pytest tests/ -v
 | 1 | Stable Foundation | ✅ Complete |
 | 2 | Expand | ✅ Complete |
 | 3 | First Run | ✅ Complete |
+| 4 | Hardened | ✅ Complete |
+| 5 | Merge & Release | ✅ Complete |
+| 6 | Documented | ✅ Complete |
 
 Current task state: `tasks/todo.md`
 Accumulated lessons: `tasks/lessons.md`
