@@ -38,8 +38,8 @@ jobs:
 
       - name: Run unit tests
         run: |
-          pytest finetune_cli/tests/ -v \
-            --ignore=finetune_cli/tests/test_integration.py \
+          pytest tests/ -v \
+            --ignore=tests/test_integration.py \
             --timeout=60 \
             --cov=finetune_cli \
             --cov-report=term-missing \
@@ -47,7 +47,7 @@ jobs:
 
       - name: Run integration test (CPU only, fast)
         run: |
-          pytest finetune_cli/tests/test_integration.py -v -s \
+          pytest tests/test_integration.py -v -s \
             --timeout=120
         env:
           FINETUNE_CI: "1"

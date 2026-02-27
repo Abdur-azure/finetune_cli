@@ -120,3 +120,8 @@ Rule: when archiving a sprint in todo.md, also add a row to CONTEXT.md.
 ## Pattern: docs/index.md is a second source of truth — keep it in sync
 Version number, test count, and component table in docs/index.md all drifted.
 After each sprint, grep for hardcoded version strings and test counts and update them.
+
+## Pattern: CI test path must match actual repo layout — verify against audit_repo.py
+ci.yml had `pytest finetune_cli/tests/` but tests live at `tests/` from repo root.
+Rule: after writing ci.yml, cross-check every path against audit_repo.py REQUIRED_FILES.
+If audit_repo lists "tests/test_config.py" (no finetune_cli/ prefix), the CI path is `tests/`.
