@@ -132,6 +132,21 @@ lora:
             result = runner.invoke(app, ["train", "--config", str(cfg)])
         assert result.exit_code == 0, result.output
 
+    def test_full_finetuning_via_flags(self, tmp_path):
+        """full_finetuning method exits 0 (no lora_config required)."""
+        ds = _make_dataset_file(tmp_path)
+        patches = _mock_training_stack()
+        with patches[0], patches[1], patches[2]:
+            result = runner.invoke(app, [
+                "train",
+                "--model", "gpt2",
+                "--dataset", str(ds),
+                "--method", "full_finetuning",
+                "--epochs", "1",
+                "--output", str(tmp_path / "out"),
+            ])
+        assert result.exit_code == 0, result.output
+
     def test_dpo_via_flags(self, tmp_path):
         """dpo method gets lora config and exits 0."""
         ds = _make_dataset_file(tmp_path)

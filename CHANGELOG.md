@@ -4,6 +4,17 @@ All notable changes to this project are documented here.
 
 ---
 
+## [2.9.2] — Sprint 13: "Test Coverage Complete" — 2025-02-27
+
+### Added
+- `tests/test_evaluate.py` — 6 unit tests for `finetune-cli evaluate` (missing dataset, metric output, unknown metric, num-samples)
+- `tests/test_benchmark.py` — 6 unit tests for `finetune-cli benchmark` (missing dataset, summary output, run_comparison called)
+- `tests/test_upload.py` — 7 unit tests for `finetune-cli upload` (missing path, missing token, private flag, HF_TOKEN env, merge-adapter flow)
+- `tests/test_cli_train.py` — `test_full_finetuning_via_flags` added
+- `audit_repo.py` — three new test files added to REQUIRED_FILES
+
+---
+
 ## [2.9.1] — Sprint 12: "Usage Guide Current" — 2025-02-27
 
 ### Fixed

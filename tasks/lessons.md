@@ -179,3 +179,12 @@ the sprint-end checklist. Format: MAJOR.MINOR.PATCH where MINOR = sprint number.
 Documenting a pattern in lessons.md is not enough if the pattern requires
 action at a specific moment (sprint-end). A checklist in CONTRIBUTING.md
 that must be ticked off is the only reliable enforcement mechanism.
+
+## Pattern: Patch lazy imports at source, not at cli.main
+cli/main.py uses lazy imports inside functions (e.g. `from ..models.loader import load_model_and_tokenizer`).
+patch("finetune_cli.cli.main.load_model_and_tokenizer") FAILS — the name doesn't exist at module level.
+Correct patch targets for evaluate/benchmark tests:
+  - "finetune_cli.models.loader.load_model_and_tokenizer"
+  - "finetune_cli.data.quick_load"
+  - "finetune_cli.evaluation.BenchmarkRunner"
+Rule: always patch where the object is DEFINED, not where it is imported inside a function.
