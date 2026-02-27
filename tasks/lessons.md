@@ -125,3 +125,25 @@ After each sprint, grep for hardcoded version strings and test counts and update
 ci.yml had `pytest finetune_cli/tests/` but tests live at `tests/` from repo root.
 Rule: after writing ci.yml, cross-check every path against audit_repo.py REQUIRED_FILES.
 If audit_repo lists "tests/test_config.py" (no finetune_cli/ prefix), the CI path is `tests/`.
+
+## Pattern: ruff config must use [tool.ruff.lint] not [tool.ruff]
+Since ruff 0.1+, `select` and `ignore` belong under `[tool.ruff.lint]` in pyproject.toml.
+Putting them under `[tool.ruff]` triggers a deprecation warning AND causes E902 errors
+because ruff invalidates its own config. Always use the `lint` subsection.
+
+## Pattern: PowerShell uses backtick for line continuation, not backslash
+`pytest .\tests\test_cli_train.py -v \` — the trailing `\` on Windows is passed as a
+literal argument (the drive root), causing pytest to collect the entire filesystem.
+On Windows use backtick: `pytest .\tests\test_cli_train.py -v `
+Or just keep commands on one line in the docs.
+
+## Pattern: Tests in tests/ must use absolute imports, not relative
+test_cli_train.py and test_merge.py used `from ..cli.main import app`.
+Relative imports only work when the file is part of the package being traversed.
+Tests in tests/ (repo root) are NOT inside finetune_cli/, so `..` is invalid.
+Always use absolute imports in test files: `from finetune_cli.cli.main import app`.
+
+## Pattern: ruff check path should be . not finetune_cli/
+`ruff check finetune_cli/` in ci.yml caused E902 because ruff resolves paths
+relative to pyproject.toml location. Use `ruff check .` and let pyproject.toml
+[tool.ruff] control which files get linted via `include`/`exclude`.
