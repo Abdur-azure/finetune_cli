@@ -1,53 +1,27 @@
-# Lessons Learned
+## Pattern: Patch lazy-imported HF classes via the method, not the module
+Trainer and DataCollatorForLanguageModeling are lazy-imported inside
+_build_hf_trainer() in base.py. patch("finetune_cli.trainers.base.Trainer")
+fails with AttributeError — the attribute doesn't exist at module level.
+Instead patch the method directly on the instance:
+    with patch.object(trainer, "_build_hf_trainer", return_value=hf_instance):
+        result = trainer.train(dataset)
+Same rule applies to any lazy import inside a method: patch the method, not
+the module attribute.
 
-## Pattern: Read existing code before writing
-Always search project knowledge for existing types and interfaces before
-implementing new modules. Mis-matching signatures wastes iteration cycles.
+## Pattern: Mock the training mock return value needs metrics + global_step
+When patching hf_trainer.train(), the return value must include:
+    MagicMock(training_loss=0.42, metrics={"epoch": 1}, global_step=10)
+Missing metrics or global_step causes TrainingResult construction to fail
+with AttributeError. Always include all three fields.
 
-## Pattern: Follow existing exception hierarchy
-This project has a custom `FineTuneError` hierarchy in `core/exceptions.py`.
-New errors must extend it — never raise raw Python builtins from module code.
+## Pattern: Test data pipeline via DataPipeline.run() patch, not tokenizer mock
+The data pipeline maps the tokenizer over batches internally. Mocking a
+tokenizer to return the right dict shape is fragile and breaks when the
+pipeline's batching strategy changes. Instead, patch DataPipeline.run()
+to return a known Dataset. This tests wiring (quick_load → DataPipeline),
+not tokenization internals — which is what a unit test should do.
 
-## Pattern: Frozen dataclasses for results
-Existing code uses `@dataclass(frozen=True)` for config objects. Results
-(e.g. `TrainingResult`) should also be frozen — callers should not mutate them.
-
-## Pattern: Use `get_logger(__name__)` not `logging.getLogger`
-The project wraps loggers in `utils/logging.py`. Always import `get_logger`
-from there to get consistent formatting and levels.
-
-## Pattern: Trainer outputs must include model path
-Downstream CLI and evaluation code needs to know where the saved model is.
-`TrainingResult` must carry `output_dir: Path`.
-
-## Pattern: Sandbox has no network — static verification is the fallback
-When pip install fails due to network restrictions, use AST parsing +
-cross-reference assertions to verify correctness before handing off.
-Always note the exact `pytest` command the user needs to run locally.
-
-## Pattern: Integration tests need `pytest.importorskip`
-Heavy deps (torch, transformers, peft) should be guarded with
-`pytest.importorskip` at module level so CI can skip gracefully
-when packages aren't installed, rather than erroring.
-
-## Pattern: Upload command needs adapter merge option
-Users often want to upload the merged (non-adapter) model for portability.
-Always expose `--merge-adapter` + `--base-model` alongside the default
-adapter-only upload path.
-
-## Pattern: Example configs are integration test fixtures
-Write YAML example configs to be runnable — real model names, real dataset
-paths (with placeholders clearly marked). They serve as both documentation
-and fixture inputs for integration tests.
-
-## Pattern: Root conftest.py is the most reliable pytest path fix
-Never rely on PYTHONPATH env vars or `pip install -e .` for test discovery.
-A root conftest.py with `sys.path.insert(0, repo_root)` works universally
-across Windows/macOS/Linux and all pytest invocation styles.
-
-## Pattern: pyproject.toml over setup.py for Windows compatibility
-setup.py calls read_text() without encoding= which crashes on Windows cp1252.
-pyproject.toml is declarative — no Python code runs during install, no
+## Pattern: pyproject.toml is declarative — no Python code runs during install, no
 encoding bugs possible. Always use pyproject.toml for new projects.
 
 ## Pattern: Ship an audit script with generated file sets
@@ -143,48 +117,10 @@ Relative imports only work when the file is part of the package being traversed.
 Tests in tests/ (repo root) are NOT inside finetune_cli/, so `..` is invalid.
 Always use absolute imports in test files: `from finetune_cli.cli.main import app`.
 
-## Pattern: ruff check path should be . not finetune_cli/
-`ruff check finetune_cli/` in ci.yml caused E902 because ruff resolves paths
-relative to pyproject.toml location. Use `ruff check .` and let pyproject.toml
-[tool.ruff] control which files get linted via `include`/`exclude`.
-
-## Pattern: DPO requires trl — guard with try/except ImportError inside train()
-DPOTrainer imports trl inside the train() method, not at module level.
-This keeps the trainer importable even without trl installed.
-The ImportError is caught and re-raised as TrainingError with an install hint.
-Same pattern should be used for any optional heavy dependency.
-
-## Pattern: DPO datasets need column validation before training starts
-TRL's DPOTrainer gives an opaque error if columns are missing.
-Always call validate_dpo_dataset() immediately after unpacking splits,
-before any model setup, so the error message is clear and fast.
-
-## Pattern: Every trainer needs an offline sample dataset + local config
-DPO was built in Sprint 8 but left pointing at Anthropic/hh-rlhf (network required).
-LoRA and instruction tuning both have local data via generate_sample_data.py.
-Rule: when adding a new trainer, also add a generator function to generate_sample_data.py
-and update the example config to source: local_file before the sprint closes.
-
-## Pattern: Optional heavy deps belong in [project.optional-dependencies]
-trl is only needed for DPO. Adding it to core dependencies would force all users to
-install it. Use optional groups: pip install "finetune-cli[dpo]".
-Same pattern applies to any future optional-only dependency.
-
-## Pattern: pyproject.toml version must be bumped every sprint
-pyproject.toml version was "2.0.0" through 10 sprints. pip show finetune-cli
-reported the wrong version the entire time. Rule: version bump is item 1 of
-the sprint-end checklist. Format: MAJOR.MINOR.PATCH where MINOR = sprint number.
-
-## Pattern: Checklists beat documentation for recurring tasks
-Documenting a pattern in lessons.md is not enough if the pattern requires
-action at a specific moment (sprint-end). A checklist in CONTRIBUTING.md
-that must be ticked off is the only reliable enforcement mechanism.
-
-## Pattern: Patch lazy imports at source, not at cli.main
-cli/main.py uses lazy imports inside functions (e.g. `from ..models.loader import load_model_and_tokenizer`).
-patch("finetune_cli.cli.main.load_model_and_tokenizer") FAILS — the name doesn't exist at module level.
-Correct patch targets for evaluate/benchmark tests:
-  - "finetune_cli.models.loader.load_model_and_tokenizer"
-  - "finetune_cli.data.quick_load"
-  - "finetune_cli.evaluation.BenchmarkRunner"
-Rule: always patch where the object is DEFINED, not where it is imported inside a function.
+## Pattern: patch() target must be where the name is used, not where it's exported
+finetune_cli.data exports DataPipeline via __init__.py, but quick_load and
+prepare_dataset live in data/pipeline.py and import DataPipeline locally.
+patch("finetune_cli.data.DataPipeline") patches the __init__ namespace —
+the functions never see it. Always patch at the module where the call site lives:
+patch("finetune_cli.data.pipeline.DataPipeline").
+Rule: grep for `from X import Y` or `import X` in the file under test — that's your patch target.

@@ -6,6 +6,27 @@
 
 ---
 
+## Sprint 16: "Data Pipeline Tests"
+
+- [x] tasks/lessons.md — add lazy-import patch pattern + DataPipeline mock pattern
+- [x] audit_repo.py — fix missing comma after "tests/test_qlora_trainer.py"
+- [x] tests/test_data.py — 11 unit tests (detect_columns ×5, errors ×3, quick_load ×2, prepare_dataset ×3)
+- [x] audit_repo.py — register tests/test_data.py in REQUIRED_FILES
+- [x] pyproject.toml — bump 3.0.0 → 3.1.0
+- [x] docs/index.md — test count 132+ → 143+
+- [x] CHANGELOG.md — Sprint 16 entry
+- [x] tasks/CONTEXT.md — Sprint 16 row
+- [x] CLAUDE.md — Sprint 16 row
+- [x] tasks/todo.md — Sprint 16 gate recorded
+
+---
+
+## Acceptance Gate
+pytest tests/test_data.py -v
+→ all 11 tests pass, no HF downloads, no GPU.
+
+---
+
 ## Sprint 15: "QLoRA Tests + Sync"
 
 - [x] tasks/CONTEXT.md — add Sprint 13 + 14 rows

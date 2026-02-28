@@ -4,6 +4,28 @@ All notable changes to this project are documented here.
 
 ---
 
+## [3.1.0] — Sprint 16: "Data Pipeline Tests" — 2025-02-28
+
+### Added
+- `tests/test_data.py` — 11 unit tests: `detect_columns` (text/prompt/response/content/numeric columns),
+  error cases (`DatasetNotFoundError`, `EmptyDatasetError`, `NoTextColumnsError`),
+  `quick_load` happy path (returns Dataset, max_samples forwarded),
+  `prepare_dataset` happy path (no split, with split returns DatasetDict).
+  No HF downloads, no GPU. `DataPipeline.run()` patched for wiring tests.
+- `audit_repo.py` — `tests/test_data.py` registered; missing comma after
+  `test_qlora_trainer.py` fixed (was causing silent SyntaxError)
+
+### Fixed (sprint-end checklist)
+- `tasks/lessons.md` — lazy-import patch pattern added (overdue from Sprint 15 fix);
+  DataPipeline mock pattern added
+- `tasks/CONTEXT.md` — Sprint 16 row added
+- `CLAUDE.md` — sprint history updated through Sprint 16
+- `pyproject.toml` — version 3.0.0 → 3.1.0
+- `docs/index.md` — version 3.1.0, test count 143+
+- `tasks/todo.md` — Sprint 16 acceptance gate recorded
+
+---
+
 ## [3.0.0] — Sprint 15: "QLoRA Tests + Sync" — 2025-02-28
 
 ### Added

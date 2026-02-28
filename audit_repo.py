@@ -81,7 +81,8 @@ REQUIRED_FILES = [
     "tests/test_evaluate.py",
     "tests/test_benchmark.py",
     "tests/test_upload.py",
-    "tests/test_qlora_trainer.py"
+    "tests/test_qlora_trainer.py",
+    "tests/test_data.py",
 
     # Context files
     "CLAUDE.md",
