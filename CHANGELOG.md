@@ -4,6 +4,16 @@ All notable changes to this project are documented here.
 
 ---
 
+## [2.9.3] — Sprint 14: "Sprint 13 Close-out" — 2025-02-27
+
+### Fixed (sprint-end checklist)
+- `pyproject.toml` — version 2.8.0 → 2.9.2
+- `docs/index.md` — test count updated to 124+
+- `tasks/todo.md` — Sprint 13 acceptance gate marked complete
+- `tasks/lessons.md` — lazy-import patch pattern added (patch at source, not at cli.main)
+
+---
+
 ## [2.9.2] — Sprint 13: "Test Coverage Complete" — 2025-02-27
 
 ### Added

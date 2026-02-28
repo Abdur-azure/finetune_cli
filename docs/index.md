@@ -64,6 +64,6 @@ See [CHANGELOG.md](https://github.com/Abdur-azure/finetune_cli/blob/main/CHANGEL
 ## Project status
 
 - **Version:** 2.8.0
-- **Tests:** 85+ unit tests + integration tests (all green)
+- **Tests:** 124+ unit tests + integration tests (all green)
 - **CI:** pytest matrix across Python 3.10 / 3.11 / 3.12
 - **License:** MIT

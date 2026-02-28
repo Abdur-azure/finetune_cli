@@ -6,6 +6,15 @@
 
 ---
 
+## Sprint 14: "Sprint 13 Close-out"
+
+- [x] pyproject.toml — 2.8.0 → 2.9.2
+- [x] docs/index.md — test count 124+
+- [x] tasks/todo.md — Sprint 13 gate complete
+- [x] CHANGELOG.md — Sprint 14 entry
+
+---
+
 ## Sprint 13: "Test Coverage Complete"
 
 - [x] tests/test_evaluate.py — 6 tests (missing dataset, metric output, unknown metric, num-samples)
@@ -14,7 +23,7 @@
 - [x] tests/test_cli_train.py — full_finetuning test case added
 - [x] audit_repo.py — 3 new files registered
 - [x] CHANGELOG.md — Sprint 13 entry
-- [ ] Run: pytest tests/test_evaluate.py tests/test_benchmark.py tests/test_upload.py -v
+- [x] Run: pytest tests/test_evaluate.py tests/test_benchmark.py tests/test_upload.py -v (19/19 green after lazy-import patch fix)
 
 ---
 
