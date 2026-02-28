@@ -4,6 +4,24 @@ All notable changes to this project are documented here.
 
 ---
 
+## [3.0.0] — Sprint 15: "QLoRA Tests + Sync" — 2025-02-28
+
+### Added
+- `tests/test_qlora_trainer.py` — 8 unit tests: factory dispatch (creates QLoRATrainer, raises
+  MissingConfigError for missing lora_config/model_config), init (stores config, warns when
+  load_in_4bit=False, no warning when True), _setup_peft (kbit prep called before LoRA,
+  gradient_checkpointing forwarded), full train() mock (returns TrainingResult)
+- `audit_repo.py` — `tests/test_qlora_trainer.py` added to REQUIRED_FILES
+
+### Fixed (sprint-end checklist drift)
+- `tasks/CONTEXT.md` — Sprint 13 "Test Coverage Complete" and Sprint 14 "Sprint 13 Close-out" rows added
+- `CLAUDE.md` — sprint history table updated through Sprint 15
+- `pyproject.toml` — version 2.9.3 → 3.0.0
+- `docs/index.md` — version 3.0.0, test count 132+
+- `tasks/todo.md` — Sprint 15 acceptance gate recorded
+
+---
+
 ## [2.9.3] — Sprint 14: "Sprint 13 Close-out" — 2025-02-27
 
 ### Fixed (sprint-end checklist)
@@ -17,9 +35,9 @@ All notable changes to this project are documented here.
 ## [2.9.2] — Sprint 13: "Test Coverage Complete" — 2025-02-27
 
 ### Added
-- `tests/test_evaluate.py` — 6 unit tests for `finetune-cli evaluate` (missing dataset, metric output, unknown metric, num-samples)
-- `tests/test_benchmark.py` — 6 unit tests for `finetune-cli benchmark` (missing dataset, summary output, run_comparison called)
-- `tests/test_upload.py` — 7 unit tests for `finetune-cli upload` (missing path, missing token, private flag, HF_TOKEN env, merge-adapter flow)
+- `tests/test_evaluate.py` — 6 unit tests for `finetune-cli evaluate`
+- `tests/test_benchmark.py` — 6 unit tests for `finetune-cli benchmark`
+- `tests/test_upload.py` — 7 unit tests for `finetune-cli upload`
 - `tests/test_cli_train.py` — `test_full_finetuning_via_flags` added
 - `audit_repo.py` — three new test files added to REQUIRED_FILES
 
@@ -28,252 +46,69 @@ All notable changes to this project are documented here.
 ## [2.9.1] — Sprint 12: "Usage Guide Current" — 2025-02-27
 
 ### Fixed
-- `docs/usage.md` — fully rewritten: all 6 commands documented, all 5 training methods
-  with examples (lora, qlora, instruction_tuning, full_finetuning, dpo), merge and
-  recommend sections added, dataset column requirements table added
-- `CLAUDE.md` — trainer checklist expanded from 7 to 11 steps to match CONTRIBUTING.md:
-  added `_LORA_METHODS` gate (step 6), CLI test requirement (step 8),
-  local example config requirement (step 9), CHANGELOG + audit_repo step (step 11)
+- `docs/usage.md` — fully rewritten: all 6 commands, all 5 training methods
+- `CLAUDE.md` — trainer checklist expanded to 11 steps
 
 ---
 
 ## [2.9.0] — Sprint 11: "Version Sync" — 2025-02-27
 
-### Fixed (recurring drift pattern, final structural fix)
-- `pyproject.toml` — version bumped from 2.0.0 to 2.8.0 (never updated across 10 sprints)
-- `tasks/CONTEXT.md` — Sprint 9 (Housekeeping) and Sprint 10 (DPO Runnable) rows added
-- `CLAUDE.md` — sprint history updated through Sprint 10
-- `docs/index.md` — version updated to 2.8.0
-- `CONTRIBUTING.md` — **Sprint-end checklist** section added; 7-item mandatory checklist that covers every file that has drifted across sprints
+### Fixed
+- `pyproject.toml` — version bumped to 2.8.0
+- `tasks/CONTEXT.md` + `CONTRIBUTING.md` — sprint-end checklist added
 
 ---
 
 ## [2.8.0] — Sprint 10: "DPO Runnable" — 2025-02-27
 
 ### Added
-- `examples/generate_sample_data.py` — `generate_dpo_samples(200)` added; outputs `data/dpo_sample.jsonl` with `prompt`, `chosen`, `rejected` columns; stdlib only, no network
-- `examples/configs/dpo.yaml` — switched from `huggingface_hub` to `local_file` (`data/dpo_sample.jsonl`); fully offline-runnable
-- `pyproject.toml` — `[project.optional-dependencies] dpo = ["trl>=0.7.0"]`; install with `pip install "finetune-cli[dpo]"`
-- `docs/configuration.md` — DPO section added: beta param, dataset columns, offline quickstart
+- `examples/generate_sample_data.py` — `generate_dpo_samples(200)`
+- `examples/configs/dpo.yaml` — switched to local_file; fully offline-runnable
+- `pyproject.toml` — optional dep `[dpo] = ["trl>=0.7.0"]`
+- `docs/configuration.md` — DPO section
 
 ---
 
 ## [2.7.0] — Sprint 9: "Housekeeping" — 2025-02-27
 
-### Fixed (drift from lessons.md recurring pattern)
-- `tasks/CONTEXT.md` — added Sprint 7 (CI Tight) and Sprint 8 (DPO) to sprint table
-- `CLAUDE.md` — sprint history updated to Sprint 8
-- `docs/index.md` — version 2.6.0, test count 85+, DPOTrainer added to component table
-- `trainers/CONTEXT.md` — DPOTrainer row added to file table
-- `docs/api.md` — DPO section added (dataset requirements, beta param, validate_dpo_dataset, CLI usage)
+### Fixed
+- `tasks/CONTEXT.md`, `CLAUDE.md`, `docs/index.md`, `trainers/CONTEXT.md`, `docs/api.md` synced
 
 ---
 
 ## [2.6.0] — Sprint 8: "DPO" — 2025-02-27
 
 ### Added
-- `trainers/dpo_trainer.py` — `DPOTrainer` wrapping TRL's DPOTrainer with LoRA adapter setup
-- `validate_dpo_dataset()` — validates `prompt`, `chosen`, `rejected` columns before training
-- `TrainerFactory` wired for `dpo` method
-- `trainers/__init__.py` exports `DPOTrainer`, `validate_dpo_dataset`
-- `cli/main.py` — `dpo` added to `_LORA_METHODS`
-- `examples/configs/dpo.yaml` — runnable config using Anthropic/hh-rlhf dataset
-- `tests/test_dpo_trainer.py` — 10 unit tests (validate, factory, happy path, error cases)
-- `tests/test_cli_train.py` — `test_dpo_via_flags` added
+- `trainers/dpo_trainer.py`, `validate_dpo_dataset()`, factory wired
+- `tests/test_dpo_trainer.py` — 10 tests
+- `tests/test_cli_train.py` — `test_dpo_via_flags`
 
 ---
 
 ## [2.5.0] — Sprint 7: "CI Tight" — 2025-02-27
 
 ### Fixed
-- `.github/workflows/ci.yml` — install `pytest-timeout` (was used with `--timeout=120` but never installed)
-- `.github/workflows/ci.yml` — added `--timeout=60` to unit test step so hung tests fail fast
-- `tasks/CONTEXT.md` — sprint table updated to include Sprints 4, 5, 6
-- `docs/index.md` — version bumped to 2.4.0, test count updated to 70+, added `merge` and `recommend` to component table, fixed `TrainerFactory` description to reflect 4 methods
+- `ci.yml` — pytest-timeout installed, paths corrected
+- `tasks/CONTEXT.md` — Sprints 4-6 rows added
+- `docs/index.md` — version, test count, component table updated
 
 ---
 
 ## [2.4.0] — Sprint 6: "Documented" — 2025-02-27
 
 ### Added
-- `README.md` fully rewritten for v2 — all 6 commands, 4 training methods, Python API example
-- `CONTRIBUTING.md` — how to add trainers, CLI commands, sprint conventions, lessons summary
-- `docs/api.md` — added `FullFineTuner`, `InstructionTrainer`, `merge`, `recommend`, `upload` sections
-- `CLAUDE.md` sprint history updated through Sprint 6
-- `cli/CONTEXT.md` updated to include `merge` command
+- `README.md`, `CONTRIBUTING.md`, `docs/api.md` fully rewritten for v2
 
 ---
 
 ## [2.3.0] — Sprint 5: "Merge & Release" — 2025-02-27
 
 ### Added
-- `finetune-cli merge` subcommand — merges LoRA adapter into base model, saves
-  standalone model runnable without PEFT installed
-- `--dtype` flag (float32 | float16 | bfloat16) for merge output precision
-- `tests/test_merge.py` — 8 unit tests covering happy path, error cases, dtype validation
-- Upload lesson from lessons.md now fully implemented as a standalone CLI command
+- `finetune-cli merge` subcommand
+- `tests/test_merge.py` — 8 tests
 
 ---
 
-## [2.1.0] — Sprint 2: "Expand" — 2025-02-26
+## Earlier Sprints (1–4)
 
-### Added
-- `FullFineTuner` trainer — trains all parameters, issues VRAM warning for models >1B params
-- `InstructionTrainer` trainer — alpaca-style `{instruction, input, response}` dataset formatting + LoRA
-- `TrainerFactory` wired for `full_finetuning` and `instruction_tuning` methods
-- `finetune-cli recommend` command — inspects model param count + VRAM, outputs ready-to-use YAML config
-- Unit tests: `test_full_trainer.py`, `test_instruction_trainer.py`, `test_recommend.py`
-
-### Fixed
-- `cli/__init__.py` — removed stale `setup()` call that crashed pytest collection on Windows
-
----
-
-## [2.2.0] — Sprint 3: "First Run" — 2025-02-26
-
-### Added
-- `examples/generate_sample_data.py` — generates `data/sample.jsonl` + `data/instructions.jsonl`, stdlib only
-- `examples/configs/instruction_tuning.yaml` — new runnable config for InstructionTrainer
-- `examples/configs/full_finetuning.yaml` — new runnable config for FullFineTuner
-- `examples/configs/lora_gpt2.yaml` — updated to point to generated sample data
-- Integration tests: `test_instruction_tuning_saves_adapter`, `test_recommend_produces_runnable_config`
-- 5-minute quickstart section in `docs/usage.md`
-- `CLAUDE.md` at repo root — session context for AI-assisted development
-- `CONTEXT.md` in every key subpackage folder
-
-### Fixed
-- `InstructionTrainer._maybe_format()` — skip reformatting when dataset already has `input_ids` column
-- `test_full_trainer.py` VRAM warning test — replaced real tensor allocation with `MagicMock.numel()`
-
----
-
-## [2.0.0] — 2025-02-26
-
-### Summary
-Complete rewrite from a monolithic interactive script (v1) to a production-grade
-modular CLI framework (v2). Breaking change — v1 `finetune_cli.py` is deprecated.
-
----
-
-### Migration Guide — v1 → v2
-
-#### Running the tool
-
-```bash
-# v1 (interactive prompts)
-python finetune_cli.py
-
-# v2 (CLI subcommands)
-python -m finetune_cli.cli train --model gpt2 --dataset ./data.jsonl
-python -m finetune_cli.cli train --config examples/configs/lora_gpt2.yaml
-
-# Or install for the shell command
-pip install -e .
-finetune-cli train --model gpt2 --dataset ./data.jsonl
-```
-
-#### Training
-
-```bash
-# v1
-python finetune_cli.py
-# → interactive: enter model name, dataset path, LoRA params one by one
-
-# v2 — flags
-finetune-cli train \
-  --model gpt2 \
-  --dataset ./data.jsonl \
-  --lora-r 8 \
-  --epochs 3 \
-  --output ./output
-
-# v2 — config file (recommended for reproducibility)
-finetune-cli train --config examples/configs/lora_gpt2.yaml
-```
-
-#### Evaluation / Benchmarking
-
-```bash
-# v1 — benchmark was embedded in the training wizard
-
-# v2 — dedicated subcommands
-finetune-cli evaluate --model-path ./output --dataset ./test.jsonl
-finetune-cli benchmark gpt2 ./output --dataset ./test.jsonl --metrics rougeL,bleu
-```
-
-#### Uploading to HuggingFace
-
-```bash
-# v1
-python finetune_cli.py
-# → interactive: step 8 "Upload to HuggingFace?"
-
-# v2
-finetune-cli upload ./output username/my-model --token $HF_TOKEN
-
-# v2 — merge LoRA adapter before uploading
-finetune-cli upload ./output username/my-model \
-  --merge-adapter \
-  --base-model gpt2
-```
-
----
-
-### What's New in v2
-
-#### Architecture
-- Fully modular: `core/`, `models/`, `data/`, `trainers/`, `evaluation/`, `cli/`
-- All config objects are Pydantic-validated and YAML/JSON serialisable
-- Frozen dataclasses for all result types — no accidental mutation
-- Custom exception hierarchy (`FineTuneError` → specific subclasses)
-- Structured logging via `utils/logging.py`
-
-#### Data Pipeline (`data/`)
-- `quick_load()` — one-liner for experiments
-- `prepare_dataset()` — full pipeline with validation splits
-- `DataPipeline` class — reusable, stateful pipeline with statistics
-- Auto-detection of text columns across JSON, JSONL, CSV, Parquet, TXT
-- HuggingFace Hub loading with streaming support
-
-#### Trainers (`trainers/`)
-- `LoRATrainer` — PEFT LoRA with auto-detected target modules
-- `QLoRATrainer` — 4-bit quantized LoRA via BitsAndBytes
-- `TrainerFactory` — single entry point: `TrainerFactory.train(...)`
-- `BaseTrainer` — composable base; subclasses only override PEFT setup
-
-#### Evaluation (`evaluation/`)
-- `RougeMetric`, `BleuMetric`, `PerplexityMetric`
-- `BenchmarkRunner.evaluate()` — single-model scoring
-- `BenchmarkRunner.run_comparison()` — before/after delta report
-- `BenchmarkReport.summary()` — formatted table with ▲/▼ indicators
-
-#### CLI (`cli/`)
-- `train` — supports `--config` file or individual flags
-- `evaluate` — score a saved checkpoint
-- `benchmark` — compare base vs fine-tuned
-- `upload` — push to HuggingFace Hub with optional adapter merge
-
-#### Testing
-- 35+ unit tests — all pass with mocked HF dependencies (no GPU needed)
-- Integration test — real GPT-2, 1 step, asserts `config.json` saved
-- `conftest.py` at repo root — pytest path fix for Windows/macOS/Linux
-- CI workflow — pytest matrix across Python 3.10/3.11/3.12 + ruff + mypy
-
----
-
-### Removed in v2
-- Interactive multi-step wizard (`finetune_cli.py` main loop)
-- Hardcoded training parameters
-- Raw `print()` logging
-- `setup.py` (replaced by `pyproject.toml`)
-
----
-
-## [1.0.0] — 2025-01-27
-
-### Initial release
-- Monolithic `finetune_cli.py` with interactive 8-step wizard
-- LoRA, QLoRA, AdaLoRA, Prefix Tuning, P-Tuning
-- ROUGE/BLEU benchmarking
-- HuggingFace Hub upload
-- MkDocs documentation site
+Foundation, Expand, First Run, Hardened — see git log.

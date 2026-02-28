@@ -6,6 +6,25 @@
 
 ---
 
+## Sprint 15: "QLoRA Tests + Sync"
+
+- [x] tasks/CONTEXT.md — add Sprint 13 + 14 rows
+- [x] CLAUDE.md — add Sprint 13 + 14 rows to sprint history table
+- [x] tests/test_qlora_trainer.py — 8 unit tests (factory dispatch, init, _setup_peft, train)
+- [x] audit_repo.py — register tests/test_qlora_trainer.py
+- [x] pyproject.toml — bump 2.9.3 → 3.0.0
+- [x] docs/index.md — version 3.0.0, test count 132+
+- [x] CHANGELOG.md — Sprint 15 entry
+- [x] tasks/todo.md — Sprint 15 gate recorded
+
+---
+
+## Acceptance Gate
+pytest tests/test_qlora_trainer.py -v
+→ all 8 tests pass without GPU.
+
+---
+
 ## Sprint 14: "Sprint 13 Close-out"
 
 - [x] pyproject.toml — 2.8.0 → 2.9.2
@@ -45,9 +64,3 @@
 - [x] DPOTrainer, validate_dpo_dataset, factory, 10 tests
 
 ### Sprints 1–7: Foundation, Expand, First Run, Hardened, Merge, Documented, CI Tight
-
----
-
-## Acceptance Gate
-pytest tests/test_evaluate.py tests/test_benchmark.py tests/test_upload.py -v
-→ all 19 tests green.

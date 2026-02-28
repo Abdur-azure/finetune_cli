@@ -25,6 +25,9 @@ Session state. Read both files at the start of every working session.
 | 10 | DPO Runnable | dpo_sample.jsonl generator, local config, trl optional dep |
 | 11 | Version Sync | pyproject.toml 2.8.0, CONTRIBUTING sprint-end checklist |
 | 12 | Usage Guide Current | docs/usage.md all 6 commands, CLAUDE.md 11-step checklist |
+| 13 | Test Coverage Complete | test_evaluate.py, test_benchmark.py, test_upload.py (19 tests green) |
+| 14 | Sprint 13 Close-out | pyproject.toml 2.9.2, docs/index.md 124+ tests, CHANGELOG |
+| 15 | QLoRA Tests + Sync | test_qlora_trainer.py (8 tests), CONTEXT.md/CLAUDE.md Sprint 13-14 rows |
 
 ## Workflow
 
