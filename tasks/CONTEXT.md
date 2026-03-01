@@ -29,6 +29,7 @@ Session state. Read both files at the start of every working session.
 | 14 | Sprint 13 Close-out | pyproject.toml 2.9.2, docs/index.md 124+ tests, CHANGELOG |
 | 15 | QLoRA Tests + Sync | test_qlora_trainer.py (8 tests), CONTEXT.md/CLAUDE.md Sprint 13-14 rows |
 | 16 | Data Pipeline Tests | test_data.py (11 tests), lessons.md updated, audit_repo.py comma fix |
+| 18 | conftest Hardening | conftest.py no-torch, test_qlora deduped, tests/CONTEXT.md 8 rows |
 
 ## Workflow
 

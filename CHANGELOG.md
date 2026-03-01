@@ -4,6 +4,24 @@ All notable changes to this project are documented here.
 
 ---
 
+## [3.2.0] — Sprint 18: "conftest Hardening" — 2025-02-28
+
+### Fixed
+- `tests/conftest.py` — removed `import torch` and `torch.randn` from `mock_model`.
+  Replaced with pure `MagicMock` param (`numel.return_value=1_000_000`,
+  `requires_grad=True`). Used `side_effect` instead of `return_value` so
+  `parameters()` returns a fresh iterator on every call (was silently exhausted).
+  conftest now importable with zero ML deps.
+- `tests/test_qlora_trainer.py` — removed 3 duplicate local fixtures
+  (`mock_model`, `mock_tokenizer`, `tmp_output_dir`) now inherited from conftest.
+- `tests/CONTEXT.md` — 8 missing test file rows added; patch-target rule and
+  conftest torch rule added to Rules section.
+- `tasks/lessons.md` — 3 new patterns: conftest no-torch, parameters() side_effect,
+  patch-target-at-usage-site.
+- `pyproject.toml` — version 3.1.0 → 3.2.0
+
+---
+
 ## [3.1.0] — Sprint 16: "Data Pipeline Tests" — 2025-02-28
 
 ### Added

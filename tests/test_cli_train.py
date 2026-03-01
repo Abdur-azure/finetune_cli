@@ -107,19 +107,20 @@ class TestTrainCommand:
     def test_config_file_takes_precedence(self, tmp_path):
         """--config file is loaded instead of building from flags."""
         ds = _make_dataset_file(tmp_path)
-        # Minimal valid config YAML
+        out_dir = tmp_path / "out"
         cfg = tmp_path / "config.yaml"
+        # Use .as_posix() — backslashes in Windows paths break YAML parsing
         cfg.write_text(f"""
 model:
   name: gpt2
 dataset:
   source: local_file
-  path: "{ds}"
+  path: "{ds.as_posix()}"
 tokenization:
   max_length: 64
 training:
   method: lora
-  output_dir: "{tmp_path / 'out'}"
+  output_dir: "{out_dir.as_posix()}"
   num_epochs: 1
   batch_size: 2
 lora:

@@ -17,30 +17,8 @@ from finetune_cli.trainers.factory import TrainerFactory
 
 
 # ============================================================================
-# FIXTURES
+# FIXTURES (mock_model, mock_tokenizer, tmp_output_dir come from conftest.py)
 # ============================================================================
-
-
-@pytest.fixture
-def tmp_output_dir(tmp_path) -> Path:
-    d = tmp_path / "output"
-    d.mkdir()
-    return d
-
-
-@pytest.fixture
-def mock_model():
-    model = MagicMock()
-    model.parameters.return_value = iter([MagicMock(numel=lambda: 1000, requires_grad=True)])
-    return model
-
-
-@pytest.fixture
-def mock_tokenizer():
-    tok = MagicMock()
-    tok.pad_token = "<pad>"
-    tok.pad_token_id = 0
-    return tok
 
 
 @pytest.fixture

@@ -6,6 +6,28 @@
 
 ---
 
+## Sprint 18: "conftest Hardening"
+
+- [x] tests/conftest.py — remove torch import, pure MagicMock params, side_effect iterator fix
+- [x] tests/test_qlora_trainer.py — remove 3 duplicate local fixtures (now from conftest)
+- [x] tests/CONTEXT.md — add 8 missing test file rows, add patch-target rule
+- [x] tasks/lessons.md — add conftest/torch pattern + parameters() side_effect pattern + patch-target pattern
+- [x] pyproject.toml — bump 3.1.0 → 3.2.0
+- [x] docs/index.md — version 3.2.0
+- [x] CHANGELOG.md — Sprint 18 entry
+- [x] tasks/CONTEXT.md — Sprint 18 row
+- [x] CLAUDE.md — Sprint 18 row
+
+---
+
+## Acceptance Gate
+pytest tests/ --co -q --ignore=tests/test_integration.py
+→ all tests collect without torch error.
+pytest tests/ -v --ignore=tests/test_integration.py
+→ all green.
+
+---
+
 ## Sprint 16: "Data Pipeline Tests"
 
 - [x] tasks/lessons.md — add lazy-import patch pattern + DataPipeline mock pattern

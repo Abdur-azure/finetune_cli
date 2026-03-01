@@ -117,10 +117,55 @@ Relative imports only work when the file is part of the package being traversed.
 Tests in tests/ (repo root) are NOT inside finetune_cli/, so `..` is invalid.
 Always use absolute imports in test files: `from finetune_cli.cli.main import app`.
 
-## Pattern: patch() target must be where the name is used, not where it's exported
-finetune_cli.data exports DataPipeline via __init__.py, but quick_load and
-prepare_dataset live in data/pipeline.py and import DataPipeline locally.
-patch("finetune_cli.data.DataPipeline") patches the __init__ namespace —
-the functions never see it. Always patch at the module where the call site lives:
-patch("finetune_cli.data.pipeline.DataPipeline").
-Rule: grep for `from X import Y` or `import X` in the file under test — that's your patch target.
+## Pattern: conftest.py must not import torch at module level
+The shared conftest.py had `import torch` + `torch.randn(10,10)` in mock_model.
+This forces torch to be present at pytest collection time — all unit tests fail
+to collect on machines without torch installed.
+Fix: use pure MagicMock params with `param.numel.return_value = N` and
+`param.requires_grad = True`. No real tensors anywhere in conftest.
+Rule: conftest.py must be importable with only: pytest, unittest.mock, datasets, pathlib.
+
+## Pattern: parameters() is called multiple times — use side_effect not return_value
+If mock_model.parameters.return_value = iter([param]), the first call exhausts
+the iterator. Subsequent calls return an empty iterator and parameter-count
+logic silently returns 0.
+Fix: model.parameters.side_effect = lambda: iter([param])
+This returns a fresh iterator on every call.
+
+## Pattern: patch() target must be where the name is USED, not where it's exported
+patch("finetune_cli.data.DataPipeline") patches __init__ — the pipeline functions
+never see it. Correct: "finetune_cli.data.pipeline.DataPipeline".
+Rule: grep for the import in the file under test — that module path is your target.
+
+## Pattern: Embed paths in YAML using .as_posix(), never raw str()
+Windows paths contain backslashes (C:\Users\...). Inside YAML double-quoted
+strings, \U, \s, \A etc. are invalid escape sequences → yaml.ScannerError.
+Fix: always use path.as_posix() when writing paths into YAML content.
+  WRONG: f'path: "{str(some_path)}"'
+  RIGHT: f'path: "{some_path.as_posix()}"'
+This applies in test fixtures and any code that builds YAML strings manually.
+
+## Pattern: Update stale tests when a "unsupported" method becomes supported
+test_unsupported_method_raises used DPO to trigger NotImplementedError.
+DPO was added in Sprint 8 — the test became stale and now triggers
+MissingConfigError instead. After adding any new TrainingMethod to the
+factory, scan test_trainers.py for tests that depend on that method being
+unsupported and update them to reflect the new reality.
+
+## Pattern: Never call fixtures directly inside test bodies
+Fixtures are injected by pytest as parameters — calling model_config() inside
+a test method raises "Fixture called directly" error.
+Fix: construct the object inline instead:
+  WRONG: model_cfg = model_config()
+  RIGHT: model_cfg = ModelConfig(name="gpt2", load_in_4bit=True)
+Rule: if you need a fixture's value inside a helper/loop in a test, either
+request it as a test parameter or construct the object directly inline.
+
+## Pattern: Don't iterate all enum values when testing factory dispatch
+TrainingMethod has 21 aspirational enum values; factory only implements 5.
+Iterating all values in test_all_methods_are_handled hits NotImplementedError
+for unimplemented methods (adalora, rlhf, etc.) and fails correctly but uselessly.
+Fix: define _IMPLEMENTED = {LORA, QLORA, FULL_FINETUNING, INSTRUCTION_TUNING, DPO}
+and only iterate that set. The test guards against regression on implemented methods,
+not against missing future implementations.
+Rule: when testing a factory, always scope iteration to the known-implemented set.

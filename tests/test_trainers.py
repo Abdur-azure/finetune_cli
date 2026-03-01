@@ -11,15 +11,14 @@ from typing import Optional
 from unittest.mock import MagicMock, patch, PropertyMock
 
 import pytest
-import torch
 from datasets import Dataset, DatasetDict
 
-from ..core.types import TrainingConfig, LoRAConfig, TrainingMethod, ModelConfig
-from ..core.exceptions import MissingConfigError
-from ..trainers import TrainingResult, TrainerFactory
-from ..trainers.base import BaseTrainer
-from ..trainers.lora_trainer import LoRATrainer
-from ..trainers.factory import TrainerFactory
+from finetune_cli.core.types import TrainingConfig, LoRAConfig, TrainingMethod, ModelConfig
+from finetune_cli.core.exceptions import MissingConfigError
+from finetune_cli.trainers import TrainingResult, TrainerFactory
+from finetune_cli.trainers.base import BaseTrainer
+from finetune_cli.trainers.lora_trainer import LoRATrainer
+from finetune_cli.trainers.factory import TrainerFactory
 
 
 # ============================================================================
@@ -85,16 +84,48 @@ class TestTrainerFactory:
                 model=mock_model,
                 tokenizer=mock_tokenizer,
                 training_config=training_config,
-                lora_config=None,  # missing!
+                lora_config=None,
             )
 
-    def test_unsupported_method_raises(self, mock_model, mock_tokenizer, tmp_output_dir):
+    def test_dpo_without_lora_config_raises_missing_config(
+        self, mock_model, mock_tokenizer, tmp_output_dir
+    ):
+        """DPO is supported but requires lora_config — raises MissingConfigError."""
         cfg = TrainingConfig(
             method=TrainingMethod.DPO,
             output_dir=tmp_output_dir,
         )
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(MissingConfigError):
             TrainerFactory.create(mock_model, mock_tokenizer, cfg)
+
+    def test_all_implemented_methods_are_handled(self, mock_model, mock_tokenizer, tmp_output_dir):
+        """All currently-implemented methods are handled by factory without NotImplementedError.
+        
+        TrainingMethod enum contains aspirational values (adalora, rlhf, etc.) not yet
+        implemented. Only assert the 5 methods that have concrete trainer classes.
+        """
+        _IMPLEMENTED = {
+            TrainingMethod.LORA,
+            TrainingMethod.QLORA,
+            TrainingMethod.FULL_FINETUNING,
+            TrainingMethod.INSTRUCTION_TUNING,
+            TrainingMethod.DPO,
+        }
+        lora_cfg = LoRAConfig(r=4, lora_alpha=8, target_modules=["q_proj"])
+        qlora_model_cfg = ModelConfig(name="gpt2", load_in_4bit=True)
+
+        for method in _IMPLEMENTED:
+            tr_cfg = TrainingConfig(method=method, output_dir=tmp_output_dir)
+            try:
+                TrainerFactory.create(
+                    mock_model, mock_tokenizer, tr_cfg,
+                    lora_config=lora_cfg,
+                    model_config=qlora_model_cfg,
+                )
+            except MissingConfigError:
+                pass  # expected (e.g. QLORA needs model_config with load_in_4bit)
+            except NotImplementedError as e:
+                pytest.fail(f"Implemented method {method} raised NotImplementedError: {e}")
 
     def test_qlora_requires_model_config(self, mock_model, mock_tokenizer, lora_config, tmp_output_dir):
         cfg = TrainingConfig(method=TrainingMethod.QLORA, output_dir=tmp_output_dir)
@@ -104,7 +135,7 @@ class TestTrainerFactory:
                 tokenizer=mock_tokenizer,
                 training_config=cfg,
                 lora_config=lora_config,
-                model_config=None,  # missing!
+                model_config=None,
             )
 
 
