@@ -195,3 +195,14 @@ Iterating all values hits NotImplementedError for unimplemented methods.
 Fix: define _IMPLEMENTED = {LORA, QLORA, FULL_FINETUNING, INSTRUCTION_TUNING, DPO}
 and only iterate that set.
 Rule: always scope iteration to the known-implemented set.
+
+## Pattern: test_full_trainer.py used real torch tensors — violates no-real-tensor rule
+test_full_trainer.py had `torch.nn.Parameter(torch.randn(4, 4))` in test bodies.
+This imports torch at test time — breaks collection without torch installed.
+Fix: replace with _make_param() helper returning a pure MagicMock:
+    def _make_param(numel, requires_grad=True):
+        param = MagicMock()
+        param.numel.return_value = numel
+        param.requires_grad = requires_grad
+        return param
+Rule: NEVER use real torch tensors in unit tests. MagicMock + numel.return_value only.

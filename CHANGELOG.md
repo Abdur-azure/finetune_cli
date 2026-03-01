@@ -4,6 +4,15 @@ All notable changes to this project are documented here.
 
 ---
 
+## [3.4.0] — Sprint 20: "Import Audit Complete" — 2025-03-01
+
+### Fixed
+- `tests/test_config.py` — `from ..core.config`, `from ..core.types`, `from ..core.exceptions` → absolute imports
+- `tests/test_full_trainer.py` — relative imports → absolute; replaced `torch.nn.Parameter(torch.randn(...))` with pure `_make_param()` MagicMock helper (no real tensors, no torch required per lessons.md)
+- `pyproject.toml` — version 3.3.0 → 3.4.0
+
+---
+
 ## [3.3.0] — Sprint 19: "Test Import Audit" — 2025-03-01
 
 ### Fixed

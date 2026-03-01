@@ -31,6 +31,7 @@ Session state. Read both files at the start of every working session.
 | 16 | Data Pipeline Tests | test_data.py (11 tests), lessons.md updated, audit_repo.py comma fix |
 | 18 | conftest Hardening | conftest.py no-torch, test_qlora deduped, tests/CONTEXT.md 8 rows |
 | 19 | Test Import Audit | test_recommend, test_evaluation, test_instruction_trainer absolute imports |
+| 20 | Import Audit Complete | test_config, test_full_trainer absolute imports + no-real-tensor fix |
 
 ## Workflow
 

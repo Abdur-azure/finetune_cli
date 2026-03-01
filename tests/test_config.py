@@ -3,9 +3,9 @@
 import pytest
 from pathlib import Path
 
-from ..core.config import ConfigBuilder, PipelineConfig
-from ..core.types import TrainingMethod, DatasetSource, EvaluationMetric
-from ..core.exceptions import InvalidConfigError, IncompatibleConfigError, MissingConfigError
+from finetune_cli.core.config import ConfigBuilder, PipelineConfig
+from finetune_cli.core.types import TrainingMethod, DatasetSource, EvaluationMetric
+from finetune_cli.core.exceptions import InvalidConfigError, IncompatibleConfigError, MissingConfigError
 
 
 class TestConfigBuilder:

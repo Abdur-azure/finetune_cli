@@ -6,6 +6,25 @@
 
 ---
 
+## Sprint 20: "Import Audit Complete"
+
+- [x] tests/test_config.py — fix relative imports → absolute
+- [x] tests/test_full_trainer.py — fix relative imports → absolute + replace torch.nn.Parameter with _make_param() MagicMock (lessons.md: no real tensors)
+- [x] pyproject.toml — bump 3.3.0 → 3.4.0
+- [x] CHANGELOG.md — Sprint 20 entry
+- [x] tasks/CONTEXT.md — Sprint 20 row
+- [x] tasks/todo.md — Sprint 20 gate recorded
+
+---
+
+## Acceptance Gate
+pytest tests/ --co -q --ignore=tests/test_integration.py
+→ zero collection errors across all 15 test files.
+pytest tests/ -v --ignore=tests/test_integration.py
+→ all green.
+
+---
+
 ## Sprint 19: "Test Import Audit"
 
 - [x] tests/test_recommend.py — fix relative imports → absolute

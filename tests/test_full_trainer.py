@@ -2,6 +2,7 @@
 Unit tests for FullFineTuner.
 
 HuggingFace Trainer is mocked — no GPU required.
+No real torch tensors — all params are MagicMock per lessons.md rule.
 """
 
 import warnings
@@ -9,12 +10,24 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
-import torch
 from datasets import Dataset
 
-from ..core.types import TrainingConfig, TrainingMethod
-from ..trainers.full_trainer import FullFineTuner, _VRAM_WARNING_THRESHOLD
-from ..trainers.base import TrainingResult
+from finetune_cli.core.types import TrainingConfig, TrainingMethod
+from finetune_cli.trainers.full_trainer import FullFineTuner, _VRAM_WARNING_THRESHOLD
+from finetune_cli.trainers.base import TrainingResult
+from finetune_cli.trainers import TrainerFactory
+
+
+# ============================================================================
+# HELPERS
+# ============================================================================
+
+def _make_param(numel: int, requires_grad: bool = True) -> MagicMock:
+    """Pure MagicMock parameter — no real tensors, no torch import required."""
+    param = MagicMock()
+    param.numel.return_value = numel
+    param.requires_grad = requires_grad
+    return param
 
 
 # ============================================================================
@@ -46,23 +59,20 @@ def small_dataset() -> Dataset:
 
 class TestFullFineTuner:
 
-    def test_all_params_trainable_after_setup(self, mock_model, mock_tokenizer, full_training_config):
-        # Give mock real parameters
-        mock_model.parameters.return_value = iter([
-            torch.nn.Parameter(torch.randn(10, 10)),
-            torch.nn.Parameter(torch.randn(5)),
-        ])
+    def test_all_params_trainable_after_setup(
+        self, mock_model, mock_tokenizer, full_training_config
+    ):
+        params = [_make_param(100), _make_param(50)]
+        mock_model.parameters.side_effect = lambda: iter(params)
         trainer = FullFineTuner(mock_model, mock_tokenizer, full_training_config)
         result_model = trainer._setup_peft(mock_model)
         assert result_model is mock_model
 
     def test_vram_warning_for_large_model(self, mock_tokenizer, full_training_config):
-        big_param = MagicMock()
-        big_param.numel.return_value = _VRAM_WARNING_THRESHOLD + 1
-        big_param.requires_grad = True
+        big_param = _make_param(_VRAM_WARNING_THRESHOLD + 1)
 
         mock_model = MagicMock()
-        mock_model.parameters.return_value = iter([big_param])
+        mock_model.parameters.side_effect = lambda: iter([big_param])
 
         with warnings.catch_warnings(record=True) as w:
             warnings.simplefilter("always")
@@ -72,12 +82,10 @@ class TestFullFineTuner:
             assert "VRAM" in str(resource_warnings[0].message)
 
     def test_no_warning_for_small_model(self, mock_tokenizer, full_training_config):
-        small_param = MagicMock()
-        small_param.numel.return_value = 100
-        small_param.requires_grad = True
+        small_param = _make_param(100)
 
         mock_model = MagicMock()
-        mock_model.parameters.return_value = iter([small_param])
+        mock_model.parameters.side_effect = lambda: iter([small_param])
 
         with warnings.catch_warnings(record=True) as w:
             warnings.simplefilter("always")
@@ -89,11 +97,11 @@ class TestFullFineTuner:
     @patch("finetune_cli.trainers.base.BaseTrainer._build_training_args")
     def test_train_returns_result(
         self, mock_args, mock_hf_trainer, mock_model, mock_tokenizer,
-        full_training_config, small_dataset, tmp_path
+        full_training_config, small_dataset
     ):
-        mock_model.parameters.return_value = iter([
-            torch.nn.Parameter(torch.randn(4, 4))
-        ])
+        # Pure MagicMock param — no torch required
+        mock_model.parameters.side_effect = lambda: iter([_make_param(16)])
+
         mock_trainer = MagicMock()
         mock_trainer.train.return_value = MagicMock(
             training_loss=0.5,
@@ -110,9 +118,12 @@ class TestFullFineTuner:
         assert isinstance(result, TrainingResult)
         assert result.output_dir == full_training_config.output_dir
 
-    def test_factory_creates_full_finetuner(self, mock_model, mock_tokenizer, full_training_config):
-        from ..trainers import TrainerFactory
-        mock_model.parameters.return_value = iter([torch.nn.Parameter(torch.randn(4, 4))])
+    def test_factory_creates_full_finetuner(
+        self, mock_model, mock_tokenizer, full_training_config
+    ):
+        # Pure MagicMock param — no torch required
+        mock_model.parameters.side_effect = lambda: iter([_make_param(16)])
+
         trainer = TrainerFactory.create(
             model=mock_model,
             tokenizer=mock_tokenizer,
