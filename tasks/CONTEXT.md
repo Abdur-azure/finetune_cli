@@ -34,6 +34,8 @@ Session state. Read both files at the start of every working session.
 | 19 | Test Import Audit | test_recommend, test_evaluation, test_instruction_trainer absolute imports |
 | 20 | Import Audit Complete | test_config, test_full_trainer absolute imports + no-real-tensor fix |
 | 21 | Meta Sync | CLAUDE.md sprints 13-20, audit_repo.py paths fixed |
+| 23 | Response Distillation | DistillationConfig in core/types.py, ResponseDistillationTrainer, 12 tests, example config |
+| 23 | Response Distillation | ResponseDistillationTrainer, DistillationConfig, 12 tests, example config |
 
 ## Workflow
 

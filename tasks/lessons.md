@@ -206,3 +206,12 @@ Fix: replace with _make_param() helper returning a pure MagicMock:
         param.requires_grad = requires_grad
         return param
 Rule: NEVER use real torch tensors in unit tests. MagicMock + numel.return_value only.
+
+## Pattern: Apply core/types.py dataclass FIRST — before writing the trainer
+Sprint 23 shipped ResponseDistillationTrainer before DistillationConfig was added
+to core/types.py. Every test file that imported DistillationConfig failed collection
+with ImportError, breaking 6 test files simultaneously.
+Rule: Step 1 of any new trainer sprint is always core/types.py — add the config
+dataclass and verify `python -c "from finetune_cli.core.types import NewConfig"`
+passes BEFORE writing the trainer file.
+This is now step 0 in the trainer checklist, before even creating the trainer file.

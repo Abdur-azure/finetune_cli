@@ -1,3 +1,30 @@
+## Sprint 23: "Response Distillation" (Close-out)
+
+- [x] finetune_cli/core/types.py — DistillationConfig frozen dataclass added after LoRAConfig
+- [x] finetune_cli/trainers/response_distillation_trainer.py — ResponseDistillationTrainer + _DistillationTrainer
+- [x] finetune_cli/trainers/factory.py — VANILLA_DISTILLATION wired, distillation_config param added
+- [x] finetune_cli/trainers/__init__.py — ResponseDistillationTrainer exported
+- [x] tests/test_response_distillation_trainer.py — 12 unit tests, no GPU, absolute imports
+- [x] examples/configs/response_distillation.yaml — runnable local config
+- [x] tasks/roadmap.md — Response Distillation marked ✅ Sprint 23
+- [x] tasks/lessons.md — pattern: apply core/types.py FIRST before trainer file
+- [x] tasks/CONTEXT.md — Sprint 23 row added
+- [x] CLAUDE.md — Sprint 23 row + ResponseDistillationTrainer in trainer table
+- [x] pyproject.toml — 3.5.0 → 3.6.0
+- [x] audit_repo.py — new files registered
+- [x] CHANGELOG.md — Sprint 23 entry
+
+---
+
+## Acceptance Gate
+python -c "from finetune_cli.core.types import DistillationConfig; print('OK')"
+pytest tests/test_response_distillation_trainer.py -v
+→ 12 passed, no GPU.
+pytest tests/ --co -q --ignore=tests/test_integration.py
+→ zero collection errors.
+
+---
+
 # Tasks
 
 ## Status Legend
