@@ -1,3 +1,31 @@
+## Sprint 24: "Feature Distillation"
+
+- [x] finetune_cli/core/types.py — FeatureDistillationConfig frozen dataclass (step 0, per lessons.md)
+- [x] verify: python -c "from finetune_cli.core.types import FeatureDistillationConfig; print('OK')"
+- [x] finetune_cli/trainers/feature_distillation_trainer.py — FeatureDistillationTrainer, _FeatureDistillationTrainer, _select_layers, _map_teacher_layer
+- [x] finetune_cli/trainers/factory.py — FEATURE_DISTILLATION wired, feature_distillation_config param added
+- [x] finetune_cli/trainers/__init__.py — FeatureDistillationTrainer exported
+- [x] tests/test_feature_distillation_trainer.py — 21 unit tests, no GPU, absolute imports
+- [x] examples/configs/feature_distillation.yaml — runnable local config
+- [x] tasks/roadmap.md — Feature Distillation marked ✅ Sprint 24
+- [x] audit_repo.py — new files registered
+- [x] CHANGELOG.md — Sprint 24 entry
+- [x] tasks/CONTEXT.md — Sprint 24 row
+- [x] CLAUDE.md — Sprint 24 row + FeatureDistillationTrainer in trainer table
+- [x] pyproject.toml — 3.6.0 → 3.7.0
+- [x] tasks/todo.md — Sprint 24 gate recorded
+
+---
+
+## Acceptance Gate
+python -c "from finetune_cli.core.types import FeatureDistillationConfig; print('OK')"
+pytest tests/test_feature_distillation_trainer.py -v
+→ 21 passed, no GPU.
+pytest tests/ --co -q --ignore=tests/test_integration.py
+→ zero collection errors.
+
+---
+
 ## Sprint 23: "Response Distillation" (Close-out)
 
 - [x] finetune_cli/core/types.py — DistillationConfig frozen dataclass added after LoRAConfig

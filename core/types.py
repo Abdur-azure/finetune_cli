@@ -136,6 +136,28 @@ class DistillationConfig:
 
 
 @dataclass(frozen=True)
+class FeatureDistillationConfig:
+    """Configuration for feature (intermediate layer) distillation.
+
+    Attributes:
+        teacher_model_name: HuggingFace model id of the teacher.
+        temperature: Softmax temperature for output-level KL component.
+        alpha: Weight for CE loss.
+            Total = alpha*CE + beta*KL_output + (1-alpha-beta)*MSE_features.
+        beta: Weight for output KL loss component (set 0.0 to skip).
+        feature_layers: Student layer indices to match against teacher.
+            None = auto-select evenly-spaced layers across the student depth.
+        feature_loss_weight: Scalar multiplier for the MSE feature loss term.
+    """
+    teacher_model_name: str
+    temperature: float = 2.0
+    alpha: float = 0.3
+    beta: float = 0.2
+    feature_layers: Optional[List[int]] = None
+    feature_loss_weight: float = 1.0
+
+
+@dataclass(frozen=True)
 class TrainingConfig:
     method: TrainingMethod
     output_dir: Path

@@ -47,6 +47,7 @@ REQUIRED_FILES = [
     "finetune_cli/trainers/instruction_trainer.py",
     "finetune_cli/trainers/dpo_trainer.py",
     "finetune_cli/trainers/response_distillation_trainer.py",
+    "finetune_cli/trainers/feature_distillation_trainer.py",
     "finetune_cli/trainers/factory.py",
 
     # Data
@@ -72,6 +73,7 @@ REQUIRED_FILES = [
     "tests/test_qlora_trainer.py",
     "tests/test_dpo_trainer.py",
     "tests/test_response_distillation_trainer.py",
+    "tests/test_feature_distillation_trainer.py",
     "tests/test_evaluation.py",
     "tests/test_recommend.py",
     "tests/test_cli_train.py",
@@ -95,6 +97,7 @@ REQUIRED_FILES = [
     "examples/configs/full_finetuning.yaml",
     "examples/configs/dpo.yaml",
     "examples/configs/response_distillation.yaml",
+    "examples/configs/feature_distillation.yaml",
     "examples/generate_sample_data.py",
 
     # Context files

@@ -23,6 +23,7 @@ from ..core.types import (
     LoRAConfig,
     ModelConfig,
     DistillationConfig,
+    FeatureDistillationConfig,
     TrainingMethod,
 )
 from ..core.exceptions import MissingConfigError
@@ -33,6 +34,7 @@ from .full_trainer import FullFineTuner
 from .instruction_trainer import InstructionTrainer
 from .dpo_trainer import DPOTrainer, validate_dpo_dataset
 from .response_distillation_trainer import ResponseDistillationTrainer
+from .feature_distillation_trainer import FeatureDistillationTrainer
 
 
 # ============================================================================
@@ -56,6 +58,7 @@ class TrainerFactory:
         lora_config: Optional[LoRAConfig] = None,
         model_config: Optional[ModelConfig] = None,
         distillation_config: Optional[DistillationConfig] = None,
+        feature_distillation_config: Optional[FeatureDistillationConfig] = None,
     ) -> BaseTrainer:
         """
         Instantiate the correct trainer.
@@ -109,10 +112,19 @@ class TrainerFactory:
                 model, tokenizer, training_config, distillation_config
             )
 
+        if method == TrainingMethod.FEATURE_DISTILLATION:
+            if feature_distillation_config is None:
+                raise MissingConfigError(
+                    "feature_distillation_config", "feature distillation"
+                )
+            return FeatureDistillationTrainer(
+                model, tokenizer, training_config, feature_distillation_config
+            )
+
         raise NotImplementedError(
             f"Training method '{method.value}' is not yet implemented. "
             f"Supported methods: lora, qlora, full_finetuning, "
-            f"instruction_tuning, dpo, vanilla_distillation."
+            f"instruction_tuning, dpo, vanilla_distillation, feature_distillation."
         )
 
     @staticmethod
@@ -124,6 +136,7 @@ class TrainerFactory:
         lora_config: Optional[LoRAConfig] = None,
         model_config: Optional[ModelConfig] = None,
         distillation_config: Optional[DistillationConfig] = None,
+        feature_distillation_config: Optional[FeatureDistillationConfig] = None,
     ) -> TrainingResult:
         """
         One-call convenience: create trainer and run training.
@@ -147,5 +160,6 @@ class TrainerFactory:
             lora_config=lora_config,
             model_config=model_config,
             distillation_config=distillation_config,
+            feature_distillation_config=feature_distillation_config,
         )
         return trainer.train(dataset)

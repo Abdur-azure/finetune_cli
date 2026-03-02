@@ -7,7 +7,7 @@ Context file for AI-assisted development. Read this at the start of every sessio
 ## Project
 
 **finetune-cli** — production-grade LLM fine-tuning framework with a modular CLI.
-Version: 3.6.0 | License: MIT | Python: 3.10+
+Version: 3.7.0 | License: MIT | Python: 3.10+
 
 ---
 
@@ -74,6 +74,7 @@ tasks/                 # todo.md + lessons.md — read these every session
 | `instruction_tuning` | `InstructionTrainer` | Yes |
 | `dpo` | `DPOTrainer` | Yes (requires trl>=0.7.0) |
 | `vanilla_distillation` | `ResponseDistillationTrainer` | No (needs distillation_config) |
+| `feature_distillation` | `FeatureDistillationTrainer` | No (needs feature_distillation_config) |
 
 ---
 
@@ -136,6 +137,7 @@ pytest tests/ -v
 | 20 | Import Audit Complete | ✅ Complete |
 | 21 | Meta Sync | ✅ Complete |
 | 23 | Response Distillation | ✅ Complete |
+| 24 | Feature Distillation | ✅ Complete |
 
 Current task state: `tasks/todo.md`
 Accumulated lessons: `tasks/lessons.md`

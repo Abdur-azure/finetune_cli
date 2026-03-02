@@ -4,6 +4,34 @@ All notable changes to this project are documented here.
 
 ---
 
+## [3.7.0] — Sprint 24: "Feature Distillation" — 2025-03-02
+
+### Added
+- `finetune_cli/core/types.py` — `FeatureDistillationConfig` frozen dataclass
+  (teacher_model_name, temperature=2.0, alpha=0.3, beta=0.2,
+  feature_layers=None, feature_loss_weight=1.0).
+- `finetune_cli/trainers/feature_distillation_trainer.py` — `FeatureDistillationTrainer`
+  + `_FeatureDistillationTrainer` (HF Trainer subclass). Three-component loss:
+  alpha*CE + beta*KL_output*T² + gamma*MSE_hidden. Auto layer selection when
+  feature_layers=None. Dimension mismatch fallback via L2 normalisation.
+  `ResourceWarning` for models >1B params.
+- `_select_layers()` helper — evenly-spaced auto selection or explicit validation.
+- `_map_teacher_layer()` helper — proportional student→teacher layer index mapping.
+- `finetune_cli/trainers/factory.py` — `FEATURE_DISTILLATION` wired to
+  `FeatureDistillationTrainer`; `feature_distillation_config` param added.
+- `finetune_cli/trainers/__init__.py` — `FeatureDistillationTrainer` exported.
+- `tests/test_feature_distillation_trainer.py` — 21 unit tests: `_select_layers`
+  (5), `_map_teacher_layer` (3), factory dispatch (2), init/VRAM (3),
+  `_setup_peft` (2), `train()` flow (6).
+- `examples/configs/feature_distillation.yaml` — runnable local config.
+- `tasks/roadmap.md` — Feature Distillation marked ✅ Sprint 24.
+- `audit_repo.py` — new trainer, test file, example config registered.
+
+### Fixed (sprint-end checklist)
+- `pyproject.toml` — version 3.6.0 → 3.7.0
+
+---
+
 ## [3.6.0] — Sprint 23: "Response Distillation" — 2025-03-01
 
 ### Added

@@ -1,0 +1,41 @@
+# Feature Distillation — example config
+# Student: GPT-2 (124M) learns from Teacher: GPT-2-medium (355M)
+# Uses MSE on hidden states + KL on logits + CE on ground-truth labels.
+#
+# Run:
+#   finetune-cli train --config examples/configs/feature_distillation.yaml
+#
+# Data: generate with examples/generate_sample_data.py
+
+model:
+  name: "gpt2"
+  device: "auto"
+
+dataset:
+  source: "local_file"
+  path: "examples/data/sample.jsonl"
+  split: "train"
+  max_samples: 500
+
+tokenization:
+  max_length: 256
+  truncation: true
+  padding: "max_length"
+
+training:
+  method: "feature_distillation"
+  output_dir: "outputs/feature_distillation"
+  num_epochs: 3
+  batch_size: 4
+  learning_rate: 1e-4
+  warmup_ratio: 0.1
+  lr_scheduler_type: "cosine"
+  fp16: false
+
+feature_distillation:
+  teacher_model_name: "gpt2-medium"
+  temperature: 2.0
+  alpha: 0.3        # CE loss weight
+  beta: 0.2         # KL output loss weight
+  feature_layers: null  # null = auto evenly-spaced
+  feature_loss_weight: 1.0

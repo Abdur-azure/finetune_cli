@@ -35,6 +35,7 @@ Session state. Read both files at the start of every working session.
 | 20 | Import Audit Complete | test_config, test_full_trainer absolute imports + no-real-tensor fix |
 | 21 | Meta Sync | CLAUDE.md sprints 13-20, audit_repo.py paths fixed |
 | 23 | Response Distillation | DistillationConfig in core/types.py, ResponseDistillationTrainer, 12 tests, example config |
+| 24 | Feature Distillation | FeatureDistillationConfig, FeatureDistillationTrainer, 21 tests, layer helpers |
 | 23 | Response Distillation | ResponseDistillationTrainer, DistillationConfig, 12 tests, example config |
 
 ## Workflow

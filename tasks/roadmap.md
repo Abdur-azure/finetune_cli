@@ -19,7 +19,7 @@ Validated methods for commercial relevance. Build order: simplest → most compl
 | Method | Status | Sprint |
 |--------|--------|--------|
 | Response Distillation | ✅ Built | Sprint 23 |
-| Feature Distillation | ⬜ Not started | — |
+| Feature Distillation | ✅ Built | Sprint 24 |
 
 ## Pruning
 
@@ -33,7 +33,7 @@ Validated methods for commercial relevance. Build order: simplest → most compl
 ## Build Order
 
 1. **Response Distillation** ✅ — KL divergence, student mimics teacher logits. Single dep: `transformers`.
-2. **Feature Distillation** — student matches teacher hidden states. Builds on #1.
+2. **Feature Distillation** ✅ — MSE on hidden states + KL on logits. Builds on #1.
 3. **Structured Pruning** — remove attention heads / FFN layers. No retraining loop.
 4. **WANDA** — weight + activation pruning, zero-shot, no gradient pass.
 

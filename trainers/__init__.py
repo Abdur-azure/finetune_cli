@@ -7,6 +7,7 @@ from .full_trainer import FullFineTuner
 from .instruction_trainer import InstructionTrainer, format_instruction_dataset
 from .dpo_trainer import DPOTrainer, validate_dpo_dataset
 from .response_distillation_trainer import ResponseDistillationTrainer
+from .feature_distillation_trainer import FeatureDistillationTrainer
 from .factory import TrainerFactory
 
 __all__ = [
@@ -20,5 +21,6 @@ __all__ = [
     "DPOTrainer",
     "validate_dpo_dataset",
     "ResponseDistillationTrainer",
+    "FeatureDistillationTrainer",
     "TrainerFactory",
 ]
