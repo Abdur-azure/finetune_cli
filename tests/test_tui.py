@@ -157,8 +157,8 @@ class TestCommandCard:
         async with app.run_test(size=(120, 40)) as pilot:
             await pilot.pause()
             await pilot.pause()
-            # Use a stub card (evaluate) — stays on HomeScreen until Sprint 27
-            await pilot.click("#card-evaluate")
+            # Use upload card — last stub until Sprint 28
+            await pilot.click("#card-upload")
             await pilot.pause()
             assert isinstance(app.screen, HomeScreen)
 
@@ -168,8 +168,8 @@ class TestCommandCard:
         async with app.run_test(size=(120, 40)) as pilot:
             await pilot.pause()
             await pilot.pause()
-            # Focus a stub card (benchmark) then press enter
-            app.screen.query_one("#card-benchmark").focus()
+            # Focus upload card (still a stub until Sprint 28)
+            app.screen.query_one("#card-upload").focus()
             await pilot.pause()
             await pilot.press("enter")
             await pilot.pause()
@@ -193,6 +193,7 @@ from finetune_cli.tui.screens.train import TrainScreen          # noqa: E402
 from finetune_cli.tui.screens.recommend import RecommendScreen  # noqa: E402
 from finetune_cli.tui.screens.running import RunningScreen      # noqa: E402
 from finetune_cli.tui.screens.result import ResultScreen        # noqa: E402
+from textual.widgets import Checkbox                            # noqa: E402
 
 
 class TestTrainScreen:
@@ -374,3 +375,212 @@ class TestResultScreen:
             await pilot.click("#btn-home")
             await pilot.pause()
             assert isinstance(app.screen, HomeScreen)
+
+
+# ============================================================================
+# Sprint 27 — Evaluate, Benchmark, Merge screens
+# ============================================================================
+
+from finetune_cli.tui.screens.evaluate import EvaluateScreen    # noqa: E402
+from finetune_cli.tui.screens.benchmark import BenchmarkScreen  # noqa: E402
+from finetune_cli.tui.screens.merge import MergeScreen          # noqa: E402
+
+
+class TestEvaluateScreen:
+    """EvaluateScreen form renders and validates."""
+
+    @pytest.mark.asyncio
+    async def test_evaluate_card_navigates_to_evaluate_screen(self):
+        app = FinetuneApp()
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause()
+            await pilot.pause()
+            await pilot.click("#card-evaluate")
+            await pilot.pause()
+            assert isinstance(app.screen, EvaluateScreen)
+
+    @pytest.mark.asyncio
+    async def test_evaluate_screen_has_model_input(self):
+        app = FinetuneApp()
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause()
+            await pilot.pause()
+            app.switch_screen(EvaluateScreen())
+            await pilot.pause()
+            assert len(app.screen.query("#input-model")) == 1
+
+    @pytest.mark.asyncio
+    async def test_evaluate_screen_has_dataset_input(self):
+        app = FinetuneApp()
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause()
+            await pilot.pause()
+            app.switch_screen(EvaluateScreen())
+            await pilot.pause()
+            assert len(app.screen.query("#input-dataset")) == 1
+
+    @pytest.mark.asyncio
+    async def test_evaluate_screen_has_metric_checkboxes(self):
+        app = FinetuneApp()
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause()
+            await pilot.pause()
+            app.switch_screen(EvaluateScreen())
+            await pilot.pause()
+            checkboxes = app.screen.query(Checkbox)
+            assert len(checkboxes) == 5
+
+    @pytest.mark.asyncio
+    async def test_evaluate_back_returns_home(self):
+        app = FinetuneApp()
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause()
+            await pilot.pause()
+            screen = EvaluateScreen()
+            app.switch_screen(screen)
+            await pilot.pause()
+            await pilot.pause()
+            screen.action_go_home()
+            await pilot.pause()
+            await pilot.pause()
+            assert isinstance(app.screen, HomeScreen)
+
+    @pytest.mark.asyncio
+    async def test_evaluate_submit_empty_shows_validation(self):
+        app = FinetuneApp()
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause()
+            await pilot.pause()
+            screen = EvaluateScreen()
+            app.switch_screen(screen)
+            await pilot.pause()
+            await pilot.pause()
+            screen.action_submit()
+            await pilot.pause()
+            assert isinstance(app.screen, EvaluateScreen)
+
+
+class TestBenchmarkScreen:
+    """BenchmarkScreen form renders and validates."""
+
+    @pytest.mark.asyncio
+    async def test_benchmark_card_navigates_to_benchmark_screen(self):
+        app = FinetuneApp()
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause()
+            await pilot.pause()
+            await pilot.click("#card-benchmark")
+            await pilot.pause()
+            assert isinstance(app.screen, BenchmarkScreen)
+
+    @pytest.mark.asyncio
+    async def test_benchmark_screen_has_base_input(self):
+        app = FinetuneApp()
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause()
+            await pilot.pause()
+            app.switch_screen(BenchmarkScreen())
+            await pilot.pause()
+            assert len(app.screen.query("#input-base")) == 1
+
+    @pytest.mark.asyncio
+    async def test_benchmark_screen_has_finetuned_input(self):
+        app = FinetuneApp()
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause()
+            await pilot.pause()
+            app.switch_screen(BenchmarkScreen())
+            await pilot.pause()
+            assert len(app.screen.query("#input-finetuned")) == 1
+
+    @pytest.mark.asyncio
+    async def test_benchmark_back_returns_home(self):
+        app = FinetuneApp()
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause()
+            await pilot.pause()
+            screen = BenchmarkScreen()
+            app.switch_screen(screen)
+            await pilot.pause()
+            await pilot.pause()
+            screen.action_go_home()
+            await pilot.pause()
+            await pilot.pause()
+            assert isinstance(app.screen, HomeScreen)
+
+    @pytest.mark.asyncio
+    async def test_benchmark_submit_empty_shows_validation(self):
+        app = FinetuneApp()
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause()
+            await pilot.pause()
+            screen = BenchmarkScreen()
+            app.switch_screen(screen)
+            await pilot.pause()
+            await pilot.pause()
+            screen.action_submit()
+            await pilot.pause()
+            assert isinstance(app.screen, BenchmarkScreen)
+
+
+class TestMergeScreen:
+    """MergeScreen form renders and validates."""
+
+    @pytest.mark.asyncio
+    async def test_merge_card_navigates_to_merge_screen(self):
+        app = FinetuneApp()
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause()
+            await pilot.pause()
+            await pilot.click("#card-merge")
+            await pilot.pause()
+            assert isinstance(app.screen, MergeScreen)
+
+    @pytest.mark.asyncio
+    async def test_merge_screen_has_adapter_input(self):
+        app = FinetuneApp()
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause()
+            await pilot.pause()
+            app.switch_screen(MergeScreen())
+            await pilot.pause()
+            assert len(app.screen.query("#input-adapter")) == 1
+
+    @pytest.mark.asyncio
+    async def test_merge_screen_has_dtype_select(self):
+        app = FinetuneApp()
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause()
+            await pilot.pause()
+            app.switch_screen(MergeScreen())
+            await pilot.pause()
+            assert len(app.screen.query("#select-dtype")) == 1
+
+    @pytest.mark.asyncio
+    async def test_merge_back_returns_home(self):
+        app = FinetuneApp()
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause()
+            await pilot.pause()
+            screen = MergeScreen()
+            app.switch_screen(screen)
+            await pilot.pause()
+            await pilot.pause()
+            screen.action_go_home()
+            await pilot.pause()
+            await pilot.pause()
+            assert isinstance(app.screen, HomeScreen)
+
+    @pytest.mark.asyncio
+    async def test_merge_submit_empty_shows_validation(self):
+        app = FinetuneApp()
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause()
+            await pilot.pause()
+            screen = MergeScreen()
+            app.switch_screen(screen)
+            await pilot.pause()
+            await pilot.pause()
+            screen.action_submit()
+            await pilot.pause()
+            assert isinstance(app.screen, MergeScreen)

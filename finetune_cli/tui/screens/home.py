@@ -94,19 +94,25 @@ class HomeScreen(Screen):
 
     def on_command_card_selected(self, event: CommandCard.Selected) -> None:
         """Route card selection to the appropriate screen."""
-        # Screens wired so far
-        wired = {"train", "recommend"}
-
         if event.command_id == "train":
             from finetune_cli.tui.screens.train import TrainScreen
             self.app.switch_screen(TrainScreen())
         elif event.command_id == "recommend":
             from finetune_cli.tui.screens.recommend import RecommendScreen
             self.app.switch_screen(RecommendScreen())
+        elif event.command_id == "evaluate":
+            from finetune_cli.tui.screens.evaluate import EvaluateScreen
+            self.app.switch_screen(EvaluateScreen())
+        elif event.command_id == "benchmark":
+            from finetune_cli.tui.screens.benchmark import BenchmarkScreen
+            self.app.switch_screen(BenchmarkScreen())
+        elif event.command_id == "merge":
+            from finetune_cli.tui.screens.merge import MergeScreen
+            self.app.switch_screen(MergeScreen())
         else:
-            # Sprint 27+ will wire the remaining cards
+            # Sprint 28 will wire Upload
             self.app.notify(
-                f"[bold]{event.command_id.capitalize()}[/bold] screen coming in Sprint 27",
+                f"[bold]{event.command_id.capitalize()}[/bold] screen coming in Sprint 28",
                 title="Coming soon",
                 severity="information",
             )

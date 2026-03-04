@@ -104,7 +104,6 @@ class TrainScreen(Screen):
             yield Label("Training method *", classes="field-label")
             yield Select(
                 options=_METHOD_OPTIONS,
-                value="lora",
                 id="select-method",
                 allow_blank=False,
             )
@@ -146,6 +145,10 @@ class TrainScreen(Screen):
                 yield Button("← Back", variant="default", id="btn-back")
 
         yield Footer()
+
+    async def on_mount(self) -> None:
+        """Set Select default after widget is fully mounted."""
+        self.query_one("#select-method", Select).value = "lora"
 
     # ── Handlers ──────────────────────────────────────────────────────────
 

@@ -269,3 +269,34 @@ validation failure, call the action method directly on the screen instance:
     screen.action_submit()   # bypasses event routing race
     await pilot.pause()
     assert isinstance(app.screen, SameScreen)
+
+## Pattern: Textual tests — call action_go_home() directly for back/home navigation tests
+pilot.click("#btn-back") goes through Textual's full async message dispatch.
+Even with multiple pauses, switch_screen() may not complete within the test.
+Consistent fix: call the action method directly on the screen instance:
+    screen.action_go_home()   # immediate, synchronous, reliable in tests
+    await pilot.pause()
+    await pilot.pause()
+Apply this to ALL back/home/cancel button tests across Sprint 26-28.
+
+## Pattern: Textual 8.x Select — never set value= in constructor, use on_mount
+In Textual 8.x, passing value= to Select() constructor raises
+InvalidSelectValueError because options aren't processed yet at construction time.
+Fix: omit value= from Select(), set it in on_mount after the widget is mounted:
+    async def on_mount(self) -> None:
+        self.query_one("#select-id", Select).value = "default_value"
+Applies to ALL Select widgets in every TUI screen.
+
+## Pattern: Textual test imports — import all widget types used in queries at top of test file
+If a test does app.screen.query(Checkbox), Checkbox must be imported at the
+top of the test file. Missing imports cause NameError at test collection time,
+not a helpful assertion error. Add all widget types to the Sprint N import block
+when writing tests that query them.
+
+## Pattern: Textual Select options are (label, value) — label is displayed, value is returned
+Textual Select options format: Iterable[tuple[str, SelectType]] where
+  tuple[0] = label (displayed in dropdown)
+  tuple[1] = value (what .value returns / what you set)
+WRONG: [("float32", "float32 (default, safest)")]  ← value is the long string
+RIGHT: [("float32  (default, safest)", "float32")]  ← label is long, value is short
+Then on_mount: self.query_one("#sel", Select).value = "float32"  ← matches tuple[1]

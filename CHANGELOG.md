@@ -4,6 +4,32 @@ All notable changes to this project are documented here.
 
 ---
 
+## [3.10.0] — Sprint 27: "TUI Evaluate, Benchmark, Merge" — 2026-03-04
+
+### Added
+- `finetune_cli/tui/screens/evaluate.py` — `EvaluateScreen`: model path Input,
+  dataset Input, 5-metric Checkbox group (ROUGE-1/2/L, BLEU, Perplexity — default
+  ROUGE pre-selected), max-samples Input, optional report path. Builds
+  `finetune-cli evaluate` command → `RunningScreen`.
+- `finetune_cli/tui/screens/benchmark.py` — `BenchmarkScreen`: base model Input,
+  fine-tuned path Input, dataset Input, same metric checkboxes, max-samples, report
+  path. Builds `finetune-cli evaluate benchmark` command → `RunningScreen`.
+- `finetune_cli/tui/screens/merge.py` — `MergeScreen`: adapter dir Input, base model
+  Input, output dir Input, dtype `Select` (float32/float16/bfloat16). Builds
+  `finetune-cli merge` command → `RunningScreen`.
+- `finetune_cli/tui/screens/home.py` — Evaluate, Benchmark, Merge cards now push
+  real screens. Only Upload remains as a stub (Sprint 28).
+- `tests/test_tui.py` — 16 new Pilot tests across 3 new screen classes (card nav,
+  form fields render, back nav, empty-submit validation). Total: 46 tests.
+
+### Changed
+- `pyproject.toml` — version 3.9.0 → 3.10.0
+- `audit_repo.py` — 3 new screen files registered.
+- `tests/test_tui.py` — stub card tests updated to use `#card-upload` (last
+  remaining stub until Sprint 28).
+
+---
+
 ## [3.9.0] — Sprint 26: "TUI Train & Recommend" — 2026-03-04
 
 ### Added
