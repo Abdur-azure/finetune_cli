@@ -7,7 +7,7 @@ Context file for AI-assisted development. Read this at the start of every sessio
 ## Project
 
 **finetune-cli** — production-grade LLM fine-tuning framework with a modular CLI.
-Version: 3.10.0 | License: MIT | Python: 3.10+
+Version: 3.11.0 | License: MIT | Python: 3.10+
 
 ---
 
@@ -141,9 +141,11 @@ pytest tests/ -v
 | 25 | TUI Foundation | ✅ Complete |
 | 26 | TUI Train & Recommend | ✅ Complete |
 | 27 | TUI Evaluate, Benchmark, Merge | ✅ Complete |
+| 28 | TUI Upload + Polish | ✅ Complete |
 | 25 | TUI Foundation | ✅ Complete |
 | 26 | TUI Train & Recommend | ✅ Complete |
 | 27 | TUI Evaluate, Benchmark, Merge | ✅ Complete |
+| 28 | TUI Upload + Polish | ✅ Complete |
 
 Current task state: `tasks/todo.md`
 Accumulated lessons: `tasks/lessons.md`

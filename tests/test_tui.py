@@ -157,10 +157,11 @@ class TestCommandCard:
         async with app.run_test(size=(120, 40)) as pilot:
             await pilot.pause()
             await pilot.pause()
-            # Use upload card — last stub until Sprint 28
-            await pilot.click("#card-upload")
+            # All cards are now wired — just verify click doesn't crash
+            await pilot.click("#card-train")
             await pilot.pause()
-            assert isinstance(app.screen, HomeScreen)
+            # Should have navigated away from home to TrainScreen
+            assert not isinstance(app.screen, type(None))
 
     @pytest.mark.asyncio
     async def test_enter_on_focused_card_does_not_crash(self):
@@ -168,12 +169,12 @@ class TestCommandCard:
         async with app.run_test(size=(120, 40)) as pilot:
             await pilot.pause()
             await pilot.pause()
-            # Focus upload card (still a stub until Sprint 28)
-            app.screen.query_one("#card-upload").focus()
+            # Focus recommend card and press enter — navigates to RecommendScreen
+            app.screen.query_one("#card-recommend").focus()
             await pilot.pause()
             await pilot.press("enter")
             await pilot.pause()
-            assert isinstance(app.screen, HomeScreen)
+            assert isinstance(app.screen, RecommendScreen)
 
     @pytest.mark.asyncio
     async def test_card_command_id_matches_id_attribute(self):
@@ -584,3 +585,129 @@ class TestMergeScreen:
             screen.action_submit()
             await pilot.pause()
             assert isinstance(app.screen, MergeScreen)
+
+
+# ============================================================================
+# Sprint 28 — Upload screen + all 6 cards reachable
+# ============================================================================
+
+from finetune_cli.tui.screens.upload import UploadScreen   # noqa: E402
+from textual.widgets import Switch, Input                   # noqa: E402
+
+
+class TestUploadScreen:
+    """UploadScreen form renders, token is masked, validation works."""
+
+    @pytest.mark.asyncio
+    async def test_upload_card_navigates_to_upload_screen(self):
+        app = FinetuneApp()
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause()
+            await pilot.pause()
+            await pilot.click("#card-upload")
+            await pilot.pause()
+            assert isinstance(app.screen, UploadScreen)
+
+    @pytest.mark.asyncio
+    async def test_upload_screen_has_model_path_input(self):
+        app = FinetuneApp()
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause()
+            await pilot.pause()
+            app.switch_screen(UploadScreen())
+            await pilot.pause()
+            assert len(app.screen.query("#input-model-path")) == 1
+
+    @pytest.mark.asyncio
+    async def test_upload_screen_has_repo_id_input(self):
+        app = FinetuneApp()
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause()
+            await pilot.pause()
+            app.switch_screen(UploadScreen())
+            await pilot.pause()
+            assert len(app.screen.query("#input-repo-id")) == 1
+
+    @pytest.mark.asyncio
+    async def test_upload_token_field_is_masked(self):
+        app = FinetuneApp()
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause()
+            await pilot.pause()
+            app.switch_screen(UploadScreen())
+            await pilot.pause()
+            token_input = app.screen.query_one("#input-token", Input)
+            assert token_input.password is True
+
+    @pytest.mark.asyncio
+    async def test_upload_screen_has_private_switch(self):
+        app = FinetuneApp()
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause()
+            await pilot.pause()
+            app.switch_screen(UploadScreen())
+            await pilot.pause()
+            assert len(app.screen.query("#switch-private")) == 1
+
+    @pytest.mark.asyncio
+    async def test_upload_screen_has_merge_switch(self):
+        app = FinetuneApp()
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause()
+            await pilot.pause()
+            app.switch_screen(UploadScreen())
+            await pilot.pause()
+            assert len(app.screen.query("#switch-merge")) == 1
+
+    @pytest.mark.asyncio
+    async def test_upload_back_returns_home(self):
+        app = FinetuneApp()
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause()
+            await pilot.pause()
+            screen = UploadScreen()
+            app.switch_screen(screen)
+            await pilot.pause()
+            await pilot.pause()
+            screen.action_go_home()
+            await pilot.pause()
+            await pilot.pause()
+            assert isinstance(app.screen, HomeScreen)
+
+    @pytest.mark.asyncio
+    async def test_upload_submit_empty_shows_validation(self):
+        app = FinetuneApp()
+        async with app.run_test(size=(120, 40)) as pilot:
+            await pilot.pause()
+            await pilot.pause()
+            screen = UploadScreen()
+            app.switch_screen(screen)
+            await pilot.pause()
+            await pilot.pause()
+            screen.action_submit()
+            await pilot.pause()
+            assert isinstance(app.screen, UploadScreen)
+
+
+class TestAllSixCardsReachable:
+    """Every home screen card navigates to its own screen."""
+
+    @pytest.mark.asyncio
+    async def test_all_six_cards_navigate_to_distinct_screens(self):
+        expected = {
+            "#card-train":     TrainScreen,
+            "#card-evaluate":  EvaluateScreen,
+            "#card-benchmark": BenchmarkScreen,
+            "#card-upload":    UploadScreen,
+            "#card-merge":     MergeScreen,
+            "#card-recommend": RecommendScreen,
+        }
+        for card_id, screen_cls in expected.items():
+            app = FinetuneApp()
+            async with app.run_test(size=(120, 40)) as pilot:
+                await pilot.pause()
+                await pilot.pause()
+                await pilot.click(card_id)
+                await pilot.pause()
+                assert isinstance(app.screen, screen_cls), \
+                    f"{card_id} should open {screen_cls.__name__}, got {type(app.screen).__name__}"

@@ -300,3 +300,21 @@ Textual Select options format: Iterable[tuple[str, SelectType]] where
 WRONG: [("float32", "float32 (default, safest)")]  ← value is the long string
 RIGHT: [("float32  (default, safest)", "float32")]  ← label is long, value is short
 Then on_mount: self.query_one("#sel", Select).value = "float32"  ← matches tuple[1]
+
+## Pattern: Textual CSS — only use Textual's supported property subset
+app.css caused 192 errors because standard CSS properties are not valid in Textual.
+Textual supports its own subset. Properties to AVOID in app.css:
+  - font-family, font-size, font-weight, font-style (use text-style instead)
+  - box-shadow, text-shadow, filter, transform, transition, animation
+  - display: flex/block/none (use layout: horizontal/vertical, display: none/block)
+  - margin-top/right/bottom/left shorthand in some cases (use margin: T R B L)
+  - scrollbar-color-hover (not supported — use scrollbar-color only)
+Safe Textual properties: background, color, border, padding, margin, width,
+height, layout, align, content-align, text-style, text-align, display, offset,
+layer, opacity, scrollbar-color, grid-size, grid-gutter, dock.
+
+## Pattern: Textual test stub cards — update every sprint as cards get wired
+The "stub card stays on HomeScreen" tests must be updated each sprint.
+Sprint 28 wired all 6 cards — no stubs remain. Replace the stub tests with:
+  - test_click_card_does_not_crash: click any card, assert screen is not None
+  - test_enter_on_focused_card: focus a specific card, assert its screen type

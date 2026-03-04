@@ -4,6 +4,33 @@ All notable changes to this project are documented here.
 
 ---
 
+## [3.11.0] — Sprint 28: "TUI Upload + Polish" — 2026-03-04
+
+### Added
+- `finetune_cli/tui/screens/upload.py` — `UploadScreen`: model path Input,
+  repo_id Input, token Input (`password=True` — masked), commit message Input,
+  private `Switch`, merge-adapter `Switch` (reveals base model Input when toggled),
+  inline validation. Builds `finetune-cli upload` command → `RunningScreen`.
+- `finetune_cli/tui/app.css` — full Textual CSS theme. Styles all widget types
+  (Input, Select, Checkbox, Switch, Button, DataTable, RichLog, CommandCard,
+  running/result/form shared classes). Replaces inline CSS in `app.py`.
+- `finetune_cli/tui/screens/home.py` — Upload card now wired to `UploadScreen`.
+  All 6 cards fully functional.
+- `finetune_cli/tui/app.py` — inline `CSS` block replaced with `CSS_PATH`
+  pointing to `app.css`.
+- `docs/tui.md` — full usage guide: install, home screen ASCII art, global
+  keybindings table, per-command field reference, running/result screen ASCII
+  art, env vars, headless testing instructions.
+- `tests/test_tui.py` — 9 new Pilot tests: upload card navigation, form fields,
+  token masking, private/merge switches, back nav, empty validation, all-6-cards
+  integration test. Total: 55 tests.
+
+### Changed
+- `pyproject.toml` — version 3.10.0 → 3.11.0
+- `audit_repo.py` — upload.py, app.css, docs/tui.md registered.
+
+---
+
 ## [3.10.0] — Sprint 27: "TUI Evaluate, Benchmark, Merge" — 2026-03-04
 
 ### Added

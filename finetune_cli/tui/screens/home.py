@@ -109,12 +109,14 @@ class HomeScreen(Screen):
         elif event.command_id == "merge":
             from finetune_cli.tui.screens.merge import MergeScreen
             self.app.switch_screen(MergeScreen())
+        elif event.command_id == "upload":
+            from finetune_cli.tui.screens.upload import UploadScreen
+            self.app.switch_screen(UploadScreen())
         else:
-            # Sprint 28 will wire Upload
             self.app.notify(
-                f"[bold]{event.command_id.capitalize()}[/bold] screen coming in Sprint 28",
-                title="Coming soon",
-                severity="information",
+                f"[bold]{event.command_id.capitalize()}[/bold] is not yet available.",
+                title="Not found",
+                severity="warning",
             )
 
     def on_key(self, event: events.Key) -> None:

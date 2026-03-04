@@ -40,7 +40,7 @@ Session state. Read both files at the start of every working session.
 | 25 | TUI Foundation | ✅ FinetuneApp, HomeScreen, 6 CommandCards, `finetune-cli tui`, 16 Pilot tests |
 | 26 | TUI Train & Recommend | ✅ Complete — TrainScreen, RecommendScreen, RunningScreen, ResultScreen, LogPanel, MetricTable, 30 tests |
 | 27 | TUI Evaluate, Benchmark, Merge | ✅ Complete — EvaluateScreen, BenchmarkScreen, MergeScreen, 46 tests |
-| **28** | **TUI Upload + Polish** | ⬜ Planned — Upload screen, app.css theme, docs/tui.md |
+| 28 | TUI Upload + Polish | ✅ Complete — UploadScreen, app.css, docs/tui.md, 55 tests |
 
 ## TUI Rule
 

@@ -1,0 +1,285 @@
+/* ============================================================================
+   finetune-cli TUI — global theme (app.css)
+   Textual CSS subset only — no standard CSS properties
+   ============================================================================ */
+
+/* ── Root screen ─────────────────────────────────────────────────── */
+Screen {
+    background: $background;
+    color: $text;
+}
+
+/* ── Header ──────────────────────────────────────────────────────── */
+Header {
+    background: $primary-darken-2;
+    color: $text;
+    text-style: bold;
+}
+
+/* ── Footer ──────────────────────────────────────────────────────── */
+Footer {
+    background: $primary-darken-3;
+    color: $text-muted;
+}
+
+/* ── Notifications ───────────────────────────────────────────────── */
+Toast {
+    background: $surface;
+    border: tall $accent;
+    color: $text;
+}
+
+/* ── Inputs ──────────────────────────────────────────────────────── */
+Input {
+    background: $surface;
+    border: tall $surface-lighten-2;
+    color: $text;
+    padding: 0 1;
+}
+
+Input:focus {
+    border: tall $accent;
+    background: $surface-lighten-1;
+}
+
+Input.-invalid {
+    border: tall $error;
+}
+
+/* ── Select ──────────────────────────────────────────────────────── */
+Select {
+    background: $surface;
+    border: tall $surface-lighten-2;
+}
+
+Select:focus {
+    border: tall $accent;
+}
+
+SelectOverlay {
+    background: $surface;
+    border: tall $accent;
+}
+
+/* ── Checkboxes ──────────────────────────────────────────────────── */
+Checkbox {
+    background: $surface;
+    color: $text;
+    padding: 0 1;
+}
+
+Checkbox:focus {
+    background: $surface-lighten-1;
+}
+
+/* ── Switches ────────────────────────────────────────────────────── */
+Switch {
+    background: $surface;
+}
+
+Switch:focus {
+    border: tall $accent;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────── */
+Button {
+    background: $surface;
+    border: tall $surface-lighten-2;
+    color: $text;
+}
+
+Button:hover {
+    background: $surface-lighten-1;
+    border: tall $accent;
+}
+
+Button:focus {
+    border: tall $accent;
+    background: $surface-lighten-1;
+}
+
+Button.-primary {
+    background: $primary;
+    border: tall $primary-lighten-1;
+    color: $text;
+    text-style: bold;
+}
+
+Button.-primary:hover {
+    background: $primary-lighten-1;
+    border: tall $accent;
+}
+
+Button.-error {
+    background: $error-darken-1;
+    border: tall $error;
+    color: $text;
+}
+
+Button.-error:hover {
+    background: $error;
+}
+
+/* ── DataTable (MetricTable) ─────────────────────────────────────── */
+DataTable {
+    background: $surface;
+    color: $text;
+}
+
+/* ── RichLog (LogPanel) ──────────────────────────────────────────── */
+RichLog {
+    background: $surface;
+    color: $text;
+    scrollbar-color: $accent;
+}
+
+/* ── CommandCard (HomeScreen) ────────────────────────────────────── */
+CommandCard {
+    width: 1fr;
+    height: 9;
+    border: tall $surface-lighten-2;
+    background: $surface;
+    padding: 1 2;
+    layout: vertical;
+    content-align: left middle;
+}
+
+CommandCard:hover {
+    border: tall $accent;
+    background: $surface-lighten-1;
+}
+
+CommandCard:focus {
+    border: tall $accent;
+    background: $surface-lighten-1;
+}
+
+CommandCard .card-header {
+    color: $text;
+    text-style: bold;
+    height: 2;
+    width: 100%;
+}
+
+CommandCard .card-description {
+    color: $text-muted;
+    height: 3;
+    width: 100%;
+}
+
+/* ── Home screen ─────────────────────────────────────────────────── */
+.home-title {
+    text-align: center;
+    color: $accent;
+    text-style: bold;
+    padding: 1 0;
+    width: 100%;
+    height: 3;
+}
+
+.home-subtitle {
+    text-align: center;
+    color: $text-muted;
+    padding: 0 0 1 0;
+    width: 100%;
+    height: 2;
+}
+
+.card-grid {
+    layout: grid;
+    grid-size: 3 2;
+    grid-gutter: 1 2;
+    padding: 0 3;
+    height: 1fr;
+}
+
+/* ── Form screens shared ─────────────────────────────────────────── */
+.form-title {
+    color: $accent;
+    text-style: bold;
+    height: 3;
+    content-align: left middle;
+    padding: 0 0 1 0;
+}
+
+.field-label {
+    color: $text-muted;
+    text-style: bold;
+    height: 1;
+    margin: 1 0 0 0;
+}
+
+.field-hint {
+    color: $text-muted;
+    height: 1;
+    margin: 0 0 0 1;
+}
+
+.validation-error {
+    color: $error;
+    height: 1;
+}
+
+.form-actions {
+    height: 5;
+    align: left middle;
+    layout: horizontal;
+    padding: 1 0;
+}
+
+/* ── Running screen ──────────────────────────────────────────────── */
+.running-title {
+    color: $accent;
+    text-style: bold;
+    width: 1fr;
+}
+
+.elapsed-label {
+    color: $text-muted;
+    text-align: right;
+    width: 20;
+}
+
+.status-text {
+    color: $text-muted;
+    width: 1fr;
+}
+
+/* ── Result screen ───────────────────────────────────────────────── */
+.result-banner {
+    height: 5;
+    content-align: center middle;
+    text-align: center;
+    text-style: bold;
+    width: 100%;
+    margin: 1 0;
+}
+
+.result-success {
+    color: $success;
+    background: $surface;
+    border: tall $success;
+}
+
+.result-failure {
+    color: $error;
+    background: $surface;
+    border: tall $error;
+}
+
+.result-body {
+    padding: 1 4;
+    height: 1fr;
+}
+
+.result-section-label {
+    color: $text-muted;
+    text-style: bold;
+    margin: 1 0 0 0;
+}
+
+.result-actions {
+    height: 5;
+    align: center middle;
+    layout: horizontal;
+}
