@@ -463,6 +463,91 @@ def merge(
     except Exception as exc:
         console.print(f"[red]Merge failed:[/red] {exc}")
         raise typer.Exit(code=1)
+
+# ============================================================================
+# PRUNE
+# ============================================================================
+
+
+@app.command()
+def prune(
+    model_path: Path = typer.Argument(..., help="Path to saved model or adapter directory"),
+    output_dir: Path = typer.Option(..., "--output", "-o", help="Directory to save the pruned model"),
+    sparsity: float = typer.Option(0.3, "--sparsity", "-s", help="Fraction of attention heads to prune per layer (0.0–1.0)"),
+    method: str = typer.Option("heads", "--method", help="Pruning target: 'heads' or 'ffn'"),
+    min_heads: int = typer.Option(1, "--min-heads", help="Minimum heads to keep per layer (prevents full layer collapse)"),
+):
+    """Prune low-importance attention heads from a transformer model.
+
+    Soft structured pruning: zeroes the weights of the lowest-magnitude
+    attention heads in every transformer layer. No retraining required.
+    Saves the pruned model to OUTPUT_DIR, ready for inference or further
+    fine-tuning.
+
+    Example:
+
+        finetune-cli prune ./outputs/gpt2_lora --output ./outputs/gpt2_pruned --sparsity 0.3
+    """
+    from finetune_cli.core.types import ModelConfig, PruningConfig
+    from finetune_cli.core.exceptions import FineTuneError
+    from finetune_cli.trainers.structured_pruner import StructuredPruner
+
+    if not model_path.exists():
+        console.print(f"[red]Error:[/red] Model path does not exist: {model_path}")
+        raise typer.Exit(code=1)
+
+    if not (0.0 <= sparsity < 1.0):
+        console.print("[red]Error:[/red] --sparsity must be in range [0.0, 1.0)")
+        raise typer.Exit(code=1)
+
+    if method not in ("heads", "ffn"):
+        console.print("[red]Error:[/red] --method must be 'heads' or 'ffn'")
+        raise typer.Exit(code=1)
+
+    panel_text = (
+        "[bold cyan]Pruning Configuration[/bold cyan]\n\n"
+        "[yellow]Model:[/yellow] " + str(model_path) + "\n"
+        "[yellow]Output:[/yellow] " + str(output_dir) + "\n"
+        f"[yellow]Sparsity:[/yellow] {sparsity:.0%}\n"
+        f"[yellow]Method:[/yellow] {method}\n"
+        f"[yellow]Min heads per layer:[/yellow] {min_heads}"
+    )
+    console.print(Panel.fit(panel_text, title="✂  Structured Pruning", border_style="cyan"))
+
+    try:
+        with console.status("[bold green]Loading model..."):
+            from finetune_cli.models.loader import load_model_and_tokenizer
+            model_config = ModelConfig(name=str(model_path))
+            model, tokenizer = load_model_and_tokenizer(model_config)
+        console.print("[green]✓[/green] Model loaded")
+
+        pruning_config = PruningConfig(
+            output_dir=output_dir,
+            sparsity=sparsity,
+            method=method,
+            min_heads_per_layer=min_heads,
+        )
+
+        with console.status("[bold green]Pruning..."):
+            pruner = StructuredPruner(model, tokenizer, pruning_config)
+            result = pruner.prune()
+
+        result_text = (
+            "[bold green]✓ Pruning complete[/bold green]\n\n"
+            "[yellow]Output dir:[/yellow] " + str(result.output_dir) + "\n"
+            f"[yellow]Params zeroed:[/yellow] {result.zeroed_param_count:,}\n"
+            f"[yellow]Sparsity achieved:[/yellow] {result.sparsity_achieved:.1%}\n"
+            f"[yellow]Time:[/yellow] {result.pruning_time_seconds:.1f}s\n"
+            "[yellow]Layers pruned:[/yellow] " + str(len(result.heads_pruned_per_layer))
+        )
+        console.print(Panel.fit(result_text, title="✂  Done", border_style="green"))
+
+    except FineTuneError as exc:
+        console.print(f"\n[bold red]Error:[/bold red] {exc}")
+        raise typer.Exit(code=1)
+    except Exception as exc:
+        console.print(f"\n[bold red]Unexpected error:[/bold red] {exc}")
+        raise typer.Exit(code=1)
     
 # ============================================================================
 # TUI  (Sprint 25)

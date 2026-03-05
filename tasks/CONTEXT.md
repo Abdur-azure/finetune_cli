@@ -41,6 +41,7 @@ Session state. Read both files at the start of every working session.
 | 26 | TUI Train & Recommend | ✅ Complete — TrainScreen, RecommendScreen, RunningScreen, ResultScreen, LogPanel, MetricTable, 30 tests |
 | 27 | TUI Evaluate, Benchmark, Merge | ✅ Complete — EvaluateScreen, BenchmarkScreen, MergeScreen, 46 tests |
 | 28 | TUI Upload + Polish | ✅ Complete — UploadScreen, app.css, docs/tui.md, 55 tests |
+| 29 | Structured Pruning | ✅ Complete — PruningConfig, StructuredPruner, prune CLI command, 23 tests |
 
 ## TUI Rule
 

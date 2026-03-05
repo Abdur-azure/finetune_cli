@@ -4,6 +4,41 @@ All notable changes to this project are documented here.
 
 ---
 
+## [3.12.0] — Sprint 29: "Structured Pruning" — 2026-03-04
+
+### Added
+- `finetune_cli/core/types.py` — `PruningConfig` frozen dataclass
+  (output_dir, sparsity=0.3, method="heads", importance_metric="magnitude",
+  min_heads_per_layer=1). Added BEFORE any trainer code per lessons.md pattern.
+- `finetune_cli/trainers/structured_pruner.py` — `StructuredPruner` class.
+  Soft structured attention-head pruning: scores each head by mean absolute
+  weight magnitude, zeroes the bottom `sparsity` fraction per layer, respects
+  `min_heads_per_layer` safety floor. Supports `method="heads"` (attention
+  head rows) and `method="ffn"` (FFN gate/fc1 neuron rows). Auto-detects
+  transformer layer structure across GPT-2, LLaMA, OPT, BERT-style models.
+  Returns `PruningResult` frozen dataclass. No training loop — model is
+  modified in-place and saved via `save_pretrained`.
+- `finetune_cli/trainers/__init__.py` — `StructuredPruner`, `PruningResult`
+  exported.
+- `cli/main.py` — `prune` subcommand. Args: model_path, --output, --sparsity
+  (default 0.3), --method (heads|ffn), --min-heads (default 1).
+- `tests/test_structured_pruner.py` — 16 unit tests: PruningConfig validation
+  (4), helper functions `_head_importance_scores`, `_zero_head_rows`,
+  `_count_params` (4), attention-head pruning flow (7), FFN pruning (1).
+  No GPU, no real torch tensors in fixtures.
+- `tests/test_prune.py` — 7 CLI-level tests: missing path, invalid sparsity,
+  invalid method, happy path exits 0, sparsity forwarded to config, ffn method
+  accepted, output contains sparsity achieved.
+- `examples/configs/structured_pruning.yaml` — runnable example with
+  sparsity guidance table.
+- `tasks/roadmap.md` — Structured Pruning marked ✅ Sprint 29.
+
+### Changed
+- `pyproject.toml` — version 3.11.0 → 3.12.0
+- `audit_repo.py` — new files registered.
+
+---
+
 ## [3.11.0] — Sprint 28: "TUI Upload + Polish" — 2026-03-04
 
 ### Added

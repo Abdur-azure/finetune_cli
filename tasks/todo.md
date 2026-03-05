@@ -363,3 +363,30 @@ pytest tests/test_qlora_trainer.py -v
 - [x] DPOTrainer, validate_dpo_dataset, factory, 10 tests
 
 ### Sprints 1–7: Foundation, Expand, First Run, Hardened, Merge, Documented, CI Tight
+
+---
+
+## Sprint 29: "Structured Pruning"  ⬜ NOT STARTED
+
+- [x] finetune_cli/core/types.py — PruningConfig frozen dataclass (step 0)
+- [x] verify: python -c "from finetune_cli.core.types import PruningConfig; print('OK')"
+- [x] finetune_cli/trainers/structured_pruner.py — StructuredPruner + PruningResult
+- [x] finetune_cli/trainers/__init__.py — StructuredPruner, PruningResult exported
+- [x] cli/main.py — add `prune` subcommand
+- [x] tests/test_structured_pruner.py — unit tests, no GPU, absolute imports
+- [x] examples/configs/structured_pruning.yaml — runnable local config
+- [x] tasks/roadmap.md — Structured Pruning marked ✅ Sprint 29
+- [x] audit_repo.py — new files registered
+- [x] CHANGELOG.md — Sprint 29 entry
+- [x] tasks/CONTEXT.md — Sprint 29 row
+- [x] CLAUDE.md — Sprint 29 row + StructuredPruner in trainer table
+- [x] pyproject.toml — bump to 3.12.0
+- [x] tasks/todo.md — Sprint 29 gate recorded
+
+### Acceptance Gate
+```
+python -c "from finetune_cli.core.types import PruningConfig; print('OK')"
+pytest tests/test_structured_pruner.py -v  → all tests pass, no GPU
+pytest tests/ --co -q --ignore=tests/test_integration.py  → 0 errors
+finetune-cli prune --help  → shows prune command
+```

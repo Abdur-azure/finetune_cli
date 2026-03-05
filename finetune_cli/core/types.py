@@ -157,6 +157,33 @@ class FeatureDistillationConfig:
     feature_loss_weight: float = 1.0
 
 
+
+@dataclass(frozen=True)
+class PruningConfig:
+    """Configuration for structured pruning.
+
+    Structured pruning removes entire attention heads (or FFN neurons)
+    whose weight magnitudes rank below a sparsity threshold.
+    No retraining is required — the model is modified in-place and saved.
+
+    Attributes:
+        output_dir:           Where the pruned model will be saved.
+        sparsity:             Fraction of attention heads to prune per layer.
+                              0.0 = no pruning; 1.0 = prune everything (clamped
+                              by min_heads_per_layer). Recommended: 0.1–0.4.
+        method:               Pruning target — "heads" (attention heads) or
+                              "ffn" (feed-forward neurons). Default: "heads".
+        importance_metric:    How to score head/neuron importance.
+                              Currently only "magnitude" (mean |w|) is supported.
+        min_heads_per_layer:  Safety floor — never prune a layer below this many
+                              heads. Prevents complete layer collapse. Default: 1.
+    """
+    output_dir: Path
+    sparsity: float = 0.3
+    method: str = "heads"
+    importance_metric: str = "magnitude"
+    min_heads_per_layer: int = 1
+
 @dataclass(frozen=True)
 class TrainingConfig:
     method: TrainingMethod

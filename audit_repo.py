@@ -48,6 +48,10 @@ REQUIRED_FILES = [
     "finetune_cli/trainers/dpo_trainer.py",
     "finetune_cli/trainers/response_distillation_trainer.py",
     "finetune_cli/trainers/feature_distillation_trainer.py",
+    "finetune_cli/trainers/structured_pruner.py",
+    "tests/test_structured_pruner.py",
+    "tests/test_prune.py",
+    "examples/configs/structured_pruning.yaml",
     "finetune_cli/trainers/factory.py",
 
     # Data

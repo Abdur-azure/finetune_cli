@@ -318,3 +318,37 @@ The "stub card stays on HomeScreen" tests must be updated each sprint.
 Sprint 28 wired all 6 cards — no stubs remain. Replace the stub tests with:
   - test_click_card_does_not_crash: click any card, assert screen is not None
   - test_enter_on_focused_card: focus a specific card, assert its screen type
+
+## Pattern: f-string format specs (,:d, etc.) fail on MagicMock — always cast to int/float first
+f"{some_value:,}" calls __format__ with "," spec. If some_value is a MagicMock
+(e.g. sum of mock.numel() returns), this raises TypeError.
+Fix: always cast to int/float before formatting: f"{int(zeroed):,}"
+Rule: any log or print line with a format spec must cast first if the value
+could come from a mock in tests.
+
+## Pattern: patch at source module, not at cli.main for inside-function imports
+cli/main.py imports heavy deps inside the function body:
+  def prune(...):
+      from finetune_cli.models.loader import load_model_and_tokenizer
+This means the name is NOT on finetune_cli.cli.main at module level.
+Patching "finetune_cli.cli.main.load_model_and_tokenizer" raises AttributeError.
+Fix: patch at the SOURCE module where the function is defined:
+  patch("finetune_cli.models.loader.load_model_and_tokenizer")
+  patch("finetune_cli.trainers.structured_pruner.StructuredPruner")
+This is already documented in lessons.md as the lazy-import patch pattern —
+reinforced here because it recurred in test_prune.py.
+
+## Pattern: int() on MagicMock returns a MagicMock, not a real int — cast at the source
+`int(MagicMock())` does NOT reliably return a Python int. In CPython, MagicMock's
+__int__ returns 1 (a real int), but under pytest/coverage hooks it can return
+another MagicMock. Result: f"{int(mock):,}" still raises TypeError on __format__.
+Fix: cast to int AT THE POINT where the value is produced, not at the f-string:
+  total = 0
+  for p in model.parameters():
+      total += int(p.numel())    # cast here, not later
+  return total                   # guaranteed plain int
+And in the caller, pre-compute ALL formatted values before ANY f-string:
+  zeroed_int = int(zeroed)       # guaranteed plain int
+  f"zeroed {zeroed_int:,}"       # safe
+Rule: any value that comes from a mock chain must be cast to int/float at
+collection time, not at formatting time.

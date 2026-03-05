@@ -7,7 +7,7 @@ Context file for AI-assisted development. Read this at the start of every sessio
 ## Project
 
 **finetune-cli** — production-grade LLM fine-tuning framework with a modular CLI.
-Version: 3.11.0 | License: MIT | Python: 3.10+
+Version: 3.12.0 | License: MIT | Python: 3.10+
 
 ---
 
@@ -75,6 +75,7 @@ tasks/                 # todo.md + lessons.md — read these every session
 | `dpo` | `DPOTrainer` | Yes (requires trl>=0.7.0) |
 | `vanilla_distillation` | `ResponseDistillationTrainer` | No (needs distillation_config) |
 | `feature_distillation` | `FeatureDistillationTrainer` | No (needs feature_distillation_config) |
+| `structured_pruning` | `StructuredPruner` | No (needs pruning_config — note: not a BaseTrainer subclass) |
 
 ---
 
@@ -142,10 +143,12 @@ pytest tests/ -v
 | 26 | TUI Train & Recommend | ✅ Complete |
 | 27 | TUI Evaluate, Benchmark, Merge | ✅ Complete |
 | 28 | TUI Upload + Polish | ✅ Complete |
+| 29 | Structured Pruning | ✅ Complete |
 | 25 | TUI Foundation | ✅ Complete |
 | 26 | TUI Train & Recommend | ✅ Complete |
 | 27 | TUI Evaluate, Benchmark, Merge | ✅ Complete |
 | 28 | TUI Upload + Polish | ✅ Complete |
+| 29 | Structured Pruning | ✅ Complete |
 
 Current task state: `tasks/todo.md`
 Accumulated lessons: `tasks/lessons.md`
