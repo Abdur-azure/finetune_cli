@@ -4,6 +4,34 @@ All notable changes to this project are documented here.
 
 ---
 
+## [3.14.0] — Sprint 31: "Integration Hardening" — 2026-03-05
+
+### Added
+- `tests/test_integration.py` — 15 new integration tests across 5 new test classes:
+  - `TestResponseDistillationIntegration` (2 tests): gpt2→gpt2 distillation on CPU,
+    asserts student saved and TrainingResult fields typed correctly.
+  - `TestFeatureDistillationIntegration` (2 tests): feature distillation with auto
+    layer selection and explicit `feature_layers=[0,5,11]`.
+  - `TestStructuredPrunerIntegration` (3 tests): heads pruning, PruningResult field
+    types, FFN method on real GPT-2.
+  - `TestWandaPrunerIntegration` (4 tests): magnitude-only, WandaResult fields,
+    calibration data (random calib_ids), global mode.
+  - `TestCLISmoke` (4 tests): CliRunner-level smoke for train/prune/wanda/distillation
+    CLI commands — asserts exit codes with mocked model stack.
+  Total integration tests: 21 (was 6, +15).
+
+### Fixed
+- `.github/workflows/ci.yml` — install now uses `pip install -e ".[dev]"` from
+  `pyproject.toml` instead of legacy `requirements.txt`. Cache key updated to hash
+  `pyproject.toml`. Integration test timeout raised to 300s (was 120s). Removed
+  stray `requirements.txt` reference.
+
+### Changed
+- `pyproject.toml` — version 3.13.0 → 3.14.0
+
+---
+
+
 ## [3.13.0] — Sprint 30: "WANDA Pruning" — 2026-03-05
 
 ### Added

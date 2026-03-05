@@ -8,7 +8,7 @@ Session state. Read both files at the start of every working session.
 |------|---------|
 | `todo.md` | Sprint-structured task list. Mark items `[x]` as you go. Includes sprint name, acceptance gate, and history of completed sprints. |
 | `lessons.md` | Accumulated patterns from corrections. Read before implementing anything — most bugs we've hit before are documented here. |
-| `roadmap.md` | Validated feature roadmap — 8 methods across fine-tuning, distillation, pruning. Update status column when a method ships. |
+| `roadmap.md` | Validated feature roadmap — 9 methods across fine-tuning, distillation, pruning. Update status column when a method ships. |
 
 ## Sprints so far
 
@@ -36,27 +36,14 @@ Session state. Read both files at the start of every working session.
 | 21 | Meta Sync | CLAUDE.md sprints 13-20, audit_repo.py paths fixed |
 | 23 | Response Distillation | DistillationConfig in core/types.py, ResponseDistillationTrainer, 12 tests, example config |
 | 24 | Feature Distillation | FeatureDistillationConfig, FeatureDistillationTrainer, 21 tests, layer helpers |
-| 23 | Response Distillation | ResponseDistillationTrainer, DistillationConfig, 12 tests, example config |
 | 25 | TUI Foundation | ✅ FinetuneApp, HomeScreen, 6 CommandCards, `finetune-cli tui`, 16 Pilot tests |
 | 26 | TUI Train & Recommend | ✅ Complete — TrainScreen, RecommendScreen, RunningScreen, ResultScreen, LogPanel, MetricTable, 30 tests |
 | 27 | TUI Evaluate, Benchmark, Merge | ✅ Complete — EvaluateScreen, BenchmarkScreen, MergeScreen, 46 tests |
 | 28 | TUI Upload + Polish | ✅ Complete — UploadScreen, app.css, docs/tui.md, 55 tests |
 | 29 | Structured Pruning | ✅ Complete — PruningConfig, StructuredPruner, prune CLI command, 23 tests |
+| 30 | WANDA Pruning | ✅ Complete — WandaConfig, WandaPruner, wanda CLI command, 24 tests |
+| 31 | Integration Hardening | ✅ Complete — 15 new integration tests (distill×2, prune×2, CLI smoke×4), ci.yml fixed |
 
 ## TUI Rule
 
-Sprints 25–28 are **additive only**. No existing file may be modified except:
-- `cli/main.py` — add the `tui` subcommand stub (Sprint 25)
-- `pyproject.toml` — add textual dependency + version bump (each sprint)
-- `audit_repo.py`, `CHANGELOG.md`, `CONTEXT.md`, `CLAUDE.md`, `tasks/todo.md` — sprint-end sync
-
-Everything else (`trainers/`, `core/`, `data/`, existing `tests/`) is **frozen** during TUI sprints.
-Verify at the start of every TUI sprint: `pytest tests/ --co -q --ignore=tests/test_integration.py` → 0 errors.
-
-## Workflow
-
-1. Start session → read `todo.md` + `lessons.md`
-2. Pick next `[ ]` item
-3. Implement → verify → mark `[x]`
-4. After any correction → update `lessons.md` with the pattern
-5. At sprint end → archive sprint in `todo.md`, propose next sprint
+Sprints 25–28 are **additive only**. The TUI is purely additive. All Typer commands remain unchanged.

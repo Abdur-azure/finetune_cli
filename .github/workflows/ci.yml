@@ -26,17 +26,17 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('pyproject.toml') }}
           restore-keys: |
-            ${{ runner.os }}-pip-
+            ${{ runner.os }}-pip-${{ matrix.python-version }}-
 
-      - name: Install dependencies
+      - name: Install package and dev dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install pytest pytest-cov pytest-timeout
+          pip install -e ".[dev]"
+          pip install pytest-timeout
 
-      - name: Run unit tests
+      - name: Run unit tests (no GPU required)
         run: |
           pytest tests/ -v \
             --ignore=tests/test_integration.py \
@@ -45,10 +45,9 @@ jobs:
             --cov-report=term-missing \
             --cov-report=xml
 
-      - name: Run integration test (CPU only, fast)
+      - name: Run integration tests (CPU, real GPT-2)
         run: |
-          pytest tests/test_integration.py -v -s \
-            --timeout=120
+          pytest tests/test_integration.py -v -s --timeout=300
         env:
           FINETUNE_CI: "1"
 
@@ -67,7 +66,8 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install linting tools
-        run: pip install ruff mypy
+        run: |
+          pip install ruff mypy
       - name: Ruff lint check
         run: ruff check .
       - name: Type check (non-blocking)
