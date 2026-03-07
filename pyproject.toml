@@ -3,7 +3,7 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "lmtool"
+name = "xlmtec"
 version = "3.15.0"
 description = "Production-grade LLM fine tuning framework with CLI"
 readme = { file = "README.md", content-type = "text/markdown" }
@@ -105,19 +105,19 @@ full = [
 
 # ---------------------------------------------------------------------------
 [project.urls]
-Homepage = "https://github.com/Abdur-azure/lmtool"
-Documentation = "https://Abdur-azure.github.io/lmtool"
-Issues = "https://github.com/Abdur-azure/lmtool/issues"
+Homepage = "https://github.com/Abdur-azure/xlmtec"
+Documentation = "https://Abdur-azure.github.io/xlmtec"
+Issues = "https://github.com/Abdur-azure/xlmtec/issues"
 
 [project.scripts]
-lmtool = "lmtool.cli.main:main"
+xlmtec = "xlmtec.cli.main:main"
 
 # ---------------------------------------------------------------------------
 # Setuptools
 # ---------------------------------------------------------------------------
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["lmtool*"]
+include = ["xlmtec*"]
 exclude = ["tests*", "examples*", "docs*"]
 
 # ---------------------------------------------------------------------------

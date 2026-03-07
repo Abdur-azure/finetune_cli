@@ -7,10 +7,10 @@ No GPU required — training is mocked.
 import pytest
 from datasets import Dataset, DatasetDict
 
-from lmtool.core.exceptions import MissingConfigError
-from lmtool.core.types import LoRAConfig, TrainingConfig, TrainingMethod
-from lmtool.trainers import TrainerFactory
-from lmtool.trainers.instruction_trainer import InstructionTrainer, format_instruction_dataset
+from xlmtec.core.exceptions import MissingConfigError
+from xlmtec.core.types import LoRAConfig, TrainingConfig, TrainingMethod
+from xlmtec.trainers import TrainerFactory
+from xlmtec.trainers.instruction_trainer import InstructionTrainer, format_instruction_dataset
 
 # ============================================================================
 # FIXTURES

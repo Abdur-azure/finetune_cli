@@ -4,13 +4,13 @@ from pathlib import Path
 
 import pytest
 
-from lmtool.core.config import ConfigBuilder, PipelineConfig
-from lmtool.core.exceptions import (
+from xlmtec.core.config import ConfigBuilder, PipelineConfig
+from xlmtec.core.exceptions import (
     IncompatibleConfigError,
     InvalidConfigError,
     MissingConfigError,
 )
-from lmtool.core.types import DatasetSource, EvaluationMetric, TrainingMethod
+from xlmtec.core.types import DatasetSource, EvaluationMetric, TrainingMethod
 
 
 class TestConfigBuilder:

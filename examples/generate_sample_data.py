@@ -12,10 +12,10 @@ Outputs:
     data/dpo_sample.jsonl      — 200 rows, DPO format         (prompt, chosen, rejected)
 
 Run this once before executing any example config:
-    lmtool train --config examples/configs/lora_gpt2.yaml
-    lmtool train --config examples/configs/instruction_tuning.yaml
-    lmtool train --config examples/configs/full_finetuning.yaml
-    lmtool train --config examples/configs/dpo.yaml
+    xlmtec train --config examples/configs/lora_gpt2.yaml
+    xlmtec train --config examples/configs/instruction_tuning.yaml
+    xlmtec train --config examples/configs/full_finetuning.yaml
+    xlmtec train --config examples/configs/dpo.yaml
 """
 
 import json
@@ -202,9 +202,9 @@ def main() -> None:
 
     print(
         "\nDone. Run an example:\n"
-        "  lmtool train --config examples/configs/lora_gpt2.yaml\n"
-        "  lmtool train --config examples/configs/instruction_tuning.yaml\n"
-        "  lmtool train --config examples/configs/dpo.yaml\n"
+        "  xlmtec train --config examples/configs/lora_gpt2.yaml\n"
+        "  xlmtec train --config examples/configs/instruction_tuning.yaml\n"
+        "  xlmtec train --config examples/configs/dpo.yaml\n"
     )
 
 

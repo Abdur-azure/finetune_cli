@@ -1,4 +1,4 @@
-"""MergeScreen — form for `lmtool merge`."""
+"""MergeScreen — form for `xlmtec merge`."""
 
 from textual.app import ComposeResult
 from textual.binding import Binding
@@ -15,7 +15,7 @@ _DTYPE_OPTIONS = [
 
 
 class MergeScreen(Screen):
-    """Form screen for `lmtool merge`.
+    """Form screen for `xlmtec merge`.
 
     Collects: adapter directory, base model name, output directory, dtype.
     Submits → RunningScreen with the built CLI command.
@@ -155,14 +155,14 @@ class MergeScreen(Screen):
             return
 
         command = [
-            "lmtool", "merge",
+            "xlmtec", "merge",
             adapter,
             output,
             "--base-model", base,
             "--dtype", str(dtype),
         ]
 
-        from lmtool.tui.screens.running import RunningScreen
+        from xlmtec.tui.screens.running import RunningScreen
         self.app.switch_screen(
             RunningScreen(
                 command=command,

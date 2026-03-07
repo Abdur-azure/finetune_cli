@@ -32,9 +32,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
-from lmtool.core.exceptions import FineTuneError
-from lmtool.core.types import WandaConfig
-from lmtool.utils.logging import get_logger
+from xlmtec.core.exceptions import FineTuneError
+from xlmtec.core.types import WandaConfig
+from xlmtec.utils.logging import get_logger
 
 # ---------------------------------------------------------------------------
 # Default target layer type names

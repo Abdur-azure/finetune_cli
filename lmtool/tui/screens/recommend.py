@@ -1,4 +1,4 @@
-"""RecommendScreen — form for `lmtool recommend`."""
+"""RecommendScreen — form for `xlmtec recommend`."""
 
 from textual.app import ComposeResult
 from textual.binding import Binding
@@ -9,7 +9,7 @@ from textual.widgets import Button, Footer, Header, Input, Label
 
 
 class RecommendScreen(Screen):
-    """Form screen for the `lmtool recommend` command.
+    """Form screen for the `xlmtec recommend` command.
 
     Collects: model name, optional output path.
     Submits → RunningScreen which streams the recommendation output.
@@ -118,11 +118,11 @@ class RecommendScreen(Screen):
             )
             return
 
-        command = ["lmtool", "recommend", model]
+        command = ["xlmtec", "recommend", model]
         if output:
             command += ["--output", output]
 
-        from lmtool.tui.screens.running import RunningScreen
+        from xlmtec.tui.screens.running import RunningScreen
         self.app.switch_screen(
             RunningScreen(
                 command=command,

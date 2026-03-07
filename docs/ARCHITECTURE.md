@@ -1,4 +1,4 @@
-# 🏗️ Architecture Overview
+# Architecture Overview
 
 **Version:** 2.0 (FAANG-Grade Refactor)  
 **Last Updated:** 2025-01-29
@@ -324,7 +324,7 @@ class CustomLoader(DatasetLoader):
         return dataset
 
 # Register
-from lmtool.data import register_loader
+from xlmtec.data import register_loader
 register_loader(CustomLoader())
 ```
 
@@ -370,11 +370,11 @@ finetuner.train(tokenized)
 ### **New (Modular):**
 ```python
 # Separate concerns
-from lmtool.core.config import ConfigBuilder
-from lmtool.core.types import DatasetSource, TrainingMethod
-from lmtool.models.loader import load_model_and_tokenizer
-from lmtool.data import prepare_dataset
-from lmtool.trainers import LoRATrainer
+from xlmtec.core.config import ConfigBuilder
+from xlmtec.core.types import DatasetSource, TrainingMethod
+from xlmtec.models.loader import load_model_and_tokenizer
+from xlmtec.data import prepare_dataset
+from xlmtec.trainers import LoRATrainer
 
 # 1. Configuration (validated)
 config = ConfigBuilder() \

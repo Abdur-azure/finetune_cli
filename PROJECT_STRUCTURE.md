@@ -5,7 +5,7 @@ This document describes the complete folder and file structure for the LLM Fine-
 ## Directory Tree
 
 ```
-lmtool/
+xlmtec/
 ├── .github/
 │   └── workflows/
 │       └── deploy_docs.yml           # GitHub Actions workflow for docs deployment
@@ -22,7 +22,7 @@ lmtool/
 │   └── stylesheets/
 │       └── extra.css                 # Custom CSS styles
 │
-├── lmtool.py                   # Main application script
+├── xlmtec.py                   # Main application script
 ├── requirements.txt                   # Python dependencies
 ├── mkdocs.yml                        # MkDocs configuration
 ├── .gitignore                        # Git ignore rules
@@ -35,7 +35,7 @@ lmtool/
 
 ### Root Directory
 
-#### `lmtool.py`
+#### `xlmtec.py`
 Main Python script containing the `LLMFineTuner` class and CLI interface.
 
 **Key Components:**
@@ -208,19 +208,19 @@ Created during training:
 
 ```bash
 # Create main project directory
-mkdir -p lmtool
+mkdir -p xlmtec
 
 # Create docs directory and subdirectories
-mkdir -p lmtool/docs/stylesheets
+mkdir -p xlmtec/docs/stylesheets
 
 # Create GitHub workflows directory
-mkdir -p lmtool/.github/workflows
+mkdir -p xlmtec/.github/workflows
 ```
 
 ### 2. Create Documentation Files
 
 ```bash
-cd lmtool
+cd xlmtec
 
 # Create all documentation markdown files
 touch docs/index.md
@@ -342,9 +342,9 @@ mkdocs gh-deploy
 
 ## Resources
 
-- **GitHub Repository**: https://github.com/Abdur-azure/lmtool
-- **Documentation Site**: https://Abdur-azure.github.io/lmtool
-- **Issue Tracker**: https://github.com/Abdur-azure/lmtool/issues
+- **GitHub Repository**: https://github.com/Abdur-azure/xlmtec
+- **Documentation Site**: https://Abdur-azure.github.io/xlmtec
+- **Issue Tracker**: https://github.com/Abdur-azure/xlmtec/issues
 
 ## Support
 

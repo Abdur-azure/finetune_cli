@@ -1,4 +1,4 @@
-"""EvaluateScreen — form for `lmtool evaluate`."""
+"""EvaluateScreen — form for `xlmtec evaluate`."""
 
 from textual.app import ComposeResult
 from textual.binding import Binding
@@ -17,7 +17,7 @@ _METRIC_OPTIONS = [
 
 
 class EvaluateScreen(Screen):
-    """Form screen for the `lmtool evaluate` command.
+    """Form screen for the `xlmtec evaluate` command.
 
     Collects: model/checkpoint path, dataset path, metrics (multi-select
     checkboxes), max-samples, optional report output path.
@@ -175,7 +175,7 @@ class EvaluateScreen(Screen):
             )
             return
 
-        command = ["lmtool", "evaluate", model, "--dataset", dataset]
+        command = ["xlmtec", "evaluate", model, "--dataset", dataset]
         for m in selected_metrics:
             command += ["--metrics", m]
         if max_samples:
@@ -183,7 +183,7 @@ class EvaluateScreen(Screen):
         if report:
             command += ["--save-report", report]
 
-        from lmtool.tui.screens.running import RunningScreen
+        from xlmtec.tui.screens.running import RunningScreen
         self.app.switch_screen(
             RunningScreen(
                 command=command,

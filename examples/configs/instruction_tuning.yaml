@@ -4,7 +4,7 @@
 #   python examples/generate_sample_data.py
 #
 # Usage:
-#   lmtool train --config examples/configs/instruction_tuning.yaml
+#   xlmtec train --config examples/configs/instruction_tuning.yaml
 
 model:
   name: "gpt2"

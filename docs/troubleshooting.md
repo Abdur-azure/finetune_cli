@@ -530,7 +530,7 @@ Number of samples: 20000  # Instead of 5000
 ```bash
 export TRANSFORMERS_VERBOSITY=debug
 export PEFT_VERBOSITY=debug
-python lmtool.py
+python xlmtec.py
 ```
 
 ### Monitor GPU Usage
@@ -568,7 +568,7 @@ print(dataset.column_names)
 If issues persist:
 
 1. **Check logs**: Review error messages carefully
-2. **Search issues**: [GitHub Issues](https://github.com/Abdur-azure/lmtool/issues)
+2. **Search issues**: [GitHub Issues](https://github.com/Abdur-azure/xlmtec/issues)
 3. **Open new issue**: Include:
    - Error message
    - Configuration used

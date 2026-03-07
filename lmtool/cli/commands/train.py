@@ -72,7 +72,7 @@ def run(
     Train a model with specified configuration.
 
     Example:
-        lmtool train --model gpt2 --dataset ./data.jsonl --method lora --epochs 3
+        xlmtec train --model gpt2 --dataset ./data.jsonl --method lora --epochs 3
     """
 
     # Setup logging
@@ -216,7 +216,7 @@ def quick(
     Quick training with sensible defaults.
 
     Example:
-        lmtool train quick gpt2 ./data.jsonl ./outputs
+        xlmtec train quick gpt2 ./data.jsonl ./outputs
     """
 
     console.print("[bold cyan]Quick Training Mode[/bold cyan]")
@@ -249,7 +249,7 @@ def resume(
     Resume training from checkpoint.
 
     Example:
-        lmtool train resume ./outputs/checkpoint-100 --epochs 2
+        xlmtec train resume ./outputs/checkpoint-100 --epochs 2
     """
 
     console.print(Panel.fit(

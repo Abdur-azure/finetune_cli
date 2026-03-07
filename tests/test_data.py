@@ -14,13 +14,13 @@ from unittest.mock import MagicMock, patch
 import pytest
 from datasets import Dataset, DatasetDict
 
-from lmtool.core.exceptions import (
+from xlmtec.core.exceptions import (
     DatasetNotFoundError,
     EmptyDatasetError,
     NoTextColumnsError,
 )
-from lmtool.core.types import DatasetConfig, DatasetSource, TokenizationConfig
-from lmtool.data import detect_columns, prepare_dataset, quick_load
+from xlmtec.core.types import DatasetConfig, DatasetSource, TokenizationConfig
+from xlmtec.data import detect_columns, prepare_dataset, quick_load
 
 # ============================================================================
 # HELPERS
@@ -135,7 +135,7 @@ class TestQuickLoad:
         ])
         expected = _make_tokenized_dataset(10)
 
-        with patch("lmtool.data.pipeline.DataPipeline") as MockPipeline:
+        with patch("xlmtec.data.pipeline.DataPipeline") as MockPipeline:
             instance = MockPipeline.return_value
             instance.run.return_value = expected
 
@@ -149,7 +149,7 @@ class TestQuickLoad:
             {"text": f"s{i}"} for i in range(20)
         ])
 
-        with patch("lmtool.data.pipeline.DataPipeline") as MockPipeline:
+        with patch("xlmtec.data.pipeline.DataPipeline") as MockPipeline:
             instance = MockPipeline.return_value
             instance.run.return_value = _make_tokenized_dataset()
 
@@ -179,7 +179,7 @@ class TestPrepareDataset:
         cfg = self._make_cfg(tmp_path)
         expected = _make_tokenized_dataset()
 
-        with patch("lmtool.data.pipeline.DataPipeline") as MockPipeline:
+        with patch("xlmtec.data.pipeline.DataPipeline") as MockPipeline:
             instance = MockPipeline.return_value
             instance.run.return_value = expected
 
@@ -191,7 +191,7 @@ class TestPrepareDataset:
         cfg = self._make_cfg(tmp_path)
         split_result = DatasetDict({"train": _make_tokenized_dataset(16), "validation": _make_tokenized_dataset(4)})
 
-        with patch("lmtool.data.pipeline.DataPipeline") as MockPipeline:
+        with patch("xlmtec.data.pipeline.DataPipeline") as MockPipeline:
             instance = MockPipeline.return_value
             instance.run.return_value = split_result
 
@@ -211,7 +211,7 @@ class TestPrepareDataset:
             "validation": _make_tokenized_dataset(4),
         })
 
-        with patch("lmtool.data.pipeline.DataPipeline") as MockPipeline:
+        with patch("xlmtec.data.pipeline.DataPipeline") as MockPipeline:
             instance = MockPipeline.return_value
             instance.run.return_value = split_result
 

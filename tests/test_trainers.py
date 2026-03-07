@@ -13,12 +13,12 @@ from unittest.mock import MagicMock, PropertyMock, patch
 import pytest
 from datasets import Dataset, DatasetDict
 
-from lmtool.core.exceptions import MissingConfigError
-from lmtool.core.types import LoRAConfig, ModelConfig, TrainingConfig, TrainingMethod
-from lmtool.trainers import TrainerFactory, TrainingResult
-from lmtool.trainers.base import BaseTrainer
-from lmtool.trainers.factory import TrainerFactory
-from lmtool.trainers.lora_trainer import LoRATrainer
+from xlmtec.core.exceptions import MissingConfigError
+from xlmtec.core.types import LoRAConfig, ModelConfig, TrainingConfig, TrainingMethod
+from xlmtec.trainers import TrainerFactory, TrainingResult
+from xlmtec.trainers.base import BaseTrainer
+from xlmtec.trainers.factory import TrainerFactory
+from xlmtec.trainers.lora_trainer import LoRATrainer
 
 # ============================================================================
 # FIXTURES
@@ -162,8 +162,8 @@ class TestLoRATrainerUnit:
         ]
         return hf_trainer
 
-    @patch("lmtool.trainers.lora_trainer.get_peft_model")
-    @patch("lmtool.trainers.base.BaseTrainer._build_hf_trainer")
+    @patch("xlmtec.trainers.lora_trainer.get_peft_model")
+    @patch("xlmtec.trainers.base.BaseTrainer._build_hf_trainer")
     def test_train_returns_training_result(
         self,
         mock_build_hf_trainer,
@@ -186,8 +186,8 @@ class TestLoRATrainerUnit:
         assert result.steps_completed == 10
         assert result.eval_loss == pytest.approx(0.45)
 
-    @patch("lmtool.trainers.lora_trainer.get_peft_model")
-    @patch("lmtool.trainers.base.BaseTrainer._build_hf_trainer")
+    @patch("xlmtec.trainers.lora_trainer.get_peft_model")
+    @patch("xlmtec.trainers.base.BaseTrainer._build_hf_trainer")
     def test_train_with_dataset_dict(
         self,
         mock_build_hf_trainer,
@@ -206,8 +206,8 @@ class TestLoRATrainerUnit:
 
         assert isinstance(result, TrainingResult)
 
-    @patch("lmtool.trainers.lora_trainer.get_peft_model")
-    @patch("lmtool.trainers.base.BaseTrainer._build_hf_trainer")
+    @patch("xlmtec.trainers.lora_trainer.get_peft_model")
+    @patch("xlmtec.trainers.base.BaseTrainer._build_hf_trainer")
     def test_model_saved_to_output_dir(
         self,
         mock_build_hf_trainer,

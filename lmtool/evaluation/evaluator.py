@@ -318,10 +318,10 @@ def evaluate_model(
         Evaluation results
 
     Example:
-        >>> from lmtool.core.config import ConfigBuilder
-        >>> from lmtool.core.types import EvaluationMetric
-        >>> from lmtool.models.loader import load_model_and_tokenizer
-        >>> from lmtool.evaluation import evaluate_model
+        >>> from xlmtec.core.config import ConfigBuilder
+        >>> from xlmtec.core.types import EvaluationMetric
+        >>> from xlmtec.models.loader import load_model_and_tokenizer
+        >>> from xlmtec.evaluation import evaluate_model
         >>>
         >>> config = ConfigBuilder() \\
         ...     .with_model("gpt2") \\
@@ -361,7 +361,7 @@ def quick_evaluate(
         Dictionary of scores
 
     Example:
-        >>> from lmtool.evaluation import quick_evaluate
+        >>> from xlmtec.evaluation import quick_evaluate
         >>>
         >>> scores = quick_evaluate(
         ...     model, tokenizer,

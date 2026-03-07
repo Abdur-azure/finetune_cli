@@ -1,7 +1,7 @@
 """
-LMToolApp — root Textual application for lmtool TUI.
+xlmtecApp — root Textual application for xlmtec TUI.
 
-Entry point: `lmtool tui`
+Entry point: `xlmtec tui`
 
 Global keybindings (all screens):
     q           quit the application
@@ -14,13 +14,13 @@ from pathlib import Path
 from textual.app import App
 from textual.binding import Binding
 
-from lmtool.tui.screens.home import HomeScreen
+from xlmtec.tui.screens.home import HomeScreen
 
 
-class LMToolApp(App):
+class xlmtecApp(App):
     """Root Textual App — manages screen stack and global bindings."""
 
-    TITLE = "lmtool"
+    TITLE = "xlmtec"
     SUB_TITLE = "LLM Fine-Tuning Toolkit"
 
     # External CSS theme — Sprint 28
@@ -51,5 +51,5 @@ class LMToolApp(App):
 
 
 def run() -> None:
-    """Launch the TUI app. Called by `lmtool tui`."""
-    LMToolApp().run()
+    """Launch the TUI app. Called by `xlmtec tui`."""
+    xlmtecApp().run()

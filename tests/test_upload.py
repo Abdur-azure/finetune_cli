@@ -12,7 +12,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 from typer.testing import CliRunner
 
-from lmtool.cli.main import app
+from xlmtec.cli.main import app
 
 runner = CliRunner()
 

@@ -1,4 +1,4 @@
-# Contributing to lmtool
+# Contributing to xlmtec
 
 This project uses sprint-based development with AI assistance. Read this before opening a PR.
 
@@ -7,8 +7,8 @@ This project uses sprint-based development with AI assistance. Read this before 
 ## Getting started
 
 ```bash
-git clone https://github.com/Abdur-azure/lmtool.git
-cd lmtool
+git clone https://github.com/Abdur-azure/xlmtec.git
+cd xlmtec
 pip install -e .
 python audit_repo.py        # verify all required files are present
 pytest tests/ -v --ignore=tests/test_integration.py
@@ -20,7 +20,7 @@ pytest tests/ -v --ignore=tests/test_integration.py
 
 Follow this checklist exactly — it matches `CLAUDE.md`:
 
-1. Create `lmtool/trainers/<name>_trainer.py`, extend `BaseTrainer`
+1. Create `xlmtec/trainers/<name>_trainer.py`, extend `BaseTrainer`
 2. Implement `_setup_peft(model) -> model` — this is the only required override
 3. Add the new `TrainingMethod` enum value to `core/types.py` if missing
 4. Wire it in `trainers/factory.py` → `TrainerFactory.create()`

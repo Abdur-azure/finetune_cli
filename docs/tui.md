@@ -1,6 +1,6 @@
 # TUI — Interactive Terminal Interface
 
-`lmtool` ships with a full interactive terminal UI built on [Textual](https://textual.textualize.io/).
+`xlmtec` ships with a full interactive terminal UI built on [Textual](https://textual.textualize.io/).
 It wraps every CLI command in a keyboard-navigable form, streams live output, and displays results — all without leaving your terminal.
 
 ---
@@ -9,7 +9,7 @@ It wraps every CLI command in a keyboard-navigable form, streams live output, an
 
 ```bash
 pip install "textual>=0.52.0"
-lmtool tui
+xlmtec tui
 ```
 
 ---
@@ -17,9 +17,9 @@ lmtool tui
 ## Home screen
 
 ```
-┌─ lmtool ── LLM Fine-Tuning Toolkit ──────────────────────────── 12:34 ─┐
+┌─ xlmtec ── LLM Fine-Tuning Toolkit ──────────────────────────── 12:34 ─┐
 │                                                                                │
-│        lmtool  --  LLM Fine-Tuning Toolkit                              │
+│        xlmtec  --  LLM Fine-Tuning Toolkit                              │
 │     Tab / Arrow keys to navigate   Enter or Click to select   Q to quit       │
 │                                                                                │
 │  ┌─────────────────────┐ ┌─────────────────────┐ ┌─────────────────────┐     │
@@ -130,10 +130,10 @@ Analyse a model's size and available VRAM, then output an optimal training confi
 When you submit a form, the TUI switches to a live running view:
 
 ```
-┌─ lmtool ─────────────────────────────────────────── 12:35 ─┐
+┌─ xlmtec ─────────────────────────────────────────── 12:35 ─┐
 │  ⚙  Training  gpt2  [lora]                              00:42    │
 ├───────────────────────────────────────────────────────────────────┤
-│ $ lmtool train --model gpt2 --dataset ./data/...            │
+│ $ xlmtec train --model gpt2 --dataset ./data/...            │
 │ Loading model gpt2...                                             │
 │ ✓ Model loaded (124M parameters)                                  │
 │ Loading dataset ./data/sample.jsonl...                            │
@@ -155,7 +155,7 @@ Press `q` or click **Cancel** to abort the running command.
 On completion the TUI shows a result summary:
 
 ```
-┌─ lmtool ─────────────────────────────────────────────────────┐
+┌─ xlmtec ─────────────────────────────────────────────────────┐
 │                                                                     │
 │          ✅  Command completed successfully                         │
 │                                                                     │

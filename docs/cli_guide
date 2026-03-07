@@ -23,26 +23,26 @@
 
 ```bash
 # Clone repository
-git clone https://github.com/Abdur-azure/lmtool.git
-cd lmtool
+git clone https://github.com/Abdur-azure/xlmtec.git
+cd xlmtec
 
 # Install in development mode
 pip install -e .
 
 # Verify installation
-lmtool --help
+xlmtec --help
 ```
 
 ### **Option 2: Install via pip** (when published)
 
 ```bash
-pip install lmtool
+pip install xlmtec
 ```
 
 ### **Verify Installation**
 
 ```bash
-lmtool version
+xlmtec version
 ```
 
 **Output:**
@@ -64,20 +64,20 @@ lmtool version
 
 ```bash
 # List training methods
-lmtool list-methods
+xlmtec list-methods
 
 # List evaluation metrics
-lmtool list-metrics
+xlmtec list-metrics
 ```
 
 ### **2. Train a Model**
 
 ```bash
 # Quick training with defaults
-lmtool train quick gpt2 ./data.jsonl ./outputs
+xlmtec train quick gpt2 ./data.jsonl ./outputs
 
 # Or with full options
-lmtool train run \
+xlmtec train run \
     --model gpt2 \
     --dataset ./data.jsonl \
     --method lora \
@@ -89,10 +89,10 @@ lmtool train run \
 
 ```bash
 # Quick evaluation
-lmtool evaluate quick ./outputs ./test.jsonl
+xlmtec evaluate quick ./outputs ./test.jsonl
 
 # Or with specific metrics
-lmtool evaluate run \
+xlmtec evaluate run \
     --model ./outputs \
     --dataset ./test.jsonl \
     --metric rouge1 \
@@ -103,13 +103,13 @@ lmtool evaluate run \
 
 ## 🎯 Training Commands
 
-### **`lmtool train run`**
+### **`xlmtec train run`**
 
 Train a model with full configuration options.
 
 **Basic Usage:**
 ```bash
-lmtool train run \
+xlmtec train run \
     --model <model_name> \
     --dataset <dataset_path> \
     --output <output_dir>
@@ -143,7 +143,7 @@ lmtool train run \
 
 **LoRA Training:**
 ```bash
-lmtool train run \
+xlmtec train run \
     --model gpt2 \
     --dataset ./data/train.jsonl \
     --method lora \
@@ -156,7 +156,7 @@ lmtool train run \
 
 **QLoRA Training (Large Model):**
 ```bash
-lmtool train run \
+xlmtec train run \
     --model meta-llama/Llama-2-7b-hf \
     --dataset ./data/train.jsonl \
     --method qlora \
@@ -171,7 +171,7 @@ lmtool train run \
 
 **Full Fine-tuning:**
 ```bash
-lmtool train run \
+xlmtec train run \
     --model gpt2 \
     --dataset ./data/train.jsonl \
     --method full_finetuning \
@@ -183,7 +183,7 @@ lmtool train run \
 
 **HuggingFace Dataset:**
 ```bash
-lmtool train run \
+xlmtec train run \
     --model gpt2 \
     --dataset wikitext \
     --source huggingface \
@@ -194,23 +194,23 @@ lmtool train run \
 
 ---
 
-### **`lmtool train quick`**
+### **`xlmtec train quick`**
 
 Quick training with sensible defaults.
 
 **Usage:**
 ```bash
-lmtool train quick <model> <dataset> <output>
+xlmtec train quick <model> <dataset> <output>
 ```
 
 **Example:**
 ```bash
-lmtool train quick gpt2 ./data.jsonl ./outputs
+xlmtec train quick gpt2 ./data.jsonl ./outputs
 ```
 
 Equivalent to:
 ```bash
-lmtool train run \
+xlmtec train run \
     --model gpt2 \
     --dataset ./data.jsonl \
     --method lora \
@@ -221,31 +221,31 @@ lmtool train run \
 
 ---
 
-### **`lmtool train resume`**
+### **`xlmtec train resume`**
 
 Resume training from checkpoint.
 
 **Usage:**
 ```bash
-lmtool train resume <checkpoint_dir> --epochs <additional_epochs>
+xlmtec train resume <checkpoint_dir> --epochs <additional_epochs>
 ```
 
 **Example:**
 ```bash
-lmtool train resume ./outputs/checkpoint-100 --epochs 2
+xlmtec train resume ./outputs/checkpoint-100 --epochs 2
 ```
 
 ---
 
 ## 📊 Evaluation Commands
 
-### **`lmtool evaluate run`**
+### **`xlmtec evaluate run`**
 
 Evaluate a trained model.
 
 **Basic Usage:**
 ```bash
-lmtool evaluate run \
+xlmtec evaluate run \
     --model <model_path> \
     --dataset <test_dataset>
 ```
@@ -269,14 +269,14 @@ lmtool evaluate run \
 
 **Basic Evaluation:**
 ```bash
-lmtool evaluate run \
+xlmtec evaluate run \
     --model ./outputs/lora_model \
     --dataset ./data/test.jsonl
 ```
 
 **With Specific Metrics:**
 ```bash
-lmtool evaluate run \
+xlmtec evaluate run \
     --model ./outputs/lora_model \
     --dataset ./data/test.jsonl \
     --metric rouge1 \
@@ -287,7 +287,7 @@ lmtool evaluate run \
 
 **Save Report:**
 ```bash
-lmtool evaluate run \
+xlmtec evaluate run \
     --model ./outputs/lora_model \
     --dataset ./data/test.jsonl \
     --report ./reports/evaluation.md \
@@ -296,7 +296,7 @@ lmtool evaluate run \
 
 **Custom Generation:**
 ```bash
-lmtool evaluate run \
+xlmtec evaluate run \
     --model ./outputs/lora_model \
     --dataset ./data/test.jsonl \
     --max-length 200 \
@@ -306,13 +306,13 @@ lmtool evaluate run \
 
 ---
 
-### **`lmtool evaluate benchmark`**
+### **`xlmtec evaluate benchmark`**
 
 Compare base model vs fine-tuned model.
 
 **Usage:**
 ```bash
-lmtool evaluate benchmark \
+xlmtec evaluate benchmark \
     --base <base_model> \
     --finetuned <finetuned_model> \
     --dataset <test_dataset>
@@ -332,7 +332,7 @@ lmtool evaluate benchmark \
 
 **Example:**
 ```bash
-lmtool evaluate benchmark \
+xlmtec evaluate benchmark \
     --base gpt2 \
     --finetuned ./outputs/lora_model \
     --dataset ./data/test.jsonl \
@@ -358,31 +358,31 @@ lmtool evaluate benchmark \
 
 ---
 
-### **`lmtool evaluate quick`**
+### **`xlmtec evaluate quick`**
 
 Quick evaluation with default metrics.
 
 **Usage:**
 ```bash
-lmtool evaluate quick <model> <dataset>
+xlmtec evaluate quick <model> <dataset>
 ```
 
 **Example:**
 ```bash
-lmtool evaluate quick ./outputs/lora_model ./data/test.jsonl
+xlmtec evaluate quick ./outputs/lora_model ./data/test.jsonl
 ```
 
 ---
 
 ## ⚙️ Configuration Commands
 
-### **`lmtool config generate`**
+### **`xlmtec config generate`**
 
 Generate configuration template.
 
 **Usage:**
 ```bash
-lmtool config generate \
+xlmtec config generate \
     --output <config_file> \
     --method <training_method>
 ```
@@ -399,14 +399,14 @@ lmtool config generate \
 
 **Generate LoRA Config:**
 ```bash
-lmtool config generate \
+xlmtec config generate \
     --output ./configs/lora_config.json \
     --method lora
 ```
 
 **Generate YAML Config:**
 ```bash
-lmtool config generate \
+xlmtec config generate \
     --output ./configs/training.yaml \
     --method qlora \
     --format yaml
@@ -441,18 +441,18 @@ lmtool config generate \
 
 ---
 
-### **`lmtool config validate`**
+### **`xlmtec config validate`**
 
 Validate configuration file.
 
 **Usage:**
 ```bash
-lmtool config validate <config_file>
+xlmtec config validate <config_file>
 ```
 
 **Example:**
 ```bash
-lmtool config validate ./configs/training.json
+xlmtec config validate ./configs/training.json
 ```
 
 **Output:**
@@ -471,36 +471,36 @@ Configuration Summary:
 
 ---
 
-### **`lmtool config show`**
+### **`xlmtec config show`**
 
 Display configuration file.
 
 **Usage:**
 ```bash
-lmtool config show <config_file> [--section <section_name>]
+xlmtec config show <config_file> [--section <section_name>]
 ```
 
 **Examples:**
 
 **Show Full Config:**
 ```bash
-lmtool config show ./configs/training.json
+xlmtec config show ./configs/training.json
 ```
 
 **Show Specific Section:**
 ```bash
-lmtool config show ./configs/training.json --section training
+xlmtec config show ./configs/training.json --section training
 ```
 
 ---
 
-### **`lmtool config templates`**
+### **`xlmtec config templates`**
 
 Show available templates.
 
 **Usage:**
 ```bash
-lmtool config templates
+xlmtec config templates
 ```
 
 **Output:**
@@ -519,13 +519,13 @@ lmtool config templates
 
 ## 💡 Recommendation Commands
 
-### **`lmtool recommend method`**
+### **`xlmtec recommend method`**
 
 Get training method recommendation.
 
 **Usage:**
 ```bash
-lmtool recommend method \
+xlmtec recommend method \
     --model-size <size_in_billions> \
     --vram <available_vram_gb>
 ```
@@ -543,7 +543,7 @@ lmtool recommend method \
 
 **Small Model:**
 ```bash
-lmtool recommend method --model-size 0.124 --vram 8
+xlmtec recommend method --model-size 0.124 --vram 8
 ```
 
 **Output:**
@@ -560,7 +560,7 @@ Memory Estimates:
 
 **Large Model:**
 ```bash
-lmtool recommend method --model-size 7 --vram 12 --task complex
+xlmtec recommend method --model-size 7 --vram 12 --task complex
 ```
 
 **Output:**
@@ -580,19 +580,19 @@ Alternative Methods:
 
 ---
 
-### **`lmtool recommend config`**
+### **`xlmtec recommend config`**
 
 Get configuration recommendations.
 
 **Usage:**
 ```bash
-lmtool recommend config <method> \
+xlmtec recommend config <method> \
     --dataset-size <num_samples>
 ```
 
 **Example:**
 ```bash
-lmtool recommend config lora --dataset-size 5000
+xlmtec recommend config lora --dataset-size 5000
 ```
 
 **Output:**
@@ -617,18 +617,18 @@ Tips:
 
 ---
 
-### **`lmtool recommend hardware`**
+### **`xlmtec recommend hardware`**
 
 Get hardware requirements.
 
 **Usage:**
 ```bash
-lmtool recommend hardware <model_size> --method <method>
+xlmtec recommend hardware <model_size> --method <method>
 ```
 
 **Example:**
 ```bash
-lmtool recommend hardware 7 --method qlora
+xlmtec recommend hardware 7 --method qlora
 ```
 
 **Output:**
@@ -659,16 +659,16 @@ Recommended GPUs:
 
 ```bash
 # 1. Get method recommendation
-lmtool recommend method --model-size 0.124 --vram 8
+xlmtec recommend method --model-size 0.124 --vram 8
 
 # 2. Generate configuration
-lmtool config generate --output config.json --method lora
+xlmtec config generate --output config.json --method lora
 
 # 3. Validate configuration
-lmtool config validate config.json
+xlmtec config validate config.json
 
 # 4. Train model
-lmtool train run \
+xlmtec train run \
     --model gpt2 \
     --dataset ./data/train.jsonl \
     --method lora \
@@ -676,13 +676,13 @@ lmtool train run \
     --output ./outputs/model
 
 # 5. Evaluate model
-lmtool evaluate run \
+xlmtec evaluate run \
     --model ./outputs/model \
     --dataset ./data/test.jsonl \
     --report ./reports/eval.md
 
 # 6. Benchmark against base
-lmtool evaluate benchmark \
+xlmtec evaluate benchmark \
     --base gpt2 \
     --finetuned ./outputs/model \
     --dataset ./data/test.jsonl \
@@ -693,13 +693,13 @@ lmtool evaluate benchmark \
 
 ```bash
 # Check hardware requirements
-lmtool recommend hardware 7 --method qlora
+xlmtec recommend hardware 7 --method qlora
 
 # Get configuration recommendations
-lmtool recommend config qlora --dataset-size 10000
+xlmtec recommend config qlora --dataset-size 10000
 
 # Train with QLoRA
-lmtool train run \
+xlmtec train run \
     --model meta-llama/Llama-2-7b-hf \
     --dataset ./data/large_dataset.jsonl \
     --source local \
@@ -719,7 +719,7 @@ lmtool train run \
 ```bash
 # Evaluate multiple checkpoints
 for checkpoint in ./outputs/checkpoints/*; do
-    lmtool evaluate run \
+    xlmtec evaluate run \
         --model $checkpoint \
         --dataset ./data/test.jsonl \
         --report ./reports/eval_$(basename $checkpoint).md
@@ -736,11 +736,11 @@ Instead of long command lines, use config files:
 
 ```bash
 # Generate and edit config
-lmtool config generate --output training.json
+xlmtec config generate --output training.json
 nano training.json
 
 # Train using config (coming soon)
-lmtool train from-config training.json
+xlmtec train from-config training.json
 ```
 
 ### **Environment Variables**
@@ -752,7 +752,7 @@ export FINETUNE_MODEL=gpt2
 export FINETUNE_OUTPUT=./outputs
 export FINETUNE_LOG_LEVEL=DEBUG
 
-lmtool train run --dataset ./data.jsonl
+xlmtec train run --dataset ./data.jsonl
 ```
 
 ### **Logging**
@@ -761,13 +761,13 @@ Control verbosity:
 
 ```bash
 # Quiet mode
-lmtool train run ... --log-level ERROR
+xlmtec train run ... --log-level ERROR
 
 # Verbose mode
-lmtool train run ... --log-level DEBUG
+xlmtec train run ... --log-level DEBUG
 
 # Save logs to file
-lmtool train run ... 2>&1 | tee training.log
+xlmtec train run ... 2>&1 | tee training.log
 ```
 
 ### **Shell Completion**
@@ -776,10 +776,10 @@ Enable tab completion (future feature):
 
 ```bash
 # Bash
-eval "$(lmtool --show-completion bash)"
+eval "$(xlmtec --show-completion bash)"
 
 # Zsh
-eval "$(lmtool --show-completion zsh)"
+eval "$(xlmtec --show-completion zsh)"
 ```
 
 ---
@@ -790,7 +790,7 @@ eval "$(lmtool --show-completion zsh)"
 
 ```bash
 # Verify installation
-pip show lmtool
+pip show xlmtec
 
 # Reinstall
 pip install -e . --force-reinstall
@@ -800,26 +800,26 @@ pip install -e . --force-reinstall
 
 ```bash
 # Reduce batch size
-lmtool train run ... --batch-size 2
+xlmtec train run ... --batch-size 2
 
 # Enable gradient checkpointing
-lmtool train run ... --grad-checkpoint
+xlmtec train run ... --grad-checkpoint
 
 # Use QLoRA
-lmtool train run ... --method qlora --4bit
+xlmtec train run ... --method qlora --4bit
 ```
 
 ### **Slow Training**
 
 ```bash
 # Increase batch size (if memory allows)
-lmtool train run ... --batch-size 8
+xlmtec train run ... --batch-size 8
 
 # Reduce max length
-lmtool train run ... --max-length 256
+xlmtec train run ... --max-length 256
 
 # Limit samples for testing
-lmtool train run ... --max-samples 1000
+xlmtec train run ... --max-samples 1000
 ```
 
 ---

@@ -12,7 +12,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 from typer.testing import CliRunner
 
-from lmtool.cli.main import app
+from xlmtec.cli.main import app
 
 runner = CliRunner()
 
@@ -36,10 +36,10 @@ def _mock_training_stack():
     mock_result.steps_completed = 10
 
     patches = [
-        patch("lmtool.models.loader.load_model_and_tokenizer",
+        patch("xlmtec.models.loader.load_model_and_tokenizer",
               return_value=(MagicMock(), MagicMock())),
-        patch("lmtool.data.prepare_dataset", return_value=MagicMock()),
-        patch("lmtool.trainers.TrainerFactory.train", return_value=mock_result),
+        patch("xlmtec.data.prepare_dataset", return_value=MagicMock()),
+        patch("xlmtec.trainers.TrainerFactory.train", return_value=mock_result),
     ]
     return patches
 

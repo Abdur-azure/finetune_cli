@@ -12,10 +12,10 @@ from unittest.mock import MagicMock, call, patch
 import pytest
 from datasets import Dataset, DatasetDict
 
-from lmtool.core.exceptions import MissingConfigError, TrainingError
-from lmtool.core.types import DistillationConfig, TrainingConfig, TrainingMethod
-from lmtool.trainers.factory import TrainerFactory
-from lmtool.trainers.response_distillation_trainer import (
+from xlmtec.core.exceptions import MissingConfigError, TrainingError
+from xlmtec.core.types import DistillationConfig, TrainingConfig, TrainingMethod
+from xlmtec.trainers.factory import TrainerFactory
+from xlmtec.trainers.response_distillation_trainer import (
     _VRAM_WARNING_THRESHOLD,
     ResponseDistillationTrainer,
 )
@@ -216,10 +216,10 @@ class TestSetupPeft:
 # ============================================================================
 
 _DISTILLATION_TRAINER_PATH = (
-    "lmtool.trainers.response_distillation_trainer._DistillationTrainer"
+    "xlmtec.trainers.response_distillation_trainer._DistillationTrainer"
 )
 _AUTO_MODEL_PATH = (
-    "lmtool.trainers.response_distillation_trainer.AutoModelForCausalLM"
+    "xlmtec.trainers.response_distillation_trainer.AutoModelForCausalLM"
 )
 
 
@@ -238,7 +238,7 @@ class TestTrain:
         distillation_config,
         small_dataset,
     ):
-        from lmtool.trainers.base import TrainingResult
+        from xlmtec.trainers.base import TrainingResult
 
         mock_auto_model.from_pretrained.return_value = MagicMock()
         mock_dist_trainer_cls.return_value = _mock_distillation_trainer()

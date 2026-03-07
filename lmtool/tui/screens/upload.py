@@ -1,4 +1,4 @@
-"""UploadScreen — form for `lmtool upload`."""
+"""UploadScreen — form for `xlmtec upload`."""
 
 from textual.app import ComposeResult
 from textual.binding import Binding
@@ -9,7 +9,7 @@ from textual.widgets import Button, Footer, Header, Input, Label, Switch
 
 
 class UploadScreen(Screen):
-    """Form screen for `lmtool upload`.
+    """Form screen for `xlmtec upload`.
 
     Collects: model path, repo_id, HF token (masked), private toggle,
     merge-adapter toggle, base model (shown only when merge-adapter is on),
@@ -194,7 +194,7 @@ class UploadScreen(Screen):
             return
 
         command = [
-            "lmtool", "upload",
+            "xlmtec", "upload",
             model_path,
             repo_id,
             "--token", token,
@@ -205,7 +205,7 @@ class UploadScreen(Screen):
         if merge:
             command += ["--merge-adapter", "--base-model", base]
 
-        from lmtool.tui.screens.running import RunningScreen
+        from xlmtec.tui.screens.running import RunningScreen
         self.app.switch_screen(
             RunningScreen(
                 command=command,

@@ -16,7 +16,7 @@ Runnable examples. Every config must work after running `generate_sample_data.py
 
 ```bash
 python examples/generate_sample_data.py
-lmtool train --config examples/configs/lora_gpt2.yaml
+xlmtec train --config examples/configs/lora_gpt2.yaml
 ```
 
 ## Rules

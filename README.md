@@ -1,8 +1,8 @@
-# lmtool
+# xlmtec
 
 **Production-grade LLM fine tuning, distillation, and pruning from the command line.**
 
-[![CI](https://github.com/Abdur-azure/lmtool/actions/workflows/ci.yml/badge.svg)](https://github.com/Abdur-azure/lmtool/actions)
+[![CI](https://github.com/Abdur-azure/xlmtec/actions/workflows/ci.yml/badge.svg)](https://github.com/Abdur-azure/xlmtec/actions)
 [![Python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue)](https://www.python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -10,15 +10,15 @@
 
 ## What it does
 
-`lmtool` is a modular Python framework for fine-tuning, distilling, and pruning large language models. It wraps HuggingFace Transformers + PEFT in a clean CLI, a validated config system, a composable trainer stack, an interactive TUI, and a full test suite — all CPU-runnable for unit tests.
+`xlmtec` is a modular Python framework for fine-tuning, distilling, and pruning large language models. It wraps HuggingFace Transformers + PEFT in a clean CLI, a validated config system, a composable trainer stack, an interactive TUI, and a full test suite — all CPU-runnable for unit tests.
 
 ---
 
 ## Install
 
 ```bash
-git clone https://github.com/Abdur-azure/lmtool.git
-cd lmtool
+git clone https://github.com/Abdur-azure/xlmtec.git
+cd xlmtec
 pip install -e .
 ```
 
@@ -31,16 +31,16 @@ pip install -e .
 python examples/generate_sample_data.py
 
 # 2. Not sure which method to use? Ask
-lmtool recommend gpt2 --output my_config.yaml
+xlmtec recommend gpt2 --output my_config.yaml
 
 # 3. Train with the generated config
-lmtool train --config my_config.yaml
+xlmtec train --config my_config.yaml
 
 # 4. Or use a ready-made config
-lmtool train --config examples/configs/lora_gpt2.yaml
+xlmtec train --config examples/configs/lora_gpt2.yaml
 
 # 5. Launch the interactive TUI
-lmtool tui
+xlmtec tui
 ```
 
 ---
@@ -49,15 +49,15 @@ lmtool tui
 
 | Command | What it does |
 |---------|-------------|
-| `lmtool train` | Fine-tune using a YAML config or inline flags (LoRA / QLoRA / Full / Instruction / DPO / Distillation) |
-| `lmtool evaluate` | Score a saved checkpoint (ROUGE, BLEU, Perplexity) |
-| `lmtool benchmark` | Before/after comparison: base vs fine-tuned |
-| `lmtool merge` | Merge LoRA adapter into base model → standalone model |
-| `lmtool upload` | Push adapter or merged model to HuggingFace Hub |
-| `lmtool recommend` | Inspect model size + VRAM, output optimal YAML config |
-| `lmtool prune` | Structured pruning — zero lowest-magnitude attention heads |
-| `lmtool wanda` | WANDA unstructured pruning — zero weights by \|W\|×activation score |
-| `lmtool tui` | Interactive Textual TUI — all commands via a terminal UI |
+| `xlmtec train` | Fine-tune using a YAML config or inline flags (LoRA / QLoRA / Full / Instruction / DPO / Distillation) |
+| `xlmtec evaluate` | Score a saved checkpoint (ROUGE, BLEU, Perplexity) |
+| `xlmtec benchmark` | Before/after comparison: base vs fine-tuned |
+| `xlmtec merge` | Merge LoRA adapter into base model → standalone model |
+| `xlmtec upload` | Push adapter or merged model to HuggingFace Hub |
+| `xlmtec recommend` | Inspect model size + VRAM, output optimal YAML config |
+| `xlmtec prune` | Structured pruning — zero lowest-magnitude attention heads |
+| `xlmtec wanda` | WANDA unstructured pruning — zero weights by \|W\|×activation score |
+| `xlmtec tui` | Interactive Textual TUI — all commands via a terminal UI |
 
 ---
 
@@ -79,13 +79,13 @@ lmtool tui
 
 ```bash
 # Structured pruning — zero lowest-magnitude attention heads
-lmtool prune ./outputs/gpt2_lora \
+xlmtec prune ./outputs/gpt2_lora \
     --output ./outputs/gpt2_pruned \
     --sparsity 0.3 \
     --method heads
 
 # WANDA unstructured pruning — weight × activation scoring, zero-shot
-lmtool wanda ./outputs/gpt2_lora \
+xlmtec wanda ./outputs/gpt2_lora \
     --output ./outputs/gpt2_wanda \
     --sparsity 0.5 \
     --dataset ./data/sample.jsonl
@@ -112,11 +112,11 @@ lmtool wanda ./outputs/gpt2_lora \
 ## Python API
 
 ```python
-from lmtool.core.config import ConfigBuilder
-from lmtool.core.types import TrainingMethod, DatasetSource
-from lmtool.models.loader import load_model_and_tokenizer
-from lmtool.data import prepare_dataset
-from lmtool.trainers import TrainerFactory
+from xlmtec.core.config import ConfigBuilder
+from xlmtec.core.types import TrainingMethod, DatasetSource
+from xlmtec.models.loader import load_model_and_tokenizer
+from xlmtec.data import prepare_dataset
+from xlmtec.trainers import TrainerFactory
 
 config = (
     ConfigBuilder()

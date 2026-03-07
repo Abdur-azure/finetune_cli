@@ -6,9 +6,9 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from lmtool.core.types import EvaluationConfig, EvaluationMetric
-from lmtool.evaluation.benchmarker import BenchmarkReport, BenchmarkRunner, EvaluationResult
-from lmtool.evaluation.metrics import BleuMetric, MetricRegistry, RougeMetric
+from xlmtec.core.types import EvaluationConfig, EvaluationMetric
+from xlmtec.evaluation.benchmarker import BenchmarkReport, BenchmarkRunner, EvaluationResult
+from xlmtec.evaluation.metrics import BleuMetric, MetricRegistry, RougeMetric
 
 # ============================================================================
 # ROUGE

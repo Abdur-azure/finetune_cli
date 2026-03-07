@@ -1,8 +1,8 @@
-# lmtool
+# xlmtec
 
 **Production-grade LLM fine-tuning, distillation, and pruning from the command line.**
 
-`lmtool` is a modular Python framework that wraps HuggingFace Transformers + PEFT in a clean CLI, a validated config system, a composable trainer stack, an interactive TUI, and a full test suite — all CPU-runnable for unit tests.
+`xlmtec` is a modular Python framework that wraps HuggingFace Transformers + PEFT in a clean CLI, a validated config system, a composable trainer stack, an interactive TUI, and a full test suite — all CPU-runnable for unit tests.
 
 ---
 
@@ -10,18 +10,18 @@
 
 ```bash
 # Install
-git clone https://github.com/Abdur-azure/lmtool.git
-cd lmtool
+git clone https://github.com/Abdur-azure/xlmtec.git
+cd xlmtec
 pip install -e .
 
 # Generate sample data (no network required)
 python examples/generate_sample_data.py
 
 # Fine-tune GPT-2 with LoRA
-lmtool train --config examples/configs/lora_gpt2.yaml
+xlmtec train --config examples/configs/lora_gpt2.yaml
 
 # Or use the interactive TUI
-lmtool tui
+xlmtec tui
 ```
 
 ---
@@ -32,15 +32,15 @@ lmtool tui
 
 | Command | Description |
 |---------|-------------|
-| `lmtool train` | Fine-tune with LoRA / QLoRA / Full / Instruction / DPO / Distillation |
-| `lmtool evaluate` | Score a checkpoint — ROUGE, BLEU, Perplexity |
-| `lmtool benchmark` | Before/after comparison report |
-| `lmtool merge` | Merge LoRA adapter into base model |
-| `lmtool upload` | Push model or adapter to HuggingFace Hub |
-| `lmtool recommend` | Inspect model + VRAM, output optimal YAML config |
-| `lmtool prune` | Structured pruning — zero lowest-magnitude attention heads |
-| `lmtool wanda` | WANDA unstructured pruning — weight × activation scoring |
-| `lmtool tui` | Interactive Textual TUI — all commands via terminal UI |
+| `xlmtec train` | Fine-tune with LoRA / QLoRA / Full / Instruction / DPO / Distillation |
+| `xlmtec evaluate` | Score a checkpoint — ROUGE, BLEU, Perplexity |
+| `xlmtec benchmark` | Before/after comparison report |
+| `xlmtec merge` | Merge LoRA adapter into base model |
+| `xlmtec upload` | Push model or adapter to HuggingFace Hub |
+| `xlmtec recommend` | Inspect model + VRAM, output optimal YAML config |
+| `xlmtec prune` | Structured pruning — zero lowest-magnitude attention heads |
+| `xlmtec wanda` | WANDA unstructured pruning — weight × activation scoring |
+| `xlmtec tui` | Interactive Textual TUI — all commands via terminal UI |
 
 ### Training methods
 

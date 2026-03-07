@@ -10,9 +10,9 @@ from unittest.mock import MagicMock, PropertyMock, patch
 
 import pytest
 
-from lmtool.core.exceptions import FineTuneError
-from lmtool.core.types import PruningConfig
-from lmtool.trainers.structured_pruner import (
+from xlmtec.core.exceptions import FineTuneError
+from xlmtec.core.types import PruningConfig
+from xlmtec.trainers.structured_pruner import (
     PruningResult,
     StructuredPruner,
     _count_params,

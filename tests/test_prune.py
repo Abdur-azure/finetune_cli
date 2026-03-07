@@ -1,5 +1,5 @@
 """
-Unit tests for the `lmtool prune` CLI subcommand.
+Unit tests for the `xlmtec prune` CLI subcommand.
 
 All model loading and pruning are mocked — no GPU, no real model required.
 """
@@ -10,8 +10,8 @@ from unittest.mock import MagicMock, patch
 import pytest
 from typer.testing import CliRunner
 
-from lmtool.cli.main import app
-from lmtool.trainers.structured_pruner import PruningResult
+from xlmtec.cli.main import app
+from xlmtec.trainers.structured_pruner import PruningResult
 
 runner = CliRunner()
 
@@ -19,8 +19,8 @@ runner = CliRunner()
 # Helpers
 # ============================================================================
 
-_LOADER_PATH = "lmtool.models.loader.load_model_and_tokenizer"
-_PRUNER_PATH = "lmtool.trainers.structured_pruner.StructuredPruner"
+_LOADER_PATH = "xlmtec.models.loader.load_model_and_tokenizer"
+_PRUNER_PATH = "xlmtec.trainers.structured_pruner.StructuredPruner"
 
 
 def _mock_pruning_result(output_dir: Path) -> PruningResult:

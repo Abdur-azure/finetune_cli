@@ -1,4 +1,4 @@
-"""BenchmarkScreen — form for `lmtool evaluate benchmark`."""
+"""BenchmarkScreen — form for `xlmtec evaluate benchmark`."""
 
 from textual.app import ComposeResult
 from textual.binding import Binding
@@ -17,7 +17,7 @@ _METRIC_OPTIONS = [
 
 
 class BenchmarkScreen(Screen):
-    """Form screen for `lmtool evaluate benchmark`.
+    """Form screen for `xlmtec evaluate benchmark`.
 
     Collects: base model, fine-tuned model path, dataset, metrics,
     max-samples, optional report path.
@@ -187,7 +187,7 @@ class BenchmarkScreen(Screen):
             return
 
         command = [
-            "lmtool", "evaluate", "benchmark",
+            "xlmtec", "evaluate", "benchmark",
             "--base", base,
             "--finetuned", finetuned,
             "--dataset", dataset,
@@ -199,7 +199,7 @@ class BenchmarkScreen(Screen):
         if report:
             command += ["--report", report]
 
-        from lmtool.tui.screens.running import RunningScreen
+        from xlmtec.tui.screens.running import RunningScreen
         self.app.switch_screen(
             RunningScreen(
                 command=command,

@@ -18,17 +18,17 @@ from pathlib import Path
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from lmtool.core.config import ConfigBuilder
-from lmtool.core.types import DatasetSource, DeviceType, TrainingMethod
-from lmtool.data import prepare_dataset
-from lmtool.models.loader import load_model_and_tokenizer
-from lmtool.trainers import (
+from xlmtec.core.config import ConfigBuilder
+from xlmtec.core.types import DatasetSource, DeviceType, TrainingMethod
+from xlmtec.data import prepare_dataset
+from xlmtec.models.loader import load_model_and_tokenizer
+from xlmtec.trainers import (
     MethodRecommender,
     get_available_methods,
     get_finetuning_comparison,
     train_model,
 )
-from lmtool.utils.logging import LogLevel, setup_logger
+from xlmtec.utils.logging import LogLevel, setup_logger
 
 # ============================================================================
 # EXAMPLE 1: LoRA Training
@@ -386,7 +386,7 @@ def example_6_config_file():
     logger.info(f"Saved configuration to: {config_path}")
 
     # Load config from file
-    from lmtool.core.config import PipelineConfig
+    from xlmtec.core.config import PipelineConfig
     loaded_config = PipelineConfig.from_json(config_path)
     logger.info("Loaded configuration from file")
 

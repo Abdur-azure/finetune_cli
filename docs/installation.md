@@ -16,8 +16,8 @@
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/Abdur-azure/lmtool.git
-cd lmtool
+git clone https://github.com/Abdur-azure/xlmtec.git
+cd xlmtec
 ```
 
 ### 2. Create a virtual environment
@@ -52,8 +52,8 @@ pip install -e ".[full]"
 ### 4. Verify
 
 ```bash
-lmtool --help
-python -c "from lmtool.core.config import ConfigBuilder; print('OK')"
+xlmtec --help
+python -c "from xlmtec.core.config import ConfigBuilder; print('OK')"
 ```
 
 ---
@@ -62,13 +62,13 @@ python -c "from lmtool.core.config import ConfigBuilder; print('OK')"
 
 ```bash
 # Core only
-pip install lmtool
+pip install xlmtec
 
 # With ML stack
-pip install "lmtool[ml]"
+pip install "xlmtec[ml]"
 
 # Everything
-pip install "lmtool[full]"
+pip install "xlmtec[full]"
 ```
 
 ---

@@ -1,6 +1,6 @@
 # Usage Guide
 
-Complete guide to all `lmtool` commands with real examples.
+Complete guide to all `xlmtec` commands with real examples.
 
 ---
 
@@ -8,8 +8,8 @@ Complete guide to all `lmtool` commands with real examples.
 
 ```bash
 # 1. Install
-git clone https://github.com/Abdur-azure/lmtool.git
-cd lmtool
+git clone https://github.com/Abdur-azure/xlmtec.git
+cd xlmtec
 pip install -e .
 
 # 2. Generate sample data (no network required)
@@ -20,8 +20,8 @@ python examples/generate_sample_data.py
 #   data/dpo_sample.jsonl      (200 rows, prompt/chosen/rejected)
 
 # 3. Not sure which method to use? Ask
-lmtool recommend gpt2 --output my_config.yaml
-lmtool train --config my_config.yaml
+xlmtec recommend gpt2 --output my_config.yaml
+xlmtec train --config my_config.yaml
 ```
 
 ---
@@ -30,15 +30,15 @@ lmtool train --config my_config.yaml
 
 | Command | What it does |
 |---------|-------------|
-| `lmtool train` | Fine-tune using a YAML/JSON config or inline flags |
-| `lmtool evaluate` | Score a saved checkpoint (ROUGE, BLEU, Perplexity) |
-| `lmtool benchmark` | Before/after comparison: base vs fine-tuned |
-| `lmtool merge` | Merge LoRA adapter into base model — standalone model |
-| `lmtool upload` | Push adapter or merged model to HuggingFace Hub |
-| `lmtool recommend` | Inspect model size + VRAM, output optimal YAML config |
-| `lmtool prune` | Structured attention-head pruning — no retraining required |
-| `lmtool wanda` | WANDA unstructured pruning — weight × activation scoring |
-| `lmtool tui` | Interactive Textual TUI — all commands via terminal UI |
+| `xlmtec train` | Fine-tune using a YAML/JSON config or inline flags |
+| `xlmtec evaluate` | Score a saved checkpoint (ROUGE, BLEU, Perplexity) |
+| `xlmtec benchmark` | Before/after comparison: base vs fine-tuned |
+| `xlmtec merge` | Merge LoRA adapter into base model — standalone model |
+| `xlmtec upload` | Push adapter or merged model to HuggingFace Hub |
+| `xlmtec recommend` | Inspect model size + VRAM, output optimal YAML config |
+| `xlmtec prune` | Structured attention-head pruning — no retraining required |
+| `xlmtec wanda` | WANDA unstructured pruning — weight × activation scoring |
+| `xlmtec tui` | Interactive Textual TUI — all commands via terminal UI |
 
 ---
 
@@ -47,13 +47,13 @@ lmtool train --config my_config.yaml
 ### Using a config file (recommended)
 
 ```bash
-lmtool train --config examples/configs/lora_gpt2.yaml
+xlmtec train --config examples/configs/lora_gpt2.yaml
 ```
 
 ### Using flags (quick experiments)
 
 ```bash
-lmtool train \
+xlmtec train \
   --model gpt2 \
   --dataset ./data/sample.jsonl \
   --method lora \
@@ -65,35 +65,35 @@ lmtool train \
 
 #### LoRA — general purpose adapter fine-tuning
 ```bash
-lmtool train --model gpt2 --dataset ./data/sample.jsonl --method lora --epochs 3
-# or: lmtool train --config examples/configs/lora_gpt2.yaml
+xlmtec train --model gpt2 --dataset ./data/sample.jsonl --method lora --epochs 3
+# or: xlmtec train --config examples/configs/lora_gpt2.yaml
 ```
 
 #### QLoRA — 4-bit quantised, large models on limited VRAM
 ```bash
-lmtool train \
+xlmtec train \
   --model meta-llama/Llama-3.2-1B \
   --dataset ./data/sample.jsonl \
   --method qlora --4bit --fp16 --epochs 2
-# or: lmtool train --config examples/configs/qlora_llama.yaml
+# or: xlmtec train --config examples/configs/qlora_llama.yaml
 ```
 
 #### Instruction tuning — alpaca-style `{instruction, input, response}` data
 ```bash
-lmtool train \
+xlmtec train \
   --model gpt2 \
   --dataset ./data/instructions.jsonl \
   --method instruction_tuning --epochs 3
-# or: lmtool train --config examples/configs/instruction_tuning.yaml
+# or: xlmtec train --config examples/configs/instruction_tuning.yaml
 ```
 
 #### Full fine-tuning — all parameters, small models only
 ```bash
-lmtool train \
+xlmtec train \
   --model gpt2 \
   --dataset ./data/sample.jsonl \
   --method full_finetuning --lr 1e-5 --epochs 3
-# or: lmtool train --config examples/configs/full_finetuning.yaml
+# or: xlmtec train --config examples/configs/full_finetuning.yaml
 ```
 
 > **Warning:** Full fine-tuning trains every parameter. Only safe on models ≤300M params unless you have 24GB+ VRAM.
@@ -102,18 +102,18 @@ lmtool train \
 Requires `pip install trl>=0.7.0`. Dataset must have `prompt`, `chosen`, `rejected` columns.
 
 ```bash
-lmtool train \
+xlmtec train \
   --model gpt2 \
   --dataset ./data/dpo_sample.jsonl \
   --method dpo --epochs 1
-# or: lmtool train --config examples/configs/dpo.yaml
+# or: xlmtec train --config examples/configs/dpo.yaml
 ```
 
 #### Response Distillation — student mimics teacher logits
 Student (smaller model) is trained to match the output distribution of a larger teacher via KL divergence + cross-entropy loss. No labelled data required beyond the training corpus.
 
 ```bash
-lmtool train --config examples/configs/response_distillation.yaml
+xlmtec train --config examples/configs/response_distillation.yaml
 ```
 
 Config key fields:
@@ -130,7 +130,7 @@ distillation:
 Extends response distillation with an MSE loss on intermediate hidden states, giving stronger layer-level supervision.
 
 ```bash
-lmtool train --config examples/configs/feature_distillation.yaml
+xlmtec train --config examples/configs/feature_distillation.yaml
 ```
 
 Config key fields:
@@ -150,7 +150,7 @@ feature_distillation:
 ## `evaluate` — Score a checkpoint
 
 ```bash
-lmtool evaluate ./outputs/gpt2_lora \
+xlmtec evaluate ./outputs/gpt2_lora \
   --dataset ./data/sample.jsonl \
   --metrics rougeL,bleu \
   --num-samples 200
@@ -163,7 +163,7 @@ Available metrics: `rouge1`, `rouge2`, `rougeL`, `bleu`, `perplexity`.
 ## `benchmark` — Before/after comparison
 
 ```bash
-lmtool benchmark gpt2 ./outputs/gpt2_lora \
+xlmtec benchmark gpt2 ./outputs/gpt2_lora \
   --dataset ./data/sample.jsonl \
   --metrics rougeL,bleu
 ```
@@ -177,7 +177,7 @@ Outputs a side-by-side table: base model scores vs fine-tuned scores with delta 
 Produces a standalone model with no PEFT dependency — ready for direct inference.
 
 ```bash
-lmtool merge ./outputs/gpt2_lora ./outputs/gpt2_merged \
+xlmtec merge ./outputs/gpt2_lora ./outputs/gpt2_merged \
   --base-model gpt2 \
   --dtype float16
 ```
@@ -188,19 +188,19 @@ lmtool merge ./outputs/gpt2_lora ./outputs/gpt2_merged \
 
 ```bash
 # Adapter only
-lmtool upload ./outputs/gpt2_lora \
+xlmtec upload ./outputs/gpt2_lora \
   --repo username/gpt2-lora-finetuned \
   --token $HF_TOKEN
 
 # Merge adapter before upload
-lmtool upload ./outputs/gpt2_lora \
+xlmtec upload ./outputs/gpt2_lora \
   --repo username/gpt2-merged \
   --token $HF_TOKEN \
   --merge-adapter \
   --base-model gpt2
 
 # Private repository
-lmtool upload ./outputs/gpt2_lora \
+xlmtec upload ./outputs/gpt2_lora \
   --repo username/gpt2-private \
   --private
 ```
@@ -214,7 +214,7 @@ lmtool upload ./outputs/gpt2_lora \
 Inspects the model's parameter count and your available VRAM, then writes a ready-to-use YAML config.
 
 ```bash
-lmtool recommend gpt2 --output my_config.yaml
+xlmtec recommend gpt2 --output my_config.yaml
 ```
 
 ---
@@ -225,18 +225,18 @@ Soft structured pruning: scores each attention head by mean absolute weight magn
 
 ```bash
 # Prune 30% of attention heads (default)
-lmtool prune ./outputs/gpt2_lora \
+xlmtec prune ./outputs/gpt2_lora \
   --output ./outputs/gpt2_pruned \
   --sparsity 0.3
 
 # Prune FFN neurons instead of attention heads
-lmtool prune ./outputs/gpt2_lora \
+xlmtec prune ./outputs/gpt2_lora \
   --output ./outputs/gpt2_pruned \
   --sparsity 0.3 \
   --method ffn
 
 # Keep at least 2 heads per layer (prevent collapse)
-lmtool prune ./outputs/gpt2_lora \
+xlmtec prune ./outputs/gpt2_lora \
   --output ./outputs/gpt2_pruned \
   --sparsity 0.5 \
   --min-heads 2
@@ -252,7 +252,7 @@ Sparsity guidance: `0.1` = light, `0.3` = moderate (recommended), `0.5` = aggres
 
 After pruning, evaluate with:
 ```bash
-lmtool benchmark gpt2 ./outputs/gpt2_pruned --dataset ./data/sample.jsonl
+xlmtec benchmark gpt2 ./outputs/gpt2_pruned --dataset ./data/sample.jsonl
 ```
 
 ---
@@ -263,14 +263,14 @@ WANDA (Weight AND Activation) scores each weight by `|W_ij| × ‖X_j‖₂` whe
 
 ```bash
 # With calibration dataset (recommended — uses activation norms)
-lmtool wanda ./outputs/gpt2_lora \
+xlmtec wanda ./outputs/gpt2_lora \
   --output ./outputs/gpt2_wanda \
   --sparsity 0.5 \
   --dataset ./data/sample.jsonl \
   --n-samples 128
 
 # Without calibration data (falls back to magnitude-only scoring)
-lmtool wanda ./outputs/gpt2_lora \
+xlmtec wanda ./outputs/gpt2_lora \
   --output ./outputs/gpt2_wanda \
   --sparsity 0.5
 ```
@@ -301,7 +301,7 @@ Sparsity guidance: `0.3` = light, `0.5` = standard (matches original WANDA paper
 Launches a full Textual TUI with 8 screens covering all commands. No flags needed.
 
 ```bash
-lmtool tui
+xlmtec tui
 ```
 
 Navigation: arrow keys or mouse, `Tab` between fields, `Enter` to submit, `Esc`/`h` to go back, `q` to quit.

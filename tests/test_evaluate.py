@@ -11,7 +11,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 from typer.testing import CliRunner
 
-from lmtool.cli.main import app
+from xlmtec.cli.main import app
 
 runner = CliRunner()
 
@@ -29,10 +29,10 @@ def _mock_eval_result(scores=None):
 def _mock_evaluation_stack():
     """Patch at source module — evaluate uses lazy imports inside the function."""
     return [
-        patch("lmtool.models.loader.load_model_and_tokenizer",
+        patch("xlmtec.models.loader.load_model_and_tokenizer",
               return_value=(MagicMock(), MagicMock())),
-        patch("lmtool.data.quick_load", return_value=MagicMock()),
-        patch("lmtool.evaluation.BenchmarkRunner"),
+        patch("xlmtec.data.quick_load", return_value=MagicMock()),
+        patch("xlmtec.evaluation.BenchmarkRunner"),
     ]
 
 

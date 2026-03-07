@@ -1,5 +1,5 @@
 """
-Unit tests for the `lmtool wanda` CLI subcommand.
+Unit tests for the `xlmtec wanda` CLI subcommand.
 
 All model loading and pruning are mocked — no GPU, no real model required.
 """
@@ -10,13 +10,13 @@ from unittest.mock import MagicMock, patch
 import pytest
 from typer.testing import CliRunner
 
-from lmtool.cli.main import app
-from lmtool.trainers.wanda_pruner import WandaResult
+from xlmtec.cli.main import app
+from xlmtec.trainers.wanda_pruner import WandaResult
 
 runner = CliRunner()
 
-_LOADER_PATH = "lmtool.models.loader.load_model_and_tokenizer"
-_WANDA_PATH  = "lmtool.trainers.wanda_pruner.WandaPruner"
+_LOADER_PATH = "xlmtec.models.loader.load_model_and_tokenizer"
+_WANDA_PATH  = "xlmtec.trainers.wanda_pruner.WandaPruner"
 
 
 def _mock_result(output_dir: Path) -> WandaResult:
