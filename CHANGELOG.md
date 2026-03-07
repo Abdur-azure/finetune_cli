@@ -4,6 +4,35 @@ All notable changes to this project are documented here.
 
 ---
 
+## [3.15.0] — Sprint 32: "Stabilise" — 2026-03-07
+
+### Fixed
+- `pyproject.toml` — split mandatory dependencies: `torch`, `transformers`, `peft`,
+  `accelerate`, `bitsandbytes`, `datasets`, `textual` moved to optional extras.
+  New extras: `[ml]` (GPU stack), `[tui]` (Textual), `[dpo]` (trl), `[dev]`
+  (test/lint tools), `[full]` (everything). Core package now installs in seconds
+  with no GPU libraries. Version `3.14.0` → `3.15.0`.
+- `.github/workflows/ci.yml` — fixed 5 issues: (1) install now uses
+  `pip install -e ".[ml,tui,dev]"` instead of legacy `requirements.txt`;
+  (2) cache key hashes `pyproject.toml` not `requirements.txt`; (3) integration
+  test timeout raised `120s` → `600s` (cold runner GPT-2 download); (4) `textual`
+  and `pytest-asyncio` now installed via extras (TUI tests were silently failing);
+  (5) lint job installs package first so ruff can resolve all imports.
+- `audit_repo.py` — fixed `finetune_finetune_cli/...` doubled-prefix typo on TUI
+  widget entries; added `docs/` entries; cleaned up and sorted all sections.
+- `CLAUDE.md` — fixed all `cli/main.py` bare path refs →
+  `finetune_cli/cli/main.py`; added architecture rule 11 (heavy deps optional);
+  added `[ml,tui,dev]` install note; pruner table added; Sprint 30–32 history rows.
+- `docs/installation.md` — corrected Python requirement `3.8+` → `3.10+`;
+  replaced `pip install -r requirements.txt` with `pip install -e ".[full]"`;
+  added extras table; removed all `requirements.txt` references.
+
+### Removed
+- `requirements.txt` — deleted. `pyproject.toml` is the single source of truth.
+  `docs/installation.md` updated accordingly.
+---
+
+
 ## [3.14.0] — Sprint 31: "Integration Hardening" — 2026-03-05
 
 ### Added

@@ -381,3 +381,25 @@ mask = mask.reshape(scores.shape)
 **Rule:** Any pruning/masking that uses a value threshold must use `>=` or
 index-based selection to handle ties. Unit tests with uniform tensors (all
 `torch.ones`) are the canonical regression test for this class of bug.
+
+## Pattern: Split ML deps into optional extras — never put torch in mandatory dependencies
+torch, transformers, peft, accelerate, bitsandbytes and textual are heavy optional deps.
+Putting them in [project.dependencies] means `pip install finetune-cli` pulls ~2.5GB.
+Rule: keep mandatory deps lightweight (pydantic, typer, rich, yaml, tqdm, eval metrics).
+Move GPU stack to [ml], TUI to [tui], DPO to [dpo], tests/lint to [dev], all to [full].
+CI installs: `pip install -e ".[ml,tui,dev]"` for full test suite.
+
+## Pattern: pytest-asyncio must be installed for TUI tests — it's not a transitive dep
+test_tui.py uses asyncio_mode = "auto" via pytest-asyncio. If pytest-asyncio is not
+installed the tests silently fail to collect (no error, no skip — just disappear).
+Rule: always include pytest-asyncio in the [dev] extra AND verify it's in ci.yml install.
+
+## Pattern: ci.yml install step must derive from pyproject.toml, not requirements.txt
+requirements.txt is a legacy artifact and will always drift behind pyproject.toml.
+Rule: delete requirements.txt. Use `pip install -e ".[extras]"` in ci.yml exclusively.
+Cache key must hash pyproject.toml, not requirements.txt.
+
+## Pattern: Lint job must install the package before running ruff
+If ruff runs without the package installed, it cannot resolve project imports and
+reports false-positive E402/F401 errors that fail CI. Fix: `pip install -e ".[dev]"` 
+in the lint job before `ruff check .`.

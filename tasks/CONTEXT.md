@@ -43,6 +43,7 @@ Session state. Read both files at the start of every working session.
 | 29 | Structured Pruning | ✅ Complete — PruningConfig, StructuredPruner, prune CLI command, 23 tests |
 | 30 | WANDA Pruning | ✅ Complete — WandaConfig, WandaPruner, wanda CLI command, 24 tests |
 | 31 | Integration Hardening | ✅ Complete — 15 new integration tests (distill×2, prune×2, CLI smoke×4), ci.yml fixed |
+| 32 | Stabilise | ✅ Complete — pyproject.toml extras split, ci.yml 5 fixes, audit_repo typo, CLAUDE.md paths, installation.md |
 
 ## TUI Rule
 

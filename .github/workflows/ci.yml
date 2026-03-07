@@ -7,6 +7,7 @@ on:
     branches: [main]
 
 jobs:
+  # ── Unit + Integration tests ─────────────────────────────────────────────
   test:
     runs-on: ubuntu-latest
     strategy:
@@ -30,24 +31,27 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-${{ matrix.python-version }}-
 
-      - name: Install package and dev dependencies
+      # Install package + all extras needed for the full test suite:
+      #   ml  → torch, transformers, peft, datasets (unit + integration tests)
+      #   tui → textual (test_tui.py)
+      #   dev → pytest, pytest-asyncio, pytest-cov, pytest-timeout, ruff, mypy
+      - name: Install package and dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -e ".[dev]"
-          pip install pytest-timeout
+          pip install -e ".[ml,tui,dev]"
 
       - name: Run unit tests (no GPU required)
         run: |
-          pytest tests/ -v \
-            --ignore=tests/test_integration.py \
-            --timeout=60 \
-            --cov=finetune_cli \
-            --cov-report=term-missing \
+          pytest tests/ -v
+            --ignore=tests/test_integration.py
+            --timeout=60
+            --cov=finetune_cli
+            --cov-report=term-missing
             --cov-report=xml
 
       - name: Run integration tests (CPU, real GPT-2)
         run: |
-          pytest tests/test_integration.py -v -s --timeout=300
+          pytest tests/test_integration.py -v -s --timeout=600
         env:
           FINETUNE_CI: "1"
 
@@ -58,17 +62,24 @@ jobs:
           file: ./coverage.xml
           fail_ci_if_error: false
 
+  # ── Lint + type-check ────────────────────────────────────────────────────
   lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Install linting tools
+
+      # Install package so ruff can resolve all imports cleanly
+      - name: Install package and lint tools
         run: |
-          pip install ruff mypy
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
       - name: Ruff lint check
         run: ruff check .
+
       - name: Type check (non-blocking)
         run: mypy finetune_cli/core/ finetune_cli/trainers/ --ignore-missing-imports || true

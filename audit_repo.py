@@ -1,17 +1,16 @@
 """
-audit_repo.py — run this from your repo root to find missing files.
+audit_repo.py — run from the repo root to find missing files.
 
 Usage:
     python audit_repo.py
 
 Prints every file that should exist but doesn't.
-Copy the missing ones from the outputs/ folder provided.
 """
 
 from pathlib import Path
 
 REQUIRED_FILES = [
-    # Root
+    # ── Root ─────────────────────────────────────────────────────────────
     "conftest.py",
     "pyproject.toml",
     "audit_repo.py",
@@ -21,24 +20,25 @@ REQUIRED_FILES = [
     ".github/workflows/ci.yml",
     ".gitignore",
 
-    # Main package
+    # ── Main package ─────────────────────────────────────────────────────
     "finetune_cli/__init__.py",
 
-    # Core
+    # ── Core ─────────────────────────────────────────────────────────────
     "finetune_cli/core/__init__.py",
     "finetune_cli/core/exceptions.py",
     "finetune_cli/core/types.py",
     "finetune_cli/core/config.py",
+    "finetune_cli/core/CONTEXT.md",
 
-    # Utils
+    # ── Utils ─────────────────────────────────────────────────────────────
     "finetune_cli/utils/__init__.py",
     "finetune_cli/utils/logging.py",
 
-    # Models
+    # ── Models ────────────────────────────────────────────────────────────
     "finetune_cli/models/__init__.py",
     "finetune_cli/models/loader.py",
 
-    # Trainers
+    # ── Trainers ──────────────────────────────────────────────────────────
     "finetune_cli/trainers/__init__.py",
     "finetune_cli/trainers/base.py",
     "finetune_cli/trainers/lora_trainer.py",
@@ -51,42 +51,44 @@ REQUIRED_FILES = [
     "finetune_cli/trainers/structured_pruner.py",
     "finetune_cli/trainers/wanda_pruner.py",
     "finetune_cli/trainers/factory.py",
+    "finetune_cli/trainers/CONTEXT.md",
 
-    # TUI    
+    # ── TUI ───────────────────────────────────────────────────────────────
     "finetune_cli/tui/__init__.py",
     "finetune_cli/tui/app.py",
+    "finetune_cli/tui/app.css",
     "finetune_cli/tui/screens/__init__.py",
     "finetune_cli/tui/screens/home.py",
-    "finetune_cli/tui/widgets/__init__.py",
-    "finetune_cli/tui/widgets/command_card.py",
-    "finetune_cli/tui/widgets/log_panel.py",
-    "finetune_cli/tui/widgets/metric_table.py",
-    "finetune_cli/tui/screens/running.py",
-    "finetune_cli/tui/screens/result.py",
     "finetune_cli/tui/screens/train.py",
     "finetune_cli/tui/screens/recommend.py",
     "finetune_cli/tui/screens/evaluate.py",
     "finetune_cli/tui/screens/benchmark.py",
     "finetune_cli/tui/screens/merge.py",
     "finetune_cli/tui/screens/upload.py",
-    "finetune_cli/tui/app.css",
+    "finetune_cli/tui/screens/running.py",
+    "finetune_cli/tui/screens/result.py",
+    "finetune_cli/tui/widgets/__init__.py",
+    "finetune_cli/tui/widgets/command_card.py",
+    "finetune_cli/tui/widgets/log_panel.py",
+    "finetune_cli/tui/widgets/metric_table.py",
 
-
-    # Data
+    # ── Data ──────────────────────────────────────────────────────────────
     "finetune_cli/data/__init__.py",
     "finetune_cli/data/pipeline.py",
+    "finetune_cli/data/CONTEXT.md",
 
-    # Evaluation
+    # ── Evaluation ────────────────────────────────────────────────────────
     "finetune_cli/evaluation/__init__.py",
     "finetune_cli/evaluation/metrics.py",
     "finetune_cli/evaluation/benchmarker.py",
+    "finetune_cli/evaluation/CONTEXT.md",
 
-    # CLI
+    # ── CLI ───────────────────────────────────────────────────────────────
     "finetune_cli/cli/__init__.py",
     "finetune_cli/cli/main.py",
+    "finetune_cli/cli/CONTEXT.md",
 
-    # Tests
-    "tests/__init__.py",
+    # ── Tests ─────────────────────────────────────────────────────────────
     "tests/conftest.py",
     "tests/test_config.py",
     "tests/test_trainers.py",
@@ -97,8 +99,9 @@ REQUIRED_FILES = [
     "tests/test_response_distillation_trainer.py",
     "tests/test_feature_distillation_trainer.py",
     "tests/test_structured_pruner.py",
+    "tests/test_wanda_pruner.py",
+    "tests/test_wanda_cli.py",
     "tests/test_prune.py",
-    "docs/tui.md",
     "tests/test_tui.py",
     "tests/test_evaluation.py",
     "tests/test_recommend.py",
@@ -109,53 +112,62 @@ REQUIRED_FILES = [
     "tests/test_upload.py",
     "tests/test_data.py",
     "tests/test_integration.py",
-    "tests/test_wanda_pruner.py",
-    "tests/test_wanda_cli.py",
+    "tests/CONTEXT.md",
 
-    # Tasks
+    # ── Tasks ─────────────────────────────────────────────────────────────
     "tasks/todo.md",
     "tasks/lessons.md",
     "tasks/CONTEXT.md",
     "tasks/roadmap.md",
 
-    # Examples
+    # ── Examples ──────────────────────────────────────────────────────────
+    "examples/generate_sample_data.py",
     "examples/configs/lora_gpt2.yaml",
     "examples/configs/qlora_llama.yaml",
     "examples/configs/instruction_tuning.yaml",
     "examples/configs/full_finetuning.yaml",
     "examples/configs/dpo.yaml",
     "examples/configs/response_distillation.yaml",
-    "examples/configs/feature_distillation.yaml",       
+    "examples/configs/feature_distillation.yaml",
     "examples/configs/structured_pruning.yaml",
     "examples/configs/wanda.yaml",
-    "examples/generate_sample_data.py",
 
-    # Context files
+    # ── Docs ──────────────────────────────────────────────────────────────
+    "docs/tui.md",
+    "docs/index.md",
+    "docs/usage.md",
+    "docs/api.md",
+    "docs/configuration.md",
+
+    # ── Meta ──────────────────────────────────────────────────────────────
     "CLAUDE.md",
-    "finetune_cli/core/CONTEXT.md",
-    "finetune_cli/trainers/CONTEXT.md",
-    "finetune_cli/data/CONTEXT.md",
-    "finetune_cli/evaluation/CONTEXT.md",
-    "finetune_cli/cli/CONTEXT.md",
-    "tests/CONTEXT.md",
 ]
 
-root = Path(__file__).parent
-missing = [f for f in REQUIRED_FILES if not (root / f).exists()]
-present = [f for f in REQUIRED_FILES if (root / f).exists()]
 
-print(f"\n{'='*55}")
-print(f"  REPO AUDIT — {root.name}")
-print(f"{'='*55}")
-print(f"  Present : {len(present)}/{len(REQUIRED_FILES)}")
-print(f"  Missing : {len(missing)}/{len(REQUIRED_FILES)}")
-print(f"{'='*55}")
+def main() -> None:
+    root = Path(__file__).parent
+    missing = [f for f in REQUIRED_FILES if not (root / f).exists()]
+    present = [f for f in REQUIRED_FILES if (root / f).exists()]
 
-if missing:
-    print("\n  MISSING FILES (copy these from the output zip):\n")
-    for f in missing:
-        print(f"    ✗  {f}")
-else:
-    print("\n  All required files present. Run: pytest tests/ -v\n")
+    print(f"\n{'=' * 55}")
+    print(f"  REPO AUDIT — {root.name}")
+    print(f"{'=' * 55}")
+    print(f"  Present : {len(present)}/{len(REQUIRED_FILES)}")
+    print(f"  Missing : {len(missing)}/{len(REQUIRED_FILES)}")
+    print(f"{'=' * 55}")
 
-print()
+    if missing:
+        print("\n  MISSING FILES:\n")
+        for f in missing:
+            print(f"    ✗  {f}")
+        print()
+    else:
+        print("\n  ✓  All required files present.\n")
+        print("  Next steps:")
+        print("    pytest tests/ -v --ignore=tests/test_integration.py")
+        print("    pytest tests/test_integration.py -v -s")
+        print()
+
+
+if __name__ == "__main__":
+    main()
