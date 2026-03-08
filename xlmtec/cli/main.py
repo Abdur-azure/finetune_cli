@@ -25,6 +25,8 @@ from xlmtec.cli.commands.config_validate import app as config_app
 from xlmtec.cli.commands.ai_suggest import app as ai_suggest_app
 from xlmtec.cli.commands.hub import app as hub_app
 from xlmtec.cli.commands.resume import resume
+from xlmtec.cli.commands.template import app as template_app
+
 from rich.panel import Panel
 
 from ..core.config import ConfigBuilder
@@ -42,6 +44,7 @@ app.add_typer(config_app, name="config")
 app.add_typer(ai_suggest_app, name="ai-suggest")
 app.add_typer(hub_app, name="hub")
 app.command()(resume)
+app.add_typer(template_app, name="template")
 
 def _version_callback(value: bool) -> None:
     if value:
