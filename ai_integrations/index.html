@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://Abdur-azure.github.io/xlmtec/installation/">
+        <link rel="canonical" href="https://Abdur-azure.github.io/xlmtec/ai_integrations/">
       
       
-        <link rel="prev" href="../hub/">
+        <link rel="prev" href="../ARCHITECTURE/">
       
       
-        <link rel="next" href="../training_and_evaluation/">
+        <link rel="next" href="../api/">
       
       
         
@@ -25,7 +25,7 @@
     
     
       
-        <title>Installation - xlmtec</title>
+        <title>AI Integrations - xlmtec</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#installation" class="md-skip">
+        <a href="#ai-integrations" class="md-skip">
           Skip to content
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Installation
+              AI Integrations
             
           </span>
         </div>
@@ -281,10 +281,37 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../ai_integrations/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Integrations
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -300,6 +327,131 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#supported-providers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supported providers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#claude" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claude
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gemini" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gemini
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpt-codex" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPT (Codex)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#all-providers-at-once" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        All providers at once
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How it works
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -416,37 +568,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Installation
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
         
   
   
@@ -462,142 +587,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Requirements
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#install-from-pypi" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Install from PyPI
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Install from PyPI">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#lightweight-install-no-ml-dependencies" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Lightweight install (no ML dependencies)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#with-training-support" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        With training support
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#with-ai-provider-support" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        With AI provider support
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#everything" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Everything
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#install-from-source" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Install from source
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#verify-installation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Verify installation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#gpu-setup-optional" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        GPU setup (optional)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#huggingface-token-optional" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        HuggingFace token (optional)
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -764,10 +753,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
+  <a href="#supported-providers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Requirements
+        Supported providers
       
     </span>
   </a>
@@ -775,22 +764,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-from-pypi" class="md-nav__link">
+  <a href="#setup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install from PyPI
+        Setup
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Install from PyPI">
+    <nav class="md-nav" aria-label="Setup">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#lightweight-install-no-ml-dependencies" class="md-nav__link">
+  <a href="#claude" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Lightweight install (no ML dependencies)
+        Claude
       
     </span>
   </a>
@@ -798,10 +787,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#with-training-support" class="md-nav__link">
+  <a href="#gemini" class="md-nav__link">
     <span class="md-ellipsis">
       
-        With training support
+        Gemini
       
     </span>
   </a>
@@ -809,10 +798,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#with-ai-provider-support" class="md-nav__link">
+  <a href="#gpt-codex" class="md-nav__link">
     <span class="md-ellipsis">
       
-        With AI provider support
+        GPT (Codex)
       
     </span>
   </a>
@@ -820,10 +809,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#everything" class="md-nav__link">
+  <a href="#all-providers-at-once" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Everything
+        All providers at once
       
     </span>
   </a>
@@ -836,10 +825,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-from-source" class="md-nav__link">
+  <a href="#usage" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install from source
+        Usage
       
     </span>
   </a>
@@ -847,10 +836,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#verify-installation" class="md-nav__link">
+  <a href="#output" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Verify installation
+        Output
       
     </span>
   </a>
@@ -858,21 +847,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#gpu-setup-optional" class="md-nav__link">
+  <a href="#how-it-works" class="md-nav__link">
     <span class="md-ellipsis">
       
-        GPU setup (optional)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#huggingface-token-optional" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        HuggingFace token (optional)
+        How it works
       
     </span>
   </a>
@@ -899,70 +877,119 @@
   
 
 
-<h1 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h1>
-<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
+<h1 id="ai-integrations">AI Integrations<a class="headerlink" href="#ai-integrations" title="Permanent link">&para;</a></h1>
+<p>The <code>xlmtec ai-suggest</code> command uses an AI provider to turn a plain-English task description into a ready-to-run training config.</p>
+<hr />
+<h2 id="supported-providers">Supported providers<a class="headerlink" href="#supported-providers" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Provider</th>
+<th>Package</th>
+<th>Env variable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude (Anthropic)</td>
+<td><code>xlmtec[claude]</code></td>
+<td><code>ANTHROPIC_API_KEY</code></td>
+</tr>
+<tr>
+<td>Gemini (Google)</td>
+<td><code>xlmtec[gemini]</code></td>
+<td><code>GEMINI_API_KEY</code></td>
+</tr>
+<tr>
+<td>GPT (OpenAI)</td>
+<td><code>xlmtec[codex]</code></td>
+<td><code>OPENAI_API_KEY</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">&para;</a></h2>
+<h3 id="claude">Claude<a class="headerlink" href="#claude" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>xlmtec<span class="o">[</span>claude<span class="o">]</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">ANTHROPIC_API_KEY</span><span class="o">=</span>sk-ant-...
+xlmtec<span class="w"> </span>ai-suggest<span class="w"> </span><span class="s2">&quot;fine-tune for sentiment analysis&quot;</span><span class="w"> </span>--provider<span class="w"> </span>claude
+</code></pre></div>
+
+<h3 id="gemini">Gemini<a class="headerlink" href="#gemini" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>xlmtec<span class="o">[</span>gemini<span class="o">]</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">GEMINI_API_KEY</span><span class="o">=</span>...
+xlmtec<span class="w"> </span>ai-suggest<span class="w"> </span><span class="s2">&quot;fine-tune for sentiment analysis&quot;</span><span class="w"> </span>--provider<span class="w"> </span>gemini
+</code></pre></div>
+
+<h3 id="gpt-codex">GPT (Codex)<a class="headerlink" href="#gpt-codex" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>xlmtec<span class="o">[</span>codex<span class="o">]</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OPENAI_API_KEY</span><span class="o">=</span>sk-...
+xlmtec<span class="w"> </span>ai-suggest<span class="w"> </span><span class="s2">&quot;fine-tune for sentiment analysis&quot;</span><span class="w"> </span>--provider<span class="w"> </span>codex
+</code></pre></div>
+
+<h3 id="all-providers-at-once">All providers at once<a class="headerlink" href="#all-providers-at-once" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>xlmtec<span class="o">[</span>ai<span class="o">]</span>
+</code></pre></div>
+
+<hr />
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Basic</span>
+xlmtec<span class="w"> </span>ai-suggest<span class="w"> </span><span class="s2">&quot;fine-tune GPT-2 for customer support classification&quot;</span>
+
+<span class="c1"># Specify provider</span>
+xlmtec<span class="w"> </span>ai-suggest<span class="w"> </span><span class="s2">&quot;qlora llama for code generation&quot;</span><span class="w"> </span>--provider<span class="w"> </span>gemini
+
+<span class="c1"># Save config to file</span>
+xlmtec<span class="w"> </span>ai-suggest<span class="w"> </span><span class="s2">&quot;instruction tune for QA&quot;</span><span class="w"> </span>--provider<span class="w"> </span>claude<span class="w"> </span>--save<span class="w"> </span>config.yaml
+
+<span class="c1"># Pass API key directly</span>
+xlmtec<span class="w"> </span>ai-suggest<span class="w"> </span><span class="s2">&quot;summarise medical notes&quot;</span><span class="w"> </span>--provider<span class="w"> </span>codex<span class="w"> </span>--api-key<span class="w"> </span>sk-...
+</code></pre></div>
+
+<hr />
+<h2 id="output">Output<a class="headerlink" href="#output" title="Permanent link">&para;</a></h2>
+<p>Each suggestion includes:</p>
 <ul>
-<li>Python 3.10 or higher</li>
-<li>pip</li>
+<li><strong>Method</strong> — recommended fine-tuning method (LoRA, QLoRA, full, instruction, DPO)</li>
+<li><strong>YAML config</strong> — complete, ready-to-run <code>xlmtec train</code> configuration</li>
+<li><strong>Explanation</strong> — why this config was chosen for your task</li>
+<li><strong>Command</strong> — exact command to run</li>
 </ul>
-<hr />
-<h2 id="install-from-pypi">Install from PyPI<a class="headerlink" href="#install-from-pypi" title="Permanent link">&para;</a></h2>
-<h3 id="lightweight-install-no-ml-dependencies">Lightweight install (no ML dependencies)<a class="headerlink" href="#lightweight-install-no-ml-dependencies" title="Permanent link">&para;</a></h3>
-<p>Good for using <code>ai-suggest</code>, <code>hub</code>, and <code>config validate</code> without downloading PyTorch:</p>
-<div class="codehilite"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>xlmtec
-</code></pre></div>
+<p>Example output:</p>
+<div class="codehilite"><pre><span></span><code>Recommendation
+──────────────
+Method: lora
+Why: LoRA is ideal for text classification — low VRAM requirement,
+     fast convergence, and strong performance on GPT-2 scale models.
 
-<h3 id="with-training-support">With training support<a class="headerlink" href="#with-training-support" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>xlmtec<span class="o">[</span>ml<span class="o">]</span>
-</code></pre></div>
+Generated config:
+model:
+  name: gpt2
+dataset:
+  source: local_file
+  path: data/train.jsonl
+lora:
+  r: 16
+  alpha: 32
+training:
+  output_dir: output/run1
+  num_epochs: 3
+  batch_size: 4
+  learning_rate: 2e-4
 
-<p>Installs: <code>torch</code>, <code>transformers</code>, <code>peft</code>, <code>accelerate</code>, <code>bitsandbytes</code>, <code>datasets</code></p>
-<h3 id="with-ai-provider-support">With AI provider support<a class="headerlink" href="#with-ai-provider-support" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>xlmtec<span class="o">[</span>claude<span class="o">]</span><span class="w">    </span><span class="c1"># Anthropic Claude</span>
-pip<span class="w"> </span>install<span class="w"> </span>xlmtec<span class="o">[</span>gemini<span class="o">]</span><span class="w">    </span><span class="c1"># Google Gemini</span>
-pip<span class="w"> </span>install<span class="w"> </span>xlmtec<span class="o">[</span>codex<span class="o">]</span><span class="w">     </span><span class="c1"># OpenAI GPT</span>
-pip<span class="w"> </span>install<span class="w"> </span>xlmtec<span class="o">[</span>ai<span class="o">]</span><span class="w">        </span><span class="c1"># All three providers</span>
-</code></pre></div>
-
-<h3 id="everything">Everything<a class="headerlink" href="#everything" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>xlmtec<span class="o">[</span>full<span class="o">]</span>
-</code></pre></div>
-
-<hr />
-<h2 id="install-from-source">Install from source<a class="headerlink" href="#install-from-source" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/Abdur-azure/xlmtec.git
-<span class="nb">cd</span><span class="w"> </span>xlmtec
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[full,dev]&quot;</span>
+Run this:
+xlmtec train --method lora --config config.yaml --output-dir output/run1
 </code></pre></div>
 
 <hr />
-<h2 id="verify-installation">Verify installation<a class="headerlink" href="#verify-installation" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code>xlmtec<span class="w"> </span>--version
-xlmtec<span class="w"> </span>--help
-</code></pre></div>
-
-<hr />
-<h2 id="gpu-setup-optional">GPU setup (optional)<a class="headerlink" href="#gpu-setup-optional" title="Permanent link">&para;</a></h2>
-<p>xlmtec works on CPU but training is significantly faster with a CUDA GPU.</p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Check if CUDA is available</span>
-python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import torch; print(&#39;CUDA:&#39;, torch.cuda.is_available())&quot;</span>
-</code></pre></div>
-
-<p>For a specific CUDA version:</p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># CUDA 11.8</span>
-pip<span class="w"> </span>install<span class="w"> </span>torch<span class="w"> </span>--index-url<span class="w"> </span>https://download.pytorch.org/whl/cu118
-
-<span class="c1"># CUDA 12.1</span>
-pip<span class="w"> </span>install<span class="w"> </span>torch<span class="w"> </span>--index-url<span class="w"> </span>https://download.pytorch.org/whl/cu121
-</code></pre></div>
-
-<hr />
-<h2 id="huggingface-token-optional">HuggingFace token (optional)<a class="headerlink" href="#huggingface-token-optional" title="Permanent link">&para;</a></h2>
-<p>Required only for uploading models or accessing private repos:</p>
-<div class="codehilite"><pre><span></span><code>huggingface-cli<span class="w"> </span>login
-<span class="c1"># or</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">HF_TOKEN</span><span class="o">=</span>hf_...
-</code></pre></div>
+<h2 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Your task description is sent to the chosen AI provider</li>
+<li>The provider returns a structured JSON response with method, YAML, and explanation</li>
+<li>xlmtec parses and displays the result — no raw JSON exposed</li>
+<li>Optionally saves the YAML to disk with <code>--save</code></li>
+</ol>
+<p>All three providers use the same system prompt and return identical output structure, so results are comparable across providers.</p>
 
 
 
