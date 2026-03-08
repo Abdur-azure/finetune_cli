@@ -11,7 +11,7 @@
         <link rel="canonical" href="https://Abdur-azure.github.io/xlmtec/usage/">
       
       
-        <link rel="prev" href="../troubleshooting/">
+        <link rel="prev" href="../tui/">
       
       
         <link rel="next" href="../vanilla_distillation/">
@@ -25,7 +25,7 @@
     
     
       
-        <title>Usage Guide - xlmtec</title>
+        <title>Usage - xlmtec</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#usage-guide" class="md-skip">
+        <a href="#usage" class="md-skip">
           Skip to content
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Usage Guide
+              Usage
             
           </span>
         </div>
@@ -284,6 +284,33 @@
   
   
     <li class="md-nav__item">
+      <a href="../ai_integrations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Integrations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../api/" class="md-nav__link">
         
   
@@ -365,6 +392,33 @@
   
   
     <li class="md-nav__item">
+      <a href="../hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model Hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../installation/" class="md-nav__link">
         
   
@@ -372,7 +426,7 @@
   <span class="md-ellipsis">
     
   
-    Installation Guide
+    Installation
   
 
     
@@ -443,6 +497,33 @@
       
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../tui/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TUI — Interactive Terminal Interface
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
     
   
   
@@ -462,7 +543,7 @@
   <span class="md-ellipsis">
     
   
-    Usage Guide
+    Usage
   
 
     
@@ -480,7 +561,7 @@
   <span class="md-ellipsis">
     
   
-    Usage Guide
+    Usage
   
 
     
@@ -506,10 +587,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#5-minute-quickstart" class="md-nav__link">
+  <a href="#getting-started" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5-minute quickstart
+        Getting started
       
     </span>
   </a>
@@ -517,10 +598,71 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#installation-check" class="md-nav__link">
+  <a href="#ai-suggest-generate-a-config-from-plain-english" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Installation check
+        ai-suggest — Generate a config from plain English
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hub-browse-huggingface-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        hub — Browse HuggingFace models
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="hub — Browse HuggingFace models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Info
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trending" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trending
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#config-validate-check-a-config-before-training" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        config validate — Check a config before training
       
     </span>
   </a>
@@ -540,10 +682,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#using-flags-quick-experiments" class="md-nav__link">
+  <a href="#dry-run-no-model-loading" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Using flags (quick experiments)
+        Dry run (no model loading)
       
     </span>
   </a>
@@ -551,32 +693,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#using-a-config-file-recommended-for-reproducibility" class="md-nav__link">
+  <a href="#training" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Using a config file (recommended for reproducibility)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#qlora-4-bit-memory-efficient" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        QLoRA (4-bit, memory-efficient)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#all-train-flags" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        All train flags
+        Training
       
     </span>
   </a>
@@ -589,10 +709,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#evaluate-score-a-saved-checkpoint" class="md-nav__link">
+  <a href="#recommend-get-a-method-recommendation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        evaluate — Score a saved checkpoint
+        recommend — Get a method recommendation
       
     </span>
   </a>
@@ -600,10 +720,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#benchmark-compare-base-vs-fine-tuned" class="md-nav__link">
+  <a href="#evaluate-evaluate-a-model" class="md-nav__link">
     <span class="md-ellipsis">
       
-        benchmark — Compare base vs fine-tuned
+        evaluate — Evaluate a model
       
     </span>
   </a>
@@ -611,60 +731,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#upload-push-to-huggingface-hub" class="md-nav__link">
+  <a href="#benchmark-compare-runs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        upload — Push to HuggingFace Hub
+        benchmark — Compare runs
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="upload — Push to HuggingFace Hub">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#upload-lora-adapter-default" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Upload LoRA adapter (default)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#merge-adapter-into-base-model-then-upload" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Merge adapter into base model, then upload
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#private-repository" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Private repository
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#supported-dataset-formats" class="md-nav__link">
+  <a href="#merge-merge-lora-adapter" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Supported dataset formats
+        merge — Merge LoRA adapter
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upload-upload-to-huggingface-hub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        upload — Upload to HuggingFace Hub
       
     </span>
   </a>
@@ -733,10 +825,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#5-minute-quickstart" class="md-nav__link">
+  <a href="#getting-started" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5-minute quickstart
+        Getting started
       
     </span>
   </a>
@@ -744,10 +836,71 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#installation-check" class="md-nav__link">
+  <a href="#ai-suggest-generate-a-config-from-plain-english" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Installation check
+        ai-suggest — Generate a config from plain English
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hub-browse-huggingface-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        hub — Browse HuggingFace models
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="hub — Browse HuggingFace models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Info
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trending" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trending
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#config-validate-check-a-config-before-training" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        config validate — Check a config before training
       
     </span>
   </a>
@@ -767,10 +920,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#using-flags-quick-experiments" class="md-nav__link">
+  <a href="#dry-run-no-model-loading" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Using flags (quick experiments)
+        Dry run (no model loading)
       
     </span>
   </a>
@@ -778,32 +931,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#using-a-config-file-recommended-for-reproducibility" class="md-nav__link">
+  <a href="#training" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Using a config file (recommended for reproducibility)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#qlora-4-bit-memory-efficient" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        QLoRA (4-bit, memory-efficient)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#all-train-flags" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        All train flags
+        Training
       
     </span>
   </a>
@@ -816,10 +947,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#evaluate-score-a-saved-checkpoint" class="md-nav__link">
+  <a href="#recommend-get-a-method-recommendation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        evaluate — Score a saved checkpoint
+        recommend — Get a method recommendation
       
     </span>
   </a>
@@ -827,10 +958,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#benchmark-compare-base-vs-fine-tuned" class="md-nav__link">
+  <a href="#evaluate-evaluate-a-model" class="md-nav__link">
     <span class="md-ellipsis">
       
-        benchmark — Compare base vs fine-tuned
+        evaluate — Evaluate a model
       
     </span>
   </a>
@@ -838,60 +969,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#upload-push-to-huggingface-hub" class="md-nav__link">
+  <a href="#benchmark-compare-runs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        upload — Push to HuggingFace Hub
+        benchmark — Compare runs
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="upload — Push to HuggingFace Hub">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#upload-lora-adapter-default" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Upload LoRA adapter (default)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#merge-adapter-into-base-model-then-upload" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Merge adapter into base model, then upload
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#private-repository" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Private repository
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#supported-dataset-formats" class="md-nav__link">
+  <a href="#merge-merge-lora-adapter" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Supported dataset formats
+        merge — Merge LoRA adapter
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upload-upload-to-huggingface-hub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        upload — Upload to HuggingFace Hub
       
     </span>
   </a>
@@ -918,261 +1021,137 @@
   
 
 
-<h1 id="usage-guide">Usage Guide<a class="headerlink" href="#usage-guide" title="Permanent link">&para;</a></h1>
-<p>This guide covers all four <code>xlmtec</code> subcommands with real examples.</p>
-<hr />
-<h2 id="5-minute-quickstart">5-minute quickstart<a class="headerlink" href="#5-minute-quickstart" title="Permanent link">&para;</a></h2>
-<p><strong>Step 1 — Install:</strong></p>
-<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/Abdur-azure/xlmtec.git
-<span class="nb">cd</span><span class="w"> </span>xlmtec
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
-</code></pre></div>
-
-<p><strong>Step 2 — Generate sample data:</strong></p>
-<div class="codehilite"><pre><span></span><code>python<span class="w"> </span>examples/generate_sample_data.py
-<span class="c1"># Creates: data/sample.jsonl (500 rows, causal LM)</span>
-<span class="c1">#          data/instructions.jsonl (300 rows, alpaca format)</span>
-</code></pre></div>
-
-<p><strong>Step 3 — Train:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># LoRA on GPT-2 (CPU-safe, ~2 min)</span>
-xlmtec<span class="w"> </span>train<span class="w"> </span>--config<span class="w"> </span>examples/configs/lora_gpt2.yaml
-
-<span class="c1"># Instruction tuning (alpaca format)</span>
-xlmtec<span class="w"> </span>train<span class="w"> </span>--config<span class="w"> </span>examples/configs/instruction_tuning.yaml
-
-<span class="c1"># Full fine-tuning (small model only)</span>
-xlmtec<span class="w"> </span>train<span class="w"> </span>--config<span class="w"> </span>examples/configs/full_finetuning.yaml
-</code></pre></div>
-
-<p><strong>Step 4 — Not sure which config to use? Ask:</strong></p>
-<div class="codehilite"><pre><span></span><code>xlmtec<span class="w"> </span>recommend<span class="w"> </span>gpt2<span class="w"> </span>--output<span class="w"> </span>my_config.yaml
-xlmtec<span class="w"> </span>train<span class="w"> </span>--config<span class="w"> </span>my_config.yaml
+<h1 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h1>
+<h2 id="getting-started">Getting started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>xlmtec<span class="w"> </span>--help<span class="w">        </span><span class="c1"># list all commands</span>
+xlmtec<span class="w"> </span>--version<span class="w">     </span><span class="c1"># show installed version</span>
 </code></pre></div>
 
 <hr />
-<hr />
-<h2 id="installation-check">Installation check<a class="headerlink" href="#installation-check" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code>xlmtec<span class="w"> </span>--help
+<h2 id="ai-suggest-generate-a-config-from-plain-english">ai-suggest — Generate a config from plain English<a class="headerlink" href="#ai-suggest-generate-a-config-from-plain-english" title="Permanent link">&para;</a></h2>
+<p>Describe your fine-tuning task and get a ready-to-run YAML config:</p>
+<div class="codehilite"><pre><span></span><code>xlmtec<span class="w"> </span>ai-suggest<span class="w"> </span><span class="s2">&quot;fine-tune GPT-2 for sentiment analysis&quot;</span><span class="w"> </span>--provider<span class="w"> </span>claude
+xlmtec<span class="w"> </span>ai-suggest<span class="w"> </span><span class="s2">&quot;qlora on llama for code generation&quot;</span><span class="w"> </span>--provider<span class="w"> </span>gemini
+xlmtec<span class="w"> </span>ai-suggest<span class="w"> </span><span class="s2">&quot;instruction tune for customer support&quot;</span><span class="w"> </span>--provider<span class="w"> </span>codex<span class="w"> </span>--save<span class="w"> </span>config.yaml
 </code></pre></div>
 
-<hr />
-<h2 id="train-fine-tune-a-model"><code>train</code> — Fine-tune a model<a class="headerlink" href="#train-fine-tune-a-model" title="Permanent link">&para;</a></h2>
-<h3 id="using-flags-quick-experiments">Using flags (quick experiments)<a class="headerlink" href="#using-flags-quick-experiments" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>xlmtec<span class="w"> </span>train<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--model<span class="w"> </span>gpt2<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--dataset<span class="w"> </span>./data.jsonl<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--lora-r<span class="w"> </span><span class="m">8</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--lora-alpha<span class="w"> </span><span class="m">32</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--epochs<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--batch-size<span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--output<span class="w"> </span>./output
-</code></pre></div>
-
-<h3 id="using-a-config-file-recommended-for-reproducibility">Using a config file (recommended for reproducibility)<a class="headerlink" href="#using-a-config-file-recommended-for-reproducibility" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>xlmtec<span class="w"> </span>train<span class="w"> </span>--config<span class="w"> </span>examples/configs/lora_gpt2.yaml
-</code></pre></div>
-
-<h3 id="qlora-4-bit-memory-efficient">QLoRA (4-bit, memory-efficient)<a class="headerlink" href="#qlora-4-bit-memory-efficient" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>xlmtec<span class="w"> </span>train<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--model<span class="w"> </span>meta-llama/Llama-3.2-1B<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--dataset<span class="w"> </span>./data.jsonl<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--4bit<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--fp16<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--lora-r<span class="w"> </span><span class="m">16</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--epochs<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--output<span class="w"> </span>./output_qlora
-</code></pre></div>
-
-<h3 id="all-train-flags">All <code>train</code> flags<a class="headerlink" href="#all-train-flags" title="Permanent link">&para;</a></h3>
+<p><strong>Options:</strong></p>
 <table>
 <thead>
 <tr>
-<th>Flag</th>
+<th>Option</th>
 <th>Default</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>--config</code></td>
+<td><code>--provider</code></td>
+<td><code>claude</code></td>
+<td>AI provider: <code>claude</code>, <code>gemini</code>, <code>codex</code></td>
+</tr>
+<tr>
+<td><code>--api-key</code></td>
+<td>env var</td>
+<td>API key (falls back to env variable)</td>
+</tr>
+<tr>
+<td><code>--save</code></td>
 <td>—</td>
-<td>YAML or JSON config file (overrides all flags)</td>
-</tr>
-<tr>
-<td><code>--model</code></td>
-<td><code>gpt2</code></td>
-<td>HuggingFace model id</td>
-</tr>
-<tr>
-<td><code>--dataset</code></td>
-<td>—</td>
-<td>Path to local dataset file</td>
-</tr>
-<tr>
-<td><code>--hf-dataset</code></td>
-<td>—</td>
-<td>HuggingFace dataset id</td>
-</tr>
-<tr>
-<td><code>--output</code></td>
-<td><code>./output</code></td>
-<td>Output directory</td>
-</tr>
-<tr>
-<td><code>--method</code></td>
-<td><code>lora</code></td>
-<td>Training method (<code>lora</code>, <code>qlora</code>)</td>
-</tr>
-<tr>
-<td><code>--lora-r</code></td>
-<td><code>8</code></td>
-<td>LoRA rank</td>
-</tr>
-<tr>
-<td><code>--lora-alpha</code></td>
-<td><code>32</code></td>
-<td>LoRA alpha</td>
-</tr>
-<tr>
-<td><code>--lora-dropout</code></td>
-<td><code>0.1</code></td>
-<td>LoRA dropout</td>
-</tr>
-<tr>
-<td><code>--epochs</code></td>
-<td><code>3</code></td>
-<td>Number of training epochs</td>
-</tr>
-<tr>
-<td><code>--batch-size</code></td>
-<td><code>4</code></td>
-<td>Per-device batch size</td>
-</tr>
-<tr>
-<td><code>--lr</code></td>
-<td><code>2e-4</code></td>
-<td>Learning rate</td>
-</tr>
-<tr>
-<td><code>--max-length</code></td>
-<td><code>512</code></td>
-<td>Max token sequence length</td>
-</tr>
-<tr>
-<td><code>--max-samples</code></td>
-<td>—</td>
-<td>Limit dataset to N samples</td>
-</tr>
-<tr>
-<td><code>--4bit</code></td>
-<td>off</td>
-<td>Load model in 4-bit (QLoRA)</td>
-</tr>
-<tr>
-<td><code>--fp16</code></td>
-<td>off</td>
-<td>Mixed precision FP16</td>
+<td>Save generated YAML to a file</td>
 </tr>
 </tbody>
 </table>
+<p>See <a href="../ai_integrations/">AI Integrations</a> for full provider setup.</p>
 <hr />
-<h2 id="evaluate-score-a-saved-checkpoint"><code>evaluate</code> — Score a saved checkpoint<a class="headerlink" href="#evaluate-score-a-saved-checkpoint" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code>xlmtec<span class="w"> </span>evaluate<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--model-path<span class="w"> </span>./output<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--dataset<span class="w"> </span>./test.jsonl<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--metrics<span class="w"> </span>rougeL,bleu
+<h2 id="hub-browse-huggingface-models">hub — Browse HuggingFace models<a class="headerlink" href="#hub-browse-huggingface-models" title="Permanent link">&para;</a></h2>
+<h3 id="search">Search<a class="headerlink" href="#search" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>xlmtec<span class="w"> </span>hub<span class="w"> </span>search<span class="w"> </span><span class="s2">&quot;bert&quot;</span>
+xlmtec<span class="w"> </span>hub<span class="w"> </span>search<span class="w"> </span><span class="s2">&quot;llama&quot;</span><span class="w"> </span>--task<span class="w"> </span>text-generation<span class="w"> </span>--limit<span class="w"> </span><span class="m">10</span>
+xlmtec<span class="w"> </span>hub<span class="w"> </span>search<span class="w"> </span><span class="s2">&quot;gpt&quot;</span><span class="w"> </span>--sort<span class="w"> </span>likes
 </code></pre></div>
 
-<p>Prints a score table:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">Results</span><span class="o">:</span>
-<span class="w">  </span><span class="n">rougeL</span><span class="w">               </span><span class="mf">0.4231</span>
-<span class="w">  </span><span class="n">bleu</span><span class="w">                 </span><span class="mf">0.1876</span>
-</code></pre></div>
-
-<hr />
-<h2 id="benchmark-compare-base-vs-fine-tuned"><code>benchmark</code> — Compare base vs fine-tuned<a class="headerlink" href="#benchmark-compare-base-vs-fine-tuned" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code>xlmtec<span class="w"> </span>benchmark<span class="w"> </span>gpt2<span class="w"> </span>./output<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--dataset<span class="w"> </span>./test.jsonl<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--metrics<span class="w"> </span>rougeL,bleu<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--num-samples<span class="w"> </span><span class="m">200</span>
-</code></pre></div>
-
-<p>Prints a before/after delta report:</p>
-<div class="codehilite"><pre><span></span><code>Metric       Base      Fine-tuned   Delta
-rougeL       0.3012    0.4231       ▲ 0.1219
-bleu         0.1204    0.1876       ▲ 0.0672
-</code></pre></div>
-
-<hr />
-<h2 id="upload-push-to-huggingface-hub"><code>upload</code> — Push to HuggingFace Hub<a class="headerlink" href="#upload-push-to-huggingface-hub" title="Permanent link">&para;</a></h2>
-<h3 id="upload-lora-adapter-default">Upload LoRA adapter (default)<a class="headerlink" href="#upload-lora-adapter-default" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>xlmtec<span class="w"> </span>upload<span class="w"> </span>./output<span class="w"> </span>username/my-model<span class="w"> </span>--token<span class="w"> </span><span class="nv">$HF_TOKEN</span>
-</code></pre></div>
-
-<h3 id="merge-adapter-into-base-model-then-upload">Merge adapter into base model, then upload<a class="headerlink" href="#merge-adapter-into-base-model-then-upload" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>xlmtec<span class="w"> </span>upload<span class="w"> </span>./output<span class="w"> </span>username/my-model<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--merge-adapter<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--base-model<span class="w"> </span>gpt2<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--token<span class="w"> </span><span class="nv">$HF_TOKEN</span>
-</code></pre></div>
-
-<p>The merged model is a standard HuggingFace model — no PEFT dependency required for inference.</p>
-<h3 id="private-repository">Private repository<a class="headerlink" href="#private-repository" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>xlmtec<span class="w"> </span>upload<span class="w"> </span>./output<span class="w"> </span>username/my-model<span class="w"> </span>--private
-</code></pre></div>
-
-<div class="admonition tip">
-<p class="admonition-title">Token via environment variable</p>
-<p>Set <code>HF_TOKEN</code> in your environment instead of passing <code>--token</code> every time:
-<code>bash
-export HF_TOKEN=hf_...
-xlmtec upload ./output username/my-model</code></p>
-</div>
-<hr />
-<h2 id="supported-dataset-formats">Supported dataset formats<a class="headerlink" href="#supported-dataset-formats" title="Permanent link">&para;</a></h2>
+<p><strong>Options:</strong></p>
 <table>
 <thead>
 <tr>
-<th>Format</th>
-<th>Extension</th>
-<th>Notes</th>
+<th>Option</th>
+<th>Default</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>JSON Lines</td>
-<td><code>.jsonl</code></td>
-<td>One JSON object per line — recommended</td>
-</tr>
-<tr>
-<td>JSON</td>
-<td><code>.json</code></td>
-<td>Array of objects or single dict</td>
-</tr>
-<tr>
-<td>CSV</td>
-<td><code>.csv</code></td>
-<td>Auto-detects text columns</td>
-</tr>
-<tr>
-<td>Parquet</td>
-<td><code>.parquet</code></td>
-<td>Columnar format</td>
-</tr>
-<tr>
-<td>Plain text</td>
-<td><code>.txt</code></td>
-<td>One sample per line</td>
-</tr>
-<tr>
-<td>HuggingFace</td>
+<td><code>--task</code></td>
 <td>—</td>
-<td>Any public Hub dataset via <code>--hf-dataset</code></td>
+<td>Filter by pipeline tag</td>
+</tr>
+<tr>
+<td><code>--limit</code></td>
+<td><code>10</code></td>
+<td>Number of results (max 100)</td>
+</tr>
+<tr>
+<td><code>--sort</code></td>
+<td><code>downloads</code></td>
+<td>Sort by: <code>downloads</code>, <code>likes</code>, <code>lastModified</code></td>
 </tr>
 </tbody>
 </table>
-<p>Text columns are auto-detected. To specify explicitly, use a config file with <code>dataset.text_columns</code>.</p>
+<h3 id="info">Info<a class="headerlink" href="#info" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>xlmtec<span class="w"> </span>hub<span class="w"> </span>info<span class="w"> </span>google/bert-base-uncased
+xlmtec<span class="w"> </span>hub<span class="w"> </span>info<span class="w"> </span>mistralai/Mistral-7B-v0.1
+</code></pre></div>
+
+<h3 id="trending">Trending<a class="headerlink" href="#trending" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>xlmtec<span class="w"> </span>hub<span class="w"> </span>trending
+xlmtec<span class="w"> </span>hub<span class="w"> </span>trending<span class="w"> </span>--limit<span class="w"> </span><span class="m">20</span>
+</code></pre></div>
+
+<p>See <a href="../hub/">Model Hub</a> for more.</p>
+<hr />
+<h2 id="config-validate-check-a-config-before-training">config validate — Check a config before training<a class="headerlink" href="#config-validate-check-a-config-before-training" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>xlmtec<span class="w"> </span>config<span class="w"> </span>validate<span class="w"> </span>config.yaml
+xlmtec<span class="w"> </span>config<span class="w"> </span>validate<span class="w"> </span>config.yaml<span class="w"> </span>--strict<span class="w">    </span><span class="c1"># fail on warnings too</span>
+</code></pre></div>
+
+<p>Reports all validation errors at once. Exits 0 on success, 1 on any error.</p>
+<hr />
+<h2 id="train-fine-tune-a-model">train — Fine-tune a model<a class="headerlink" href="#train-fine-tune-a-model" title="Permanent link">&para;</a></h2>
+<h3 id="dry-run-no-model-loading">Dry run (no model loading)<a class="headerlink" href="#dry-run-no-model-loading" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>xlmtec<span class="w"> </span>train<span class="w"> </span>--config<span class="w"> </span>config.yaml<span class="w"> </span>--dry-run
+</code></pre></div>
+
+<p>Validates the config and prints the full training plan without loading any model.</p>
+<h3 id="training">Training<a class="headerlink" href="#training" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>xlmtec<span class="w"> </span>train<span class="w"> </span>--config<span class="w"> </span>config.yaml
+xlmtec<span class="w"> </span>train<span class="w"> </span>--config<span class="w"> </span>config.yaml<span class="w"> </span>--method<span class="w"> </span>lora
+</code></pre></div>
+
+<hr />
+<h2 id="recommend-get-a-method-recommendation">recommend — Get a method recommendation<a class="headerlink" href="#recommend-get-a-method-recommendation" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>xlmtec<span class="w"> </span>recommend<span class="w"> </span>--model-size<span class="w"> </span>7b<span class="w"> </span>--vram<span class="w"> </span><span class="m">8</span>
+</code></pre></div>
+
+<hr />
+<h2 id="evaluate-evaluate-a-model">evaluate — Evaluate a model<a class="headerlink" href="#evaluate-evaluate-a-model" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>xlmtec<span class="w"> </span>evaluate<span class="w"> </span>--model<span class="w"> </span>output/run1<span class="w"> </span>--dataset<span class="w"> </span>data/test.jsonl
+</code></pre></div>
+
+<hr />
+<h2 id="benchmark-compare-runs">benchmark — Compare runs<a class="headerlink" href="#benchmark-compare-runs" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>xlmtec<span class="w"> </span>benchmark<span class="w"> </span>--runs<span class="w"> </span>output/run1<span class="w"> </span>output/run2
+</code></pre></div>
+
+<hr />
+<h2 id="merge-merge-lora-adapter">merge — Merge LoRA adapter<a class="headerlink" href="#merge-merge-lora-adapter" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>xlmtec<span class="w"> </span>merge<span class="w"> </span>--adapter<span class="w"> </span>output/run1<span class="w"> </span>--output<span class="w"> </span>merged_model/
+</code></pre></div>
+
+<hr />
+<h2 id="upload-upload-to-huggingface-hub">upload — Upload to HuggingFace Hub<a class="headerlink" href="#upload-upload-to-huggingface-hub" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>xlmtec<span class="w"> </span>upload<span class="w"> </span>--model<span class="w"> </span>output/run1<span class="w"> </span>--repo-id<span class="w"> </span>your-username/my-model
+</code></pre></div>
 
 
 

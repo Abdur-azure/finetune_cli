@@ -1,309 +1,136 @@
-# Usage Guide
+# Usage
 
-Complete guide to all `xlmtec` commands with real examples.
-
----
-
-## 5-minute quickstart
+## Getting started
 
 ```bash
-# 1. Install
-git clone https://github.com/Abdur-azure/xlmtec.git
-cd xlmtec
-pip install -e .
-
-# 2. Generate sample data (no network required)
-python examples/generate_sample_data.py
-# Creates:
-#   data/sample.jsonl          (500 rows, causal LM)
-#   data/instructions.jsonl    (300 rows, alpaca format)
-#   data/dpo_sample.jsonl      (200 rows, prompt/chosen/rejected)
-
-# 3. Not sure which method to use? Ask
-xlmtec recommend gpt2 --output my_config.yaml
-xlmtec train --config my_config.yaml
+xlmtec --help        # list all commands
+xlmtec --version     # show installed version
 ```
 
 ---
 
-## Command reference
+## ai-suggest — Generate a config from plain English
 
-| Command | What it does |
-|---------|-------------|
-| `xlmtec train` | Fine-tune using a YAML/JSON config or inline flags |
-| `xlmtec evaluate` | Score a saved checkpoint (ROUGE, BLEU, Perplexity) |
-| `xlmtec benchmark` | Before/after comparison: base vs fine-tuned |
-| `xlmtec merge` | Merge LoRA adapter into base model — standalone model |
-| `xlmtec upload` | Push adapter or merged model to HuggingFace Hub |
-| `xlmtec recommend` | Inspect model size + VRAM, output optimal YAML config |
-| `xlmtec prune` | Structured attention-head pruning — no retraining required |
-| `xlmtec wanda` | WANDA unstructured pruning — weight × activation scoring |
-| `xlmtec tui` | Interactive Textual TUI — all commands via terminal UI |
-
----
-
-## `train` — Fine-tune a model
-
-### Using a config file (recommended)
+Describe your fine-tuning task and get a ready-to-run YAML config:
 
 ```bash
-xlmtec train --config examples/configs/lora_gpt2.yaml
+xlmtec ai-suggest "fine-tune GPT-2 for sentiment analysis" --provider claude
+xlmtec ai-suggest "qlora on llama for code generation" --provider gemini
+xlmtec ai-suggest "instruction tune for customer support" --provider codex --save config.yaml
 ```
 
-### Using flags (quick experiments)
-
-```bash
-xlmtec train \
-  --model gpt2 \
-  --dataset ./data/sample.jsonl \
-  --method lora \
-  --epochs 3 \
-  --output ./output
-```
-
-### Training methods
-
-#### LoRA — general purpose adapter fine-tuning
-```bash
-xlmtec train --model gpt2 --dataset ./data/sample.jsonl --method lora --epochs 3
-# or: xlmtec train --config examples/configs/lora_gpt2.yaml
-```
-
-#### QLoRA — 4-bit quantised, large models on limited VRAM
-```bash
-xlmtec train \
-  --model meta-llama/Llama-3.2-1B \
-  --dataset ./data/sample.jsonl \
-  --method qlora --4bit --fp16 --epochs 2
-# or: xlmtec train --config examples/configs/qlora_llama.yaml
-```
-
-#### Instruction tuning — alpaca-style `{instruction, input, response}` data
-```bash
-xlmtec train \
-  --model gpt2 \
-  --dataset ./data/instructions.jsonl \
-  --method instruction_tuning --epochs 3
-# or: xlmtec train --config examples/configs/instruction_tuning.yaml
-```
-
-#### Full fine-tuning — all parameters, small models only
-```bash
-xlmtec train \
-  --model gpt2 \
-  --dataset ./data/sample.jsonl \
-  --method full_finetuning --lr 1e-5 --epochs 3
-# or: xlmtec train --config examples/configs/full_finetuning.yaml
-```
-
-> **Warning:** Full fine-tuning trains every parameter. Only safe on models ≤300M params unless you have 24GB+ VRAM.
-
-#### DPO — Direct Preference Optimization
-Requires `pip install trl>=0.7.0`. Dataset must have `prompt`, `chosen`, `rejected` columns.
-
-```bash
-xlmtec train \
-  --model gpt2 \
-  --dataset ./data/dpo_sample.jsonl \
-  --method dpo --epochs 1
-# or: xlmtec train --config examples/configs/dpo.yaml
-```
-
-#### Response Distillation — student mimics teacher logits
-Student (smaller model) is trained to match the output distribution of a larger teacher via KL divergence + cross-entropy loss. No labelled data required beyond the training corpus.
-
-```bash
-xlmtec train --config examples/configs/response_distillation.yaml
-```
-
-Config key fields:
-```yaml
-training:
-  method: vanilla_distillation
-distillation:
-  teacher_model_name: gpt2-medium
-  temperature: 2.0      # higher = softer teacher distribution
-  alpha: 0.5            # blend: 0.5 KL + 0.5 CE
-```
-
-#### Feature Distillation — student mimics teacher hidden states
-Extends response distillation with an MSE loss on intermediate hidden states, giving stronger layer-level supervision.
-
-```bash
-xlmtec train --config examples/configs/feature_distillation.yaml
-```
-
-Config key fields:
-```yaml
-training:
-  method: feature_distillation
-feature_distillation:
-  teacher_model_name: gpt2-medium
-  temperature: 2.0
-  alpha: 0.5            # KL weight
-  beta: 0.3             # MSE hidden-state weight
-  feature_layers: null  # null = auto-select 4 evenly-spaced layers
-```
-
----
-
-## `evaluate` — Score a checkpoint
-
-```bash
-xlmtec evaluate ./outputs/gpt2_lora \
-  --dataset ./data/sample.jsonl \
-  --metrics rougeL,bleu \
-  --num-samples 200
-```
-
-Available metrics: `rouge1`, `rouge2`, `rougeL`, `bleu`, `perplexity`.
-
----
-
-## `benchmark` — Before/after comparison
-
-```bash
-xlmtec benchmark gpt2 ./outputs/gpt2_lora \
-  --dataset ./data/sample.jsonl \
-  --metrics rougeL,bleu
-```
-
-Outputs a side-by-side table: base model scores vs fine-tuned scores with delta indicators.
-
----
-
-## `merge` — Merge adapter into base model
-
-Produces a standalone model with no PEFT dependency — ready for direct inference.
-
-```bash
-xlmtec merge ./outputs/gpt2_lora ./outputs/gpt2_merged \
-  --base-model gpt2 \
-  --dtype float16
-```
-
----
-
-## `upload` — Push to HuggingFace Hub
-
-```bash
-# Adapter only
-xlmtec upload ./outputs/gpt2_lora \
-  --repo username/gpt2-lora-finetuned \
-  --token $HF_TOKEN
-
-# Merge adapter before upload
-xlmtec upload ./outputs/gpt2_lora \
-  --repo username/gpt2-merged \
-  --token $HF_TOKEN \
-  --merge-adapter \
-  --base-model gpt2
-
-# Private repository
-xlmtec upload ./outputs/gpt2_lora \
-  --repo username/gpt2-private \
-  --private
-```
-
-`HF_TOKEN` can also be set as an environment variable — the `--token` flag is then optional.
-
----
-
-## `recommend` — Get an optimal config
-
-Inspects the model's parameter count and your available VRAM, then writes a ready-to-use YAML config.
-
-```bash
-xlmtec recommend gpt2 --output my_config.yaml
-```
-
----
-
-## `prune` — Structured attention-head pruning
-
-Soft structured pruning: scores each attention head by mean absolute weight magnitude, then zeros the lowest-scoring fraction. No retraining required. The model shape is unchanged — it runs with any standard HuggingFace inference stack.
-
-```bash
-# Prune 30% of attention heads (default)
-xlmtec prune ./outputs/gpt2_lora \
-  --output ./outputs/gpt2_pruned \
-  --sparsity 0.3
-
-# Prune FFN neurons instead of attention heads
-xlmtec prune ./outputs/gpt2_lora \
-  --output ./outputs/gpt2_pruned \
-  --sparsity 0.3 \
-  --method ffn
-
-# Keep at least 2 heads per layer (prevent collapse)
-xlmtec prune ./outputs/gpt2_lora \
-  --output ./outputs/gpt2_pruned \
-  --sparsity 0.5 \
-  --min-heads 2
-```
+**Options:**
 
 | Option | Default | Description |
 |--------|---------|-------------|
-| `--sparsity` | `0.3` | Fraction of heads to zero (0.0–1.0) |
-| `--method` | `heads` | `heads` or `ffn` |
-| `--min-heads` | `1` | Minimum heads kept per layer |
+| `--provider` | `claude` | AI provider: `claude`, `gemini`, `codex` |
+| `--api-key` | env var | API key (falls back to env variable) |
+| `--save` | — | Save generated YAML to a file |
 
-Sparsity guidance: `0.1` = light, `0.3` = moderate (recommended), `0.5` = aggressive.
-
-After pruning, evaluate with:
-```bash
-xlmtec benchmark gpt2 ./outputs/gpt2_pruned --dataset ./data/sample.jsonl
-```
+See [AI Integrations](ai_integrations.md) for full provider setup.
 
 ---
 
-## `wanda` — WANDA unstructured pruning
+## hub — Browse HuggingFace models
 
-WANDA (Weight AND Activation) scores each weight by `|W_ij| × ‖X_j‖₂` where `X` is the input activation norm collected on a small calibration dataset. Weights with the lowest scores are zeroed. No gradient pass or retraining is required.
+### Search
 
 ```bash
-# With calibration dataset (recommended — uses activation norms)
-xlmtec wanda ./outputs/gpt2_lora \
-  --output ./outputs/gpt2_wanda \
-  --sparsity 0.5 \
-  --dataset ./data/sample.jsonl \
-  --n-samples 128
-
-# Without calibration data (falls back to magnitude-only scoring)
-xlmtec wanda ./outputs/gpt2_lora \
-  --output ./outputs/gpt2_wanda \
-  --sparsity 0.5
+xlmtec hub search "bert"
+xlmtec hub search "llama" --task text-generation --limit 10
+xlmtec hub search "gpt" --sort likes
 ```
+
+**Options:**
 
 | Option | Default | Description |
 |--------|---------|-------------|
-| `--sparsity` | `0.5` | Fraction of weights to zero per layer (0.0–1.0) |
-| `--dataset` | none | Calibration `.jsonl`/`.txt` file |
-| `--n-samples` | `128` | Number of calibration forward passes |
-| `--seq-len` | `128` | Token sequence length for calibration |
-| `--row-wise/--global` | row-wise | Per-row threshold vs global threshold |
+| `--task` | — | Filter by pipeline tag |
+| `--limit` | `10` | Number of results (max 100) |
+| `--sort` | `downloads` | Sort by: `downloads`, `likes`, `lastModified` |
 
-Sparsity guidance: `0.3` = light, `0.5` = standard (matches original WANDA paper on LLaMA/OPT), `0.6+` = aggressive.
+### Info
 
-**WANDA vs Structured Pruning:**
+```bash
+xlmtec hub info google/bert-base-uncased
+xlmtec hub info mistralai/Mistral-7B-v0.1
+```
 
-| | WANDA | Structured Pruning |
-|--|-------|-------------------|
-| Granularity | Unstructured (individual weights) | Structured (whole heads/neurons) |
-| Calibration | Recommended (uses activations) | Not needed |
-| Accuracy | Higher (more surgical) | Simpler, no activation tracking |
-| Score | \|W\| × ‖activation‖ | Mean \|W\| per head |
+### Trending
+
+```bash
+xlmtec hub trending
+xlmtec hub trending --limit 20
+```
+
+See [Model Hub](hub.md) for more.
 
 ---
 
-## `tui` — Interactive terminal UI
-
-Launches a full Textual TUI with 8 screens covering all commands. No flags needed.
+## config validate — Check a config before training
 
 ```bash
-xlmtec tui
+xlmtec config validate config.yaml
+xlmtec config validate config.yaml --strict    # fail on warnings too
 ```
 
-Navigation: arrow keys or mouse, `Tab` between fields, `Enter` to submit, `Esc`/`h` to go back, `q` to quit.
+Reports all validation errors at once. Exits 0 on success, 1 on any error.
 
-See [TUI Guide](tui.md) for full documentation with screenshots.
+---
+
+## train — Fine-tune a model
+
+### Dry run (no model loading)
+
+```bash
+xlmtec train --config config.yaml --dry-run
+```
+
+Validates the config and prints the full training plan without loading any model.
+
+### Training
+
+```bash
+xlmtec train --config config.yaml
+xlmtec train --config config.yaml --method lora
+```
+
+---
+
+## recommend — Get a method recommendation
+
+```bash
+xlmtec recommend --model-size 7b --vram 8
+```
+
+---
+
+## evaluate — Evaluate a model
+
+```bash
+xlmtec evaluate --model output/run1 --dataset data/test.jsonl
+```
+
+---
+
+## benchmark — Compare runs
+
+```bash
+xlmtec benchmark --runs output/run1 output/run2
+```
+
+---
+
+## merge — Merge LoRA adapter
+
+```bash
+xlmtec merge --adapter output/run1 --output merged_model/
+```
+
+---
+
+## upload — Upload to HuggingFace Hub
+
+```bash
+xlmtec upload --model output/run1 --repo-id your-username/my-model
+```

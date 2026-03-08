@@ -1,180 +1,169 @@
 # xlmtec
 
-**Production-grade LLM fine tuning, distillation, and pruning from the command line.**
+[![PyPI version](https://img.shields.io/pypi/v/xlmtec.svg)](https://pypi.org/project/xlmtec/)
+[![Python](https://img.shields.io/pypi/pyversions/xlmtec.svg)](https://pypi.org/project/xlmtec/)
+[![License](https://img.shields.io/pypi/l/xlmtec.svg)](https://github.com/Abdur-azure/xlmtec/blob/main/LICENSE)
 
-[![Deploy](https://github.com/Abdur-azure/xlmtec/actions/workflows/deploy_docs.yml/badge.svg)](https://github.com/Abdur-azure/xlmtec/actions)
-[![Stars](https://img.shields.io/github/stars/affaan-m/everything-claude-code?style=flat)](https://github.com/Abdur-azure/xlmtec/stargazers)
-[![Forks](https://img.shields.io/github/forks/affaan-m/everything-claude-code?style=flat)](https://github.com/Abdur-azure/xlmtec/network/members)
-[![Contributors](https://img.shields.io/github/contributors/affaan-m/everything-claude-code?style=flat)](https://github.com/Abdur-azure/xlmtec/graphs/contributors)
-[![Python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue)](https://www.python.org)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+**xlmtec** is a command-line toolkit for fine-tuning large language models. Describe your task in plain English, get a ready-to-run config, browse HuggingFace models, and train — all from the terminal.
 
 ---
 
-## What it does
+## Features
 
-`xlmtec` is a modular Python framework for fine-tuning, distilling, and pruning large language models. It wraps HuggingFace Transformers + PEFT in a clean CLI, a validated config system, a composable trainer stack, an interactive TUI, and a full test suite — all CPU-runnable for unit tests.
+- **AI-powered config generation** — describe your task, get a YAML config from Claude, Gemini, or GPT
+- **Model Hub browser** — search and inspect HuggingFace models without leaving the terminal
+- **5 fine-tuning methods** — LoRA, QLoRA, Full, Instruction, DPO
+- **Config validation** — catch errors before training starts
+- **Dry-run mode** — preview your training plan without loading a model
+- **Rich terminal UI** — progress bars, panels, colour output throughout
 
 ---
 
-## Install
+## Installation
+
+```bash
+# Core (lightweight — no ML deps)
+pip install xlmtec
+
+# With training support
+pip install xlmtec[ml]
+
+# With AI suggestions (pick your provider)
+pip install xlmtec[claude]    # Anthropic
+pip install xlmtec[gemini]    # Google
+pip install xlmtec[codex]     # OpenAI
+pip install xlmtec[ai]        # All three
+
+# Everything
+pip install xlmtec[full]
+```
+
+---
+
+## Quickstart
+
+### 1. Get an AI-generated config
+
+```bash
+xlmtec ai-suggest "fine-tune a small model for customer support" --provider claude
+```
+
+Outputs a ready-to-run YAML config and the exact command to run.
+
+### 2. Browse models on HuggingFace
+
+```bash
+xlmtec hub search "bert" --task text-classification --limit 5
+xlmtec hub trending
+xlmtec hub info google/bert-base-uncased
+```
+
+### 3. Validate your config
+
+```bash
+xlmtec config validate config.yaml
+```
+
+### 4. Train
+
+```bash
+# Preview without loading model
+xlmtec train --config config.yaml --dry-run
+
+# Start training
+xlmtec train --config config.yaml
+```
+
+---
+
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `xlmtec ai-suggest "<task>"` | Generate a config from plain English |
+| `xlmtec hub search "<query>"` | Search HuggingFace models |
+| `xlmtec hub info <model-id>` | Show model details |
+| `xlmtec hub trending` | Top trending models |
+| `xlmtec config validate <file>` | Validate a YAML config |
+| `xlmtec train --config <file>` | Fine-tune a model |
+| `xlmtec train --config <file> --dry-run` | Preview training plan |
+| `xlmtec recommend` | Get method recommendation for your hardware |
+| `xlmtec evaluate` | Evaluate a fine-tuned model |
+| `xlmtec benchmark` | Compare multiple runs |
+| `xlmtec merge` | Merge LoRA adapter into base model |
+| `xlmtec upload` | Upload model to HuggingFace Hub |
+| `xlmtec --version` | Show installed version |
+
+---
+
+## Fine-tuning methods
+
+| Method | VRAM | Best for |
+|--------|------|----------|
+| `lora` | Low (4–8 GB) | Most tasks, fast convergence |
+| `qlora` | Very low (4 GB) | Large models on limited hardware |
+| `full` | High (24 GB+) | Best quality, small models |
+| `instruction` | Low (4–8 GB) | Prompt/response style tasks |
+| `dpo` | Low (4–8 GB) | Preference learning from pairs |
+
+---
+
+## AI Providers
+
+Set your API key as an environment variable, then pass `--provider`:
+
+```bash
+export ANTHROPIC_API_KEY=sk-ant-...
+xlmtec ai-suggest "summarise legal documents" --provider claude
+
+export GEMINI_API_KEY=...
+xlmtec ai-suggest "summarise legal documents" --provider gemini
+
+export OPENAI_API_KEY=sk-...
+xlmtec ai-suggest "summarise legal documents" --provider codex
+```
+
+---
+
+## Example config
+
+```yaml
+model:
+  name: gpt2
+
+dataset:
+  source: local_file
+  path: data/train.jsonl
+
+lora:
+  r: 16
+  alpha: 32
+  target_modules: [c_attn]
+
+training:
+  output_dir: output/run1
+  num_epochs: 3
+  batch_size: 4
+  learning_rate: 2e-4
+```
+
+---
+
+## Development
 
 ```bash
 git clone https://github.com/Abdur-azure/xlmtec.git
 cd xlmtec
-pip install -e .
-```
-
----
-
-## 5-minute quickstart
-
-```bash
-# 1. Generate sample training data (no network required)
-python examples/generate_sample_data.py
-
-# 2. Not sure which method to use? Ask
-xlmtec recommend gpt2 --output my_config.yaml
-
-# 3. Train with the generated config
-xlmtec train --config my_config.yaml
-
-# 4. Or use a ready-made config
-xlmtec train --config examples/configs/lora_gpt2.yaml
-
-# 5. Launch the interactive TUI
-xlmtec tui
-```
-
----
-
-## CLI commands
-
-| Command | What it does |
-|---------|-------------|
-| `xlmtec train` | Fine-tune using a YAML config or inline flags (LoRA / QLoRA / Full / Instruction / DPO / Distillation) |
-| `xlmtec evaluate` | Score a saved checkpoint (ROUGE, BLEU, Perplexity) |
-| `xlmtec benchmark` | Before/after comparison: base vs fine-tuned |
-| `xlmtec merge` | Merge LoRA adapter into base model → standalone model |
-| `xlmtec upload` | Push adapter or merged model to HuggingFace Hub |
-| `xlmtec recommend` | Inspect model size + VRAM, output optimal YAML config |
-| `xlmtec prune` | Structured pruning — zero lowest-magnitude attention heads |
-| `xlmtec wanda` | WANDA unstructured pruning — zero weights by \|W\|×activation score |
-| `xlmtec tui` | Interactive Textual TUI — all commands via a terminal UI |
-
----
-
-## Training methods
-
-| Method | Flag | Notes |
-|--------|------|-------|
-| LoRA | `--method lora` | Default. Adapter-based, memory-efficient |
-| QLoRA | `--method qlora` | 4-bit quantised LoRA — large models on limited VRAM |
-| Full Fine-Tuning | `--method full_finetuning` | All parameters — small models only |
-| Instruction Tuning | `--method instruction_tuning` | Alpaca-style `{instruction, input, response}` data |
-| DPO | `--method dpo` | Direct Preference Optimization — requires `pip install trl` |
-| Response Distillation | `--method vanilla_distillation` | Student mimics teacher logits (KL + CE loss) |
-| Feature Distillation | `--method feature_distillation` | Student mimics teacher hidden states (MSE + KL + CE) |
-
----
-
-## Pruning commands
-
-```bash
-# Structured pruning — zero lowest-magnitude attention heads
-xlmtec prune ./outputs/gpt2_lora \
-    --output ./outputs/gpt2_pruned \
-    --sparsity 0.3 \
-    --method heads
-
-# WANDA unstructured pruning — weight × activation scoring, zero-shot
-xlmtec wanda ./outputs/gpt2_lora \
-    --output ./outputs/gpt2_wanda \
-    --sparsity 0.5 \
-    --dataset ./data/sample.jsonl
-```
-
----
-
-## Example configs
-
-| Config | Method | Model | Data |
-|--------|--------|-------|------|
-| `lora_gpt2.yaml` | LoRA | GPT-2 | `data/sample.jsonl` |
-| `qlora_llama.yaml` | QLoRA | LLaMA-3.2-1B | HF Hub (needs token) |
-| `instruction_tuning.yaml` | Instruction | GPT-2 | `data/instructions.jsonl` |
-| `full_finetuning.yaml` | Full | GPT-2 | `data/sample.jsonl` |
-| `dpo.yaml` | DPO | GPT-2 | `data/dpo_sample.jsonl` |
-| `response_distillation.yaml` | Response Distillation | GPT-2 (student) ← GPT-2-medium | `data/sample.jsonl` |
-| `feature_distillation.yaml` | Feature Distillation | GPT-2 (student) ← GPT-2-medium | `data/sample.jsonl` |
-| `structured_pruning.yaml` | Structured Pruning | GPT-2 | — |
-| `wanda.yaml` | WANDA Pruning | GPT-2 | `data/sample.jsonl` (calibration) |
-
----
-
-## Python API
-
-```python
-from xlmtec.core.config import ConfigBuilder
-from xlmtec.core.types import TrainingMethod, DatasetSource
-from xlmtec.models.loader import load_model_and_tokenizer
-from xlmtec.data import prepare_dataset
-from xlmtec.trainers import TrainerFactory
-
-config = (
-    ConfigBuilder()
-    .with_model("gpt2")
-    .with_dataset("./data/sample.jsonl", source=DatasetSource.LOCAL_FILE)
-    .with_tokenization(max_length=256)
-    .with_training(TrainingMethod.LORA, "./output", num_epochs=3)
-    .with_lora(r=8, lora_alpha=16)
-    .build()
-)
-
-model, tokenizer = load_model_and_tokenizer(config.model.to_config())
-dataset = prepare_dataset(config.dataset.to_config(), config.tokenization.to_config(), tokenizer)
-result = TrainerFactory.train(
-    model, tokenizer, dataset,
-    config.training.to_config(),
-    config.lora.to_config(),
-)
-print(f"Done. Loss: {result.train_loss:.4f}  →  {result.output_dir}")
-```
-
----
-
-## Docs
-
-- [Usage Guide](docs/usage.md) — all 9 commands with examples
-- [Configuration Reference](docs/configuration.md) — YAML config fields for all methods
-- [API Reference](docs/api.md) — Python API for all trainers and pruners
-- [TUI Guide](docs/tui.md) — interactive terminal interface
-- [Architecture](docs/ARCHITECTURE.md) — module design
-- [Contributing](CONTRIBUTING.md) — how to add trainers or commands
-
----
-
-## Tests
-
-```bash
-# Unit tests (no GPU needed)
+pip install -e ".[full,dev]"
 pytest tests/ -v --ignore=tests/test_integration.py
-
-# Integration tests (CPU ok, ~30s — downloads GPT-2 once)
-pytest tests/test_integration.py -v -s
-
-# Full suite
-pytest tests/ -v
 ```
 
 ---
 
-## Project status
+## Changelog
 
-| Aspect | Status |
-|--------|--------|
-| Version | 3.13.0 |
-| Tests | 200+ unit + integration, all green |
-| CI | pytest on Python 3.10 / 3.11 / 3.12 |
-| Platform | Windows / macOS / Linux |
-| License | MIT |
+See [CHANGELOG.md](CHANGELOG.md) for full release history.
+
+## License
+
+MIT
