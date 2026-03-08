@@ -19,6 +19,10 @@ from typing import Optional
 
 import typer
 from rich.console import Console
+from xlmtec.cli.ux import get_version, print_error, task_progress
+from xlmtec.cli.commands.dry_run import execute_dry_run
+from xlmtec.cli.commands.config_validate import app as config_app
+from xlmtec.cli.commands.ai_suggest import app as ai_suggest_app
 from rich.panel import Panel
 
 from ..core.config import ConfigBuilder
@@ -30,11 +34,22 @@ from ..core.types import (
 )
 from ..utils.logging import LogLevel, setup_logger
 
-app = typer.Typer(
-    name="xlmtec",
-    help="Production-grade LLM fine-tuning CLI (LoRA / QLoRA)",
-    add_completion=False,
-)
+app = typer.Typer(name="xlmtec", add_completion=False, rich_markup_mode="rich")
+
+app.add_typer(config_app, name="config")
+app.add_typer(ai_suggest_app, name="ai-suggest")
+
+def _version_callback(value: bool) -> None:
+    if value:
+        console.print(f"xlmtec version [bold cyan]{get_version()}[/bold cyan]")
+        raise typer.Exit()
+
+@app.callback()
+def main(
+    version: bool = typer.Option(None, "--version", "-V", callback=_version_callback, is_eager=True, help="Show version and exit."),
+) -> None:
+    pass
+
 console = Console()
 
 
@@ -45,6 +60,7 @@ console = Console()
 
 @app.command()
 def train(
+    
     # Config file (takes precedence over individual flags)
     config: Optional[Path] = typer.Option(None, "--config", "-c", help="YAML/JSON config file"),
     # Quick flags (used when no config file provided)
@@ -67,11 +83,14 @@ def train(
     quantize_4bit: bool = typer.Option(False, "--4bit", help="Load model in 4-bit (QLoRA)"),
     fp16: bool = typer.Option(False, "--fp16", help="Mixed precision FP16"),
     log_level: str = typer.Option("info", "--log-level", help="Logging verbosity"),
+    dry_run: bool = typer.Option(False, "--dry-run", help="Validate config and print plan without training."),
 ):
     """Fine-tune a model using LoRA or QLoRA."""
     logger = setup_logger("cli.train", level=LogLevel(log_level))
 
     try:
+        if dry_run:
+            raise typer.Exit(execute_dry_run(config))
         # --- Build config ---
         if config is not None:
             from ..core.config import PipelineConfig
@@ -149,8 +168,8 @@ def train(
         ))
 
     except FineTuneError as exc:
-        console.print(f"[red]Error:[/red] {exc}")
-        raise typer.Exit(code=1)
+        print_error(type(exc).__name__, str(exc))
+        raise typer.Exit(1)
 
 
 # ============================================================================
