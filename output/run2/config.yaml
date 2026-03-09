@@ -1,7 +1,0 @@
-method: lora
-model:
-  name: bert-base-uncased
-training:
-  batch_size: 8
-  learning_rate: 0.0001
-  num_epochs: 3
