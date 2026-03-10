@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "xlmtec"
-version = "3.25.0"
+version = "3.27.0"
 description = "Production-grade LLM fine-tuning framework with CLI"
 readme = { file = "README.md", content-type = "text/markdown" }
 requires-python = ">=3.10"
@@ -93,6 +93,10 @@ onnx = [
 ]
 gguf = [
     "gguf>=0.6.0",
+]
+
+notify = [
+    "plyer>=2.1.0",
 ]
 
 # AI provider integrations (for ai-suggest command)

@@ -23,3 +23,25 @@ markdown_extensions:
 
 plugins:
   - search
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Usage: usage.md
+  - Configuration: configuration.md
+
+  - Commands:
+    - AI Suggest: ai_integrations.md
+    - Model Hub: hub.md
+    - Config Templates: template.md
+    - Checkpoint Resume: resume.md
+    - Evaluation Dashboard: dashboard.md
+    - Export Formats: export.md
+    - Batch Inference: predict.md
+    - Plugin System: plugin.md
+    - TUI: tui.md
+
+  - Reference:
+    - API: api.md
+    - Examples: examples.md
+    - Troubleshooting: troubleshooting.md

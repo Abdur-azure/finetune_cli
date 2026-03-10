@@ -1,5 +1,56 @@
 # Changelog
 
+## [3.27.0] — Sprint 47: "Training Notifications" — 2026-03-09
+
+### Added
+- `xlmtec/notifications/__init__.py` — package init
+- `xlmtec/notifications/base.py` — `Notifier` ABC, `NotifyEvent` enum, `NotifyPayload` dataclass
+- `xlmtec/notifications/slack.py` — Slack webhook notifier (stdlib urllib, zero extra deps)
+- `xlmtec/notifications/email.py` — SMTP email notifier (stdlib smtplib, zero extra deps)
+- `xlmtec/notifications/desktop.py` — OS desktop notification via `plyer` (console fallback if not installed)
+- `xlmtec/notifications/dispatcher.py` — `NotificationDispatcher.from_channels(["slack","desktop"])` factory
+- `xlmtec/notifications/CONTEXT.md` — channel table, rules, extension pattern
+- `tests/test_notifications.py` — 22 tests: payload titles, Slack send/failure/env, Email SMTP/starttls/env, Desktop fallback, dispatcher routing/unknown-channel/safe_send
+- `pyproject.toml` — `[notify] = ["plyer>=2.1.0"]` extra added
+
+### Changed
+- `audit_repo.py` — 8 new notification files registered
+- `pyproject.toml` — version 3.26.0 → 3.27.0
+
+### CLI wiring (add to `main.py`)
+```python
+# In the train command signature:
+notify: str = typer.Option(
+    "", "--notify", "-n",
+    help="Notification channels, comma-separated: slack,email,desktop"
+)
+# At end of successful training:
+if notify:
+    from xlmtec.notifications.dispatcher import NotificationDispatcher
+    from xlmtec.notifications.base import NotifyEvent
+    d = NotificationDispatcher.from_channels([c.strip() for c in notify.split(",")])
+    d.notify(NotifyEvent.TRAINING_COMPLETE, run_name=str(output_dir), message="Training finished.")
+```
+
+---
+
+## [3.26.0] — Sprint 46: "Docs Complete" — 2026-03-09
+
+### Added
+- `docs/resume.md` — checkpoint resume guide: dry-run, --checkpoint, --epochs, troubleshooting
+- `docs/template.md` — template list/show/use guide, built-in templates table, override flags, custom template YAML schema
+- `docs/dashboard.md` — compare/show guide, winner selection priority, config diff, export flag
+- `docs/export.md` — safetensors/onnx/gguf guide, quantise options, extras install, GGUF workflow, merge-first advice
+- `docs/predict.md` — batch inference guide, auto-detect columns, JSONL/CSV formats, dry-run, generate test data
+- `docs/plugin.md` — custom template + provider walkthrough, storage schema, reserved names, list/remove
+- `mkdocs.yml` — Commands nav section added with all 8 command pages
+
+### Changed
+- `audit_repo.py` — 6 new docs files + mkdocs.yml registered
+- `pyproject.toml` — version 3.25.0 → 3.26.0
+
+---
+
 ## [3.25.0] — Sprint 45: "CONTEXT.md Sweep" — 2026-03-09
 
 ### Added

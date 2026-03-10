@@ -101,6 +101,7 @@ def train(
     fp16: bool = typer.Option(False, "--fp16", help="Mixed precision FP16"),
     log_level: str = typer.Option("info", "--log-level", help="Logging verbosity"),
     dry_run: bool = typer.Option(False, "--dry-run", help="Validate config and print plan without training."),
+    notify: str = typer.Option("", "--notify", "-n", help="Notification channels, comma-separated: slack,email,desktop"),
 ):
     """Fine-tune a model using LoRA or QLoRA."""
     logger = setup_logger("cli.train", level=LogLevel(log_level))
@@ -183,6 +184,22 @@ def train(
             f"Train loss: {result.train_loss:.4f}\n"
             f"Steps: {result.steps_completed}"
         ))
+
+        if notify:
+            from xlmtec.notifications.dispatcher import NotificationDispatcher
+            from xlmtec.notifications.base import NotifyEvent
+            d = NotificationDispatcher.from_channels(
+                [c.strip() for c in notify.split(",") if c.strip()]
+            )
+            d.notify(
+                NotifyEvent.TRAINING_COMPLETE,
+                run_name=str(result.output_dir),
+                message="Training finished.",
+                details={
+                    "train_loss": f"{result.train_loss:.4f}",
+                    "steps": str(result.steps_completed),
+                },
+            )
 
     except FineTuneError as exc:
         print_error(type(exc).__name__, str(exc))

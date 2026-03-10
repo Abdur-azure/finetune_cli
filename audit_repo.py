@@ -17,6 +17,7 @@ REQUIRED_FILES = [
     "README.md",
     "CHANGELOG.md",
     "CONTRIBUTING.md",
+    ".github/workflows/ci.yml",
     ".gitignore",
 
     # ── Main package ─────────────────────────────────────────────────────
@@ -183,6 +184,16 @@ REQUIRED_FILES = [
     "xlmtec/plugins/store.py",
     "xlmtec/plugins/loader.py",
 
+    # ── Notifications (Sprint 47) ──────────────────────────────────────
+    "xlmtec/notifications/__init__.py",
+    "xlmtec/notifications/base.py",
+    "xlmtec/notifications/slack.py",
+    "xlmtec/notifications/email.py",
+    "xlmtec/notifications/desktop.py",
+    "xlmtec/notifications/dispatcher.py",
+    "xlmtec/notifications/CONTEXT.md",
+    "tests/test_notifications.py",
+
     # ── CONTEXT.md files (Sprint 45) ──────────────────────────────────────
     "xlmtec/hub/CONTEXT.md",
     "xlmtec/checkpoints/CONTEXT.md",
@@ -195,6 +206,13 @@ REQUIRED_FILES = [
     # ── Docs (Sprint 37) ──────────────────────────────────────────────────
     "docs/ai_integrations.md",
     "docs/hub.md",
+    # Sprint 46 docs
+    "docs/resume.md",
+    "docs/template.md",
+    "docs/dashboard.md",
+    "docs/export.md",
+    "docs/predict.md",
+    "docs/plugin.md",
 
     # ── Tasks ─────────────────────────────────────────────────────────────
     "tasks/todo.md",
