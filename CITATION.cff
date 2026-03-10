@@ -1,0 +1,69 @@
+cff-version: 1.2.0
+message: >
+  If you use xlmtec in your research, workflow, or project,
+  please cite it using the metadata below.
+
+title: "xlmtec: Production-Grade LLM Fine-Tuning Framework with CLI"
+version: 3.28.0
+date-released: "2026-03-10"
+
+authors:
+  - family-names: Rahman
+    given-names: Abdur
+    alias: Abdur-azure
+    orcid: ""
+    affiliation: ""
+
+repository-code: "https://github.com/Abdur-azure/xlmtec"
+url: "https://abdur-azure.github.io/xlmtec"
+license: MIT
+
+abstract: >
+  xlmtec is an open-source Python CLI framework for fine-tuning Large Language
+  Models (LLMs) using state-of-the-art techniques including LoRA, QLoRA,
+  instruction tuning, DPO (Direct Preference Optimization), knowledge
+  distillation (vanilla and feature-based), and structured pruning.
+  It provides a modular, production-ready pipeline with built-in evaluation
+  metrics (ROUGE, BLEU, perplexity), hyperparameter sweeps via Optuna,
+  model export to ONNX/GGUF/safetensors, batch inference, an interactive
+  TUI, and a plugin system — all accessible through a single unified CLI
+  command `xlmtec`.
+
+keywords:
+  - large-language-models
+  - llm-fine-tuning
+  - lora
+  - qlora
+  - instruction-tuning
+  - dpo
+  - direct-preference-optimization
+  - knowledge-distillation
+  - model-pruning
+  - transformers
+  - huggingface
+  - peft
+  - hyperparameter-optimization
+  - optuna
+  - model-export
+  - onnx
+  - gguf
+  - safetensors
+  - nlp
+  - python-cli
+  - machine-learning
+  - deep-learning
+  - parameter-efficient-fine-tuning
+  - text-generation
+  - model-compression
+
+preferred-citation:
+  type: software
+  title: "xlmtec: Production-Grade LLM Fine-Tuning Framework with CLI"
+  authors:
+    - family-names: Rahman
+      given-names: Abdur
+  version: 3.28.0
+  date-released: "2026-03-10"
+  url: "https://github.com/Abdur-azure/xlmtec"
+  repository-code: "https://github.com/Abdur-azure/xlmtec"
+  license: MIT

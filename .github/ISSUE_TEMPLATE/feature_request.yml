@@ -1,0 +1,56 @@
+name: Feature Request
+description: Suggest a new feature or improvement for xlmtec
+title: "[feat]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an improvement to **xlmtec**!
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - New training method
+        - New export format
+        - New CLI command
+        - Hyperparameter sweep
+        - Notifications
+        - TUI
+        - Documentation
+        - Performance
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the use case or limitation you're hitting
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: What would you like xlmtec to do?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you've considered
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      options:
+        - label: I'd be willing to open a PR for this

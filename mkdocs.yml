@@ -1,37 +1,108 @@
-site_name: xlmtec
+site_name: xlmtec — LLM Fine-Tuning CLI
 site_url: https://Abdur-azure.github.io/xlmtec
+site_description: >
+  xlmtec is a production-grade Python CLI for fine-tuning LLMs using LoRA,
+  QLoRA, DPO, instruction tuning, knowledge distillation, structured pruning,
+  hyperparameter sweeps with Optuna, and model export to ONNX, GGUF, and
+  safetensors. Open-source, MIT licensed.
+site_author: Abdur Rahman
+
 repo_url: https://github.com/Abdur-azure/xlmtec
-repo_name: xlmtec
+repo_name: Abdur-azure/xlmtec
+edit_uri: edit/main/docs/
+
+copyright: Copyright &copy; 2026 Abdur Rahman — MIT License
 
 theme:
   name: material
+  language: en
   features:
     - navigation.instant
+    - navigation.instant.prefetch
     - navigation.sections
     - navigation.tracking
+    - navigation.top
+    - navigation.footer
+    - search.highlight
+    - search.share
+    - search.suggest
     - content.code.copy
+    - content.code.annotate
+    - toc.follow
   palette:
-    scheme: default
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  icon:
+    repo: fontawesome/brands/github
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Abdur-azure/xlmtec
+      name: xlmtec on GitHub
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/xlmtec
+      name: xlmtec on PyPI
+  generator: false
+
+extra_css:
+  - stylesheets/extra.css
 
 markdown_extensions:
   - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
   - toc:
       permalink: true
-  - codehilite
-  - footnotes
-  - tables
+      title: On this page
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 plugins:
-  - search
+  - search:
+      separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+  - minify:
+      minify_html: true
 
 nav:
   - Home: index.md
-  - Installation: installation.md
-  - Usage: usage.md
-  - Configuration: configuration.md
-
+  - Getting Started:
+    - Installation: installation.md
+    - Usage: usage.md
+    - Configuration: configuration.md
   - Commands:
-    - AI Suggest: ai_integrations.md
+    - Training (xlmtec train): usage.md
+    - Hyperparameter Sweep: sweep.md
+    - AI Suggestions: ai_integrations.md
     - Model Hub: hub.md
     - Config Templates: template.md
     - Checkpoint Resume: resume.md
@@ -40,8 +111,8 @@ nav:
     - Batch Inference: predict.md
     - Plugin System: plugin.md
     - TUI: tui.md
-
   - Reference:
     - API: api.md
     - Examples: examples.md
     - Troubleshooting: troubleshooting.md
+    - Changelog: changelog.md

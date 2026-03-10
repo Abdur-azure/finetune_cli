@@ -4,25 +4,69 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "xlmtec"
-version = "3.27.0"
-description = "Production-grade LLM fine-tuning framework with CLI"
+version = "3.28.0"
+description = "Production-grade LLM fine-tuning CLI: LoRA, QLoRA, DPO, distillation, pruning, hyperparameter sweep, export, and inference in one tool"
 readme = { file = "README.md", content-type = "text/markdown" }
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [
-    { name = "Abdur Rahman" }
+    { name = "Abdur Rahman", email = "" }
 ]
-keywords = ["llm", "fine-tuning", "lora", "qlora", "transformers"]
+
+# ── Expanded keywords ────────────────────────────────────
+keywords = [
+    "llm",
+    "large-language-models",
+    "fine-tuning",
+    "lora",
+    "qlora",
+    "dpo",
+    "direct-preference-optimization",
+    "instruction-tuning",
+    "knowledge-distillation",
+    "model-pruning",
+    "transformers",
+    "huggingface",
+    "peft",
+    "parameter-efficient-fine-tuning",
+    "text-generation",
+    "nlp",
+    "machine-learning",
+    "deep-learning",
+    "optuna",
+    "hyperparameter-optimization",
+    "model-export",
+    "onnx",
+    "gguf",
+    "safetensors",
+    "model-compression",
+    "cli",
+    "pytorch",
+    "accelerate",
+    "bitsandbytes",
+    "gpt",
+]
+
+# ── Expanded classifiers ──────────────────────────────────────────────────
 classifiers = [
     "Development Status :: 4 - Beta",
+    "Environment :: Console",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
+    "Intended Audience :: Education",
     "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: Text Processing :: Linguistic",
+    "Topic :: Utilities",
+    "Typing :: Typed",
 ]
 
 # ---------------------------------------------------------------------------
@@ -143,9 +187,12 @@ sweep = ["optuna>=3.0.0"]
 
 # ---------------------------------------------------------------------------
 [project.urls]
-Homepage = "https://github.com/Abdur-azure/xlmtec"
+Homepage      = "https://github.com/Abdur-azure/xlmtec"
 Documentation = "https://Abdur-azure.github.io/xlmtec"
-Issues = "https://github.com/Abdur-azure/xlmtec/issues"
+Repository    = "https://github.com/Abdur-azure/xlmtec"
+Issues        = "https://github.com/Abdur-azure/xlmtec/issues"
+Changelog     = "https://github.com/Abdur-azure/xlmtec/blob/main/CHANGELOG.md"
+"Release Notes" = "https://github.com/Abdur-azure/xlmtec/releases"
 
 [project.scripts]
 xlmtec = "xlmtec.cli.main:main"

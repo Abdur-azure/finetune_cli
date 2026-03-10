@@ -1,94 +1,105 @@
-# xlmtec
-
-**Production-grade LLM fine-tuning, distillation, and pruning from the command line.**
-
-`xlmtec` is a modular Python framework that wraps HuggingFace Transformers + PEFT in a clean CLI, a validated config system, a composable trainer stack, an interactive TUI, and a full test suite — all CPU-runnable for unit tests.
-
+---
+title: xlmtec — LLM Fine-Tuning CLI
+description: >
+  xlmtec is a production-grade Python CLI for fine-tuning Large Language Models
+  using LoRA, QLoRA, DPO, instruction tuning, knowledge distillation, structured
+  pruning, hyperparameter sweeps, and model export. Open-source, MIT licensed.
 ---
 
-## Quick start
+# xlmtec — LLM Fine-Tuning CLI
+
+**xlmtec** is an open-source Python framework and CLI tool for fine-tuning
+Large Language Models (LLMs) on custom datasets — without writing boilerplate
+training code.
 
 ```bash
-# Install
-git clone https://github.com/Abdur-azure/xlmtec.git
-cd xlmtec
-pip install -e .
-
-# Generate sample data (no network required)
-python examples/generate_sample_data.py
-
-# Fine-tune GPT-2 with LoRA
-xlmtec train --config examples/configs/lora_gpt2.yaml
-
-# Or use the interactive TUI
-xlmtec tui
+pip install xlmtec[ml]
+xlmtec train --model gpt2 --dataset data/train.jsonl --method lora
 ```
 
 ---
 
-## What's included
+## Why xlmtec?
 
-### CLI commands
-
-| Command | Description |
-|---------|-------------|
-| `xlmtec train` | Fine-tune with LoRA / QLoRA / Full / Instruction / DPO / Distillation |
-| `xlmtec evaluate` | Score a checkpoint — ROUGE, BLEU, Perplexity |
-| `xlmtec benchmark` | Before/after comparison report |
-| `xlmtec merge` | Merge LoRA adapter into base model |
-| `xlmtec upload` | Push model or adapter to HuggingFace Hub |
-| `xlmtec recommend` | Inspect model + VRAM, output optimal YAML config |
-| `xlmtec prune` | Structured pruning — zero lowest-magnitude attention heads |
-| `xlmtec wanda` | WANDA unstructured pruning — weight × activation scoring |
-| `xlmtec tui` | Interactive Textual TUI — all commands via terminal UI |
-
-### Training methods
-
-| Method | Class | Sprint |
-|--------|-------|--------|
-| LoRA | `LoRATrainer` | 2 |
-| QLoRA | `QLoRATrainer` | 2 |
-| Full Fine-Tuning | `FullFineTuner` | 2 |
-| Instruction Tuning | `InstructionTrainer` | 2 |
-| DPO | `DPOTrainer` | 8 |
-| Response Distillation | `ResponseDistillationTrainer` | 23 |
-| Feature Distillation | `FeatureDistillationTrainer` | 24 |
-
-### Pruning
-
-| Method | Class | Algorithm |
-|--------|-------|-----------|
-| Structured Pruning | `StructuredPruner` | Zero lowest-magnitude attention head rows per layer |
-| WANDA | `WandaPruner` | Zero weights by \|W_ij\| × \|\|X_j\|\|₂ score |
-
-### Core components
-
-| Component | Description |
-|-----------|-------------|
-| `ConfigBuilder` | Fluent Python API for building validated `PipelineConfig` |
-| `DataPipeline` | Loads JSON/JSONL/CSV/Parquet/HF datasets, tokenizes, splits |
-| `TrainerFactory` | Single entry point — selects trainer from `TrainingMethod` enum |
-| `BenchmarkRunner` | Model-agnostic evaluation with comparison reports |
+Most LLM fine-tuning code is either a single-script notebook or a heavyweight
+framework. xlmtec sits in between: **a modular CLI** that handles the full
+pipeline — from dataset loading and tokenization to training, evaluation,
+hyperparameter search, and model export — with sensible defaults and rich
+terminal output.
 
 ---
 
-## Navigation
+## Supported fine-tuning methods
 
-- **[Installation](installation.md)** — requirements, GPU setup, HuggingFace login
-- **[Usage Guide](usage.md)** — all 9 CLI commands with examples
-- **[Configuration](configuration.md)** — YAML config reference for all methods
-- **[API Reference](api.md)** — Python API for trainers, pruners, and data pipeline
-- **[TUI Guide](tui.md)** — interactive terminal interface walkthrough
-- **[Troubleshooting](troubleshooting.md)** — OOM, NaN loss, dataset errors
+| Method | Description | Best for |
+|--------|-------------|---------|
+| **LoRA** | Low-rank adapter injection via PEFT | Most models, most tasks |
+| **QLoRA** | 4-bit quantized LoRA | Large models on consumer GPUs |
+| **Instruction tuning** | Alpaca-format fine-tuning | Chat / instruction following |
+| **DPO** | Direct Preference Optimization | Alignment without reward model |
+| **Vanilla distillation** | Response-level knowledge distillation | Model compression |
+| **Feature distillation** | Hidden-state KD from teacher model | High-quality compression |
+| **Structured pruning** | Magnitude-based head / FFN pruning | Inference speedup |
+| **WANDA pruning** | Weight-and-activation unstructured pruning | State-of-the-art sparsity |
 
 ---
 
-## Project status
+## Full pipeline in one tool
 
-| Aspect | Status |
-|--------|--------|
-| **Version** | 3.13.0 |
-| **Tests** | 200+ unit + integration (all green, no GPU required for unit suite) |
-| **CI** | pytest matrix — Python 3.10 / 3.11 / 3.12 |
-| **Platform** | Windows / macOS / Linux |
-| **License** | MIT |
+```
+xlmtec train      → fine-tune with LoRA / QLoRA / DPO / distillation
+xlmtec sweep      → Optuna hyperparameter search over lr, batch size, LoRA rank
+xlmtec evaluate   → ROUGE, BLEU, perplexity benchmarks
+xlmtec export     → save as ONNX, GGUF (llama.cpp), or safetensors
+xlmtec predict    → batch inference on JSONL / CSV datasets
+xlmtec dashboard  → compare training runs
+xlmtec recommend  → AI-assisted config suggestions (Claude / Gemini / GPT-4)
+xlmtec hub        → search and browse HuggingFace model hub
+xlmtec template   → ready-made configs for sentiment, QA, summarisation, DPO
+xlmtec resume     → resume from checkpoint
+xlmtec plugin     → extend with custom trainers and providers
+xlmtec tui        → interactive terminal UI
+```
+
+---
+
+## Installation
+
+```bash
+pip install xlmtec              # core CLI only (no GPU libs)
+pip install xlmtec[ml]          # + PyTorch, Transformers, PEFT, Accelerate
+pip install xlmtec[ml,sweep]    # + Optuna hyperparameter sweep
+pip install xlmtec[ml,dpo]      # + TRL for DPO training
+pip install xlmtec[full]        # everything
+```
+
+See the [Installation guide](installation.md) for GPU setup and platform notes.
+
+---
+
+## Cite xlmtec
+
+If you use xlmtec in your research or project, please cite it:
+
+```bibtex
+@software{xlmtec,
+  author  = {Rahman, Abdur},
+  title   = {xlmtec: Production-Grade LLM Fine-Tuning CLI},
+  year    = {2026},
+  version = {3.28.0},
+  url     = {https://github.com/Abdur-azure/xlmtec},
+  license = {MIT}
+}
+```
+
+A `CITATION.cff` file is included in the repository root for automated citation
+by GitHub, Zenodo, and LLM citation tools.
+
+---
+
+## License
+
+MIT — free to use, modify, and distribute.  
+[GitHub](https://github.com/Abdur-azure/xlmtec) ·
+[PyPI](https://pypi.org/project/xlmtec) ·
+[Issues](https://github.com/Abdur-azure/xlmtec/issues)
