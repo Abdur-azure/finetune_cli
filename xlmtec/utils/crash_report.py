@@ -68,7 +68,7 @@ class CrashReporter:
         """
         try:
             log_dir.mkdir(parents=True, exist_ok=True)
-            ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+            ts = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
             path = log_dir / f"crash_{ts}.txt"
             content = CrashReporter._format(session, exc)
             path.write_text(content, encoding="utf-8")

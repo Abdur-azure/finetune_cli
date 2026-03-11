@@ -55,6 +55,7 @@ class EvaluationMetric(str, Enum):
     ROUGE_L    = "rougeL"
     BLEU       = "bleu"
     PERPLEXITY = "perplexity"
+    ACCURACY = "accuracy"
 
 
 class LogLevel(str, Enum):
@@ -174,23 +175,29 @@ class FeatureDistillationConfig:
     teacher_model_name: str
     teacher_layers: Optional[List[int]] = None
     student_layers: Optional[List[int]] = None
+    feature_layers: Optional[List[int]] = None
     temperature: float = 2.0
     alpha: float = 0.5
+    beta: float = 0.1
+    feature_loss_weight: float = 1.0
 
 
 @dataclass(frozen=True)
 class PruningConfig:
-    """Structured (magnitude) pruning."""
-    output_dir: str
-    target_sparsity: float = 0.3
-    layers_to_prune: Optional[List[int]] = None
+    """Structured (magnitude) pruning — attention-head or FFN rows."""
+    output_dir: Union[str, Path]
+    sparsity: float = 0.3
+    method: str = "heads"
+    importance_metric: str = "magnitude"
+    min_heads_per_layer: int = 1
 
 
 @dataclass(frozen=True)
 class WandaConfig:
     """WANDA unstructured pruning — |W_ij| x ||X_j||2."""
-    output_dir: str
+    output_dir: Union[str, Path]
     sparsity: float = 0.5
     n_calibration_samples: int = 128
     calibration_seq_len: int = 512
     use_row_wise: bool = True
+    layer_types: Optional[List[str]] = None
